@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
 
-public class CharacterControl : NetworkBehaviour;
+public class CharacterControl : NetworkBehaviour
 {
     [Header("General")]
     [SerializeField] private Rigidbody rb;
