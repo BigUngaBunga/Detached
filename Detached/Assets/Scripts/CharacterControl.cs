@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
+using UnityEngine.SceneManagement;
 
-public class CharacterControl : MonoBehaviour
+public class CharacterControl : NetworkBehaviour;
 {
     [Header("General")]
     [SerializeField] private Rigidbody rb;
@@ -10,6 +12,7 @@ public class CharacterControl : MonoBehaviour
     [SerializeField] private bool active;
     CapsuleCollider playerCol;
     float originHeight;
+    public GameObject PlayerModel;
 
     [Header("Movement")]
     [SerializeField] private float movementSpeed;
@@ -41,6 +44,7 @@ public class CharacterControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PlayerModel.SetActive(false);
         rb = GetComponent<Rigidbody>();
         playerCol = GetComponent<CapsuleCollider>();
         originHeight = playerCol.height;
@@ -50,24 +54,37 @@ public class CharacterControl : MonoBehaviour
 
     private void Update()
     {
-        if (active)
+        if (SceneManager.GetActiveScene().name == "MovementScene")
         {
-            GroundCheck();
-            MyInput();
-            Movement();
-            Jump();
-            Sprint();
-            Crouch();
-
-            SpeedControl();
-
-            //Debug.Log(movementSpeed);
-
-            if (isGrounded)
-                rb.drag = groundDrag;
-            else
-                rb.drag = 0;
+            if (PlayerModel.activeSelf == false)
+            {
+                PlayerModel.SetActive(true);
+            }
         }
+
+        if (hasAuthority)
+        {
+            if (active)
+            {
+                GroundCheck();
+                MyInput();
+                Movement();
+                Jump();
+                Sprint();
+                Crouch();
+
+                SpeedControl();
+
+                //Debug.Log(movementSpeed);
+
+                if (isGrounded)
+                    rb.drag = groundDrag;
+                else
+                    rb.drag = 0;
+            }
+        }
+
+
     }
 
     void MyInput()
