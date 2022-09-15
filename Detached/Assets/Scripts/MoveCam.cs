@@ -19,7 +19,7 @@ public class MoveCam : NetworkBehaviour
     {
         if (SceneManager.GetActiveScene().name == "MovementScene")
         {
-            transform.position = camPos.position;
+            cameraHolder.transform.position = camPos.position;
         }
     }
 }
