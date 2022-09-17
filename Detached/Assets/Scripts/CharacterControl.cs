@@ -16,7 +16,7 @@ public class CharacterControl : MonoBehaviour
     [SerializeField] private float runSpeed;
     [SerializeField] private float crouchSpeed;
     float walkSpeed;
-    [SerializeField] private Transform orientation;
+    [SerializeField] private Transform camTransform;
 
     [Header("Jump")]
     [SerializeField] private float jumpForce;
@@ -89,7 +89,8 @@ public class CharacterControl : MonoBehaviour
 
     void Movement()
     {
-        moveDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        moveDir = new Vector3(  horizontalInput,0, verticalInput);
+        moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up)*moveDir;
 
         if (isGrounded)
             rb.AddForce(moveDir.normalized * movementSpeed * 10f, ForceMode.Force);
@@ -97,6 +98,14 @@ public class CharacterControl : MonoBehaviour
             rb.AddForce(moveDir.normalized * movementSpeed * 10f * airMultiplier, ForceMode.Force);
 
         //transform.position += moveDir * movementSpeed * Time.deltaTime;
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if (focus)
+            Cursor.lockState = CursorLockMode.Locked;
+        else
+            Cursor.lockState = CursorLockMode.None; 
     }
 
     private void GroundCheck()
