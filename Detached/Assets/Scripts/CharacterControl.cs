@@ -45,8 +45,8 @@ public class CharacterControl : NetworkBehaviour
     void Start()
     {
         PlayerModel.SetActive(false);
-        rb = GetComponent<Rigidbody>();
-        playerCol = GetComponent<CapsuleCollider>();
+        rb = GetComponentInChildren<Rigidbody>();
+        playerCol = GetComponentInChildren<CapsuleCollider>();
         originHeight = playerCol.height;
         ResetJump();
         walkSpeed = movementSpeed;

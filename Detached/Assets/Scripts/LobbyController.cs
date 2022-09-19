@@ -28,6 +28,9 @@ public class LobbyController : MonoBehaviour
     private CustomNetworkManager manager;
     public string GameScene;
 
+    public Button StartGameButton;
+    public Text ReadyButtonText;
+
     private CustomNetworkManager Manager
     {
         get
@@ -72,6 +75,7 @@ public class LobbyController : MonoBehaviour
             NewPlayerItemScript.PlayerName = player.PlayerName;
             NewPlayerItemScript.ConnectionID = player.ConnectionID;
             NewPlayerItemScript.PlayerSteamID = player.PlayerSteamID;
+            NewPlayerItemScript.Ready = player.Ready;
             NewPlayerItemScript.SetPlayerValues();
 
             NewPlayerItem.transform.SetParent(PlayerListViewContent.transform);
@@ -93,6 +97,7 @@ public class LobbyController : MonoBehaviour
                 NewPlayerItemScript.PlayerName = player.PlayerName;
                 NewPlayerItemScript.ConnectionID = player.ConnectionID;
                 NewPlayerItemScript.PlayerSteamID = player.PlayerSteamID;
+                NewPlayerItemScript.Ready = player.Ready;
                 NewPlayerItemScript.SetPlayerValues();
 
                 NewPlayerItem.transform.SetParent(PlayerListViewContent.transform);
@@ -107,15 +112,22 @@ public class LobbyController : MonoBehaviour
     {
         foreach (PlayerObjectController player in Manager.GamePlayers)
         {
-            foreach(PlayerListItem PlayerListItemScript in PlayerListItems)
+            foreach (PlayerListItem PlayerListItemScript in PlayerListItems)
             {
-                if(PlayerListItemScript.ConnectionID == player.ConnectionID)
+                if (PlayerListItemScript.ConnectionID == player.ConnectionID)
                 {
                     PlayerListItemScript.PlayerName = player.PlayerName;
+                    PlayerListItemScript.Ready = player.Ready;
                     PlayerListItemScript.SetPlayerValues();
+                    if(player == localPlayerController)
+                    {
+                        UpdateButton();
+                    }
                 }
             }
         }
+
+        CheckIfAllReady();
 
     }
 
@@ -123,16 +135,16 @@ public class LobbyController : MonoBehaviour
     {
         List<PlayerListItem> playerListItemToRemove = new List<PlayerListItem>();
 
-        foreach(PlayerListItem playerlistItem in PlayerListItems)
+        foreach (PlayerListItem playerlistItem in PlayerListItems)
         {
-            if(!Manager.GamePlayers.Any(b => b.ConnectionID == playerlistItem.ConnectionID))
+            if (!Manager.GamePlayers.Any(b => b.ConnectionID == playerlistItem.ConnectionID))
             {
                 playerListItemToRemove.Add(playerlistItem);
             }
         }
-        if(playerListItemToRemove.Count > 0)
+        if (playerListItemToRemove.Count > 0)
         {
-            foreach(PlayerListItem playerlistItemToRemove in playerListItemToRemove)
+            foreach (PlayerListItem playerlistItemToRemove in playerListItemToRemove)
             {
                 GameObject objectToRemove = playerlistItemToRemove.gameObject;
                 PlayerListItems.Remove(playerlistItemToRemove);
@@ -144,17 +156,69 @@ public class LobbyController : MonoBehaviour
 
     public void Start()
     {
-        FindLocalPlayer();
+        //FindLocalPlayer(); //Har jag lagt till det?
     }
 
     public void FindLocalPlayer()
     {
         LocalPlayerObject = GameObject.Find("LocalGamePlayer");
-        localPlayerController = localPlayerController.GetComponent<PlayerObjectController>();
+        localPlayerController = LocalPlayerObject.GetComponent<PlayerObjectController>();
+        Debug.Log("Test");
     }
 
-    public void StartGame()
+    public void StartGame(string SceneName)
     {
-        LocalPlayerObject.GetComponent<PlayerObjectController>().canStartGame(GameScene);
+        localPlayerController.canStartGame(SceneName);
+    }
+
+    public void ReadyPlayer()
+    {
+        localPlayerController.ChangeReady();
+    }
+
+    public void UpdateButton()
+    {
+        if (localPlayerController.Ready)
+        {
+            ReadyButtonText.text = "Unready";
+        }
+        else
+        {
+            ReadyButtonText.text = "Ready";
+        }
+    }
+
+    public void CheckIfAllReady()
+    {
+        bool AllReady = false;
+
+        foreach (PlayerObjectController player in Manager.GamePlayers)
+        {
+            if (player.Ready)
+            {
+                AllReady = true;
+            }
+            else
+            {
+                AllReady = false;
+                break;
+            }
+        }
+
+        if (AllReady)
+        {
+            if (localPlayerController.PlayerIdNumber == 1)
+            {
+                StartGameButton.interactable = true;
+            }
+            else
+            {
+                StartGameButton.interactable = false;
+            }
+        }
+        else
+        {
+            StartGameButton.interactable = false;
+        }
     }
 }
