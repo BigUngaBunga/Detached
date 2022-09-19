@@ -10,6 +10,7 @@ public class CameraControl : MonoBehaviour
     float aroundXRotation = 0f;
     float aroundYRotation = 0f;
 
+
     [Header("Transform")]
     [SerializeField] private Transform orientation;
 
@@ -22,17 +23,17 @@ public class CameraControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-        aroundYRotation += mouseX;
-
+ 
+        
         aroundXRotation -= mouseY;
 
         aroundXRotation = Mathf.Clamp(aroundXRotation, -90f, 90f);
+        transform.rotation = Quaternion.Euler(aroundXRotation, 0f, 0f);
 
-        transform.rotation = Quaternion.Euler(aroundXRotation, aroundYRotation, 0f);
-        orientation.rotation = Quaternion.Euler(0f, aroundYRotation, 0f);
+        //orientation.rotation = Quaternion.Euler(0f, aroundYRotation, 0f);
 
         // playerTransform.Rotate(Vector3.up * mouseX);// Vector3.up = y-axis, rotating around y-axis -> looking right/left
     }

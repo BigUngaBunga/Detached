@@ -1,10 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
-using UnityEngine.SceneManagement;
 
-public class CharacterControl : NetworkBehaviour
+public class CharacterControl : MonoBehaviour
 {
     [Header("General")]
     [SerializeField] private Rigidbody rb;
@@ -12,14 +10,13 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] private bool active;
     CapsuleCollider playerCol;
     float originHeight;
-    public GameObject PlayerModel;
 
     [Header("Movement")]
     [SerializeField] private float movementSpeed;
     [SerializeField] private float runSpeed;
     [SerializeField] private float crouchSpeed;
     float walkSpeed;
-    [SerializeField] private Transform orientation;
+    [SerializeField] private Transform camTransform;
 
     [Header("Jump")]
     [SerializeField] private float jumpForce;
@@ -44,7 +41,6 @@ public class CharacterControl : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerModel.SetActive(false);
         rb = GetComponent<Rigidbody>();
         playerCol = GetComponent<CapsuleCollider>();
         originHeight = playerCol.height;
@@ -54,37 +50,24 @@ public class CharacterControl : NetworkBehaviour
 
     private void Update()
     {
-        if (SceneManager.GetActiveScene().name == "MovementScene")
+        if (active)
         {
-            if (PlayerModel.activeSelf == false)
-            {
-                PlayerModel.SetActive(true);
-            }
+            GroundCheck();
+            MyInput();
+            Movement();
+            Jump();
+            Sprint();
+            Crouch();
+
+            SpeedControl();
+
+            //Debug.Log(movementSpeed);
+
+            if (isGrounded)
+                rb.drag = groundDrag;
+            else
+                rb.drag = 0;
         }
-
-        if (hasAuthority)
-        {
-            if (active)
-            {
-                GroundCheck();
-                MyInput();
-                Movement();
-                Jump();
-                Sprint();
-                Crouch();
-
-                SpeedControl();
-
-                //Debug.Log(movementSpeed);
-
-                if (isGrounded)
-                    rb.drag = groundDrag;
-                else
-                    rb.drag = 0;
-            }
-        }
-
-
     }
 
     void MyInput()
@@ -106,7 +89,8 @@ public class CharacterControl : NetworkBehaviour
 
     void Movement()
     {
-        moveDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        moveDir = new Vector3(  horizontalInput,0, verticalInput);
+        moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up)*moveDir;
 
         if (isGrounded)
             rb.AddForce(moveDir.normalized * movementSpeed * 10f, ForceMode.Force);
@@ -114,6 +98,14 @@ public class CharacterControl : NetworkBehaviour
             rb.AddForce(moveDir.normalized * movementSpeed * 10f * airMultiplier, ForceMode.Force);
 
         //transform.position += moveDir * movementSpeed * Time.deltaTime;
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if (focus)
+            Cursor.lockState = CursorLockMode.Locked;
+        else
+            Cursor.lockState = CursorLockMode.None; 
     }
 
     private void GroundCheck()

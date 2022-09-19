@@ -1,25 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Mirror;
 
-public class MoveCam : NetworkBehaviour
+public class MoveCam : MonoBehaviour
 {
     public Transform camPos;
-    public GameObject cameraHolder;
     // Start is called before the first frame update
-    public override void OnStartAuthority()
+    void Start()
     {
-        cameraHolder.SetActive(true);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (SceneManager.GetActiveScene().name == "MovementScene")
-        {
-            cameraHolder.transform.position = camPos.position;
-        }
+        transform.position = camPos.position;
     }
 }
