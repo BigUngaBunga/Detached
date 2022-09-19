@@ -163,7 +163,6 @@ public class LobbyController : MonoBehaviour
     {
         LocalPlayerObject = GameObject.Find("LocalGamePlayer");
         localPlayerController = LocalPlayerObject.GetComponent<PlayerObjectController>();
-        Debug.Log("Test");
     }
 
     public void StartGame(string SceneName)
