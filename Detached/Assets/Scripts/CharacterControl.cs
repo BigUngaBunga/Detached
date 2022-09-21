@@ -50,11 +50,11 @@ public class CharacterControl : NetworkBehaviour
     float horizontalInput;
     float verticalInput;
 
-    
-    
+
+
     // Start is called before the first frame update
     void Start()
-    {              
+    {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         playerCol = GetComponent<CapsuleCollider>();
@@ -62,25 +62,23 @@ public class CharacterControl : NetworkBehaviour
         ResetJump();
         walkSpeed = movementSpeed;
 
-        playerBody.SetActive(false);
-        
+        playerBody.SetActive(false); //So the body dosen't load in the steamlobby scene
     }
 
     private void Update()
     {
         if (!isLocalPlayer) return;
 
-        if(SceneManager.GetActiveScene().name == "Game")
+        if (SceneManager.GetActiveScene().name == "Game")
         {
-            if(playerBody.activeSelf == false)
+            if (playerBody.activeSelf == false)
             {
-                playerBody.SetActive(true); //So the body dosen't load in the steamlobby scene
+                TurnOnBody(playerBody);
                 camTransform = Camera.main.transform;
                 rb.useGravity = true;
                 cinemaFreelook = CinemachineFreeLook.FindObjectOfType<CinemachineFreeLook>();
                 cinemaFreelook.LookAt = cameraFollow.transform;
                 cinemaFreelook.Follow = cameraFollow.transform;
-
             }
 
             if (active)
@@ -101,7 +99,29 @@ public class CharacterControl : NetworkBehaviour
                 else
                     rb.drag = 0;
             }
-        }      
+        }
+    }
+
+    private void TurnOnBody(GameObject body)
+    {
+        if (isLocalPlayer)
+        {
+            CmdTurnOnBody(body);
+        }
+    }
+
+    [Command]
+    private void CmdTurnOnBody(GameObject body)
+    {
+        RpcTurnOnBody(body);
+    }
+    [ClientRpc]
+    private void RpcTurnOnBody(GameObject body)
+    {
+        if (isServer)
+        {
+            body.SetActive(true);
+        }
     }
 
     void MyInput()
@@ -123,8 +143,8 @@ public class CharacterControl : NetworkBehaviour
 
     void Movement()
     {
-        moveDir = new Vector3(  horizontalInput,0, verticalInput);
-        moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up)*moveDir;
+        moveDir = new Vector3(horizontalInput, 0, verticalInput);
+        moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * moveDir;
 
         if (isGrounded)
             rb.AddForce(moveDir.normalized * movementSpeed * 10f, ForceMode.Force);
@@ -136,10 +156,10 @@ public class CharacterControl : NetworkBehaviour
 
     private void OnApplicationFocus(bool focus)
     {
-        if (focus)
-            Cursor.lockState = CursorLockMode.Locked;
-        else
-            Cursor.lockState = CursorLockMode.None; 
+        //if (focus)
+        //    Cursor.lockState = CursorLockMode.Locked;
+        //else
+        //    Cursor.lockState = CursorLockMode.None; 
     }
 
     private void GroundCheck()
