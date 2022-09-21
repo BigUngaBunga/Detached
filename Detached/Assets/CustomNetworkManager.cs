@@ -8,7 +8,7 @@ using Steamworks;
 
 public class CustomNetworkManager : NetworkManager
 {
-    [SerializeField ]private PlayerObjectController GamePlayerPrefab;
+    [SerializeField]private PlayerObjectController GamePlayerPrefab;
     public List<PlayerObjectController> GamePlayers { get; } = new List<PlayerObjectController>();
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)

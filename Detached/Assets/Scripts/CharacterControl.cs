@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
+using Steamworks;
+using UnityEngine.SceneManagement;
+using Cinemachine;
 
-public class CharacterControl : MonoBehaviour
+public class CharacterControl : NetworkBehaviour
 {
     [Header("General")]
     [SerializeField] private Rigidbody rb;
@@ -31,6 +35,14 @@ public class CharacterControl : MonoBehaviour
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask groundMask;
 
+    [Header("NetWorking")]
+    [SerializeField] private GameObject playerBody;
+
+    [Header("Camera")]
+    [SerializeField] private GameObject cameraFollow;
+    [SerializeField] private CinemachineFreeLook cinemaFreelook;
+
+
     private bool isGrounded = false;
 
     Vector3 moveDir;
@@ -38,36 +50,58 @@ public class CharacterControl : MonoBehaviour
     float horizontalInput;
     float verticalInput;
 
+    
+    
     // Start is called before the first frame update
     void Start()
-    {
+    {              
         rb = GetComponent<Rigidbody>();
+        rb.useGravity = false;
         playerCol = GetComponent<CapsuleCollider>();
         originHeight = playerCol.height;
         ResetJump();
         walkSpeed = movementSpeed;
+
+        playerBody.SetActive(false);
+        
     }
 
     private void Update()
     {
-        if (active)
+        if (!isLocalPlayer) return;
+
+        if(SceneManager.GetActiveScene().name == "Game")
         {
-            GroundCheck();
-            MyInput();
-            Movement();
-            Jump();
-            Sprint();
-            Crouch();
+            if(playerBody.activeSelf == false)
+            {
+                playerBody.SetActive(true); //So the body dosen't load in the steamlobby scene
+                camTransform = Camera.main.transform;
+                rb.useGravity = true;
+                cinemaFreelook = CinemachineFreeLook.FindObjectOfType<CinemachineFreeLook>();
+                cinemaFreelook.LookAt = cameraFollow.transform;
+                cinemaFreelook.Follow = cameraFollow.transform;
 
-            SpeedControl();
+            }
 
-            //Debug.Log(movementSpeed);
+            if (active)
+            {
+                GroundCheck();
+                MyInput();
+                Movement();
+                Jump();
+                Sprint();
+                Crouch();
 
-            if (isGrounded)
-                rb.drag = groundDrag;
-            else
-                rb.drag = 0;
-        }
+                SpeedControl();
+
+                //Debug.Log(movementSpeed);
+
+                if (isGrounded)
+                    rb.drag = groundDrag;
+                else
+                    rb.drag = 0;
+            }
+        }      
     }
 
     void MyInput()

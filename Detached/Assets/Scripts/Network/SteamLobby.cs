@@ -40,7 +40,7 @@ public class SteamLobby : MonoBehaviour
     {
         if (callback.m_eResult != EResult.k_EResultOK) { return; }
 
-        Debug.Log("Lobby createds susccesfully");
+        Debug.Log("Lobby creates susccesfully");
 
         manager.StartHost();
 
