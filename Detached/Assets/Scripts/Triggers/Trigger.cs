@@ -8,6 +8,7 @@ using UnityEngine;
 public class Trigger : MonoBehaviour
 {
     [SerializeField] List<Activator> activators = new List<Activator>();
+    [SerializeField] private bool isTriggered;
     protected bool IsTriggered
     {
         get => isTriggered;
@@ -20,7 +21,7 @@ public class Trigger : MonoBehaviour
             isTriggered = value;
         }
     }
-    [SerializeField] private bool isTriggered;
+    
 
     private void StartTrigger()
     {
@@ -34,7 +35,7 @@ public class Trigger : MonoBehaviour
             activator.TriggerInactive();
     }
 
-    public void Start()
+    public void Awake()
     {
         foreach (var activator in activators)
             activator.AddConnection();

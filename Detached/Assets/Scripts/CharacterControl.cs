@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
 {
+    //TEMPORARY
+    [Header("Temporary")]
+    [SerializeField] private bool controllingPlayer;
+    //TEMPORARY
+
     [Header("General")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float crouchHeight;
@@ -50,7 +55,10 @@ public class CharacterControl : MonoBehaviour
 
     private void Update()
     {
-        if (active)
+        if (Input.GetMouseButtonDown(0))
+            controllingPlayer = !controllingPlayer;
+
+        if (active && controllingPlayer)
         {
             GroundCheck();
             MyInput();
