@@ -74,7 +74,7 @@ public class CharacterControl : NetworkBehaviour
             if (playerBody.activeSelf == false)
             {
                 playerBody.SetActive(true);
-                CmdTurnOnBody(playerBody);
+                CmdTurnOnBody();
                 camTransform = Camera.main.transform;
                 rb.useGravity = true;
                 cinemaFreelook = CinemachineFreeLook.FindObjectOfType<CinemachineFreeLook>();
@@ -104,18 +104,20 @@ public class CharacterControl : NetworkBehaviour
     }
 
     [Command]
-    private void CmdTurnOnBody(GameObject body)
+    private void CmdTurnOnBody()
     {
-        RpcTurnOnBody(body);
+        RpcTurnOnBody();
+        //RpcTurnOnBody(body);
+        Debug.Log("This is the server");
     }
 
     [ClientRpc]
-    private void RpcTurnOnBody(GameObject body)
+    private void RpcTurnOnBody()
     {
-        if (isServer)
-        {
-            body.SetActive(true);
-        }
+
+        Debug.Log("This i client");
+        //body.SetActive(true);
+
     }
 
     void MyInput()
