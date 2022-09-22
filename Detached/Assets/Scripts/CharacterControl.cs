@@ -73,9 +73,9 @@ public class CharacterControl : NetworkBehaviour
 
         if (SceneManager.GetActiveScene().name == "Game")
         {
-            if (playerBody.activeSelf == false && playerObjectController.connThis.isReady)
+            if (rb.useGravity == false)
             {                
-                playerBody.SetActive(true);
+                
                 //CmdTurnOnBody();
                 camTransform = Camera.main.transform;
                 rb.useGravity = true;
