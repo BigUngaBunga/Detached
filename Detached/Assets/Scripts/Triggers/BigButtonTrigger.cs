@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BigButton : Trigger
+public class BigButtonTrigger : Trigger
 {
     private int TriggeringObjects { 
         get => triggeringObjects; 
@@ -15,14 +15,12 @@ public class BigButton : Trigger
 
     public void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("Something entered");
         if (IsCollisionObject(other.gameObject.tag))
             ++TriggeringObjects;
     }
 
     public void OnTriggerExit(Collider other)
     {
-        //Debug.Log("Something left");
         if (IsCollisionObject(other.gameObject.tag))
             --TriggeringObjects;
     }

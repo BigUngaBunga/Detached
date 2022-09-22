@@ -1,14 +1,14 @@
-public class ActivatedPlatform : Activator
+public class ActivatedWall : Activator
 {
     protected override void Activate()
     {
         base.Activate();
-        gameObject.SetActive(true);
+        gameObject.SetActive(false);
     }
 
     protected override void Deactivate()
     {
         base.Deactivate();
-        gameObject.SetActive(false);
+        gameObject.SetActive(true);
     }
 }

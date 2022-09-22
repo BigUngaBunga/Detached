@@ -7,6 +7,7 @@ public class CharacterControl : MonoBehaviour
     //TEMPORARY
     [Header("Temporary")]
     [SerializeField] private bool controllingPlayer;
+    [SerializeField] private GameObject CMFreeLook;
     //TEMPORARY
 
     [Header("General")]
@@ -56,7 +57,11 @@ public class CharacterControl : MonoBehaviour
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
+        {
             controllingPlayer = !controllingPlayer;
+            CMFreeLook.SetActive(controllingPlayer);
+        }
+            
 
         if (active && controllingPlayer)
         {
