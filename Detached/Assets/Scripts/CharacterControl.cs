@@ -37,6 +37,7 @@ public class CharacterControl : NetworkBehaviour
 
     [Header("NetWorking")]
     [SerializeField] private GameObject playerBody;
+    [SerializeField] private PlayerObjectController playerObjectController;
 
     [Header("Camera")]
     [SerializeField] private GameObject cameraFollow;
@@ -50,7 +51,7 @@ public class CharacterControl : NetworkBehaviour
     float horizontalInput;
     float verticalInput;
 
-
+    
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +62,7 @@ public class CharacterControl : NetworkBehaviour
         originHeight = playerCol.height;
         ResetJump();
         walkSpeed = movementSpeed;
+        playerObjectController = GetComponent<PlayerObjectController>();
 
         playerBody.SetActive(false); //So the body dosen't load in the steamlobby scene
     }
@@ -71,8 +73,8 @@ public class CharacterControl : NetworkBehaviour
 
         if (SceneManager.GetActiveScene().name == "Game")
         {
-            if (playerBody.activeSelf == false)
-            {
+            if (playerBody.activeSelf == false && playerObjectController.connThis.isReady)
+            {                
                 playerBody.SetActive(true);
                 CmdTurnOnBody();
                 camTransform = Camera.main.transform;
@@ -104,17 +106,16 @@ public class CharacterControl : NetworkBehaviour
     }
 
     [Command]
-    private void CmdTurnOnBody()
+    public void CmdTurnOnBody()
     {
-        RpcTurnOnBody();
-        //RpcTurnOnBody(body);
+        //RpcTurnOnBody(body);        
         Debug.Log("This is the server");
     }
 
     [ClientRpc]
-    private void RpcTurnOnBody()
+    public void RpcTurnOnBody()
     {
-
+        
         Debug.Log("This i client");
         //body.SetActive(true);
 

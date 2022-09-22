@@ -18,6 +18,7 @@ public class CustomNetworkManager : NetworkManager
             PlayerObjectController GamePlayerInstance = Instantiate(GamePlayerPrefab);
             GamePlayerInstance.ConnectionID = conn.connectionId;
             GamePlayerInstance.PlayerIdNumber = GamePlayers.Count + 1;
+            GamePlayerInstance.connThis = conn;
             GamePlayerInstance.PlayerSteamID = (ulong)SteamMatchmaking.GetLobbyMemberByIndex((CSteamID) SteamLobby.Instance.currentLobbyID, GamePlayers.Count) ;
 
             NetworkServer.AddPlayerForConnection(conn, GamePlayerInstance.gameObject);
@@ -27,6 +28,6 @@ public class CustomNetworkManager : NetworkManager
 
     public void StartGame(string SceneName)
     {
-        ServerChangeScene(SceneName);
+        ServerChangeScene(SceneName);        
     }
 }
