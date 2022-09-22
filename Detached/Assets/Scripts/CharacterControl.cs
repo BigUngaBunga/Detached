@@ -64,7 +64,7 @@ public class CharacterControl : NetworkBehaviour
         walkSpeed = movementSpeed;
         playerObjectController = GetComponent<PlayerObjectController>();
 
-        playerBody.SetActive(false); //So the body dosen't load in the steamlobby scene
+        //playerBody.SetActive(false); //So the body dosen't load in the steamlobby scene
     }
 
     private void Update()
@@ -76,7 +76,7 @@ public class CharacterControl : NetworkBehaviour
             if (playerBody.activeSelf == false && playerObjectController.connThis.isReady)
             {                
                 playerBody.SetActive(true);
-                CmdTurnOnBody();
+                //CmdTurnOnBody();
                 camTransform = Camera.main.transform;
                 rb.useGravity = true;
                 cinemaFreelook = CinemachineFreeLook.FindObjectOfType<CinemachineFreeLook>();

@@ -15,7 +15,7 @@ public class CustomNetworkManager : NetworkManager
     {
         if(SceneManager.GetActiveScene().name == "SteamLobby")
         {
-            PlayerObjectController GamePlayerInstance = Instantiate(playerPrefab.GetComponent<PlayerObjectController>());
+            PlayerObjectController GamePlayerInstance = Instantiate(GamePlayerPrefab);
             GamePlayerInstance.ConnectionID = conn.connectionId;
             GamePlayerInstance.PlayerIdNumber = GamePlayers.Count + 1;
             GamePlayerInstance.connThis = conn;
@@ -33,14 +33,17 @@ public class CustomNetworkManager : NetworkManager
 
     public override void ServerChangeScene(string newSceneName)
     {
-        foreach(PlayerObjectController player in GamePlayers)
-        {
-            
-            var gamePlayerInstance = Instantiate(GamePlayerPrefab);
 
-            NetworkServer.Destroy(player.connThis.identity.gameObject);
-            NetworkServer.ReplacePlayerForConnection(player.connThis, gamePlayerInstance.gameObject);
-        }
+        //Testing different method of spawning PlayerPrefab.
+
+        //foreach(PlayerObjectController player in GamePlayers)
+        //{
+            
+        //    var gamePlayerInstance = Instantiate(GamePlayerPrefab);
+
+        //    NetworkServer.Destroy(player.connThis.identity.gameObject);
+        //    NetworkServer.ReplacePlayerForConnection(player.connThis, gamePlayerInstance.gameObject);
+        //}
 
         base.ServerChangeScene(newSceneName);
     }
