@@ -73,7 +73,8 @@ public class CharacterControl : NetworkBehaviour
         {
             if (playerBody.activeSelf == false)
             {
-                TurnOnBody(playerBody);
+                playerBody.SetActive(true);
+                CmdTurnOnBody(playerBody);
                 camTransform = Camera.main.transform;
                 rb.useGravity = true;
                 cinemaFreelook = CinemachineFreeLook.FindObjectOfType<CinemachineFreeLook>();
@@ -102,19 +103,12 @@ public class CharacterControl : NetworkBehaviour
         }
     }
 
-    private void TurnOnBody(GameObject body)
-    {
-        if (isLocalPlayer)
-        {
-            CmdTurnOnBody(body);
-        }
-    }
-
     [Command]
     private void CmdTurnOnBody(GameObject body)
     {
         RpcTurnOnBody(body);
     }
+
     [ClientRpc]
     private void RpcTurnOnBody(GameObject body)
     {
@@ -214,6 +208,4 @@ public class CharacterControl : NetworkBehaviour
         Gizmos.color = Color.magenta;
         Gizmos.DrawSphere(groundCheckTransform.position, groundCheckRadius);
     }
-
-
 }
