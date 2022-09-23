@@ -22,7 +22,11 @@ public class ItemController : MonoBehaviour
 
     public void ButtonClicked()
     {
+        Vector3 worldPosition = editor.GetMousePosition3D();
+
         Clicked = true;
+
+        Instantiate(editor.ItemImage[ID], new Vector3(worldPosition.x, height, worldPosition.z), Quaternion.identity);
         editor.CurrentButtonPressed = ID;
     }
 }

@@ -6,6 +6,7 @@ public class LevelEditorManager : MonoBehaviour
 {
     public ItemController[] ItemButtons;
     public GameObject[] ItemPrefabs;
+    public GameObject[] ItemImage;
     public int CurrentButtonPressed;
 
     [SerializeField] private Camera mainCamera;
@@ -14,17 +15,26 @@ public class LevelEditorManager : MonoBehaviour
     private void Update()
     {
         Vector3 worldPosition = Vector3.zero;
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, layerMask))
-        {
-            worldPosition = raycastHit.point;
-        }
+        worldPosition = GetMousePosition3D();
 
 
         if (Input.GetMouseButtonDown(0) && ItemButtons[CurrentButtonPressed].Clicked)
         {
             ItemButtons[CurrentButtonPressed].Clicked = false;
             Instantiate(ItemPrefabs[CurrentButtonPressed], new Vector3(worldPosition.x, ItemButtons[CurrentButtonPressed].height, worldPosition.z), Quaternion.identity);
+            Destroy(GameObject.FindGameObjectWithTag("ItemImage"));
         }
+    }
+
+    public Vector3 GetMousePosition3D()
+    {
+        Vector3 worldPosition = Vector3.zero;
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, layerMask))
+        {
+            worldPosition = raycastHit.point;
+        }
+
+        return worldPosition;
     }
 }
