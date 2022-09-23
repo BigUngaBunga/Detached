@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Steamworks;
+using UnityEngine.SceneManagement;
 
 public class PlayerObjectController : NetworkBehaviour
 {
@@ -54,24 +55,35 @@ public class PlayerObjectController : NetworkBehaviour
 
     public override void OnStartAuthority()
     {
-        CmdSetPlayerName(SteamFriends.GetPersonaName().ToString());
         gameObject.name = "LocalGamePlayer";
-        LobbyController.Instance.FindLocalPlayer();
-        LobbyController.Instance.UpdateLobbyName();
+        if (SceneManager.GetActiveScene().name != "Game")
+        {
+            CmdSetPlayerName(SteamFriends.GetPersonaName().ToString());
+
+            LobbyController.Instance.FindLocalPlayer();
+            LobbyController.Instance.UpdateLobbyName();
+        }
     }
 
     public override void OnStartClient()
     {
         Manager.GamePlayers.Add(this);
-        LobbyController.Instance.UpdateLobbyName();
-        LobbyController.Instance.UpdatePlayerList();
+        if(SceneManager.GetActiveScene().name != "Game")
+        {
+            LobbyController.Instance.UpdateLobbyName();
+            LobbyController.Instance.UpdatePlayerList();
+        }
+
+        
     }
 
     public override void OnStopClient()
     {
         Manager.GamePlayers.Remove(this);
-        LobbyController.Instance.UpdatePlayerList();
-
+        if (SceneManager.GetActiveScene().name != "Game")
+        {
+            LobbyController.Instance.UpdatePlayerList();
+        }
     }
 
     [Command]
