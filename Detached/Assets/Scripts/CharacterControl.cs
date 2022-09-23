@@ -6,7 +6,7 @@ public class CharacterControl : MonoBehaviour
 {
     //TEMPORARY
     [Header("Temporary")]
-    [SerializeField] private bool controllingPlayer;
+    [SerializeField] private bool controllingPlayer = true;
     [SerializeField] private GameObject CMFreeLook;
     //TEMPORARY
 

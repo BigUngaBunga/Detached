@@ -3,6 +3,8 @@
 public class Activator : MonoBehaviour
 {
     enum ActivationRequirement { All, One, None}
+
+    [Header("Default fields")]
     [SerializeField] private ActivationRequirement activationRequirement;
     [SerializeField] private bool isActivated = false;
     protected bool IsActivated { 
@@ -17,7 +19,7 @@ public class Activator : MonoBehaviour
 
     [SerializeField] private int totalConnections;
     [SerializeField] private int activeConnections;
-    private int ActiveConnections
+    protected int ActiveConnections
     {
         get => activeConnections;
         set

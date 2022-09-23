@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class Trigger : MonoBehaviour
 {
+    [Header("Default fields")]
     [SerializeField] List<Activator> activators = new List<Activator>();
     [SerializeField] private bool isTriggered;
     protected bool IsTriggered
@@ -21,7 +22,6 @@ public class Trigger : MonoBehaviour
             isTriggered = value;
         }
     }
-    
 
     private void StartTrigger()
     {
