@@ -4,12 +4,15 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
 using Steamworks;
-
+using System;
 
 public class CustomNetworkManager : NetworkManager
 {
-    [SerializeField]private PlayerObjectController GamePlayerPrefab;
+    [SerializeField] private PlayerObjectController GamePlayerPrefab;
+    [SerializeField] private GameObject playerSpawnSystem;
     public List<PlayerObjectController> GamePlayers { get; } = new List<PlayerObjectController>();
+
+    public static event Action<NetworkConnectionToClient> OnServerReadied;
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
@@ -31,20 +34,29 @@ public class CustomNetworkManager : NetworkManager
         ServerChangeScene(SceneName);        
     }
 
+    //If scene changes, spawn in a new spawner.
     public override void ServerChangeScene(string newSceneName)
-    {
-
-        //Testing different method of spawning PlayerPrefab.
-
-        //foreach(PlayerObjectController player in GamePlayers)
-        //{
-            
-        //    var gamePlayerInstance = Instantiate(GamePlayerPrefab);
-
-        //    NetworkServer.Destroy(player.connThis.identity.gameObject);
-        //    NetworkServer.ReplacePlayerForConnection(player.connThis, gamePlayerInstance.gameObject);
-        //}
-
+    {       
         base.ServerChangeScene(newSceneName);
+
+        
+        
     }
+
+    public override void OnServerSceneChanged(string sceneName)
+    {
+        if (sceneName == "Game")
+        {
+            GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem);
+            NetworkServer.Spawn(playerSpawnSystemInstance); //server owns this
+        }
+    }
+
+    public override void OnServerReady(NetworkConnectionToClient conn)
+    {
+        base.OnServerReady(conn);
+
+        OnServerReadied?.Invoke(conn);
+    }
+
 }

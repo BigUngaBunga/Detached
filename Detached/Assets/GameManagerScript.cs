@@ -22,11 +22,15 @@ public class GameManagerScript : NetworkBehaviour
 
     void Update()
     {
-        HandleSpawn();
+        if (isServer)
+        {
+            HandleSpawn();
+        }
     }
 
     private void HandleSpawn()
     {
+        
         if (!PlayersSpawned)
         {
             if (SceneManager.GetActiveScene().name == "Game")
@@ -36,11 +40,18 @@ public class GameManagerScript : NetworkBehaviour
 
                 for (int i = 0; i < players.Length; i++)
                 {
-                    players[i].transform.position = spawnLocations[i].transform.position;
+                    Changespawnlocations(players[i].name, spawnLocations[i].name);
+                    //players[i].transform.position = spawnLocations[i].transform.position;
                 }
                 PlayersSpawned = true;
 
             }
         }
+    }
+
+    [ClientRpc]
+    public void Changespawnlocations(string spawnlocation, string playerName)
+    {
+        GameObject.Find(playerName).transform.position = GameObject.Find(spawnlocation).transform.position;
     }
 }
