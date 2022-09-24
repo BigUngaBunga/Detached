@@ -39,6 +39,7 @@ public class CustomNetworkManager : NetworkManager
         base.ServerChangeScene(newSceneName);          
     }
 
+    [Server]
     public override void OnServerSceneChanged(string sceneName)
     {
         if (sceneName == "Game")

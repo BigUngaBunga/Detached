@@ -321,14 +321,15 @@ MonoBehaviour:
   onlineScene: Assets/Scenes/SteamLobby.unity
   transport: {fileID: 97867182}
   networkAddress: localhost
-  maxConnections: 3
+  maxConnections: 2
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 4632158965908645496, guid: 14662afb72af29a439d3bc122ae93839, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs:
   - {fileID: 3385366217105868417, guid: f5af01bb6d673fc4eaf0935da9ee179c, type: 3}
-  GamePlayerPrefab: {fileID: 8393325233591891434, guid: f5af01bb6d673fc4eaf0935da9ee179c, type: 3}
+  - {fileID: 6965157645970361648, guid: dedba6d24414d63489bea8ad8d3986c6, type: 3}
+  GamePlayerPrefab: {fileID: 9052829366361800644, guid: dedba6d24414d63489bea8ad8d3986c6, type: 3}
   playerSpawnSystem: {fileID: 6310184469918293271, guid: cba93b4995fd3d945b91cb4202ccadff, type: 3}
 --- !u!1 &839375014
 GameObject:

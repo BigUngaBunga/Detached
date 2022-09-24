@@ -51,11 +51,7 @@ public class PlayerObjectController : NetworkBehaviour
 
     public override void OnStopClient()
     {
-        Manager.GamePlayers.Remove(this);
-        if (SceneManager.GetActiveScene().name != "Game")
-        {
-            LobbyController.Instance.UpdatePlayerList();
-        }
+        Manager.GamePlayers.Remove(this);        
     }
 
     private void PlayerReadyUpdate(bool oldValue, bool newValue)
