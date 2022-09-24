@@ -27,6 +27,37 @@ public class PlayerObjectController : NetworkBehaviour
         }
     }
 
+    public override void OnStartAuthority()
+    {
+        gameObject.name = "LocalGamePlayer";
+        if (SceneManager.GetActiveScene().name != "Game")
+        {
+            CmdSetPlayerName(SteamFriends.GetPersonaName().ToString());
+
+            LobbyController.Instance.FindLocalPlayer();
+            LobbyController.Instance.UpdateLobbyName();
+        }
+    }
+
+    public override void OnStartClient()
+    {
+        Manager.GamePlayers.Add(this);
+        if (SceneManager.GetActiveScene().name != "Game")
+        {
+            LobbyController.Instance.UpdateLobbyName();
+            LobbyController.Instance.UpdatePlayerList();
+        }
+    }
+
+    public override void OnStopClient()
+    {
+        Manager.GamePlayers.Remove(this);
+        if (SceneManager.GetActiveScene().name != "Game")
+        {
+            LobbyController.Instance.UpdatePlayerList();
+        }
+    }
+
     private void PlayerReadyUpdate(bool oldValue, bool newValue)
     {
         if (isServer)
@@ -50,39 +81,6 @@ public class PlayerObjectController : NetworkBehaviour
         if (hasAuthority)
         {
             CmdSetPlayerReady();
-        }
-    }
-
-    public override void OnStartAuthority()
-    {
-        gameObject.name = "LocalGamePlayer";
-        if (SceneManager.GetActiveScene().name != "Game")
-        {
-            CmdSetPlayerName(SteamFriends.GetPersonaName().ToString());
-
-            LobbyController.Instance.FindLocalPlayer();
-            LobbyController.Instance.UpdateLobbyName();
-        }
-    }
-
-    public override void OnStartClient()
-    {
-        Manager.GamePlayers.Add(this);
-        if(SceneManager.GetActiveScene().name != "Game")
-        {
-            LobbyController.Instance.UpdateLobbyName();
-            LobbyController.Instance.UpdatePlayerList();
-        }
-
-        
-    }
-
-    public override void OnStopClient()
-    {
-        Manager.GamePlayers.Remove(this);
-        if (SceneManager.GetActiveScene().name != "Game")
-        {
-            LobbyController.Instance.UpdatePlayerList();
         }
     }
 

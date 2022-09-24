@@ -34,13 +34,9 @@ public class CustomNetworkManager : NetworkManager
         ServerChangeScene(SceneName);        
     }
 
-    //If scene changes, spawn in a new spawner.
     public override void ServerChangeScene(string newSceneName)
     {       
-        base.ServerChangeScene(newSceneName);
-
-        
-        
+        base.ServerChangeScene(newSceneName);          
     }
 
     public override void OnServerSceneChanged(string sceneName)
