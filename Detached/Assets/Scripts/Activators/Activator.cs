@@ -3,42 +3,51 @@
 public class Activator : MonoBehaviour
 {
     enum ActivationRequirement { All, One, None}
+
+    [Header("Default fields")]
     [SerializeField] private ActivationRequirement activationRequirement;
-    [SerializeField] protected bool isActivated = false;
+    [SerializeField] private bool isActivated = false;
+    protected bool IsActivated { 
+        get { return isActivated; }
+        set { isActivated = value;
+            if (isActivated)
+                Activate();
+            else
+                Deactivate();
+        }
+    }
 
     [SerializeField] private int totalConnections;
-    private int ActiveConnections
+    [SerializeField] private int activeConnections;
+    protected int ActiveConnections
     {
         get => activeConnections;
         set
         {
             activeConnections = value;
-            isActivated = GetActivationStatus();
+            IsActivated = GetActivationStatus();
         }
     }
-    [SerializeField] private int activeConnections;
 
     public void AddConnection() => ++totalConnections;
     public void TriggerActive() => ++ActiveConnections;
     public void TriggerInactive() => --ActiveConnections;
 
+    protected virtual void Activate() { }
+    protected virtual void Deactivate() { }
     private bool GetActivationStatus()
     {
-        switch (activationRequirement)
+        return activationRequirement switch
         {
-            case ActivationRequirement.All:
-                return totalConnections <= ActiveConnections;
-            case ActivationRequirement.One:
-                return ActiveConnections > 0;
-            case ActivationRequirement.None:
-                return ActiveConnections.Equals(0);
-            default:
-                return false;
-        }
+            ActivationRequirement.All => totalConnections <= ActiveConnections && activeConnections > 0,
+            ActivationRequirement.One => ActiveConnections > 0,
+            ActivationRequirement.None => ActiveConnections.Equals(0),
+            _ => false,
+        };
     }
 
     void Start()
     {
-        isActivated = GetActivationStatus();
+        IsActivated = GetActivationStatus();
     }
 }
