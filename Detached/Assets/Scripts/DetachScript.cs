@@ -8,8 +8,9 @@ public class DetachScript : MonoBehaviour
     public KeyCode detachKey;
     public KeyCode attachKey;
 
-    bool detached;
+    public bool detached;
     public Transform limbParent;
+    public Transform detachedList;
     public Transform body;
     // Start is called before the first frame update
     private void Awake()
@@ -27,7 +28,7 @@ public class DetachScript : MonoBehaviour
         if (Input.GetKeyDown(detachKey) && detached == false)
         {
             gameObject.AddComponent<Rigidbody>();
-            gameObject.transform.parent = null;
+            gameObject.transform.parent = detachedList;
             detached = true;
         }
         else if (Input.GetKeyDown(attachKey) && detached == true)
