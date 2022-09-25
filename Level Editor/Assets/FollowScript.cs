@@ -7,7 +7,10 @@ public class FollowScript : MonoBehaviour
 
     void Update()
     {
-        transform.position = GameObject.FindGameObjectWithTag("LevelEditorManager").GetComponent<LevelEditorManager>().GetMousePosition3D();
-        transform.position.Set(transform.position.x, 3, transform.position.z);
+        LevelEditorManager editor = GameObject.FindGameObjectWithTag("LevelEditorManager").GetComponent<LevelEditorManager>();
+        Vector3 worldPosition = Vector3.zero;
+        worldPosition = editor.GetMousePosition3D();
+        Debug.Log("X:" + worldPosition.x + " Y:" + worldPosition.y + " Z:" + worldPosition.z);
+        transform.position = new Vector3(worldPosition.x, worldPosition.y + editor.ItemButtons[editor.CurrentButtonPressed].height, worldPosition.z);
     }
 }
