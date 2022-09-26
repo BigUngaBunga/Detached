@@ -40,7 +40,7 @@ public class LevelEditorManager : MonoBehaviour
                 if (hitInfo.collider.gameObject.GetComponent<Target>() != null)
                 {
                     selectedObject = hitInfo.collider.gameObject;
-                    //selectedObject.transform.parent.transform.localScale = new Vector3(1, 1, 1);
+                    selectedObject.transform.parent.transform.localScale = new Vector3(1, 10, 1);
                 }
             }
         }
