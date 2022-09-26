@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
+using Steamworks;
+using UnityEngine.SceneManagement;
+using Cinemachine;
 
-public class CharacterControl : MonoBehaviour
+public class CharacterControl : NetworkBehaviour
 {
     //TEMPORARY
     [Header("Temporary")]
@@ -37,6 +41,15 @@ public class CharacterControl : MonoBehaviour
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask groundMask;
 
+    [Header("NetWorking")]
+    [SerializeField] private GameObject playerBody;
+    [SerializeField] private PlayerObjectController playerObjectController;
+
+    [Header("Camera")]
+    [SerializeField] private GameObject cameraFollow;
+    [SerializeField] private CinemachineFreeLook cinemaFreelook;
+
+
     private bool isGrounded = false;
 
     Vector3 moveDir;
@@ -44,14 +57,20 @@ public class CharacterControl : MonoBehaviour
     float horizontalInput;
     float verticalInput;
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rb.useGravity = false;
         playerCol = GetComponent<CapsuleCollider>();
         originHeight = playerCol.height;
         ResetJump();
         walkSpeed = movementSpeed;
+        playerObjectController = GetComponent<PlayerObjectController>();
+
+        //playerBody.SetActive(false); //So the body dosen't load in the steamlobby scene
     }
 
     private void Update()
@@ -63,24 +82,57 @@ public class CharacterControl : MonoBehaviour
         }
             
 
-        if (active && controllingPlayer)
+        //if (active && controllingPlayer)
+        if (!isLocalPlayer) return;
+
+        if (SceneManager.GetActiveScene().name == "Game" && active && controllingPlayer)
         {
-            GroundCheck();
-            MyInput();
-            Movement();
-            Jump();
-            Sprint();
-            Crouch();
+            if (rb.useGravity == false)
+            {                
+                
+                //CmdTurnOnBody();
+                camTransform = Camera.main.transform;
+                rb.useGravity = true;
+                cinemaFreelook = CinemachineFreeLook.FindObjectOfType<CinemachineFreeLook>();
+                cinemaFreelook.LookAt = cameraFollow.transform;
+                cinemaFreelook.Follow = cameraFollow.transform;
+            }
 
-            SpeedControl();
+            if (active)
+            {
+                GroundCheck();
+                MyInput();
+                Movement();
+                Jump();
+                Sprint();
+                Crouch();
 
-            //Debug.Log(movementSpeed);
+                SpeedControl();
 
-            if (isGrounded)
-                rb.drag = groundDrag;
-            else
-                rb.drag = 0;
+                //Debug.Log(movementSpeed);
+
+                if (isGrounded)
+                    rb.drag = groundDrag;
+                else
+                    rb.drag = 0;
+            }
         }
+    }
+
+    [Command]
+    public void CmdTurnOnBody()
+    {
+        //RpcTurnOnBody(body);        
+        Debug.Log("This is the server");
+    }
+
+    [ClientRpc]
+    public void RpcTurnOnBody()
+    {
+        
+        Debug.Log("This i client");
+        //body.SetActive(true);
+
     }
 
     void MyInput()
@@ -119,6 +171,7 @@ public class CharacterControl : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         else
             Cursor.lockState = CursorLockMode.None; 
+
     }
 
     private void GroundCheck()
@@ -173,6 +226,4 @@ public class CharacterControl : MonoBehaviour
         Gizmos.color = Color.magenta;
         Gizmos.DrawSphere(groundCheckTransform.position, groundCheckRadius);
     }
-
-
 }
