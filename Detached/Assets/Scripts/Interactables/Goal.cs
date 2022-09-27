@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Goal : MonoBehaviour
 {
     [SerializeField] private int playerNumber;
+    [SerializeField] private string nextScene;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -23,9 +25,7 @@ public class Goal : MonoBehaviour
     {
         if (playerNumber >= 2)
         {
-            Debug.Log("The players won");
-            Debug.Break();
+            SceneManager.LoadScene(nextScene);
         }
-            
     }
 }
