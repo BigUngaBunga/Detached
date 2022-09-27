@@ -58,8 +58,10 @@ public class CharacterControl : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            controllingPlayer = !controllingPlayer;
-            CMFreeLook.SetActive(controllingPlayer);
+            
+            
+            //controllingPlayer = !controllingPlayer;
+            //CMFreeLook.SetActive(controllingPlayer);
         }
             
 
