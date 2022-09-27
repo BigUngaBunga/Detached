@@ -32,6 +32,8 @@ public class MovingPlatformActivator : Activator
         StartCoroutine(MoveToNextStop());
     }
 
+    //TODO gör att den återvänder vid krock med vägg||platform
+
     private IEnumerator MoveToNextStop()
     {
         isMoving = true;
