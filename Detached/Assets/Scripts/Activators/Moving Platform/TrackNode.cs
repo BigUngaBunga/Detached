@@ -6,6 +6,7 @@ public class TrackNode : MonoBehaviour
 {
     enum NodeType { Path, Stop }
 
+    [Header("Node fields")]
     [SerializeField] private NodeType type = NodeType.Path;
     [SerializeField] private TrackNode nextNode, nextActiveNode;
     [SerializeField] private TrackNode previousNode, previousActiveNode;
@@ -53,13 +54,26 @@ public class TrackNode : MonoBehaviour
     {
         if (nextActiveNode != null)
         {
-            Debug.DrawLine(Position, nextActiveNode.Position, Color.green);
-            nextActiveNode.DrawNodeConnections(Color.green);
+            Debug.DrawLine(Position, nextActiveNode.Position, GetActiveColour());
+            nextActiveNode.DrawNodeConnections(GetActiveColour());
         }
         if (nextNode != null)
         {
             Debug.DrawLine(Position, nextNode.Position, colour);
             nextNode.DrawNodeConnections(colour);
+        }
+
+        Color GetActiveColour()
+        {
+            if (colour.Equals(Color.red))
+                return Color.yellow;
+            if (colour.Equals(Color.yellow))
+                return Color.green;
+            else if (colour.Equals(Color.green))
+                return Color.blue;
+            else if (colour.Equals(Color.blue))
+                return Color.white;
+            return colour;
         }
     }
 }

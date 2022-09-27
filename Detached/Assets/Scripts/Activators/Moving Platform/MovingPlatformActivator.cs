@@ -8,36 +8,15 @@ public class MovingPlatformActivator : Activator
     [Header("Moving platform fields")]
     [SerializeField] private float platformSpeed;
     [SerializeField] private float targetDistance;
+    [SerializeField] private bool goingBackwards;
     [SerializeField] private TrackActivator track;
-    [SerializeField] private int currentStop = 0;
-    [SerializeField] private int currentPath = 0;
-
     [SerializeField] private TrackNode targetNode;
 
     private float Speed => platformSpeed * Time.deltaTime;
     private bool isMoving;
-
     private readonly List<GameObject> connectedObjects = new List<GameObject>();
 
-    //private bool GoingBackwards
-    //{
-    //    get 
-    //    {
-    //        if (currentStop == 0 && goingBackwards)
-    //            goingBackwards = false;
-    //        else if (currentStop +1 == track.StopsCount && !goingBackwards)
-    //            goingBackwards = true;
-    //        return goingBackwards;
-    //    }
-    //}
-    [SerializeField] private bool goingBackwards;
-
-    //private int GetNextStop() => GoingBackwards ? --currentStop : ++currentStop;
-    //private int GetNextPath() => goingBackwards ? --currentPath : ++currentPath;
-    //private bool IsCloseToTarget(Transform target) => Vector3.Distance(transform.position, target.position) <= targetDistance;
     private bool IsCloseToTarget(Vector3 target) => Vector3.Distance(transform.position, target) <= targetDistance;
-
-    //private Vector3 GetDirectionTo(Transform target) => (target.position - transform.position).normalized;
     private Vector3 GetDirectionTo(Vector3 target) => (target - transform.position).normalized;
 
     protected override void Activate()
@@ -74,7 +53,7 @@ public class MovingPlatformActivator : Activator
 
         isMoving = false;
         if (IsActivated)
-            Invoke(nameof(PickNextStop), 0.25f);
+            Invoke(nameof(PickNextStop), 0.1f);
 
         yield return null;
     }
