@@ -4,8 +4,10 @@ using UnityEngine;
 using Mirror;
 public class SceneObjectItemManager : NetworkBehaviour
 {
-    void OnMouseDown()
-    {       
+    void Update()
+    {     
+        
+        if(Input.GetKeyDown(KeyCode.T))
         NetworkClient.localPlayer.GetComponent<ItemManager>().pickUpLimb(gameObject);
     }
 

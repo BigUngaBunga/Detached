@@ -25,10 +25,7 @@ public class ItemManager : NetworkBehaviour
     {
         if (newValue)
         {       
-            Limb.AddComponent<Rigidbody>();
-            GameObject newSceneObject = Instantiate(sceneObject, Limb.transform.position, Limb.transform.rotation);
-            NetworkServer.Spawn(newSceneObject);
-            Limb.transform.parent = newSceneObject.transform;
+            
         }
     }
 
@@ -44,6 +41,10 @@ public class ItemManager : NetworkBehaviour
     void CmdChangeAttachmentLimb(bool value)
     {
         detached = true;
+        Limb.AddComponent<Rigidbody>();
+        GameObject newSceneObject = Instantiate(sceneObject, Limb.transform.position, Limb.transform.rotation);
+        NetworkServer.Spawn(newSceneObject);
+        Limb.transform.parent = newSceneObject.transform;
     }
 
     [Command]
