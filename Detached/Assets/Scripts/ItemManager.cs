@@ -22,7 +22,7 @@ public class ItemManager : NetworkBehaviour
 
     private void OnChangeDetached(bool oldValue, bool newValue)
     {
-
+        Debug.Log("Test");
     }
 
     void Update()
@@ -38,19 +38,31 @@ public class ItemManager : NetworkBehaviour
     [Command]
     void CmdAttachLimb()
     {
-        Destroy(Limb.GetComponent<Rigidbody>());
-        Limb.transform.parent = limbParent;
-        Limb.transform.localPosition = Vector3.zero;
-        Limb.transform.localEulerAngles = Vector3.zero;
-        Limb.transform.localScale = Vector3.one;
         detached = false;
     }
 
     [Command]
     void CmdDetachLimb()
     {
-        Limb.AddComponent<Rigidbody>();
+        detached = true;
+
+    }
+
+    /*
+     * Destroy(Limb.GetComponent<Rigidbody>());
+        Limb.transform.parent = limbParent;
+        Limb.transform.localPosition = Vector3.zero;
+        Limb.transform.localEulerAngles = Vector3.zero;
+        Limb.transform.localScale = Vector3.one;
+        detached = false;
+     * 
+     * 
+     * Limb.AddComponent<Rigidbody>();
         Limb.transform.parent = detachedList;
         detached = true;
-    }
+     * 
+     * 
+     * 
+     * 
+     */
 }
