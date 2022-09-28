@@ -6,17 +6,26 @@ public class PickUp : MonoBehaviour
 {
     // Start is called before the first frame update
     public Transform dest;
-    public Material material1;
-    public Material material2;
+    public Transform dropDest;
+    public Material baseMaterial;
+    public Material hoverMaterial;
     bool holding = false;
-    public GameObject Object;
 
-    
+    private Transform objectHit;
+    public Camera camera;
+    private string nameObject;
+    private bool hitObject;
+
+   
 
     void OnMouseOver()
     {
-        if (Input.GetMouseButtonDown(0))
+
+        this.GetComponent<MeshRenderer>().material = hoverMaterial;
+        if (Input.GetKeyDown("e"))
         {
+            GetComponent<Rigidbody>().useGravity = false;
+            this.transform.parent = GameObject.Find("PickUpDestination").transform;
             holding = true;
         }
 
@@ -24,27 +33,56 @@ public class PickUp : MonoBehaviour
 
     }
 
-    public void OnMouseUp()
+    void OnMouseExit()
     {
-            this.transform.parent = null;
-            GetComponent<Rigidbody>().useGravity = true;
-        holding = false;
-          
+        this.GetComponent<MeshRenderer>().material = baseMaterial;
     }
-
-    
 
 
     private void Update()
     {
         Cursor.visible = true;
 
+
+        RaycastHit hit;
+        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+
+        hitObject = false;
+        if (Physics.Raycast(ray, out hit))
+        {
+            hitObject = true;
+            objectHit = hit.transform;
+            nameObject = hit.transform.gameObject.name;
+        }
+
         if (holding)
         {
-            GetComponent<Rigidbody>().useGravity = false;
             this.transform.position = dest.position;
-            this.transform.parent = GameObject.Find("PickUpDestination").transform;
+            if (Input.GetKeyUp("e"))
+            {
+
+                if(this.transform.gameObject.name == "Battery")
+                {
+                    if (objectHit.transform.gameObject.name == "BatterySlot")
+                    {
+                        dropDest = objectHit;
+                    }
+                    else
+                    {
+                        dropDest = this.transform;
+                    }
+                }
+                this.transform.parent = dropDest.transform;
+                this.transform.position = dropDest.position;
+                GetComponent<Rigidbody>().useGravity = true;
+                holding = false;
+            }
         }
+
+        
+
+
+
 
 
     }
