@@ -228,6 +228,7 @@ GameObject:
   - component: {fileID: 4452546296898031474}
   - component: {fileID: 6631586017823764970}
   - component: {fileID: 4562984538649973722}
+  - component: {fileID: 2459182320428627406}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -436,6 +437,26 @@ MonoBehaviour:
   syncAngularVelocity: 1
   clearAngularVelocity: 0
   angularVelocitySensitivity: 0.1
+--- !u!114 &2459182320428627406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3995271110296735854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 194ee1d7cb7df0f45b23dbd8d3adcca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  detachKey: 114
+  Limb: {fileID: 3995271110759506506}
+  detached: 0
+  limbParent: {fileID: 3995271110147540076}
+  detachedList: {fileID: 0}
+  body: {fileID: 0}
 --- !u!1 &3995271110385834945
 GameObject:
   m_ObjectHideFlags: 0
@@ -707,7 +728,6 @@ GameObject:
   - component: {fileID: 3995271110759506513}
   - component: {fileID: 3995271110759506518}
   - component: {fileID: 3995271110759506519}
-  - component: {fileID: 3995271110759506516}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -791,24 +811,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3995271110759506516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3995271110759506506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc24730ab4bf47448adcbbd6c15cbcda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detachKey: 114
-  attachKey: 114
-  detached: 0
-  limbParent: {fileID: 3995271110147540076}
-  detachedList: {fileID: 0}
-  body: {fileID: 0}
 --- !u!1 &3995271110789724671
 GameObject:
   m_ObjectHideFlags: 0
