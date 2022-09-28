@@ -8,8 +8,9 @@ using System;
 
 public class CustomNetworkManager : NetworkManager
 {
-    [SerializeField] private PlayerObjectController GamePlayerPrefab;
+    [SerializeField] private PlayerObjectController LobbyPrefab;
     [SerializeField] private GameObject playerSpawnSystem;
+    [SerializeField] public GameObject gamePlayerPrefab;
     public List<PlayerObjectController> GamePlayers { get; } = new List<PlayerObjectController>();
 
     public static event Action<NetworkConnectionToClient> OnServerReadied;
@@ -18,7 +19,7 @@ public class CustomNetworkManager : NetworkManager
     {
         if(SceneManager.GetActiveScene().name == "SteamLobby")
         {
-            PlayerObjectController GamePlayerInstance = Instantiate(GamePlayerPrefab);
+            PlayerObjectController GamePlayerInstance = Instantiate(LobbyPrefab);
             GamePlayerInstance.ConnectionID = conn.connectionId;
             GamePlayerInstance.PlayerIdNumber = GamePlayers.Count + 1;
             GamePlayerInstance.connThis = conn;

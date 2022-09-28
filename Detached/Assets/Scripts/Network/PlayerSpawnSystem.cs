@@ -13,6 +13,20 @@ public class PlayerSpawnSystem : NetworkBehaviour {
 
     private int nextIndex = 0;
 
+    private CustomNetworkManager manager;
+
+    private CustomNetworkManager Manager
+    {
+        get
+        {
+            if (manager != null)
+            {
+                return manager;
+            }
+            return manager = CustomNetworkManager.singleton as CustomNetworkManager;
+        }
+    }
+
     public static void AddSpawnPoints(Transform transform)
     {
         spawnPoints.Add(transform);
@@ -27,6 +41,7 @@ public class PlayerSpawnSystem : NetworkBehaviour {
 
     public override void OnStartServer()
     {
+        playerPrefab = Manager.gamePlayerPrefab;
         CustomNetworkManager.OnServerReadied += SpawnPlayer;
     }
 
