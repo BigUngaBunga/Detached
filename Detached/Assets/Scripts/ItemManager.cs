@@ -22,7 +22,19 @@ public class ItemManager : NetworkBehaviour
 
     private void OnChangeDetached(bool oldValue, bool newValue)
     {
-        Debug.Log("Test");
+        if (newValue)
+        {
+            Destroy(Limb.GetComponent<Rigidbody>());
+            Limb.transform.parent = limbParent;
+            Limb.transform.localPosition = Vector3.zero;
+            Limb.transform.localEulerAngles = Vector3.zero;
+            Limb.transform.localScale = Vector3.one;
+        }
+        else
+        {
+            Limb.AddComponent<Rigidbody>();
+            Limb.transform.parent = detachedList;
+        }
     }
 
     void Update()
@@ -30,26 +42,20 @@ public class ItemManager : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         if (Input.GetKeyDown(detachKey) && detached == false)
-            CmdDetachLimb();
+            CmdChangeAttachmentLimb(!detached);
         else if (Input.GetKeyDown(detachKey) && detached == true)
-            CmdAttachLimb();
+            CmdChangeAttachmentLimb(!detached);
     }
-
     [Command]
-    void CmdAttachLimb()
+    void CmdChangeAttachmentLimb(bool value)
     {
-        detached = false;
+        detached = value;
     }
 
-    [Command]
-    void CmdDetachLimb()
-    {
-        detached = true;
-
-    }
+    
 
     /*
-     * Destroy(Limb.GetComponent<Rigidbody>());
+     *  Destroy(Limb.GetComponent<Rigidbody>());
         Limb.transform.parent = limbParent;
         Limb.transform.localPosition = Vector3.zero;
         Limb.transform.localEulerAngles = Vector3.zero;
