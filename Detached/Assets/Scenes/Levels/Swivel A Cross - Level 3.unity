@@ -1158,7 +1158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9110140615138687368, guid: 748312e8fd05da844bd248074215eaad, type: 3}
       propertyPath: lerpIncrement
-      value: 0.01337
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 9110140615138687368, guid: 748312e8fd05da844bd248074215eaad, type: 3}
       propertyPath: activationRequirement
@@ -1187,6 +1187,63 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1447348957332668932, guid: f3c42e152d43b7a489844e16213b8f70, type: 3}
   m_PrefabInstance: {fileID: 1923039940}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &507317010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 507317011}
+  - component: {fileID: 507317013}
+  - component: {fileID: 507317012}
+  m_Layer: 0
+  m_Name: FallOutOfWorldTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &507317011
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507317010}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 7.76, y: -10.44, z: 49.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1332608935}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &507317012
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507317010}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 112.02814, y: 1, z: 118.50122}
+  m_Center: {x: 8.952805, y: 0, z: 0.520607}
+--- !u!114 &507317013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507317010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 557a6e3f8bba7c641895b7320aeec508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &515780120
 GameObject:
   m_ObjectHideFlags: 0
@@ -1559,7 +1616,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 660202349}
-  m_LocalRotation: {x: 0.017849509, y: -0.014842621, z: 0.00026500484, w: 0.9997305}
+  m_LocalRotation: {x: 0.017849509, y: -0.01484269, z: 0.0002650061, w: 0.9997305}
   m_LocalPosition: {x: 42.578777, y: 3.559184, z: -6.8861256}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1938,7 +1995,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9110140615138687368, guid: 748312e8fd05da844bd248074215eaad, type: 3}
       propertyPath: lerpIncrement
-      value: 0.01337
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 9110140615138687368, guid: 748312e8fd05da844bd248074215eaad, type: 3}
       propertyPath: activationRequirement
@@ -2016,6 +2073,10 @@ PrefabInstance:
     - target: {fileID: 1105007819251650566, guid: 6986312fd9eabe64db41efc797fd3b14, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4841176055913364934, guid: 6986312fd9eabe64db41efc797fd3b14, type: 3}
+      propertyPath: nextScene
+      value: Assets/Scenes/Levels/First Steps - Level 1.unity
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6986312fd9eabe64db41efc797fd3b14, type: 3}
@@ -2502,7 +2563,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1033434575}
-  m_LocalRotation: {x: 0.032171812, y: -0.4697067, z: 0.017131656, w: 0.88206977}
+  m_LocalRotation: {x: 0.03217181, y: -0.4697067, z: 0.017131655, w: 0.8820698}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2927,7 +2988,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1161461451}
-  m_LocalRotation: {x: -0.00029000104, y: -0.014845019, z: -0.0000043055456, w: 0.9998898}
+  m_LocalRotation: {x: -0.00029000014, y: -0.014845018, z: -0.000004305532, w: 0.9998898}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3087,7 +3148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9110140615138687368, guid: 748312e8fd05da844bd248074215eaad, type: 3}
       propertyPath: lerpIncrement
-      value: 0.01337
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 9110140615138687368, guid: 748312e8fd05da844bd248074215eaad, type: 3}
       propertyPath: activationRequirement
@@ -3330,6 +3391,7 @@ Transform:
   m_Children:
   - {fileID: 1159734949}
   - {fileID: 1667082968}
+  - {fileID: 507317011}
   m_Father: {fileID: 1666999809}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3999,7 +4061,7 @@ MonoBehaviour:
   m_XAxis:
     Value: 0
     m_SpeedMode: 0
-    m_MaxSpeed: 500
+    m_MaxSpeed: 200
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
@@ -4362,6 +4424,7 @@ Transform:
   - {fileID: 2114885471}
   - {fileID: 632641311}
   - {fileID: 1285992820}
+  - {fileID: 1691120537}
   m_Father: {fileID: 1332608935}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4472,6 +4535,101 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 1729283668}
+--- !u!1 &1691120536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1691120537}
+  - component: {fileID: 1691120540}
+  - component: {fileID: 1691120539}
+  - component: {fileID: 1691120538}
+  m_Layer: 0
+  m_Name: Glass wall (10)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1691120537
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691120536}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -30.52, y: 5.32, z: 73.72}
+  m_LocalScale: {x: 1, y: 10.998674, z: 9.9}
+  m_Children: []
+  m_Father: {fileID: 1667082968}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1691120538
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691120536}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1691120539
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691120536}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 3500dce637708024da2f2e45e4f71cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1691120540
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691120536}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1729283667
 GameObject:
   m_ObjectHideFlags: 3
@@ -5232,7 +5390,7 @@ MonoBehaviour:
   m_XAxis:
     Value: 0
     m_SpeedMode: 0
-    m_MaxSpeed: 500
+    m_MaxSpeed: 200
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
