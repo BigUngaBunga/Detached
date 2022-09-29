@@ -45,11 +45,15 @@ public class ItemManager : NetworkBehaviour
     [Command]
     void CmdDropLimb()
     {
-        GameObject newLimbObject = Instantiate(Limb, Limb.transform.position, Limb.transform.rotation);
-        newLimbObject.AddComponent<Rigidbody>();
+        //GameObject newLimbObject = Instantiate(Limb, Limb.transform.position, Limb.transform.rotation);
+        //newLimbObject.AddComponent<Rigidbody>();
         GameObject newSceneObject = Instantiate(sceneObject, Limb.transform.position, Limb.transform.rotation);
+        newSceneObject.GetComponent<SceneObjectItemManager>().limb = Limb;
         NetworkServer.Spawn(newSceneObject);
-        Limb.transform.parent = newSceneObject.transform;
+
+        newSceneObject.GetComponent<SceneObjectItemManager>().detached = true;
+        //Limb.transform.parent = newSceneObject.transform;
+        
 
         detached = true;     
     }
