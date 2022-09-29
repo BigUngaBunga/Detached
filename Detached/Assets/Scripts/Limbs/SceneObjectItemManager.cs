@@ -10,6 +10,7 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     [SyncVar(hook = nameof(OnChangeDetached))]
     public bool detached = false;
+    [SyncVar]
     public ItemManager.Limb_enum thisLimb;
 
     //Instantiates the limb as a child on the SceneObject 

@@ -100,9 +100,9 @@ public class ItemManager : NetworkBehaviour
         {
             case Limb_enum.Head: 
                 newSceneObject = Instantiate(wrapperSceneObject, headObject.transform.position, headObject.transform.rotation);
-                NetworkServer.Spawn(newSceneObject);
                 SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
-                SceneObjectScript.thisLimb = Limb_enum.Head; //This must come before detached = true
+                SceneObjectScript.thisLimb = Limb_enum.Head; //This must come before detached = true and networkServer.spawn
+                NetworkServer.Spawn(newSceneObject);
                 SceneObjectScript.detached = true;
                 headDetached = true;
                 break;
@@ -111,18 +111,18 @@ public class ItemManager : NetworkBehaviour
                 if (!leftArmDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, leftArmParent.transform.position, leftArmParent.transform.rotation);
-                    NetworkServer.Spawn(newSceneObject);
                     SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
-                    SceneObjectScript.thisLimb = Limb_enum.Arm; //This must come before detached = true
+                    SceneObjectScript.thisLimb = Limb_enum.Arm; //This must come before detached = true and networkServer.spawn
+                    NetworkServer.Spawn(newSceneObject);
                     SceneObjectScript.detached = true;
                     leftArmDetached = true;
                 }
                 else if(!rightArmDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, rightArmParent.transform.position, rightArmParent.transform.rotation);
-                    NetworkServer.Spawn(newSceneObject);
                     SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
-                    SceneObjectScript.thisLimb = Limb_enum.Arm; //This must come before detached = true
+                    SceneObjectScript.thisLimb = Limb_enum.Arm; //This must come before detached = true and networkServer.spawn
+                    NetworkServer.Spawn(newSceneObject);
                     SceneObjectScript.detached = true;
                     rightArmDetached = true;
                 }
