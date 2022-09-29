@@ -23,9 +23,15 @@ public class ItemManager : NetworkBehaviour
 
     private void OnChangeDetached(bool oldValue, bool newValue)
     {
-        if (newValue)
-        {       
+        if (newValue) // if Detached == true
+        {
             
+            Limb.active = false;
+        }
+        else // if Detached == False
+        {
+            Limb.active = true;
+
         }
     }
 
@@ -34,27 +40,29 @@ public class ItemManager : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         if (Input.GetKeyDown(detachKey) && detached == false)
-            CmdChangeAttachmentLimb(!detached);
-        
+            CmdDropLimb();   
     }
     [Command]
-    void CmdChangeAttachmentLimb(bool value)
+    void CmdDropLimb()
     {
-        detached = true;
-        Limb.AddComponent<Rigidbody>();
+        GameObject newLimbObject = Instantiate(Limb, Limb.transform.position, Limb.transform.rotation);
+        newLimbObject.AddComponent<Rigidbody>();
         GameObject newSceneObject = Instantiate(sceneObject, Limb.transform.position, Limb.transform.rotation);
         NetworkServer.Spawn(newSceneObject);
         Limb.transform.parent = newSceneObject.transform;
+
+        detached = true;     
     }
 
     [Command]
-    public void pickUpLimb(GameObject sceneObject)
+    public void CmdPickUpLimb(GameObject sceneObject)
     {
-        Destroy(Limb.GetComponent<Rigidbody>());
-        Limb.transform.parent = limbParent;
-        Limb.transform.localPosition = Vector3.zero;
-        Limb.transform.localEulerAngles = Vector3.zero;
-        Limb.transform.localScale = Vector3.one;
+
+        //Destroy(Limb.GetComponent<Rigidbody>());
+        //Limb.transform.parent = limbParent;
+        //Limb.transform.localPosition = Vector3.zero;
+        //Limb.transform.localEulerAngles = Vector3.zero;
+        //Limb.transform.localScale = Vector3.one;
         detached = false;
 
         NetworkServer.Destroy(sceneObject);

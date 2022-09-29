@@ -8,7 +8,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     {     
         
         if(Input.GetKeyDown(KeyCode.T))
-        NetworkClient.localPlayer.GetComponent<ItemManager>().pickUpLimb(gameObject);
+        NetworkClient.localPlayer.GetComponent<ItemManager>().CmdPickUpLimb(gameObject);
     }
 
 }
