@@ -12,7 +12,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     {
         if (newValue) // if Detached == true
         {
-            Instantiate(limb, transform.position, transform.rotation);           
+            Instantiate(limb, transform.position, transform.rotation, transform);           
         }    
     }
 

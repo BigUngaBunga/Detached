@@ -50,7 +50,7 @@ public class ItemManager : NetworkBehaviour
         //Limb.transform.parent = newSceneObject.transform;
 
         GameObject newSceneObject = Instantiate(sceneObject, Limb.transform.position, Limb.transform.rotation);
-        newSceneObject.GetComponent<SceneObjectItemManager>().limb = Limb;
+        //newSceneObject.GetComponent<SceneObjectItemManager>().limb = Limb;
         NetworkServer.Spawn(newSceneObject);
 
         newSceneObject.GetComponent<SceneObjectItemManager>().detached = true;
