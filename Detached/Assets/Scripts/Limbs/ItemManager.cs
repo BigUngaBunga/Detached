@@ -18,6 +18,8 @@ public class ItemManager : NetworkBehaviour
 
     [Header("LimbsParents")]
     [SerializeField] public Transform headParent;
+    [SerializeField] public Transform leftArmParent;
+    [SerializeField] public Transform rightArmParent;
 
     [Header("Syncvars")]
     [SyncVar(hook = nameof(OnChangeHeadDetached))]
@@ -80,28 +82,89 @@ public class ItemManager : NetworkBehaviour
 
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
             CmdDropLimb(Limb_enum.Head);
-        if(Input.GetKeyDown(detachKeyHead) && leftArmDetached == false){
-
+        if(Input.GetKeyDown(detachKeyHead) && (leftArmDetached == false || rightArmDetached == false)){
+            CmdDropLimb(Limb_enum.Arm);
         }
-        else if(Input.GetKeyDown(detachKeyHead) && rightArmDetached == false)
-        {
-
-        }
+        
     }
 
 
     [Command]
     void CmdDropLimb(Limb_enum limb)
-    {       
-        GameObject newSceneObject = Instantiate(wrapperSceneObject, headObject.transform.position, headObject.transform.rotation);
-        NetworkServer.Spawn(newSceneObject);
-        newSceneObject.GetComponent<SceneObjectItemManager>().detached = true;      
-        headDetached = true;    
+    {
+        GameObject newSceneObject;
+        SceneObjectItemManager SceneObjectScript;
+        switch (limb)
+        {
+            case Limb_enum.Head: 
+                newSceneObject = Instantiate(wrapperSceneObject, headObject.transform.position, headObject.transform.rotation);
+                NetworkServer.Spawn(newSceneObject);
+                SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                SceneObjectScript.detached = true;
+                SceneObjectScript.thisLimb = Limb_enum.Head;
+                headDetached = true;
+                break;
+
+            case Limb_enum.Arm:
+                if (!leftArmDetached)
+                {
+                    newSceneObject = Instantiate(wrapperSceneObject, headObject.transform.position, headObject.transform.rotation);
+                    NetworkServer.Spawn(newSceneObject);
+                    SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                    SceneObjectScript.detached = true;
+                    SceneObjectScript.thisLimb = Limb_enum.Arm;
+                    leftArmDetached = true;
+                }
+                else if(!rightArmDetached)
+                {
+                    newSceneObject = Instantiate(wrapperSceneObject, headObject.transform.position, headObject.transform.rotation);
+                    NetworkServer.Spawn(newSceneObject);
+                    SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                    SceneObjectScript.detached = true;
+                    SceneObjectScript.thisLimb = Limb_enum.Arm;
+                    rightArmDetached = true;
+                }
+                else
+                {
+                    Debug.Log("No arm to detach");
+                }
+                break;
+            case Limb_enum.Leg:
+                break;
+        }
+         
     }
 
     [Command]
     public void CmdPickUpLimb(GameObject sceneObject)
     {
+        switch (sceneObject.GetComponent<SceneObjectItemManager>().thisLimb)
+        {
+            case Limb_enum.Head:
+                headDetached = false;
+                NetworkServer.Destroy(sceneObject);
+                break;
+            case Limb_enum.Arm:
+                if (rightArmDetached)
+                {
+                    rightArmDetached = false;
+                    NetworkServer.Destroy(sceneObject);
+                }
+                else if (leftArmDetached)
+                {
+                    leftArmDetached = false;
+                    NetworkServer.Destroy(sceneObject);
+                }
+                else
+                {
+                    Debug.Log("No Spots to attach arm too");
+                }
+                break;
+            case Limb_enum.Leg:
+
+                break;
+        }
+
         //Destroy(Limb.GetComponent<Rigidbody>());
         //Limb.transform.parent = limbParent;
         //Limb.transform.localPosition = Vector3.zero;
