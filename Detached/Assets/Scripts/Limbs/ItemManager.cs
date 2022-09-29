@@ -24,8 +24,10 @@ public class ItemManager : NetworkBehaviour
     [Header("Syncvars")]
     [SyncVar(hook = nameof(OnChangeHeadDetached))]
     public bool headDetached;
+
     [SyncVar(hook = nameof(OnChangeLeftArmDetached))]
     public bool leftArmDetached;
+
     [SyncVar(hook = nameof(OnChangeRightArmDetached))]
     public bool rightArmDetached;
 
@@ -82,7 +84,7 @@ public class ItemManager : NetworkBehaviour
 
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
             CmdDropLimb(Limb_enum.Head);
-        if(Input.GetKeyDown(detachKeyHead) && (leftArmDetached == false || rightArmDetached == false)){
+        if(Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false)){
             CmdDropLimb(Limb_enum.Arm);
         }
         
@@ -100,28 +102,28 @@ public class ItemManager : NetworkBehaviour
                 newSceneObject = Instantiate(wrapperSceneObject, headObject.transform.position, headObject.transform.rotation);
                 NetworkServer.Spawn(newSceneObject);
                 SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                SceneObjectScript.thisLimb = Limb_enum.Head; //This must come before detached = true
                 SceneObjectScript.detached = true;
-                SceneObjectScript.thisLimb = Limb_enum.Head;
                 headDetached = true;
                 break;
 
             case Limb_enum.Arm:
                 if (!leftArmDetached)
                 {
-                    newSceneObject = Instantiate(wrapperSceneObject, headObject.transform.position, headObject.transform.rotation);
+                    newSceneObject = Instantiate(wrapperSceneObject, leftArmParent.transform.position, leftArmParent.transform.rotation);
                     NetworkServer.Spawn(newSceneObject);
                     SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                    SceneObjectScript.thisLimb = Limb_enum.Arm; //This must come before detached = true
                     SceneObjectScript.detached = true;
-                    SceneObjectScript.thisLimb = Limb_enum.Arm;
                     leftArmDetached = true;
                 }
                 else if(!rightArmDetached)
                 {
-                    newSceneObject = Instantiate(wrapperSceneObject, headObject.transform.position, headObject.transform.rotation);
+                    newSceneObject = Instantiate(wrapperSceneObject, rightArmParent.transform.position, rightArmParent.transform.rotation);
                     NetworkServer.Spawn(newSceneObject);
                     SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                    SceneObjectScript.thisLimb = Limb_enum.Arm; //This must come before detached = true
                     SceneObjectScript.detached = true;
-                    SceneObjectScript.thisLimb = Limb_enum.Arm;
                     rightArmDetached = true;
                 }
                 else
@@ -165,12 +167,12 @@ public class ItemManager : NetworkBehaviour
                 break;
         }
 
-        //Destroy(Limb.GetComponent<Rigidbody>());
-        //Limb.transform.parent = limbParent;
-        //Limb.transform.localPosition = Vector3.zero;
-        //Limb.transform.localEulerAngles = Vector3.zero;
-        //Limb.transform.localScale = Vector3.one;
-        headDetached = false;
-        NetworkServer.Destroy(sceneObject);
+        ////Destroy(Limb.GetComponent<Rigidbody>());
+        ////Limb.transform.parent = limbParent;
+        ////Limb.transform.localPosition = Vector3.zero;
+        ////Limb.transform.localEulerAngles = Vector3.zero;
+        ////Limb.transform.localScale = Vector3.one;
+        //headDetached = false;
+        //NetworkServer.Destroy(sceneObject);
     }
 }

@@ -4,7 +4,10 @@ using UnityEngine;
 using Mirror;
 public class SceneObjectItemManager : NetworkBehaviour
 {
-    public GameObject limb;
+    public GameObject headLimb;
+    public GameObject armLimb;
+    public GameObject legLimb;
+
     [SyncVar(hook = nameof(OnChangeDetached))]
     public bool detached = false;
     public ItemManager.Limb_enum thisLimb;
@@ -14,15 +17,28 @@ public class SceneObjectItemManager : NetworkBehaviour
     {
         if (newValue) // if Detached == true
         {
-            Instantiate(limb, transform.position, transform.rotation, transform);           
+            switch (thisLimb)
+            {
+                case ItemManager.Limb_enum.Head:
+                    Instantiate(headLimb, transform.position, transform.rotation, transform);
+                    break;
+                case ItemManager.Limb_enum.Arm:
+                    Instantiate(armLimb, transform.position, transform.rotation, transform);
+                    break;
+                case ItemManager.Limb_enum.Leg:
+                    Instantiate(legLimb, transform.position, transform.rotation, transform);
+                    break;
+
+            }
         }    
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.T))
-            
-        switch (thisLimb)
+        {
+
+            switch (thisLimb)
             {
                 case ItemManager.Limb_enum.Head:
                     if (NetworkClient.localPlayer.GetComponent<ItemManager>().headDetached)
@@ -39,6 +55,6 @@ public class SceneObjectItemManager : NetworkBehaviour
                 case ItemManager.Limb_enum.Leg:
                     break;
             }
+        }
     }
-
 }
