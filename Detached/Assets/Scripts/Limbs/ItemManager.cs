@@ -5,28 +5,29 @@ using Mirror;
 
 public class ItemManager : NetworkBehaviour
 {
-
+    //Todo, Make ui manager that handles input from player instead of hardcoded keybindings
     [Header("Keybindings")]
     [SerializeField] public KeyCode detachKeyHead;
-    
+    [SerializeField] public KeyCode detachKeyArm;
+    [SerializeField] public KeyCode detachKeyLeg;
+
     [Header("LimbsPrefabs")]
     [SerializeField] public GameObject headObject;
-    
-    
+    [SerializeField] public GameObject leftArmObject;
+    [SerializeField] public GameObject rightArmObject;
+
     [Header("LimbsParents")]
     [SerializeField] public Transform headParent;
 
     [Header("Syncvars")]
     [SyncVar(hook = nameof(OnChangeHeadDetached))]
     public bool headDetached;
-    [SyncVar(hook = nameof(OnChangeArmDetached))]
+    [SyncVar(hook = nameof(OnChangeLeftArmDetached))]
     public bool leftArmDetached;
-    [SyncVar(hook = nameof(OnChangeArmDetached))]
+    [SyncVar(hook = nameof(OnChangeRightArmDetached))]
     public bool rightArmDetached;
 
-    [SyncVar]
-    public Limbs test;
-    public enum Limbs
+    public enum Limb_enum
     {
         Head,
         Leg,
@@ -35,21 +36,30 @@ public class ItemManager : NetworkBehaviour
 
     [SerializeField] public GameObject wrapperSceneObject;
 
-
-
-    private void OnChangeArmDetached(bool oldValue, bool newValue)
+    private void OnChangeLeftArmDetached(bool oldValue, bool newValue)
     {
         if (newValue) // if Detached == true
         {
-            headObject.active = false;
+            leftArmObject.active = false;
+
+        }
+        else // if Detached == False
+        {
+            leftArmObject.active = true;
+        }
+    }
+    private void OnChangeRightArmDetached(bool oldValue, bool newValue)
+    {
+        if (newValue) // if Detached == true
+        {
+            rightArmObject.active = false;
             
         }
         else // if Detached == False
         {
-            headObject.active = true;
+            rightArmObject.active = true;
         }
     }
-
     private void OnChangeHeadDetached(bool oldValue, bool newValue)
     {
         if (newValue) // if Detached == true
@@ -69,7 +79,7 @@ public class ItemManager : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
-            CmdDropLimb();
+            CmdDropLimb(Limb_enum.Head);
         if(Input.GetKeyDown(detachKeyHead) && leftArmDetached == false){
 
         }
@@ -81,15 +91,12 @@ public class ItemManager : NetworkBehaviour
 
 
     [Command]
-    void CmdDropLimb()
+    void CmdDropLimb(Limb_enum limb)
     {       
         GameObject newSceneObject = Instantiate(wrapperSceneObject, headObject.transform.position, headObject.transform.rotation);
         NetworkServer.Spawn(newSceneObject);
         newSceneObject.GetComponent<SceneObjectItemManager>().detached = true;      
-        headDetached = true;
-
-        test = Limbs.Arm;
-        Debug.Log(test.ToString());
+        headDetached = true;    
     }
 
     [Command]
@@ -102,8 +109,5 @@ public class ItemManager : NetworkBehaviour
         //Limb.transform.localScale = Vector3.one;
         headDetached = false;
         NetworkServer.Destroy(sceneObject);
-
-        test = Limbs.Head;
-        Debug.Log(test.ToString());
     }
 }
