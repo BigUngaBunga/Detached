@@ -143,8 +143,11 @@ public class ItemManager : NetworkBehaviour
         switch (sceneObject.GetComponent<SceneObjectItemManager>().thisLimb)
         {
             case Limb_enum.Head:
-                headDetached = false;
-                NetworkServer.Destroy(sceneObject);
+                if (headDetached)
+                {
+                    headDetached = false;
+                    NetworkServer.Destroy(sceneObject);
+                }
                 break;
             case Limb_enum.Arm:
                 if (rightArmDetached)
