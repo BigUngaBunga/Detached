@@ -14,7 +14,9 @@ public class SceneObjectItemManager : NetworkBehaviour
     public ItemManager.Limb_enum thisLimb;
 
     [SyncVar]
-    public bool isBeingControlled;
+    public bool isBeingControlled = false;
+
+    public bool test = true;
 
     //Instantiates the limb as a child on the SceneObject 
     private void OnChangeDetached(bool oldValue, bool newValue)
