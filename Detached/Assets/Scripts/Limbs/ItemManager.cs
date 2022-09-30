@@ -188,16 +188,16 @@ public class ItemManager : NetworkBehaviour
         {
             limbs.Clear();
             limbs.AddRange(GameObject.FindGameObjectsWithTag("Limb"));
+            if (limbs.Count == 0)
+            {
+                return;
+            }
+            limbs.Add(gameObject);
         }
         catch (Exception e)
         {
             Debug.Log("Tag dosen't exist, Have you forgotten to add \"limb\" to your tags?");
         }
-        if (limbs.Count == 0)
-        {
-            return;
-        }
-        limbs.Add(gameObject);
     }
 
 
