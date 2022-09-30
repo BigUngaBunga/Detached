@@ -58,7 +58,12 @@ public class PickUp : MonoBehaviour
         if (holding)
         {
             this.transform.position = dest.position;
-            
+            GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+            this.transform.eulerAngles = new Vector3(0, 0, 0);
+            GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0);
+
+
+
             if (Input.GetKeyUp("e"))
             {
 
@@ -104,10 +109,6 @@ public class PickUp : MonoBehaviour
                 holding = false;
 
             }
-
-            GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-            this.transform.eulerAngles = new Vector3(90, 0, 0);
-            GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0);
         }
 
         
