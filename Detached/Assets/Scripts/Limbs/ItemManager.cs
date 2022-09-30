@@ -228,9 +228,9 @@ public class ItemManager : NetworkBehaviour
                 }
                 break;
             case Limb_enum.Leg:
-                if (rightArmDetached)
+                if (rightLegDetached)
                 {
-                    rightArmDetached = false;
+                    rightLegDetached = false;
                     NetworkServer.Destroy(sceneObject);
                 }
                 else if (leftLegDetached)
