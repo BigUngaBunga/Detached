@@ -2,10 +2,10 @@
 
 public class Activator : MonoBehaviour
 {
-    public enum ActivationRequirement { All, One, None}
+    enum ActivationRequirement { All, One, None}
 
     [Header("Default fields")]
-    [SerializeField] protected ActivationRequirement activationRequirement;
+    [SerializeField] private ActivationRequirement activationRequirement;
     [SerializeField] private bool isActivated = false;
     protected bool IsActivated { 
         get { return isActivated; }
@@ -28,8 +28,6 @@ public class Activator : MonoBehaviour
             IsActivated = GetActivationStatus();
         }
     }
-
-    protected int TotalConnections { get { return totalConnections; } }
 
     public void AddConnection() => ++totalConnections;
     public void TriggerActive() => ++ActiveConnections;
