@@ -56,13 +56,12 @@ public class CharacterControl : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            
-            
-            //controllingPlayer = !controllingPlayer;
-            //CMFreeLook.SetActive(controllingPlayer);
-        }
+
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    controllingPlayer = !controllingPlayer;
+        //    CMFreeLook.SetActive(controllingPlayer);
+        //}
             
 
         if (active && controllingPlayer)
@@ -130,7 +129,7 @@ public class CharacterControl : MonoBehaviour
 
     private void Jump()
     {
-        if (isGrounded && Input.GetButton("Jump") && readyToJump)
+        if (isGrounded && Input.GetButton("Jump") && readyToJump && DetachScript.numOfLegs>1)
         {
             readyToJump = false;
 
