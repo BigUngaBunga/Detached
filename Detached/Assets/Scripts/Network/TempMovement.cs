@@ -6,21 +6,26 @@ using Mirror;
 public class TempMovement : NetworkBehaviour
 {
     float movementSpeed = 1f;
-   
+
     void Update()
     {
         if (!hasAuthority) return;
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            MoveForward();
+            CmdMoveForward();
         }
     }
 
     [Command]
-    void MoveForward()
+    void CmdMoveForward()
+    {
+        RpcMoveForward();
+    }
+
+    [ClientRpc]
+    void RpcMoveForward()
     {
         gameObject.transform.position += new Vector3(0, 0, movementSpeed);
-
     }
 }
