@@ -1,15 +1,37 @@
 using UnityEngine;
+using Mirror;
+using UnityEngine.SceneManagement;
 
-public class Goal : MonoBehaviour
+public class Goal : NetworkBehaviour
 {
     [SerializeField] private int playerNumber;
+
+    //Manager
+    private CustomNetworkManager manager;
+    public string GameScene;
+
+    private CustomNetworkManager Manager
+    {
+        get
+        {
+            if (manager != null)
+            {
+                return manager;
+            }
+            return manager = CustomNetworkManager.singleton as CustomNetworkManager;
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             playerNumber++;
-            CheckVictoryStatus();
+            if (CheckVictoryStatus())
+            {
+                manager.ChangeScene(SceneManager.GetActiveScene().buildIndex + 1);
+            }
+            
         }
     }
 
@@ -19,13 +41,13 @@ public class Goal : MonoBehaviour
             playerNumber--;
     }
 
-    private void CheckVictoryStatus()
+    private bool CheckVictoryStatus()
     {
         if (playerNumber >= 2)
         {
             Debug.Log("The players won");
-            Debug.Break();
+            return true;
         }
-            
+        return false;
     }
 }

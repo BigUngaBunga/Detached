@@ -10,6 +10,7 @@ public class CustomNetworkManager : NetworkManager
 {
     [SerializeField] private PlayerObjectController GamePlayerPrefab;
     [SerializeField] private GameObject playerSpawnSystem;
+    [SerializeField] private String[] levelNames;
     public List<PlayerObjectController> GamePlayers { get; } = new List<PlayerObjectController>();
 
     public static event Action<NetworkConnectionToClient> OnServerReadied;
@@ -34,6 +35,11 @@ public class CustomNetworkManager : NetworkManager
         ServerChangeScene(SceneName);        
     }
 
+    public void ChangeScene(int LevelID)
+    {
+
+    }
+
     public override void ServerChangeScene(string newSceneName)
     {       
         base.ServerChangeScene(newSceneName);          
@@ -42,7 +48,6 @@ public class CustomNetworkManager : NetworkManager
     [Server]
     public override void OnServerSceneChanged(string sceneName)
     {
-        //sceneName == "First Steps - Level 1"
         if (SceneManager.GetActiveScene().buildIndex > 1)
         {
             GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem);
