@@ -6,7 +6,7 @@ public class PickUp : MonoBehaviour
 {
     // Start is called before the first frame update
     public Transform dest;
-    public Transform dropDest;
+    private Transform dropDest;
     public Material baseMaterial;
     public Material hoverMaterial;
     bool holding = false;
@@ -63,19 +63,43 @@ public class PickUp : MonoBehaviour
 
                 if(this.transform.gameObject.name == "Battery")
                 {
-                    if (objectHit.transform.gameObject.name == "BatterySlot")
+                    if (objectHit.transform.gameObject.tag == "BatteryBox")
                     {
-                        dropDest = objectHit;
+                        dropDest = GameObject.Find(objectHit.transform.gameObject.name + "/SlotDestination").transform;
+                        this.transform.parent = dropDest.transform;
                     }
                     else
                     {
+                        this.transform.parent = null;
                         dropDest = this.transform;
                     }
                 }
-                this.transform.parent = dropDest.transform;
+                else if (this.transform.gameObject.name == "Key")
+                {
+                    if (objectHit.transform.gameObject.tag == "Lock")
+                    {
+                        dropDest = GameObject.Find(objectHit.transform.gameObject.name + "/KeyDestination").transform;
+                        this.transform.parent = dropDest.transform;
+                    }
+                    else
+                    {
+                        this.transform.parent = null;
+                        dropDest = this.transform;
+                    }
+                }
+                else if (this.transform.gameObject.tag == "Box")
+                {
+                    
+                    this.transform.parent = null;
+                    dropDest = this.transform;
+                    
+                }
+
+
                 this.transform.position = dropDest.position;
                 GetComponent<Rigidbody>().useGravity = true;
                 holding = false;
+
             }
         }
 
