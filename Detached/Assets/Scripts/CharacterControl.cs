@@ -70,7 +70,7 @@ public class CharacterControl : NetworkBehaviour
         walkSpeed = movementSpeed;
         playerObjectController = GetComponent<PlayerObjectController>();
 
-        //playerBody.SetActive(false); //So the body dosen't load in the steamlobby scene
+        playerBody.SetActive(false); //So the body dosen't load in the steamlobby scene
     }
 
     private void Update()
@@ -84,21 +84,23 @@ public class CharacterControl : NetworkBehaviour
 
         //if (active && controllingPlayer)
         if (!isLocalPlayer) return;
+        //if (SceneManager.GetActiveScene().name == "Game" && active && controllingPlayer)
 
-        if (SceneManager.GetActiveScene().name == "Game" && active && controllingPlayer)
+
+        if (SceneManager.GetActiveScene().name == "First Steps - Level 1" && active && controllingPlayer)
         {
-            if (rb.useGravity == false)
-            {                
                 
-                //CmdTurnOnBody();
+
+            if (rb.useGravity == false)
+            {
+                CmdTurnOnBody();
                 camTransform = Camera.main.transform;
                 rb.useGravity = true;
                 cinemaFreelook = CinemachineFreeLook.FindObjectOfType<CinemachineFreeLook>();
                 cinemaFreelook.LookAt = cameraFollow.transform;
                 cinemaFreelook.Follow = cameraFollow.transform;
             }
-
-            if (active)
+            if (hasAuthority)
             {
                 GroundCheck();
                 MyInput();
@@ -116,13 +118,15 @@ public class CharacterControl : NetworkBehaviour
                 else
                     rb.drag = 0;
             }
+
+
         }
     }
 
     [Command]
     public void CmdTurnOnBody()
     {
-        //RpcTurnOnBody(body);        
+        RpcTurnOnBody();        
         Debug.Log("This is the server");
     }
 
@@ -131,7 +135,7 @@ public class CharacterControl : NetworkBehaviour
     {
         
         Debug.Log("This i client");
-        //body.SetActive(true);
+        playerBody.SetActive(true);
 
     }
 
