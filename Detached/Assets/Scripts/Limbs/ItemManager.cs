@@ -28,7 +28,7 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public Transform leftLegParent;
     [SerializeField] public Transform rightLegParent;
 
-    private List<GameObject> limbs;
+    private List<GameObject> limbs = new List<GameObject>();
     private int indexControll;
     private bool isControllingLimb;
 
