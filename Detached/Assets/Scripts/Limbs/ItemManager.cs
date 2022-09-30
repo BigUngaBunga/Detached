@@ -150,6 +150,7 @@ public class ItemManager : NetworkBehaviour
     {
         if (limbs.Count == 0) return;
 
+        //Checks wether client controlled a limb and removes client autohority from it
         if (isControllingLimb)
         {
             limbs[indexControll].GetComponent<SceneObjectItemManager>().isBeingControlled = false;
@@ -158,12 +159,14 @@ public class ItemManager : NetworkBehaviour
         }
         indexControll++;
         indexControll %= limbs.Count;
+        //Finds next limb in limb list and Gains control of it aslong as its not already being controlled
         if (limbs[indexControll] != gameObject && !limbs[indexControll].GetComponent<SceneObjectItemManager>().isBeingControlled)
         {
             limbs[indexControll].GetComponent<SceneObjectItemManager>().isBeingControlled = true;
             CmdAssignClientAuthority(limbs[indexControll]);
             isControllingLimb = true;
         }
+        //If next limb in list is gameobject then player is not controlling limb. 
         if (limbs[indexControll] == gameObject)
         {
             isControllingLimb = false;
