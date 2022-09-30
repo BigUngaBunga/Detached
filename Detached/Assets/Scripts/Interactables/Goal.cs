@@ -6,9 +6,11 @@ public class Goal : NetworkBehaviour
 {
     [SerializeField] private int playerNumber;
 
+    public string[] Maps;
+    public int NextMapIndex;
+
     //Manager
     private CustomNetworkManager manager;
-    public string GameScene;
 
     private CustomNetworkManager Manager
     {
@@ -30,7 +32,7 @@ public class Goal : NetworkBehaviour
             if (CheckVictoryStatus())
             {
                 //manager.ChangeScene(SceneManager.GetActiveScene().buildIndex + 1);
-                manager.ServerChangeScene("Through The Paine - Level 2");
+                Manager.ServerChangeScene(Maps[NextMapIndex]);
             }
             
         }
