@@ -29,7 +29,8 @@ public class Goal : NetworkBehaviour
             playerNumber++;
             if (CheckVictoryStatus())
             {
-                manager.ChangeScene(SceneManager.GetActiveScene().buildIndex + 1);
+                //manager.ChangeScene(SceneManager.GetActiveScene().buildIndex + 1);
+                manager.ServerChangeScene("Through The Paine - Level 2");
             }
             
         }
