@@ -13,7 +13,14 @@ public class TempMovement : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            gameObject.transform.position += new Vector3(0, 0, movementSpeed);
+            MoveForward();
         }
+    }
+
+    [Command]
+    void MoveForward()
+    {
+        gameObject.transform.position += new Vector3(0, 0, movementSpeed);
+
     }
 }
