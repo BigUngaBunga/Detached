@@ -173,12 +173,24 @@ public class ItemManager : NetworkBehaviour
     [Command]
     void CmdAssignClientAuthority(GameObject sceneObject)
     {
+        RpcAssignClientAuthority(sceneObject);
+    }
+
+    [ClientRpc]
+    void RpcAssignClientAuthority(GameObject sceneObject)
+    {
         sceneObject.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
         sceneObject.GetComponent<NetworkTransform>().clientAuthority = true;
     }
 
     [Command]
     void CmdRemoveClientAutohrity(GameObject sceneObject)
+    {
+        RpcRemoveClientAuthority(sceneObject);
+    }
+
+    [ClientRpc]
+    void RpcRemoveClientAuthority(GameObject sceneObject)
     {
         sceneObject.GetComponent<NetworkIdentity>().RemoveClientAuthority();
         sceneObject.GetComponent<NetworkTransform>().clientAuthority = false;
