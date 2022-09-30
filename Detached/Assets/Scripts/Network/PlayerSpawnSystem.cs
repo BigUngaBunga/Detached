@@ -42,10 +42,7 @@ public class PlayerSpawnSystem : NetworkBehaviour {
         Transform spawnPoint = spawnPoints.ElementAtOrDefault(nextIndex);
 
         GameObject playerInstance = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
-        if (conn.identity.gameObject != null)
-        {
-            NetworkServer.Destroy(conn.identity.gameObject);
-        }
+        NetworkServer.Destroy(conn.identity.gameObject);
         NetworkServer.ReplacePlayerForConnection(conn, playerInstance);
 
         nextIndex++;

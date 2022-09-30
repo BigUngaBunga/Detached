@@ -24,6 +24,12 @@ public class Goal : NetworkBehaviour
         }
     }
 
+    [Command]
+    void cmdServerChangeScene(string sceneName)
+    {
+        Manager.ServerChangeScene(sceneName);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -31,7 +37,7 @@ public class Goal : NetworkBehaviour
             playerNumber++;
             if (CheckVictoryStatus())
             {
-                Manager.ServerChangeScene(Maps[NextMapIndex]);
+                cmdServerChangeScene(Maps[NextMapIndex]);
             }
             
         }
