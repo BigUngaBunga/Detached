@@ -69,8 +69,6 @@ public class CharacterControl : NetworkBehaviour
         ResetJump();
         walkSpeed = movementSpeed;
         playerObjectController = GetComponent<PlayerObjectController>();
-
-        playerBody.SetActive(false); //So the body dosen't load in the steamlobby scene
     }
 
     private void Update()
@@ -93,7 +91,6 @@ public class CharacterControl : NetworkBehaviour
 
             if (rb.useGravity == false)
             {
-                CmdTurnOnBody();
                 camTransform = Camera.main.transform;
                 rb.useGravity = true;
                 cinemaFreelook = CinemachineFreeLook.FindObjectOfType<CinemachineFreeLook>();
@@ -122,23 +119,6 @@ public class CharacterControl : NetworkBehaviour
 
         }
     }
-
-    [Command]
-    public void CmdTurnOnBody()
-    {
-        RpcTurnOnBody();        
-        Debug.Log("This is the server");
-    }
-
-    [ClientRpc]
-    public void RpcTurnOnBody()
-    {
-        
-        Debug.Log("This i client");
-        playerBody.SetActive(true);
-
-    }
-
     void MyInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
