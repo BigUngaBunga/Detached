@@ -16,7 +16,7 @@ public class PickUp : MonoBehaviour
     private string nameObject;
     private bool hitObject;
 
-   
+
 
     void OnMouseOver()
     {
@@ -29,7 +29,7 @@ public class PickUp : MonoBehaviour
             holding = true;
         }
 
-        
+
 
     }
 
@@ -58,10 +58,16 @@ public class PickUp : MonoBehaviour
         if (holding)
         {
             this.transform.position = dest.position;
+            GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+            this.transform.eulerAngles = new Vector3(0, 0, 0);
+            GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0);
+
+
+
             if (Input.GetKeyUp("e"))
             {
 
-                if(this.transform.gameObject.name == "Battery")
+                if (this.transform.gameObject.name == "Battery")
                 {
                     if (objectHit.transform.gameObject.tag == "BatteryBox")
                     {
@@ -89,21 +95,23 @@ public class PickUp : MonoBehaviour
                 }
                 else if (this.transform.gameObject.tag == "Box")
                 {
-                    
+
                     this.transform.parent = null;
                     dropDest = this.transform;
-                    
+
                 }
 
 
                 this.transform.position = dropDest.position;
                 GetComponent<Rigidbody>().useGravity = true;
+
+
                 holding = false;
 
             }
         }
 
-        
+
 
 
 
