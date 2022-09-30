@@ -13,24 +13,35 @@ public class Throwing : MonoBehaviour
     List<DetachScript> detachScript;
     Rigidbody objectRb;
 
+    public int selectHead;
+    public int selectArm;
+    public int selectLeg;
     public int select;
 
+    int startingArmNum = 0;
+    int startingLegNum = 2;
+   
+
     public KeyCode throwKey = KeyCode.Mouse0;
-    public KeyCode cycleNext = KeyCode.Alpha2;
-    public KeyCode cyclePrev = KeyCode.Alpha1;
+    public KeyCode selectHeadKey = KeyCode.Alpha1;
+    public KeyCode cycleArm = KeyCode.Alpha2;
+    public KeyCode cycleLeg = KeyCode.Alpha3;
     public float throwForce;
     public float throwUpwardForce;
 
     public float throwCD;
     bool readyToThrow;
-    bool next;
-    bool prev;
+    bool arm;
+    bool leg;
 
 
     void Start()
     {
-        next = true;
-        prev = true;
+        arm = true;
+        leg = true;
+        selectHead = 0;
+        selectArm = startingArmNum;
+        selectLeg = startingLegNum;
         //limbList = new List<GameObject>();
         detachScript = new List<DetachScript>();
         // objectRb = objectToThrow.GetComponent<Rigidbody>();
@@ -39,29 +50,48 @@ public class Throwing : MonoBehaviour
             detachScript.Add(limbList[i].GetComponent<DetachScript>());
         }
 
+
         readyToThrow = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(cycleNext) &&!next)
+        if (Input.GetKey(selectHeadKey))
         {
-            select++;
-            if (select >= limbList.Count)
-                select = 0;
+            select = selectHead;
+            selectArm = startingArmNum;
+            selectLeg = startingLegNum;
         }
-        else if (Input.GetKey(cyclePrev) &&!prev)
+        if (Input.GetKey(cycleArm) && !arm)
         {
-            select--;
-            if (select < 0)
-                select = limbList.Count - 1;
+            selectArm++;
+            if (selectArm > 2)
+                selectArm = 1;
+            select = selectArm;
+            selectLeg = startingLegNum;
         }
-        next = Input.GetKey(cycleNext);
-        prev = Input.GetKey(cyclePrev);
+        else if (Input.GetKey(cycleLeg) && !leg)
+        {
+            selectLeg++;
+            if (selectLeg > 4)
+                selectLeg = 3;
+            select = selectLeg;
+            selectArm = startingArmNum;
+        }
+        arm = Input.GetKey(cycleArm);
+        leg = Input.GetKey(cycleLeg);
 
-        if (Input.GetKey(throwKey) && readyToThrow && detachScript[select].detached)
+        if (Input.GetKey(throwKey) && readyToThrow && !detachScript[select].detached && DetachScript.numOfArms > 1)
         {
+
+            if (!limbList[select].GetComponent<Rigidbody>())
+                limbList[select].AddComponent<Rigidbody>();
+
+            if (detachScript[select].partName == "Arm")
+                DetachScript.numOfArms--;
+
+            detachScript[select].detached = true;
             Throw();
         }
     }
