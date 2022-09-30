@@ -56,6 +56,7 @@ public class CharacterControl : MonoBehaviour
 
     private void Update()
     {
+
         //if (Input.GetMouseButtonDown(0))
         //{
         //    controllingPlayer = !controllingPlayer;
