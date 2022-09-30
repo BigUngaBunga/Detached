@@ -161,7 +161,7 @@ public class ItemManager : NetworkBehaviour
         if (limbs[indexControll] != gameObject)
         {
             limbs[indexControll].GetComponent<SceneObjectItemManager>().isBeingControlled = true;
-            CmdAssignClientAuthority(limbs[indexControll].GetComponent<NetworkIdentity>());
+            CmdAssignClientAuthority(limbs[indexControll]);
             isControllingLimb = true;
         }
         if (limbs[indexControll] == gameObject)
@@ -171,9 +171,9 @@ public class ItemManager : NetworkBehaviour
     }
 
     [Command]
-    void CmdAssignClientAuthority(NetworkIdentity item)
+    void CmdAssignClientAuthority(GameObject sceneObject)
     {
-        item.AssignClientAuthority(connectionToClient);
+        sceneObject.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
     }
 
     [Command]
