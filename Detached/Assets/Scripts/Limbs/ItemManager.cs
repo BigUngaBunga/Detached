@@ -153,7 +153,7 @@ public class ItemManager : NetworkBehaviour
         if (isControllingLimb)
         {
             limbs[indexControll].GetComponent<SceneObjectItemManager>().isBeingControlled = false;
-            CmdRemoveClientAutohrity(limbs[indexControll].GetComponent<NetworkIdentity>());
+            CmdRemoveClientAutohrity(limbs[indexControll]);
             isControllingLimb = false;
         }
         indexControll++;
@@ -174,12 +174,14 @@ public class ItemManager : NetworkBehaviour
     void CmdAssignClientAuthority(GameObject sceneObject)
     {
         sceneObject.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
+        sceneObject.GetComponent<NetworkTransform>().clientAuthority = true;
     }
 
     [Command]
-    void CmdRemoveClientAutohrity(NetworkIdentity item)
+    void CmdRemoveClientAutohrity(GameObject sceneObject)
     {
-        item.RemoveClientAuthority();
+        sceneObject.GetComponent<NetworkIdentity>().RemoveClientAuthority();
+        sceneObject.GetComponent<NetworkTransform>().clientAuthority = false;
     }
 
     void GetAllLimbsInScene()
