@@ -37,7 +37,7 @@ public class CustomNetworkManager : NetworkManager
 
     public void ChangeScene(int LevelID)
     {
-
+        ServerChangeScene(levelNames[LevelID]);
     }
 
     public override void ServerChangeScene(string newSceneName)
