@@ -85,7 +85,7 @@ public class CharacterControl : NetworkBehaviour
         //if (SceneManager.GetActiveScene().name == "Game" && active && controllingPlayer)
 
 
-        if (SceneManager.GetActiveScene().name == "First Steps - Level 1" && active && controllingPlayer)
+        if (SceneManager.GetActiveScene().buildIndex > 1 && active && controllingPlayer)
         {
                 
 
