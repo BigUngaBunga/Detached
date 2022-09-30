@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System;
 
 public class ItemManager : NetworkBehaviour
 {
@@ -10,6 +11,7 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public KeyCode detachKeyHead;
     [SerializeField] public KeyCode detachKeyArm;
     [SerializeField] public KeyCode detachKeyLeg;
+    [SerializeField] public KeyCode keySwitchBetweenLimbs;
 
     [Header("LimbsPrefabs")]
     [SerializeField] public GameObject headObject;
@@ -26,6 +28,12 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public Transform leftLegParent;
     [SerializeField] public Transform rightLegParent;
 
+    private List<GameObject> limbs;
+    private int indexControll;
+    private bool isControllingLimb;
+
+    #region Syncvars with hooks
+
     [Header("Syncvars")]
     [SyncVar(hook = nameof(OnChangeHeadDetachedHook))]
     public bool headDetached;
@@ -41,6 +49,8 @@ public class ItemManager : NetworkBehaviour
 
     [SyncVar(hook = nameof(OnChangeLeftLegDetachedHook))]
     public bool leftLegDetached;
+
+    #endregion
 
     public enum Limb_enum
     {
@@ -129,6 +139,65 @@ public class ItemManager : NetworkBehaviour
             CmdDropLimb(Limb_enum.Arm);
         if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
             CmdDropLimb(Limb_enum.Leg);
+        if (Input.GetKeyDown(keySwitchBetweenLimbs))
+        {
+            GetAllLimbsInScene();
+            ChangeLimbControll();
+        }
+    }
+
+    void ChangeLimbControll()
+    {
+        if (limbs.Count == 0) return;
+
+        if (isControllingLimb)
+        {
+            limbs[indexControll].GetComponent<SceneObjectItemManager>().isBeingControlled = false;
+            CmdRemoveClientAutohrity(limbs[indexControll].GetComponent<NetworkIdentity>());
+            isControllingLimb = false;
+        }
+        indexControll++;
+        indexControll %= limbs.Count;
+        if (limbs[indexControll] != gameObject)
+        {
+            limbs[indexControll].GetComponent<SceneObjectItemManager>().isBeingControlled = true;
+            CmdAssignClientAuthority(limbs[indexControll].GetComponent<NetworkIdentity>());
+            isControllingLimb = true;
+        }
+        if (limbs[indexControll] == gameObject)
+        {
+            isControllingLimb = false;
+        }
+    }
+
+    [Command]
+    void CmdAssignClientAuthority(NetworkIdentity item)
+    {
+        item.AssignClientAuthority(connectionToClient);
+    }
+
+    [Command]
+    void CmdRemoveClientAutohrity(NetworkIdentity item)
+    {
+        item.RemoveClientAuthority();
+    }
+
+    void GetAllLimbsInScene()
+    {
+        try
+        {
+            limbs.Clear();
+            limbs.AddRange(GameObject.FindGameObjectsWithTag("Limb"));
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Tag dosen't exist, Have you forgotten to add \"limb\" to your tags?");
+        }
+        if (limbs.Count == 0)
+        {
+            return;
+        }
+        limbs.Add(gameObject);
     }
 
 

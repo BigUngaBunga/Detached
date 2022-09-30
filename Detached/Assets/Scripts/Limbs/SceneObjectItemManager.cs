@@ -13,6 +13,9 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SyncVar]
     public ItemManager.Limb_enum thisLimb;
 
+    [SyncVar]
+    public bool isBeingControlled;
+
     //Instantiates the limb as a child on the SceneObject 
     private void OnChangeDetached(bool oldValue, bool newValue)
     {
@@ -29,16 +32,14 @@ public class SceneObjectItemManager : NetworkBehaviour
                 case ItemManager.Limb_enum.Leg:
                     Instantiate(legLimb, transform.position, transform.rotation, transform);
                     break;
-
             }
         }    
     }
 
     void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
+    {      
+        if (Input.GetKeyDown(KeyCode.T) && !isBeingControlled)
         {
-
             switch (thisLimb)
             {
                 case ItemManager.Limb_enum.Head:

@@ -76,7 +76,6 @@ public class CharacterControl : NetworkBehaviour
             if (rb.useGravity == false)
             {                
                 
-                //CmdTurnOnBody();
                 camTransform = Camera.main.transform;
                 rb.useGravity = true;
                 cinemaFreelook = CinemachineFreeLook.FindObjectOfType<CinemachineFreeLook>();
@@ -105,22 +104,7 @@ public class CharacterControl : NetworkBehaviour
         }
     }
 
-    [Command]
-    public void CmdTurnOnBody()
-    {
-        //RpcTurnOnBody(body);        
-        Debug.Log("This is the server");
-    }
-
-    [ClientRpc]
-    public void RpcTurnOnBody()
-    {
-        
-        Debug.Log("This i client");
-        //body.SetActive(true);
-
-    }
-
+  
     void MyInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");

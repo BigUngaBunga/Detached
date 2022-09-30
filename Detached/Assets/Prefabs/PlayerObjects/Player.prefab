@@ -60,7 +60,7 @@ Transform:
   m_GameObject: {fileID: 3995271110147540077}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.01, y: 1.2400001, z: 0}
-  m_LocalScale: {x: 0.715617, y: 0.715617, z: 0.715617}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3995271110759506517}
   m_Father: {fileID: 3995271109689928033}
@@ -340,6 +340,7 @@ MonoBehaviour:
   detachKeyHead: 49
   detachKeyArm: 50
   detachKeyLeg: 51
+  keySwitchBetweenLimbs: 113
   headObject: {fileID: 3995271110759506506}
   leftArmObject: {fileID: 3995271110411106457}
   rightArmObject: {fileID: 3995271110717914468}
@@ -552,6 +553,18 @@ PrefabInstance:
     - target: {fileID: 992079648711081346, guid: afde08a2634046842bfc7b119841b043, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 992079648711081346, guid: afde08a2634046842bfc7b119841b043, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.715617
+      objectReference: {fileID: 0}
+    - target: {fileID: 992079648711081346, guid: afde08a2634046842bfc7b119841b043, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.715617
+      objectReference: {fileID: 0}
+    - target: {fileID: 992079648711081346, guid: afde08a2634046842bfc7b119841b043, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.715617
       objectReference: {fileID: 0}
     - target: {fileID: 992079648711081346, guid: afde08a2634046842bfc7b119841b043, type: 3}
       propertyPath: m_LocalPosition.x
