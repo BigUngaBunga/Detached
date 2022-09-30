@@ -15,21 +15,32 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public GameObject headObject;
     [SerializeField] public GameObject leftArmObject;
     [SerializeField] public GameObject rightArmObject;
+    [SerializeField] public GameObject leftLegObject;
+    [SerializeField] public GameObject rightLegObject;
+
 
     [Header("LimbsParents")]
     [SerializeField] public Transform headParent;
     [SerializeField] public Transform leftArmParent;
     [SerializeField] public Transform rightArmParent;
+    [SerializeField] public Transform leftLegParent;
+    [SerializeField] public Transform rightLegParent;
 
     [Header("Syncvars")]
-    [SyncVar(hook = nameof(OnChangeHeadDetached))]
+    [SyncVar(hook = nameof(OnChangeHeadDetachedHook))]
     public bool headDetached;
 
-    [SyncVar(hook = nameof(OnChangeLeftArmDetached))]
+    [SyncVar(hook = nameof(OnChangeLeftArmDetachedHook))]
     public bool leftArmDetached;
 
-    [SyncVar(hook = nameof(OnChangeRightArmDetached))]
+    [SyncVar(hook = nameof(OnChangeRightArmDetachedHook))]
     public bool rightArmDetached;
+
+    [SyncVar(hook = nameof(OnChangeRightLegDetachedHook))]
+    public bool rightLegDetached;
+
+    [SyncVar(hook = nameof(OnChangeLeftLegDetachedHook))]
+    public bool leftLegDetached;
 
     public enum Limb_enum
     {
@@ -40,7 +51,9 @@ public class ItemManager : NetworkBehaviour
 
     [SerializeField] public GameObject wrapperSceneObject;
 
-    private void OnChangeLeftArmDetached(bool oldValue, bool newValue)
+    #region Hook Functions
+
+    private void OnChangeLeftArmDetachedHook(bool oldValue, bool newValue)
     {
         if (newValue) // if Detached == true
         {
@@ -52,31 +65,59 @@ public class ItemManager : NetworkBehaviour
             leftArmObject.active = true;
         }
     }
-    private void OnChangeRightArmDetached(bool oldValue, bool newValue)
+    private void OnChangeRightArmDetachedHook(bool oldValue, bool newValue)
     {
         if (newValue) // if Detached == true
         {
             rightArmObject.active = false;
-            
+
         }
         else // if Detached == False
         {
             rightArmObject.active = true;
         }
     }
-    private void OnChangeHeadDetached(bool oldValue, bool newValue)
+    private void OnChangeHeadDetachedHook(bool oldValue, bool newValue)
     {
         if (newValue) // if Detached == true
-        {          
+        {
             headObject.active = false;
-            
+
         }
         else // if Detached == False
         {
             headObject.active = true;
-            
+
         }
     }
+    private void OnChangeLeftLegDetachedHook(bool oldValue, bool newValue)
+    {
+        if (newValue) // if Detached == true
+        {
+            leftLegObject.active = false;
+
+        }
+        else // if Detached == False
+        {
+            leftLegObject.active = true;
+
+        }
+    }
+    private void OnChangeRightLegDetachedHook(bool oldValue, bool newValue)
+    {
+        if (newValue) // if Detached == true
+        {
+            rightLegObject.active = false;
+
+        }
+        else // if Detached == False
+        {
+            rightLegObject.active = true;
+
+        }
+    }
+
+    #endregion
 
     void Update()
     {
@@ -84,10 +125,10 @@ public class ItemManager : NetworkBehaviour
 
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
             CmdDropLimb(Limb_enum.Head);
-        if(Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false)){
+        if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
             CmdDropLimb(Limb_enum.Arm);
-        }
-        
+        if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
+            CmdDropLimb(Limb_enum.Leg);
     }
 
 
@@ -98,7 +139,7 @@ public class ItemManager : NetworkBehaviour
         SceneObjectItemManager SceneObjectScript;
         switch (limb)
         {
-            case Limb_enum.Head: 
+            case Limb_enum.Head:
                 newSceneObject = Instantiate(wrapperSceneObject, headObject.transform.position, headObject.transform.rotation);
                 SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
                 SceneObjectScript.thisLimb = Limb_enum.Head; //This must come before detached = true and networkServer.spawn
@@ -117,7 +158,7 @@ public class ItemManager : NetworkBehaviour
                     SceneObjectScript.detached = true;
                     leftArmDetached = true;
                 }
-                else if(!rightArmDetached)
+                else if (!rightArmDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, rightArmParent.transform.position, rightArmParent.transform.rotation);
                     SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
@@ -132,9 +173,30 @@ public class ItemManager : NetworkBehaviour
                 }
                 break;
             case Limb_enum.Leg:
+                if (!leftLegDetached)
+                {
+                    newSceneObject = Instantiate(wrapperSceneObject, leftLegParent.transform.position, leftLegParent.transform.rotation);
+                    SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                    SceneObjectScript.thisLimb = Limb_enum.Leg;  //This must come before detached = true and networkServer.spawn
+                    NetworkServer.Spawn(newSceneObject);
+                    SceneObjectScript.detached = true;
+                    leftLegDetached = true;
+                }
+                else if (!rightLegDetached)
+                {
+                    newSceneObject = Instantiate(wrapperSceneObject, rightArmParent.transform.position, rightArmParent.transform.rotation);
+                    SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                    SceneObjectScript.thisLimb = Limb_enum.Leg;  //This must come before detached = true and networkServer.spawn
+                    NetworkServer.Spawn(newSceneObject);
+                    SceneObjectScript.detached = true;
+                    rightLegDetached = true;
+                }
+                else
+                {
+                    Debug.Log("No leg to detach");
+                }
                 break;
         }
-         
     }
 
     [Command]
@@ -166,7 +228,20 @@ public class ItemManager : NetworkBehaviour
                 }
                 break;
             case Limb_enum.Leg:
-
+                if (rightArmDetached)
+                {
+                    rightArmDetached = false;
+                    NetworkServer.Destroy(sceneObject);
+                }
+                else if (leftLegDetached)
+                {
+                    leftLegDetached = false;
+                    NetworkServer.Destroy(sceneObject);
+                }
+                else
+                {
+                    Debug.Log("No Spots to attach arm too");
+                }
                 break;
         }
 

@@ -54,6 +54,10 @@ public class SceneObjectItemManager : NetworkBehaviour
                     }
                     break;
                 case ItemManager.Limb_enum.Leg:
+                    if (NetworkClient.localPlayer.GetComponent<ItemManager>().rightLegDetached || NetworkClient.localPlayer.GetComponent<ItemManager>().leftLegDetached)
+                    {
+                        NetworkClient.localPlayer.GetComponent<ItemManager>().CmdPickUpLimb(gameObject);
+                    }
                     break;
             }
         }
