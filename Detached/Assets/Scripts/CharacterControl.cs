@@ -52,11 +52,11 @@ public class CharacterControl : MonoBehaviour
         originHeight = playerCol.height;
         ResetJump();
         walkSpeed = movementSpeed;
+        Cursor.visible = false;
     }
 
     private void Update()
     {
-
         //if (Input.GetMouseButtonDown(0))
         //{
         //    controllingPlayer = !controllingPlayer;
@@ -114,13 +114,13 @@ public class CharacterControl : MonoBehaviour
         //transform.position += moveDir * movementSpeed * Time.deltaTime;
     }
 
-    private void OnApplicationFocus(bool focus)
-    {
-        if (focus)
-            Cursor.lockState = CursorLockMode.Locked;
-        else
-            Cursor.lockState = CursorLockMode.None; 
-    }
+    //private void OnApplicationFocus(bool focus)
+    //{
+    //    if (focus)
+    //        Cursor.lockState = CursorLockMode.Locked;
+    //    else
+    //        Cursor.lockState = CursorLockMode.None;
+    //}
 
     private void GroundCheck()
     {

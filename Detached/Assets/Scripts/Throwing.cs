@@ -20,7 +20,7 @@ public class Throwing : MonoBehaviour
 
     int startingArmNum = 0;
     int startingLegNum = 2;
-   
+
 
     public KeyCode throwKey = KeyCode.Mouse0;
     public KeyCode selectHeadKey = KeyCode.Alpha1;
@@ -34,7 +34,13 @@ public class Throwing : MonoBehaviour
     bool arm;
     bool leg;
 
+    bool dragging;
 
+    public Transform test;
+
+    private Vector3 mousePressDownPos;
+    private Vector3 mouseReleasePos;
+    Vector3 dir;
     void Start()
     {
         arm = true;
@@ -82,21 +88,67 @@ public class Throwing : MonoBehaviour
         arm = Input.GetKey(cycleArm);
         leg = Input.GetKey(cycleLeg);
 
-        if (Input.GetKey(throwKey) && readyToThrow && !detachScript[select].detached && DetachScript.numOfArms > 1)
+        ThrowButton();
+        if (dragging && !detachScript[select].detached)
         {
+            if (detachScript[select].partName == "Arm" && DetachScript.numOfArms < 2)
+                return;
+            TrajectoryCal();
+        }
+    }
+
+    private void TrajectoryCal()
+    {
+        Vector3 forceInit = Input.mousePosition - mousePressDownPos + cam.transform.forward * throwForce + transform.up * throwUpwardForce; //idek what im doing anymore
+        Vector3 forceV = new Vector3(forceInit.x, forceInit.y, z: forceInit.y);
+        dir = (Input.mousePosition - mousePressDownPos).normalized;
+        //if (readyToThrow)
+        //{
+        /*      if (!limbList[select].GetComponent<Rigidbody>())
+                  limbList[select].AddComponent<Rigidbody>();*/
+        DrawTrajectory.instance.UpdateTrajectory(forceV, limbList[select].transform.position, dir.y); //throwing point = body?
+        //}
+    }
+
+    private void ThrowButton()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            mousePressDownPos = Input.mousePosition;
+            readyToThrow = true;
+            dragging = true;
+
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            readyToThrow = false;
+            dragging = false;
+            DrawTrajectory.instance.HideLine();
+        }
+        if (Input.GetMouseButtonUp(0) && readyToThrow && !detachScript[select].detached && DetachScript.numOfArms >= 1)
+        {
+            if (detachScript[select].partName == "Arm" && DetachScript.numOfArms < 2)
+                return;
 
             if (!limbList[select].GetComponent<Rigidbody>())
                 limbList[select].AddComponent<Rigidbody>();
 
             if (detachScript[select].partName == "Arm")
                 DetachScript.numOfArms--;
+            if (detachScript[select].partName == "Leg")
+                DetachScript.numOfLegs--;
 
             detachScript[select].detached = true;
-            Throw();
+            DrawTrajectory.instance.HideLine();
+            mouseReleasePos = Input.mousePosition;
+
+            //ending point - starting point + cam movement
+            dir = (Input.mousePosition - mousePressDownPos).normalized;
+            Throw(force: (mouseReleasePos - mousePressDownPos) * dir.y + cam.transform.forward * throwForce + transform.up * throwUpwardForce);
         }
     }
 
-    void Throw()
+    void Throw(Vector3 force)
     {
 
         readyToThrow = false;
@@ -104,12 +156,13 @@ public class Throwing : MonoBehaviour
         // GameObject throwObject = Instantiate(objectToThrow, throwPoint.position, cam.rotation);
 
         objectRb = limbList[select].GetComponent<Rigidbody>();
-        Vector3 forceToAdd = cam.transform.forward * throwForce + transform.up * throwUpwardForce;
+        Vector3 forceToAdd = new Vector3(force.x, force.y, z: force.y);
 
-        objectRb.AddForce(forceToAdd, ForceMode.Impulse);
+        objectRb.AddForce(forceToAdd);
 
         Invoke(nameof(ResetThrow), throwCD);
     }
+
 
     void ResetThrow()
     {
