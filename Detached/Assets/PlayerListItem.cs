@@ -37,6 +37,7 @@ public class PlayerListItem : MonoBehaviour
     private void Start()
     {
         ImageLoaded = Callback<AvatarImageLoaded_t>.Create(OnImageLoaded);
+
     }
 
     public void SetPlayerValues()
