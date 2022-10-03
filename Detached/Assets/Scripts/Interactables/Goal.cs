@@ -8,7 +8,10 @@ public class Goal : NetworkBehaviour
 
      public LevelChanging levelChanging;
 
-
+    public void Start()
+    {
+        //levelChanging.cmdServerChangeScene();
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
