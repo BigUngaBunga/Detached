@@ -8,7 +8,7 @@ public class ThrowingScript : NetworkBehaviour
 
     [Header("References")]
     public Transform cam;
-    public Transform throwPoint;
+
 
     public List<GameObject> limbList;
     List<DetachScript> detachScript;
