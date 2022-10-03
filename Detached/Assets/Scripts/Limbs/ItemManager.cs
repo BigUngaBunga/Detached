@@ -37,14 +37,13 @@ public class ItemManager : NetworkBehaviour
     private bool isControllingLimb;
 
     [Header("Throwing")]
+    [SerializeField] public float throwForce;
+    [SerializeField] public float throwUpwardForce;
+    [SerializeField] public float throwCD;
+    [SerializeField] public Transform cam;
+
     private bool readyToThrow;
-
-    public float throwForce;
-    public float throwUpwardForce;
-    public float throwCD;
-    public Transform cam;
-
-    private Limb_enum selectedLimbToThrow = Limb_enum.Head;
+    private Limb_enum selectedLimbToThrow;
 
     #region Syncvars with hooks
 
@@ -193,6 +192,7 @@ public class ItemManager : NetworkBehaviour
         return false;
     }
 
+    //Todo this function needs to improved, Many pontential bugs from here
     void ChangeLimbControll()
     {
         if (limbs.Count == 0) return;
@@ -253,7 +253,7 @@ public class ItemManager : NetworkBehaviour
     #region ThrowLimb
 
     //Exaxtly the same as CmdDropLimb but it has a throw function call at the end
-    //Todo see if CmdDropLimb can be reused. Commands needs to be called from client which makes it hard to others after.
+    //Todo see if CmdDropLimb can be reused.
     [Command]
     void CmdThrowLimb(Limb_enum limb)
     {
@@ -303,6 +303,9 @@ public class ItemManager : NetworkBehaviour
                     Debug.Log("No leg to detach");
                 }
                 break;
+            default:
+                return;
+                break;
         }
         Throw(newSceneObject);
     }
@@ -312,7 +315,6 @@ public class ItemManager : NetworkBehaviour
 
         readyToThrow = false;
         Rigidbody objectRb;
-        // GameObject throwObject = Instantiate(objectToThrow, throwPoint.position, cam.rotation);
 
         objectRb = obj.GetComponent<Rigidbody>();
         Vector3 forceToAdd = cam.transform.forward * throwForce + transform.up * throwUpwardForce;
@@ -381,6 +383,9 @@ public class ItemManager : NetworkBehaviour
                     Debug.Log("No leg to detach");
                 }
                 break;
+            default:
+                return;
+                break;
         }
     }
 
@@ -388,7 +393,7 @@ public class ItemManager : NetworkBehaviour
     private void DropGenericLimb(GameObject newSceneObject, SceneObjectItemManager SceneObjectScript, Limb_enum limb)
     {
         SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
-        SceneObjectScript.thisLimb = Limb_enum.Leg;  //This must come before detached = true and networkServer.spawn
+        SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
         NetworkServer.Spawn(newSceneObject);
         SceneObjectScript.detached = true;
     }
@@ -440,6 +445,9 @@ public class ItemManager : NetworkBehaviour
                 {
                     Debug.Log("No Spots to attach arm too");
                 }
+                break;
+            default:
+                return;
                 break;
         }
 
