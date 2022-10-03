@@ -257,6 +257,8 @@ public class ItemManager : NetworkBehaviour
 
     //Exaxtly the same as CmdDropLimb but it has a throw function call at the end
     //Todo see if CmdDropLimb can be reused.
+
+
     [Command]
     void CmdThrowLimb(Limb_enum limb)
     {
@@ -266,7 +268,11 @@ public class ItemManager : NetworkBehaviour
         {
             case Limb_enum.Head:
                 newSceneObject = Instantiate(wrapperSceneObject, headObject.transform.position, headObject.transform.rotation);
-                DropGenericLimb(newSceneObject, SceneObjectScript, limb);
+                SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
+                SceneObjectScript.isBeingControlled = true;
+                NetworkServer.Spawn(newSceneObject, connectionToClient); //Set Authority to client att spawn since no other player should be able to control it.
+                SceneObjectScript.detached = true;
                 headDetached = true;
                 break;
 
@@ -343,15 +349,14 @@ public class ItemManager : NetworkBehaviour
         SceneObjectItemManager SceneObjectScript = null;
         switch (limb)
         {
-            case Limb_enum.Head:
+            case Limb_enum.Head:              
                 newSceneObject = Instantiate(wrapperSceneObject, headObject.transform.position, headObject.transform.rotation);
                 SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
                 SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
                 SceneObjectScript.isBeingControlled = true;
-                NetworkServer.Spawn(newSceneObject);
+                NetworkServer.Spawn(newSceneObject, connectionToClient); //Set Authority to client att spawn since no other player should be able to control it.
                 SceneObjectScript.detached = true;
                 headDetached = true;
-                CmdAssignClientAuthority(newSceneObject);
 
 
                 break;
@@ -412,7 +417,7 @@ public class ItemManager : NetworkBehaviour
 
     #region PickUp Limbs
 
-   
+    //Destroys the object in the scene and changes the syncvar of the object which then updates it on all clients.
     [Command]
     public void CmdPickUpLimb(GameObject sceneObject)
     {

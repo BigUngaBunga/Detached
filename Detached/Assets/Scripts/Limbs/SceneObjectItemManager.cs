@@ -8,6 +8,10 @@ public class SceneObjectItemManager : NetworkBehaviour
     public GameObject armLimb;
     public GameObject legLimb;
 
+    private KeyCode detachKeyHead;
+    private KeyCode detachKeyArm;
+    private KeyCode detachKeyLeg;
+
     [SyncVar(hook = nameof(OnChangeDetached))]
     public bool detached = false;
     [SyncVar]
@@ -17,6 +21,17 @@ public class SceneObjectItemManager : NetworkBehaviour
     public bool isBeingControlled = false;
 
     public bool test = true;
+
+    public ItemManager itemManager;
+
+    private void Start()
+    {
+        itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
+        detachKeyHead = itemManager.detachKeyHead;
+        detachKeyArm = itemManager.detachKeyArm;
+        detachKeyLeg = itemManager.detachKeyLeg;
+
+    }
 
     //Instantiates the limb as a child on the SceneObject 
     private void OnChangeDetached(bool oldValue, bool newValue)
@@ -35,14 +50,14 @@ public class SceneObjectItemManager : NetworkBehaviour
                     Instantiate(legLimb, transform.position, transform.rotation, transform);
                     break;
             }
-        }    
+        }
     }
 
     void Update()
-    {   
-        if(thisLimb == ItemManager.Limb_enum.Head && hasAuthority)
+    {       
+        if (thisLimb == ItemManager.Limb_enum.Head && hasAuthority)
         {
-            if (hasAuthority && Input.GetKeyDown(KeyCode.Alpha1))
+            if (hasAuthority && Input.GetKeyDown(detachKeyHead))
             {
                 NetworkClient.localPlayer.GetComponent<ItemManager>().CmdPickUpLimb(gameObject);
             }
@@ -51,7 +66,7 @@ public class SceneObjectItemManager : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.T) && !isBeingControlled)
         {
             switch (thisLimb)
-            {              
+            {
                 case ItemManager.Limb_enum.Arm:
                     if (NetworkClient.localPlayer.GetComponent<ItemManager>().rightArmDetached || NetworkClient.localPlayer.GetComponent<ItemManager>().leftArmDetached)
                     {
