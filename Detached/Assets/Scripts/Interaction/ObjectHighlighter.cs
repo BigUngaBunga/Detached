@@ -10,7 +10,6 @@ public class ObjectHighlighter : MonoBehaviour
     private RenderTargetIdentifier renderTargetIdentifier;
     private CommandBuffer commandBuffer;
     private int sortingType;
-    PostProcessAttribute postProcess;
 
     private List<GameObject> gameObjects;
     private Dictionary<Renderer, bool> renderers;
