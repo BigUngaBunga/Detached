@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 18019230}
   - component: {fileID: 18019229}
   - component: {fileID: 18019228}
+  - component: {fileID: 18019233}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Player
@@ -172,11 +173,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632d8794133f9454e872845c5ce89f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   controllingPlayer: 0
   CMFreeLook: {fileID: 1514346913}
   rb: {fileID: 18019229}
   crouchHeight: 1.7
-  active: 1
+  isBeingControlled: 1
   movementSpeed: 3.5
   runSpeed: 6
   crouchSpeed: 2.5
@@ -190,6 +193,10 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
+  playerBody: {fileID: 0}
+  playerObjectController: {fileID: 0}
+  cameraFollow: {fileID: 0}
+  cinemaFreelook: {fileID: 0}
 --- !u!54 &18019229
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -269,6 +276,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 18019226}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &18019233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18019226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 1653059695
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &41979090
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,6 +706,7 @@ GameObject:
   - component: {fileID: 230582252}
   - component: {fileID: 230582251}
   - component: {fileID: 230582250}
+  - component: {fileID: 230582255}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Player
@@ -717,11 +742,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632d8794133f9454e872845c5ce89f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   controllingPlayer: 1
   CMFreeLook: {fileID: 2004954315}
   rb: {fileID: 230582251}
   crouchHeight: 1.7
-  active: 1
+  isBeingControlled: 1
   movementSpeed: 3.5
   runSpeed: 6
   crouchSpeed: 2.5
@@ -735,6 +762,10 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
+  playerBody: {fileID: 0}
+  playerObjectController: {fileID: 0}
+  cameraFollow: {fileID: 0}
+  cinemaFreelook: {fileID: 0}
 --- !u!54 &230582251
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -814,6 +845,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 230582248}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &230582255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230582248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2470870323
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &244568537
 GameObject:
   m_ObjectHideFlags: 0
@@ -1091,6 +1139,10 @@ PrefabInstance:
     - target: {fileID: 2012648122114948175, guid: 748312e8fd05da844bd248074215eaad, type: 3}
       propertyPath: m_Name
       value: Rotating Cylinder
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236386180284780386, guid: 748312e8fd05da844bd248074215eaad, type: 3}
+      propertyPath: sceneId
+      value: 411737959
       objectReference: {fileID: 0}
     - target: {fileID: 8400829166361378019, guid: 748312e8fd05da844bd248074215eaad, type: 3}
       propertyPath: m_RootOrder
@@ -1933,6 +1985,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rotating Cylinder (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2236386180284780386, guid: 748312e8fd05da844bd248074215eaad, type: 3}
+      propertyPath: sceneId
+      value: 1271574630
+      objectReference: {fileID: 0}
     - target: {fileID: 8400829166361378019, guid: 748312e8fd05da844bd248074215eaad, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -2077,6 +2133,10 @@ PrefabInstance:
     - target: {fileID: 1105007819251650566, guid: 6986312fd9eabe64db41efc797fd3b14, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3708717629105442835, guid: 6986312fd9eabe64db41efc797fd3b14, type: 3}
+      propertyPath: sceneId
+      value: 120140872
       objectReference: {fileID: 0}
     - target: {fileID: 4841176055913364934, guid: 6986312fd9eabe64db41efc797fd3b14, type: 3}
       propertyPath: nextScene
@@ -2567,7 +2627,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1033434575}
-  m_LocalRotation: {x: 0.032171812, y: -0.4697067, z: 0.017131656, w: 0.88206977}
+  m_LocalRotation: {x: 0.03217181, y: -0.4697067, z: 0.017131655, w: 0.8820698}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2643,7 +2703,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1065549946}
-  m_LocalRotation: {x: 0.017849509, y: -0.01484269, z: 0.0002650061, w: 0.9997305}
+  m_LocalRotation: {x: 0.017849509, y: -0.014842621, z: 0.00026500484, w: 0.9997305}
   m_LocalPosition: {x: 0.18877697, y: 2.7591841, z: -6.356125}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2992,7 +3052,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1161461451}
-  m_LocalRotation: {x: -0.00029000064, y: -0.014845019, z: -0.0000043055393, w: 0.9998898}
+  m_LocalRotation: {x: -0.00029000113, y: -0.014845019, z: -0.000004305547, w: 0.9998898}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3085,6 +3145,10 @@ PrefabInstance:
     - target: {fileID: 2012648122114948175, guid: 748312e8fd05da844bd248074215eaad, type: 3}
       propertyPath: m_Name
       value: Rotating Cylinder (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236386180284780386, guid: 748312e8fd05da844bd248074215eaad, type: 3}
+      propertyPath: sceneId
+      value: 3258925704
       objectReference: {fileID: 0}
     - target: {fileID: 8400829166361378019, guid: 748312e8fd05da844bd248074215eaad, type: 3}
       propertyPath: m_RootOrder
@@ -3423,7 +3487,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1336500700}
-  m_LocalRotation: {x: 0.017849505, y: -0.014842676, z: 0.00026500583, w: 0.9997305}
+  m_LocalRotation: {x: 0.017849505, y: -0.014842642, z: 0.00026500522, w: 0.9997305}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -4493,7 +4557,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1684090403}
-  m_LocalRotation: {x: 0.000109434506, y: -0.47001907, z: 0.000058274443, w: 0.8826563}
+  m_LocalRotation: {x: 0.0001094345, y: -0.47001904, z: 0.000058274443, w: 0.8826563}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
