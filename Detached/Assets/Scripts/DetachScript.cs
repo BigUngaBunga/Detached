@@ -45,6 +45,7 @@ public class DetachScript : MonoBehaviour
                 numOfLegs--;
             gameObject.transform.parent = detachedList;
             detached = true;
+            DrawTrajectory.instance.HideLine();
         }
         else if (Input.GetKeyDown(attachKey) && detached == true)
         {
