@@ -110,7 +110,7 @@ public class LobbyController : MonoBehaviour
 
     public void UpdatePlayerItem()
     {
-        foreach (PlayerObjectController player in Manager.GamePlayers)
+        foreach (PlayerObjectController player in Manager.GamePlayers) // error här
         {
             foreach (PlayerListItem PlayerListItemScript in PlayerListItems)
             {
@@ -144,7 +144,7 @@ public class LobbyController : MonoBehaviour
         }
         if (playerListItemToRemove.Count > 0)
         {
-            foreach (PlayerListItem playerlistItemToRemove in playerListItemToRemove)
+            foreach (PlayerListItem playerlistItemToRemove in playerListItemToRemove) //throws error here
             {
                 GameObject objectToRemove = playerlistItemToRemove.gameObject;
                 PlayerListItems.Remove(playerlistItemToRemove);
@@ -154,16 +154,10 @@ public class LobbyController : MonoBehaviour
         }
     }
 
-    public void Start()
-    {
-        //FindLocalPlayer(); //Har jag lagt till det?
-    }
-
     public void FindLocalPlayer()
     {
         LocalPlayerObject = GameObject.Find("LocalGamePlayer");
         localPlayerController = LocalPlayerObject.GetComponent<PlayerObjectController>();
-        Debug.Log("Test");
     }
 
     public void StartGame(string SceneName)

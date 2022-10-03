@@ -40,7 +40,7 @@ public class SteamLobby : MonoBehaviour
     {
         if (callback.m_eResult != EResult.k_EResultOK) { return; }
 
-        Debug.Log("Lobby createds susccesfully");
+        Debug.Log("Lobby creates susccesfully");
 
         manager.StartHost();
 
@@ -61,6 +61,7 @@ public class SteamLobby : MonoBehaviour
         //Everyone
         currentLobbyID = callback.m_ulSteamIDLobby;     
 
+        //Checks wether this is server
         if (NetworkServer.active) { return; }
 
         manager.networkAddress = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAdressKey);

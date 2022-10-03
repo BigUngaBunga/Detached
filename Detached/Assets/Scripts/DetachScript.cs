@@ -13,10 +13,12 @@ public class DetachScript : MonoBehaviour
     public Transform detachedList;
     public Transform body;
 
+
     public string partName;
 
     public static int numOfArms;
     public static int numOfLegs;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -24,6 +26,7 @@ public class DetachScript : MonoBehaviour
     }
     void Start()
     {
+
         if (partName == "Arm")
             numOfArms++;  
         if (partName == "Leg")
@@ -35,6 +38,7 @@ public class DetachScript : MonoBehaviour
     {
         if (Input.GetKeyDown(detachKey) && detached == false)
         {
+
             if (!gameObject.GetComponent<Rigidbody>())
                 gameObject.AddComponent<Rigidbody>();
 
@@ -43,11 +47,14 @@ public class DetachScript : MonoBehaviour
 
             if (partName == "Leg")
                 numOfLegs--;
+
             gameObject.transform.parent = detachedList;
             detached = true;
+            DrawTrajectory.instance.HideLine();
         }
         else if (Input.GetKeyDown(attachKey) && detached == true)
         {
+
             if (partName == "Leg")
             {
                 body.transform.position += new Vector3(0, gameObject.GetComponent<Collider>().bounds.size.y, 0);
@@ -56,13 +63,14 @@ public class DetachScript : MonoBehaviour
 
             if (partName == "Arm")
                 numOfArms++;
+
             Destroy(GetComponent<Rigidbody>());
             gameObject.transform.parent = limbParent;
             gameObject.transform.localPosition = Vector3.zero;
             gameObject.transform.localEulerAngles = Vector3.zero;
             gameObject.transform.localScale = Vector3.one;
             detached = false;
-            
+
 
         }
     }

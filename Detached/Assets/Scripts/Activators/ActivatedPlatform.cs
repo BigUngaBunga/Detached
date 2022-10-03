@@ -1,3 +1,4 @@
+using Mirror;
 using UnityEngine;
 
 public class ActivatedPlatform : Activator
@@ -7,6 +8,10 @@ public class ActivatedPlatform : Activator
     [SerializeField] float inactiveAlpha = 0.33f;
     [Range(0.05f, 0.33f)]
     [SerializeField] float minimumAlpha = 0.1f;
+
+    [SyncVar(hook  = nameof(UpdateMaterial))]
+    private float alpha = 0.0f;
+
     private Color color;
     private new BoxCollider collider;
     private MeshRenderer meshRenderer;
@@ -23,26 +28,32 @@ public class ActivatedPlatform : Activator
     {
         base.Activate();
         collider.enabled = true;
-        UpdateMaterial();
+        SetAlpha();
+
     }
 
     protected override void Deactivate()
     {
         base.Deactivate();
         collider.enabled = false;
-        UpdateMaterial();
+        SetAlpha();
+
+    }
+    private void SetAlpha()
+    {
+        if (IsActivated)
+            alpha = 1f;
+        else if (activationRequirement.Equals(ActivationRequirement.All))
+            alpha = Mathf.Max(PercentageActive / 2f, minimumAlpha);
+        else
+            alpha = inactiveAlpha;
     }
 
 
-    private void UpdateMaterial()
+    private void UpdateMaterial(float oldValue, float newValue)
     {
-        if (IsActivated)
-            color.a = 1f;
-        else if(activationRequirement.Equals(ActivationRequirement.All))
-            color.a = Mathf.Max(PercentageActive / 2f, minimumAlpha);
-        else
-            color.a = inactiveAlpha;
 
+        color.a = newValue;
         meshRenderer.material.color = color;
     }
 }
