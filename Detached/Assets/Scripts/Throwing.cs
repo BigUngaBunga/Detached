@@ -36,7 +36,9 @@ public class Throwing : MonoBehaviour
 
     bool dragging;
 
-    public Transform test;
+    //public Transform throwPoint;
+
+    Vector3 originPos;
 
     private Vector3 mousePressDownPos;
     private Vector3 mouseReleasePos;
@@ -118,12 +120,23 @@ public class Throwing : MonoBehaviour
             readyToThrow = true;
             dragging = true;
 
+            if (selectArm == 2 || detachScript[select].detached)
+                return;
+            originPos = limbList[select].transform.position;
+            limbList[select].transform.position = throwPoint.position;
+
         }
         else if (Input.GetMouseButtonUp(1))
         {
             readyToThrow = false;
             dragging = false;
+
             DrawTrajectory.instance.HideLine();
+
+            if (selectArm == 2 || detachScript[select].detached)
+                return;
+
+            limbList[select].transform.position = originPos;
         }
         if (Input.GetMouseButtonUp(0) && readyToThrow && !detachScript[select].detached && DetachScript.numOfArms >= 1)
         {

@@ -53,6 +53,7 @@ public class CharacterControl : MonoBehaviour
         ResetJump();
         walkSpeed = movementSpeed;
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     private void Update()
