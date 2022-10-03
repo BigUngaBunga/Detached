@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5277504}
   - component: {fileID: 5277503}
+  - component: {fileID: 5277505}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -171,6 +172,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5277505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5277502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c16aad4077f0b924da0318402a876bbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  Maps:
+  - First Steps - Level 1
+  - Through The Paine - Level 2
+  - Swivel A Cross - Level 3
+  NextMapIndex: 1
 --- !u!1 &40722509
 GameObject:
   m_ObjectHideFlags: 0
@@ -1029,6 +1049,10 @@ PrefabInstance:
     - target: {fileID: 4841176055913364934, guid: 6986312fd9eabe64db41efc797fd3b14, type: 3}
       propertyPath: GameScene
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4841176055913364934, guid: 6986312fd9eabe64db41efc797fd3b14, type: 3}
+      propertyPath: nextScene
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4841176055913364934, guid: 6986312fd9eabe64db41efc797fd3b14, type: 3}
       propertyPath: NextMapIndex

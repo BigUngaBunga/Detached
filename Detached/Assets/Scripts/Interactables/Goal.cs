@@ -5,31 +5,9 @@ using UnityEngine.SceneManagement;
 public class Goal : NetworkBehaviour
 {
     [SerializeField] private int playerNumber;
-    [SerializeField] private string nextScene;
 
-    public string[] Maps;
-    public int NextMapIndex;
+     public LevelChanging levelChanging;
 
-    //Manager
-    private CustomNetworkManager manager;
-
-    private CustomNetworkManager Manager
-    {
-        get
-        {
-            if (manager != null)
-            {
-                return manager;
-            }
-            return manager = CustomNetworkManager.singleton as CustomNetworkManager;
-        }
-    }
-
-    [Command]
-    void cmdServerChangeScene(string sceneName)
-    {
-        Manager.ServerChangeScene(sceneName);
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -38,7 +16,7 @@ public class Goal : NetworkBehaviour
             playerNumber++;
             if (CheckVictoryStatus())
             {
-                cmdServerChangeScene(Maps[NextMapIndex]);
+                levelChanging.cmdServerChangeScene();
             }
             
         }

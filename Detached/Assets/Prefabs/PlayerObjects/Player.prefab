@@ -325,9 +325,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  controllingPlayer: 1
+  CMFreeLook: {fileID: 0}
   rb: {fileID: 3995271110296735851}
   crouchHeight: 1.7
-  active: 1
+  isBeingControlled: 1
   movementSpeed: 2
   runSpeed: 6
   crouchSpeed: 2.5
@@ -445,6 +447,7 @@ MonoBehaviour:
   rightArmObject: {fileID: 3995271110717914468}
   leftLegObject: {fileID: 3995271111075614501}
   rightLegObject: {fileID: 3995271110104510245}
+  wrapperSceneObject: {fileID: 5517544673482374389, guid: f39eca308c527d546a9d80f3ff369181, type: 3}
   headParent: {fileID: 3995271110147540076}
   leftArmParent: {fileID: 3995271111454111327}
   rightArmParent: {fileID: 3995271111063708596}
@@ -459,7 +462,6 @@ MonoBehaviour:
   rightArmDetached: 0
   rightLegDetached: 0
   leftLegDetached: 0
-  wrapperSceneObject: {fileID: 5517544673482374389, guid: f39eca308c527d546a9d80f3ff369181, type: 3}
 --- !u!1 &3995271110385834945
 GameObject:
   m_ObjectHideFlags: 0
