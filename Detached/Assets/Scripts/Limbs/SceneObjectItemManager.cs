@@ -4,9 +4,9 @@ using UnityEngine;
 using Mirror;
 public class SceneObjectItemManager : NetworkBehaviour
 {
-    public GameObject headLimb;
-    public GameObject armLimb;
-    public GameObject legLimb;
+    [SerializeField] private GameObject headLimb;
+    [SerializeField] private GameObject armLimb;
+    [SerializeField] private GameObject legLimb;
 
     private KeyCode detachKeyHead;
     private KeyCode detachKeyArm;

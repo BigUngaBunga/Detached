@@ -80,36 +80,36 @@ public class ItemManager : NetworkBehaviour
     {
         if (newValue) // if Detached == true
         {
-            leftArmObject.active = false;
+            leftArmObject.SetActive(false);
 
         }
         else // if Detached == False
         {
-            leftArmObject.active = true;
+            leftArmObject.SetActive(true);
         }
     }
     private void OnChangeRightArmDetachedHook(bool oldValue, bool newValue)
     {
         if (newValue) // if Detached == true
         {
-            rightArmObject.active = false;
+            rightArmObject.SetActive(false);
 
         }
         else // if Detached == False
         {
-            rightArmObject.active = true;
+            rightArmObject.SetActive(true);
         }
     }
     private void OnChangeHeadDetachedHook(bool oldValue, bool newValue)
     {
         if (newValue) // if Detached == true
         {
-            headObject.active = false;
+            headObject.SetActive(false);
 
         }
         else // if Detached == False
         {
-            headObject.active = true;
+            headObject.SetActive(true);
 
         }
     }
@@ -117,12 +117,12 @@ public class ItemManager : NetworkBehaviour
     {
         if (newValue) // if Detached == true
         {
-            leftLegObject.active = false;
+            leftLegObject.SetActive(false);
 
         }
         else // if Detached == False
         {
-            leftLegObject.active = true;
+            leftLegObject.SetActive(true);
 
         }
     }
@@ -130,12 +130,12 @@ public class ItemManager : NetworkBehaviour
     {
         if (newValue) // if Detached == true
         {
-            rightLegObject.active = false;
+            rightLegObject.SetActive(false);
 
         }
         else // if Detached == False
         {
-            rightLegObject.active = true;
+            rightLegObject.SetActive(true);
 
         }
     }
@@ -269,6 +269,7 @@ public class ItemManager : NetworkBehaviour
         catch (Exception e)
         {
             Debug.Log("Tag dosen't exist, Have you forgotten to add \"limb\" to your tags?");
+            Debug.Log(e.Message);
         }
     }
 
