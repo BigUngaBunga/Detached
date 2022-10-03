@@ -23,6 +23,7 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public GameObject rightArmObject;
     [SerializeField] public GameObject leftLegObject;
     [SerializeField] public GameObject rightLegObject;
+    [SerializeField] public GameObject wrapperSceneObject;
 
 
     [Header("LimbsParents")]
@@ -65,19 +66,13 @@ public class ItemManager : NetworkBehaviour
     public bool leftLegDetached;
 
     #endregion
-
-    private void Start()
-    {
-        cam = Camera.main.transform;
-    }
+  
     public enum Limb_enum
     {
         Head,
         Leg,
         Arm
     }
-
-    [SerializeField] public GameObject wrapperSceneObject;
 
     #region Hook Functions
 
@@ -147,14 +142,22 @@ public class ItemManager : NetworkBehaviour
 
     #endregion
 
+
+    /* All drop/throw updates happens below.
+     * All pickup checks happen on each object in script: SceneObjectManager
+     * Todo: Cycling between the limbs need to updated/reworked for bugs
+     */
+    private void Start()
+    {
+        cam = Camera.main.transform;
+    }
     void Update()
     {
+
         if (!isLocalPlayer) return;
 
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
-            CmdDropLimb(Limb_enum.Head);
-        else if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
-            CmdPickUpLimb(headObj);
+            CmdDropLimb(Limb_enum.Head);      
         if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
             CmdDropLimb(Limb_enum.Arm);
         if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
@@ -256,23 +259,23 @@ public class ItemManager : NetworkBehaviour
     [Command]
     void CmdDropLimb(Limb_enum limb)
     {
-        ThrowLimb(limb);
+        DropLimb(limb);
     }
     [Command]
     void CmdThrowLimb(Limb_enum limb)
     {
-        Throw(ThrowLimb(limb));
+        ThrowLimb(DropLimb(limb));
     }
 
 
-    #region ThrowLimb
+    #region DropLimb/ThrowLimb
 
     //Exaxtly the same as CmdDropLimb but it has a throw function call at the end
     //Todo see if CmdDropLimb can be reused.
 
 
     [Server]
-    GameObject ThrowLimb(Limb_enum limb)
+    GameObject DropLimb(Limb_enum limb)
     {
         GameObject newSceneObject = null;
         SceneObjectItemManager SceneObjectScript = null;
@@ -281,8 +284,7 @@ public class ItemManager : NetworkBehaviour
             case Limb_enum.Head:
                 newSceneObject = Instantiate(wrapperSceneObject, headObject.transform.position, headObject.transform.rotation);
                 SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
-                SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
-                SceneObjectScript.isBeingControlled = true;
+                SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn               
                 NetworkServer.Spawn(newSceneObject, connectionToClient); //Set Authority to client att spawn since no other player should be able to control it.
                 SceneObjectScript.detached = true;
                 headDetached = true;
@@ -331,7 +333,8 @@ public class ItemManager : NetworkBehaviour
         return newSceneObject;
     }
 
-    void Throw(GameObject obj)
+    [Server]
+    void ThrowLimb(GameObject obj)
     {
 
         readyToThrow = false;
@@ -345,76 +348,11 @@ public class ItemManager : NetworkBehaviour
         Invoke(nameof(ResetThrow), throwCD);
     }
 
+    [Server]
     void ResetThrow()
     {
         readyToThrow = true;
     }
-
-    #endregion
-
-    #region DropLimb
-
-    //[Command]
-    //void CmdDropLimb(Limb_enum limb)
-    //{
-    //    GameObject newSceneObject = null;
-    //    SceneObjectItemManager SceneObjectScript = null;
-    //    switch (limb)
-    //    {
-    //        case Limb_enum.Head:
-    //            newSceneObject = Instantiate(wrapperSceneObject, headObject.transform.position, headObject.transform.rotation);
-    //            SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
-    //            SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
-    //            SceneObjectScript.isBeingControlled = true;
-    //            NetworkServer.Spawn(newSceneObject, connectionToClient); //Set Authority to client att spawn since no other player should be able to control it.
-    //            SceneObjectScript.detached = true;
-    //            headDetached = true;
-
-
-    //            break;
-
-    //        case Limb_enum.Arm:
-    //            if (!leftArmDetached)
-    //            {
-    //                newSceneObject = Instantiate(wrapperSceneObject, leftArmParent.transform.position, leftArmParent.transform.rotation);
-    //                DropGenericLimb(newSceneObject, SceneObjectScript, limb);
-    //                leftArmDetached = true;
-    //            }
-    //            else if (!rightArmDetached)
-    //            {
-    //                newSceneObject = Instantiate(wrapperSceneObject, rightArmParent.transform.position, rightArmParent.transform.rotation);
-    //                DropGenericLimb(newSceneObject, SceneObjectScript, limb);
-    //                rightArmDetached = true;
-    //            }
-    //            else
-    //            {
-    //                Debug.Log("No arm to detach");
-    //            }
-    //            break;
-
-    //        case Limb_enum.Leg:
-    //            if (!leftLegDetached)
-    //            {
-    //                newSceneObject = Instantiate(wrapperSceneObject, leftLegParent.transform.position, leftLegParent.transform.rotation);
-    //                DropGenericLimb(newSceneObject, SceneObjectScript, limb);
-    //                leftLegDetached = true;
-    //            }
-    //            else if (!rightLegDetached)
-    //            {
-    //                newSceneObject = Instantiate(wrapperSceneObject, rightArmParent.transform.position, rightArmParent.transform.rotation);
-    //                DropGenericLimb(newSceneObject, SceneObjectScript, limb);
-    //                rightLegDetached = true;
-    //            }
-    //            else
-    //            {
-    //                Debug.Log("No leg to detach");
-    //            }
-    //            break;
-    //        default:
-    //            return;
-    //            break;
-    //    }
-    //}
 
     [Server]
     private void DropGenericLimb(GameObject newSceneObject, SceneObjectItemManager SceneObjectScript, Limb_enum limb)
