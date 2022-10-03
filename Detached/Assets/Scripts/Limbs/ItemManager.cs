@@ -178,64 +178,80 @@ public class ItemManager : NetworkBehaviour
 
     }
 
-    bool CheckIfSelectedCanBeThrown()
+    
+
+    #region LimbControll
+
+    void ChangeLimbControll()
     {
-        switch (selectedLimbToThrow)
+        //If no limbs is out, this is failsafe to return control over body.
+        if (limbs.Count == 0)
         {
-            case Limb_enum.Head:
-                if (!headDetached)
-                    return true;
-                break;
-            case Limb_enum.Arm:
-                if (!rightArmDetached || !leftArmDetached)
-                    return true;
-                break;
-            case Limb_enum.Leg:
-                if (!rightLegDetached || !leftLegDetached)
-                    return true;
-                break;
+            gameObject.GetComponent<CharacterControl>().isBeingControlled = true;
+            return;
+        }
+
+        ChangeControllingforLimbAndPlayer(limbs[indexControll], false);
+        CheckIfRemoveClientAuthority(limbs[indexControll]);
+        indexControll++;
+        indexControll %= limbs.Count;
+
+        if(limbs[indexControll] != gameObject)
+        {
+            ChangeControllingforLimbAndPlayer(gameObject, false); //If this check dosen't happen, player can control limbs and body at the same time
+        }
+
+        //Checks if other player is controlling, if true: move index one further
+        if(CheckIfOtherPlayerIsControllingLimb(limbs[indexControll]))
+        {
+            indexControll++;
+            indexControll %= limbs.Count;
+        }
+        ChangeControllingforLimbAndPlayer(limbs[indexControll], true);
+        CheckIfAddClientAuthority(limbs[indexControll]);
+    }
+    private bool CheckIfOtherPlayerIsControllingLimb(GameObject objToCheck)
+    {
+        if(objToCheck != gameObject)
+        {
+            if (objToCheck.GetComponent<SceneObjectItemManager>().isBeingControlled)
+            {
+                return true;
+            }
         }
         return false;
     }
-
-    //Todo this function needs to improved, Many pontential bugs from here
-    void ChangeLimbControll()
+    private void ChangeControllingforLimbAndPlayer(GameObject objToCheck, bool value)
     {
-        if (limbs.Count == 0) return;
-
-        //Checks wether client controlled a limb and removes client autohority from it
-        if (isControllingLimb)
+        if(objToCheck == gameObject)
         {
-            limbs[indexControll].GetComponent<SceneObjectItemManager>().isBeingControlled = false;
-            CmdRemoveClientAutohrity(limbs[indexControll]);
-            isControllingLimb = false;
+            gameObject.GetComponent<CharacterControl>().isBeingControlled = value;
         }
-        indexControll++;
-        indexControll %= limbs.Count;
-        //Finds next limb in limb list and Gains control of it aslong as its not already being controlled
-        if (limbs[indexControll] != gameObject && !limbs[indexControll].GetComponent<SceneObjectItemManager>().isBeingControlled)
+        else
         {
-            limbs[indexControll].GetComponent<SceneObjectItemManager>().isBeingControlled = true;
-            CmdAssignClientAuthority(limbs[indexControll]);
-            isControllingLimb = true;
-        }
-        //If next limb in list is gameobject then player is not controlling limb. 
-        if (limbs[indexControll] == gameObject)
-        {
-            isControllingLimb = false;
+            objToCheck.GetComponent<SceneObjectItemManager>().isBeingControlled = value;
         }
     }
 
-    [Command]
-    void CmdAssignClientAuthority(GameObject sceneObject)
+    private void CheckIfRemoveClientAuthority(GameObject objToCheck)
     {
-        sceneObject.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
+        if(objToCheck != gameObject)
+        {
+            if(objToCheck.GetComponent<SceneObjectItemManager>().thisLimb != Limb_enum.Head)
+            {
+                CmdRemoveClientAutohrity(objToCheck);
+            }
+        }
     }
-
-    [Command]
-    void CmdRemoveClientAutohrity(GameObject sceneObject)
+    private void CheckIfAddClientAuthority(GameObject objToCheck)
     {
-        sceneObject.GetComponent<NetworkIdentity>().RemoveClientAuthority();
+        if (objToCheck != gameObject)
+        {
+            if (objToCheck.GetComponent<SceneObjectItemManager>().thisLimb != Limb_enum.Head)
+            {
+                CmdAssignClientAuthority(limbs[indexControll]);
+            }
+        }
     }
 
     void GetAllLimbsInScene()
@@ -257,6 +273,21 @@ public class ItemManager : NetworkBehaviour
     }
 
     [Command]
+    void CmdAssignClientAuthority(GameObject sceneObject)
+    {
+        sceneObject.GetComponent<NetworkIdentity>().AssignClientAuthority(connectionToClient);
+    }
+
+    [Command]
+    void CmdRemoveClientAutohrity(GameObject sceneObject)
+    {
+        sceneObject.GetComponent<NetworkIdentity>().RemoveClientAuthority();
+    }
+
+    
+#endregion
+
+    [Command]
     void CmdDropLimb(Limb_enum limb)
     {
         DropLimb(limb);
@@ -270,9 +301,25 @@ public class ItemManager : NetworkBehaviour
 
     #region DropLimb/ThrowLimb
 
-    //Exaxtly the same as CmdDropLimb but it has a throw function call at the end
-    //Todo see if CmdDropLimb can be reused.
-
+    bool CheckIfSelectedCanBeThrown()
+    {
+        switch (selectedLimbToThrow)
+        {
+            case Limb_enum.Head:
+                if (!headDetached)
+                    return true;
+                break;
+            case Limb_enum.Arm:
+                if (!rightArmDetached || !leftArmDetached)
+                    return true;
+                break;
+            case Limb_enum.Leg:
+                if (!rightLegDetached || !leftLegDetached)
+                    return true;
+                break;
+        }
+        return false;
+    }
 
     [Server]
     GameObject DropLimb(Limb_enum limb)
@@ -328,7 +375,6 @@ public class ItemManager : NetworkBehaviour
                 break;
             default:
                 return null;
-                break;
         }
         return newSceneObject;
     }
@@ -414,7 +460,6 @@ public class ItemManager : NetworkBehaviour
                 break;
             default:
                 return;
-                break;
         }
 
 

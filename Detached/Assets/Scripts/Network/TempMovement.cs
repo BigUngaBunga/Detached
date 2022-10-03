@@ -6,10 +6,18 @@ using Mirror;
 public class TempMovement : NetworkBehaviour
 {
     float movementSpeed = 1f;
+    SceneObjectItemManager sceneObjectItemManagerScript;
+
+    private void Start()
+    {
+        sceneObjectItemManagerScript = gameObject.GetComponent<SceneObjectItemManager>();
+    }
 
     void Update()
     {
         if (!hasAuthority) return;
+
+        if (!sceneObjectItemManagerScript.isBeingControlled) return;
 
         if (Input.GetKeyDown(KeyCode.W))
         {

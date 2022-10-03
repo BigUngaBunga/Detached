@@ -11,7 +11,7 @@ public class CharacterControl : NetworkBehaviour
     [Header("General")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float crouchHeight;
-    [SerializeField] private bool active;
+    [SerializeField] public bool isBeingControlled = true;
     CapsuleCollider playerCol;
     float originHeight;
 
@@ -45,6 +45,7 @@ public class CharacterControl : NetworkBehaviour
 
 
     private bool isGrounded = false;
+    
 
     Vector3 moveDir;
 
@@ -83,7 +84,7 @@ public class CharacterControl : NetworkBehaviour
                 cinemaFreelook.Follow = cameraFollow.transform;
             }
 
-            if (active)
+            if (isBeingControlled)
             {
                 GroundCheck();
                 MyInput();
