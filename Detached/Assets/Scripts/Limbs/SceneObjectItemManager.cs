@@ -63,6 +63,7 @@ public class SceneObjectItemManager : NetworkBehaviour
             }
         }
 
+        //Todo Needs to be changed to a more specific pickup action
         if (Input.GetKeyDown(KeyCode.T) && !isBeingControlled)
         {
             switch (thisLimb)
