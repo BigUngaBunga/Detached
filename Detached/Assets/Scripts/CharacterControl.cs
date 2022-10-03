@@ -74,31 +74,29 @@ public class CharacterControl : NetworkBehaviour
         Cursor.lockState = CursorLockMode.Confined;
 
         playerObjectController = GetComponent<PlayerObjectController>();
-
-        //playerBody.SetActive(false); //So the body dosen't load in the steamlobby scene
-
     }
 
     private void Update()
     {
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    controllingPlayer = !controllingPlayer;
-        //    CMFreeLook.SetActive(controllingPlayer);
-        //}
+        if (Input.GetMouseButtonDown(0))
+        {
+            controllingPlayer = !controllingPlayer;
+            CMFreeLook.SetActive(controllingPlayer);
+        }
             
 
-
+        //if (active && controllingPlayer)
         if (!isLocalPlayer) return;
+        //if (SceneManager.GetActiveScene().name == "Game" && active && controllingPlayer)
 
-        if (SceneManager.GetActiveScene().name == "Game")
 
-
+        if (SceneManager.GetActiveScene().buildIndex > 1 && active && controllingPlayer)
         {
+               
+
             if (rb.useGravity == false)
-            {                
-                
+            {
+
                 camTransform = Camera.main.transform;
                 rb.useGravity = true;
                 cinemaFreelook = CinemachineFreeLook.FindObjectOfType<CinemachineFreeLook>();
@@ -124,10 +122,11 @@ public class CharacterControl : NetworkBehaviour
                 else
                     rb.drag = 0;
             }
+
+
         }
     }
 
-  
     void MyInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -147,6 +146,7 @@ public class CharacterControl : NetworkBehaviour
 
     void Movement()
     {
+
         moveDir = new Vector3(horizontalInput, 0, verticalInput);
         moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * moveDir;
 

@@ -47,7 +47,7 @@ public class CustomNetworkManager : NetworkManager
     [Server]
     public override void OnServerSceneChanged(string sceneName)
     {
-        if (sceneName == "Game")
+        if (SceneManager.GetActiveScene().buildIndex > 1)
         {
             GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem);
             NetworkServer.Spawn(playerSpawnSystemInstance); //server owns this
