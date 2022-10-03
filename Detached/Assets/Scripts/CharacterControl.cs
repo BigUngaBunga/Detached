@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
+using Steamworks;
+using UnityEngine.SceneManagement;
+using Cinemachine;
 
-public class CharacterControl : MonoBehaviour
+public class CharacterControl : NetworkBehaviour
 {
     //TEMPORARY
     [Header("Temporary")]
@@ -13,7 +17,7 @@ public class CharacterControl : MonoBehaviour
     [Header("General")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float crouchHeight;
-    [SerializeField] private bool active;
+    [SerializeField] public bool isBeingControlled = true;
     CapsuleCollider playerCol;
     float originHeight;
 
@@ -37,27 +41,47 @@ public class CharacterControl : MonoBehaviour
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask groundMask;
 
+    [Header("NetWorking")]
+    [SerializeField] private GameObject playerBody;
+    [SerializeField] private PlayerObjectController playerObjectController;
+
+    [Header("Camera")]
+    [SerializeField] private GameObject cameraFollow;
+    [SerializeField] private CinemachineFreeLook cinemaFreelook;
+
+
     private bool isGrounded = false;
+    
 
     Vector3 moveDir;
 
     float horizontalInput;
     float verticalInput;
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rb.useGravity = false;
         playerCol = GetComponent<CapsuleCollider>();
         originHeight = playerCol.height;
         ResetJump();
         walkSpeed = movementSpeed;
+
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
+
+        playerObjectController = GetComponent<PlayerObjectController>();
+
+        //playerBody.SetActive(false); //So the body dosen't load in the steamlobby scene
+
     }
 
     private void Update()
     {
+
         //if (Input.GetMouseButtonDown(0))
         //{
         //    controllingPlayer = !controllingPlayer;
@@ -65,26 +89,45 @@ public class CharacterControl : MonoBehaviour
         //}
             
 
-        if (active && controllingPlayer)
+
+        if (!isLocalPlayer) return;
+
+        if (SceneManager.GetActiveScene().name == "Game")
+
+
         {
-            GroundCheck();
-            MyInput();
-            Movement();
-            Jump();
-            Sprint();
-            Crouch();
+            if (rb.useGravity == false)
+            {                
+                
+                camTransform = Camera.main.transform;
+                rb.useGravity = true;
+                cinemaFreelook = CinemachineFreeLook.FindObjectOfType<CinemachineFreeLook>();
+                cinemaFreelook.LookAt = cameraFollow.transform;
+                cinemaFreelook.Follow = cameraFollow.transform;
+            }
 
-            SpeedControl();
+            if (isBeingControlled)
+            {
+                GroundCheck();
+                MyInput();
+                Movement();
+                Jump();
+                Sprint();
+                Crouch();
 
-            //Debug.Log(movementSpeed);
+                SpeedControl();
 
-            if (isGrounded)
-                rb.drag = groundDrag;
-            else
-                rb.drag = 0;
+                //Debug.Log(movementSpeed);
+
+                if (isGrounded)
+                    rb.drag = groundDrag;
+                else
+                    rb.drag = 0;
+            }
         }
     }
 
+  
     void MyInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -104,8 +147,8 @@ public class CharacterControl : MonoBehaviour
 
     void Movement()
     {
-        moveDir = new Vector3(  horizontalInput,0, verticalInput);
-        moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up)*moveDir;
+        moveDir = new Vector3(horizontalInput, 0, verticalInput);
+        moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * moveDir;
 
         if (isGrounded)
             rb.AddForce(moveDir.normalized * movementSpeed * 10f, ForceMode.Force);
@@ -115,13 +158,6 @@ public class CharacterControl : MonoBehaviour
         //transform.position += moveDir * movementSpeed * Time.deltaTime;
     }
 
-    //private void OnApplicationFocus(bool focus)
-    //{
-    //    if (focus)
-    //        Cursor.lockState = CursorLockMode.Locked;
-    //    else
-    //        Cursor.lockState = CursorLockMode.None;
-    //}
 
     private void GroundCheck()
     {
@@ -175,6 +211,4 @@ public class CharacterControl : MonoBehaviour
         Gizmos.color = Color.magenta;
         Gizmos.DrawSphere(groundCheckTransform.position, groundCheckRadius);
     }
-
-
 }

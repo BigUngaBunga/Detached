@@ -321,14 +321,19 @@ MonoBehaviour:
   onlineScene: Assets/Scenes/SteamLobby.unity
   transport: {fileID: 97867182}
   networkAddress: localhost
-  maxConnections: 100
+  maxConnections: 2
   authenticator: {fileID: 0}
   playerPrefab: {fileID: 4632158965908645496, guid: 14662afb72af29a439d3bc122ae93839, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs:
-  - {fileID: 8043123320563521171, guid: 19a827b16c69fe34eacb6c48293b87c8, type: 3}
-  GamePlayerPrefab: {fileID: 327067141081118218, guid: 19a827b16c69fe34eacb6c48293b87c8, type: 3}
+  - {fileID: 3995271110296735854, guid: 6c7825189753f6844bbae06a3d46d3a4, type: 3}
+  - {fileID: 6965157645970361648, guid: dedba6d24414d63489bea8ad8d3986c6, type: 3}
+  - {fileID: 5517544673482374389, guid: f39eca308c527d546a9d80f3ff369181, type: 3}
+  - {fileID: 6310184469918293271, guid: cba93b4995fd3d945b91cb4202ccadff, type: 3}
+  LobbyPrefab: {fileID: 9052829366361800644, guid: dedba6d24414d63489bea8ad8d3986c6, type: 3}
+  playerSpawnSystem: {fileID: 6310184469918293271, guid: cba93b4995fd3d945b91cb4202ccadff, type: 3}
+  gamePlayerPrefab: {fileID: 3995271110296735854, guid: 6c7825189753f6844bbae06a3d46d3a4, type: 3}
 --- !u!1 &839375014
 GameObject:
   m_ObjectHideFlags: 0

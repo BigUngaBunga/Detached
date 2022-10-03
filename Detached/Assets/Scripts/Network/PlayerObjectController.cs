@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Steamworks;
+using UnityEngine.SceneManagement;
 
 public class PlayerObjectController : NetworkBehaviour
 {
@@ -11,6 +12,7 @@ public class PlayerObjectController : NetworkBehaviour
     [SyncVar] public ulong PlayerSteamID;
     [SyncVar(hook = nameof(PlayerNameUpdate))] public string PlayerName;
     [SyncVar(hook = nameof(PlayerReadyUpdate))] public bool Ready;
+    public NetworkConnectionToClient connThis;
 
     private CustomNetworkManager manager;
     private CustomNetworkManager Manager
@@ -23,6 +25,33 @@ public class PlayerObjectController : NetworkBehaviour
             }
             return manager = CustomNetworkManager.singleton as CustomNetworkManager;
         }
+    }
+
+    public override void OnStartAuthority()
+    {
+        gameObject.name = "LocalGamePlayer";
+        if (SceneManager.GetActiveScene().name != "Game")
+        {
+            CmdSetPlayerName(SteamFriends.GetPersonaName().ToString());
+
+            LobbyController.Instance.FindLocalPlayer();
+            LobbyController.Instance.UpdateLobbyName();
+        }
+    }
+
+    public override void OnStartClient()
+    {
+        Manager.GamePlayers.Add(this);
+        if (SceneManager.GetActiveScene().name != "Game")
+        {
+            LobbyController.Instance.UpdateLobbyName();
+            LobbyController.Instance.UpdatePlayerList();
+        }
+    }
+
+    public override void OnStopClient()
+    {
+        Manager.GamePlayers.Remove(this);        
     }
 
     private void PlayerReadyUpdate(bool oldValue, bool newValue)
@@ -49,28 +78,6 @@ public class PlayerObjectController : NetworkBehaviour
         {
             CmdSetPlayerReady();
         }
-    }
-
-    public override void OnStartAuthority()
-    {
-        CmdSetPlayerName(SteamFriends.GetPersonaName().ToString());
-        gameObject.name = "LocalGamePlayer";
-        LobbyController.Instance.FindLocalPlayer();
-        LobbyController.Instance.UpdateLobbyName();
-    }
-
-    public override void OnStartClient()
-    {
-        Manager.GamePlayers.Add(this);
-        LobbyController.Instance.UpdateLobbyName();
-        LobbyController.Instance.UpdatePlayerList();
-    }
-
-    public override void OnStopClient()
-    {
-        Manager.GamePlayers.Remove(this);
-        LobbyController.Instance.UpdatePlayerList();
-
     }
 
     [Command]
