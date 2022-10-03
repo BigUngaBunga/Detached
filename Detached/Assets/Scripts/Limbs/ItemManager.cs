@@ -44,6 +44,7 @@ public class ItemManager : NetworkBehaviour
 
     private bool readyToThrow;
     private Limb_enum selectedLimbToThrow;
+    private GameObject headObj;
 
     #region Syncvars with hooks
 
@@ -152,6 +153,8 @@ public class ItemManager : NetworkBehaviour
 
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
             CmdDropLimb(Limb_enum.Head);
+        else if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
+            CmdPickUpLimb(headObj);
         if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
             CmdDropLimb(Limb_enum.Arm);
         if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
@@ -342,8 +345,15 @@ public class ItemManager : NetworkBehaviour
         {
             case Limb_enum.Head:
                 newSceneObject = Instantiate(wrapperSceneObject, headObject.transform.position, headObject.transform.rotation);
-                DropGenericLimb(newSceneObject, SceneObjectScript, limb);
+                SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
+                SceneObjectScript.isBeingControlled = true;
+                NetworkServer.Spawn(newSceneObject);
+                SceneObjectScript.detached = true;
                 headDetached = true;
+                CmdAssignClientAuthority(newSceneObject);
+
+
                 break;
 
             case Limb_enum.Arm:
@@ -400,8 +410,9 @@ public class ItemManager : NetworkBehaviour
 
     #endregion
 
-    #region PickUp Limb
+    #region PickUp Limbs
 
+   
     [Command]
     public void CmdPickUpLimb(GameObject sceneObject)
     {

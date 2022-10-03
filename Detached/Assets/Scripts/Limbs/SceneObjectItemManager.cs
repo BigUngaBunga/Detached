@@ -39,17 +39,19 @@ public class SceneObjectItemManager : NetworkBehaviour
     }
 
     void Update()
-    {      
+    {   
+        if(thisLimb == ItemManager.Limb_enum.Head && hasAuthority)
+        {
+            if (hasAuthority && Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                NetworkClient.localPlayer.GetComponent<ItemManager>().CmdPickUpLimb(gameObject);
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.T) && !isBeingControlled)
         {
             switch (thisLimb)
-            {
-                case ItemManager.Limb_enum.Head:
-                    if (NetworkClient.localPlayer.GetComponent<ItemManager>().headDetached)
-                    {
-                        NetworkClient.localPlayer.GetComponent<ItemManager>().CmdPickUpLimb(gameObject);
-                    }
-                    break;
+            {              
                 case ItemManager.Limb_enum.Arm:
                     if (NetworkClient.localPlayer.GetComponent<ItemManager>().rightArmDetached || NetworkClient.localPlayer.GetComponent<ItemManager>().leftArmDetached)
                     {
