@@ -32,6 +32,20 @@ public class ItemManager : NetworkBehaviour
     private int indexControll;
     private bool isControllingLimb;
 
+
+    //Throwing
+    bool readyToThrow;
+    public KeyCode throwKey = KeyCode.Mouse0;
+    public KeyCode selectHeadKey = KeyCode.Alpha1;
+    public KeyCode selectArmKey = KeyCode.Alpha2;
+    public KeyCode selectLegKey = KeyCode.Alpha3;
+    public float throwForce;
+    public float throwUpwardForce;
+    public float throwCD;
+    public Transform cam;
+
+    private Limb_enum selectedLimbToThrow = Limb_enum.Head;
+
     #region Syncvars with hooks
 
     [Header("Syncvars")]
@@ -52,6 +66,10 @@ public class ItemManager : NetworkBehaviour
 
     #endregion
 
+    private void Start()
+    {
+        cam = Camera.main.transform;
+    }
     public enum Limb_enum
     {
         Head,
@@ -144,6 +162,44 @@ public class ItemManager : NetworkBehaviour
             GetAllLimbsInScene();
             ChangeLimbControll();
         }
+        if (Input.GetKeyDown(selectHeadKey))
+        {
+            selectedLimbToThrow = Limb_enum.Head;
+        }
+        if (Input.GetKeyDown(selectArmKey))
+        {
+            selectedLimbToThrow = Limb_enum.Arm;
+
+        }
+        if (Input.GetKeyDown(selectLegKey))
+        {
+            selectedLimbToThrow = Limb_enum.Leg;
+
+        }
+        if (Input.GetKeyDown(throwKey) && CheckIfSelectedCanBeThrown())
+        {
+            CmdThrowLimb(selectedLimbToThrow);
+        }
+    }
+
+    bool CheckIfSelectedCanBeThrown()
+    {
+        switch (selectedLimbToThrow)
+        {
+            case Limb_enum.Head:
+                if (!headDetached)
+                    return true;
+                break;
+            case Limb_enum.Arm:
+                if (!rightArmDetached || !leftArmDetached)
+                    return true;
+                break;
+            case Limb_enum.Leg:
+                if (!rightLegDetached || !leftLegDetached)
+                    return true;
+                break;
+        }
+        return false;
     }
 
     void ChangeLimbControll()
@@ -203,6 +259,93 @@ public class ItemManager : NetworkBehaviour
         }
     }
 
+    [Command]
+    void CmdThrowLimb(Limb_enum limb)
+    {
+        GameObject newSceneObject = null;
+        SceneObjectItemManager SceneObjectScript;
+        switch (limb)
+        {
+            case Limb_enum.Head:
+                newSceneObject = Instantiate(wrapperSceneObject, headObject.transform.position, headObject.transform.rotation);
+                SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                SceneObjectScript.thisLimb = Limb_enum.Head; //This must come before detached = true and networkServer.spawn
+                NetworkServer.Spawn(newSceneObject);
+                SceneObjectScript.detached = true;
+                headDetached = true;
+                break;
+
+            case Limb_enum.Arm:
+                if (!leftArmDetached)
+                {
+                    newSceneObject = Instantiate(wrapperSceneObject, leftArmParent.transform.position, leftArmParent.transform.rotation);
+                    SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                    SceneObjectScript.thisLimb = Limb_enum.Arm; //This must come before detached = true and networkServer.spawn
+                    NetworkServer.Spawn(newSceneObject);
+                    SceneObjectScript.detached = true;
+                    leftArmDetached = true;
+                }
+                else if (!rightArmDetached)
+                {
+                    newSceneObject = Instantiate(wrapperSceneObject, rightArmParent.transform.position, rightArmParent.transform.rotation);
+                    SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                    SceneObjectScript.thisLimb = Limb_enum.Arm; //This must come before detached = true and networkServer.spawn
+                    NetworkServer.Spawn(newSceneObject);
+                    SceneObjectScript.detached = true;
+                    rightArmDetached = true;
+                }
+                else
+                {
+                    Debug.Log("No arm to detach");
+                }
+                break;
+            case Limb_enum.Leg:
+                if (!leftLegDetached)
+                {
+                    newSceneObject = Instantiate(wrapperSceneObject, leftLegParent.transform.position, leftLegParent.transform.rotation);
+                    SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                    SceneObjectScript.thisLimb = Limb_enum.Leg;  //This must come before detached = true and networkServer.spawn
+                    NetworkServer.Spawn(newSceneObject);
+                    SceneObjectScript.detached = true;
+                    leftLegDetached = true;
+                }
+                else if (!rightLegDetached)
+                {
+                    newSceneObject = Instantiate(wrapperSceneObject, rightArmParent.transform.position, rightArmParent.transform.rotation);
+                    SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                    SceneObjectScript.thisLimb = Limb_enum.Leg;  //This must come before detached = true and networkServer.spawn
+                    NetworkServer.Spawn(newSceneObject);
+                    SceneObjectScript.detached = true;
+                    rightLegDetached = true;
+                }
+                else
+                {
+                    Debug.Log("No leg to detach");
+                }
+                break;
+        }
+        Throw(newSceneObject);
+    }
+
+    void Throw(GameObject obj)
+    {
+
+        readyToThrow = false;
+        Rigidbody objectRb;
+        // GameObject throwObject = Instantiate(objectToThrow, throwPoint.position, cam.rotation);
+
+        objectRb = obj.GetComponent<Rigidbody>();
+        Vector3 forceToAdd = cam.transform.forward * throwForce + transform.up * throwUpwardForce;
+
+        objectRb.AddForce(forceToAdd, ForceMode.Impulse);
+
+        Invoke(nameof(ResetThrow), throwCD);
+    }
+
+    void ResetThrow()
+    {
+        readyToThrow = true;
+    }
 
     [Command]
     void CmdDropLimb(Limb_enum limb)
@@ -317,12 +460,6 @@ public class ItemManager : NetworkBehaviour
                 break;
         }
 
-        ////Destroy(Limb.GetComponent<Rigidbody>());
-        ////Limb.transform.parent = limbParent;
-        ////Limb.transform.localPosition = Vector3.zero;
-        ////Limb.transform.localEulerAngles = Vector3.zero;
-        ////Limb.transform.localScale = Vector3.one;
-        //headDetached = false;
-        //NetworkServer.Destroy(sceneObject);
+
     }
 }
