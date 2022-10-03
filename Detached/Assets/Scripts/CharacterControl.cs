@@ -8,12 +8,6 @@ using Cinemachine;
 
 public class CharacterControl : NetworkBehaviour
 {
-    //TEMPORARY
-    [Header("Temporary")]
-    [SerializeField] private bool controllingPlayer = true;
-    [SerializeField] private GameObject CMFreeLook;
-    //TEMPORARY
-
     [Header("General")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float crouchHeight;
@@ -76,11 +70,9 @@ public class CharacterControl : NetworkBehaviour
 
     private void Update()
     {
-
         if (!isLocalPlayer) return;
 
         if (SceneManager.GetActiveScene().name == "Game")
-
         {
             if (rb.useGravity == false)
             {                
@@ -144,7 +136,14 @@ public class CharacterControl : NetworkBehaviour
         //transform.position += moveDir * movementSpeed * Time.deltaTime;
     }
 
-   
+    private void OnApplicationFocus(bool focus)
+    {
+        //if (focus)
+        //    Cursor.lockState = CursorLockMode.Locked;
+        //else
+        //    Cursor.lockState = CursorLockMode.None; 
+    }
+
     private void GroundCheck()
     {
         isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask);
@@ -152,7 +151,7 @@ public class CharacterControl : NetworkBehaviour
 
     private void Jump()
     {
-        if (isGrounded && Input.GetButton("Jump") && readyToJump && DetachScript.numOfLegs>1)
+        if (isGrounded && Input.GetButton("Jump") && readyToJump)
         {
             readyToJump = false;
 
