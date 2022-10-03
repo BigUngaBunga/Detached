@@ -350,8 +350,8 @@ public class ItemManager : NetworkBehaviour
     [Command]
     void CmdDropLimb(Limb_enum limb)
     {
-        GameObject newSceneObject;
-        SceneObjectItemManager SceneObjectScript;
+        GameObject newSceneObject = null;
+        SceneObjectItemManager SceneObjectScript = null;
         switch (limb)
         {
             case Limb_enum.Head:
@@ -391,19 +391,21 @@ public class ItemManager : NetworkBehaviour
                 if (!leftLegDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, leftLegParent.transform.position, leftLegParent.transform.rotation);
-                    SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
-                    SceneObjectScript.thisLimb = Limb_enum.Leg;  //This must come before detached = true and networkServer.spawn
-                    NetworkServer.Spawn(newSceneObject);
-                    SceneObjectScript.detached = true;
+                    //SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                    //SceneObjectScript.thisLimb = Limb_enum.Leg;  //This must come before detached = true and networkServer.spawn
+                    //NetworkServer.Spawn(newSceneObject);
+                    //SceneObjectScript.detached = true;
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb);
                     leftLegDetached = true;
                 }
                 else if (!rightLegDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, rightArmParent.transform.position, rightArmParent.transform.rotation);
-                    SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
-                    SceneObjectScript.thisLimb = Limb_enum.Leg;  //This must come before detached = true and networkServer.spawn
-                    NetworkServer.Spawn(newSceneObject);
-                    SceneObjectScript.detached = true;
+                    //SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+                    //SceneObjectScript.thisLimb = Limb_enum.Leg;  //This must come before detached = true and networkServer.spawn
+                    //NetworkServer.Spawn(newSceneObject);
+                    //SceneObjectScript.detached = true;
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb);
                     rightLegDetached = true;
                 }
                 else
@@ -412,6 +414,15 @@ public class ItemManager : NetworkBehaviour
                 }
                 break;
         }
+    }
+
+    [Server]
+    private void DropGenericLimb(GameObject newSceneObject, SceneObjectItemManager SceneObjectScript, Limb_enum limb)
+    {
+        SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
+        SceneObjectScript.thisLimb = Limb_enum.Leg;  //This must come before detached = true and networkServer.spawn
+        NetworkServer.Spawn(newSceneObject);
+        SceneObjectScript.detached = true;
     }
 
     [Command]
