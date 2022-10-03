@@ -1,8 +1,7 @@
 using UnityEngine;
-using Mirror;
 using UnityEngine.SceneManagement;
 
-public class Goal : NetworkBehaviour
+public class Goal : MonoBehaviour
 {
     [SerializeField] private int playerNumber;
 
