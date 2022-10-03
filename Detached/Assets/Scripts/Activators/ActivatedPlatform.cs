@@ -28,12 +28,7 @@ public class ActivatedPlatform : Activator
     {
         base.Activate();
         collider.enabled = true;
-        if (IsActivated)
-            alpha = 1f;
-        else if (activationRequirement.Equals(ActivationRequirement.All))
-            alpha = Mathf.Max(PercentageActive / 2f, minimumAlpha);
-        else
-            alpha = inactiveAlpha;
+        SetAlpha();
 
     }
 
@@ -41,13 +36,17 @@ public class ActivatedPlatform : Activator
     {
         base.Deactivate();
         collider.enabled = false;
+        SetAlpha();
+
+    }
+    private void SetAlpha()
+    {
         if (IsActivated)
             alpha = 1f;
         else if (activationRequirement.Equals(ActivationRequirement.All))
             alpha = Mathf.Max(PercentageActive / 2f, minimumAlpha);
         else
             alpha = inactiveAlpha;
-
     }
 
 
