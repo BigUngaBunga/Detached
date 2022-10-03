@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using Mirror;
 
-public class Activator : MonoBehaviour
+public class Activator : NetworkBehaviour
 {
     public enum ActivationRequirement { All, One, None}
 
