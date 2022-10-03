@@ -8,7 +8,7 @@ public class ActivatedPlatform : Activator
     [Range(0.05f, 0.33f)]
     [SerializeField] float minimumAlpha = 0.1f;
     private Color color;
-    private BoxCollider collider;
+    private new BoxCollider collider;
     private MeshRenderer meshRenderer;
     private float PercentageActive => (float)ActiveConnections / (float)TotalConnections;
 
