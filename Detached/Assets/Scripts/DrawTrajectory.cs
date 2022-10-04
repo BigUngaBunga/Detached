@@ -23,6 +23,7 @@ public class DrawTrajectory : MonoBehaviour
     #endregion
     void Start()
     {
+        lineRend = GameObject.Find("Line").GetComponent<LineRenderer>();
         linePoints = new List<Vector3>();
     }
 

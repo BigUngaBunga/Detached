@@ -203,9 +203,19 @@ public class ItemManager : NetworkBehaviour
         return false;
     }
 
+    public bool CheckIfMissingLimb(Limb_enum limb)
+    {
+       
+        return limb switch
+        {
+            Limb_enum.Arm => rightArmDetached && leftLegDetached,
+            Limb_enum.Leg => rightLegDetached && leftLegDetached,
+            Limb_enum.Head => headDetached,
+            _ => false,
+        };
+    }
+
     #endregion
-
-
 
     #region LimbControll
 
@@ -477,8 +487,9 @@ public class ItemManager : NetworkBehaviour
 
     private void TrajectoryCal()
     {
-        Vector3 forceInit = Input.mousePosition - mousePressDownPos + cam.transform.forward * throwForce + transform.up * throwUpwardForce; //idek what im doing anymore
-        Vector3 forceV = new Vector3(forceInit.x, forceInit.y, z: forceInit.y);
+        Vector3 forceInit = Input.mousePosition - mousePressDownPos /*+ cam.transform.forward * throwForce + transform.up * throwUpwardForce */; //idek what im doing anymore
+        Vector3 forceV = new Vector3(forceInit.x, forceInit.y, z: forceInit.y); 
+        
         dir = (Input.mousePosition - mousePressDownPos).normalized; 
         DrawTrajectory.instance.UpdateTrajectory(forceV, throwPoint.position, dir.y); //throwing point = body?   
     }
@@ -487,12 +498,15 @@ public class ItemManager : NetworkBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
+
+            if (!CheckIfSelectedCanBeThrown())
+                return;
+
             Vector3 mousePressDownPos = Input.mousePosition;
             readyToThrow = true;
             dragging = true;
 
-            if (!CheckIfSelectedCanBeThrown())
-                return;
+            
 
             CmdThrowDropLimb(selectedLimbToThrow, throwPoint.position, gameObject.GetComponent<NetworkIdentity>());          
         }
@@ -532,9 +546,9 @@ public class ItemManager : NetworkBehaviour
         Rigidbody objectRb;
 
         objectRb = sceneObject.GetComponent<Rigidbody>();
-        Vector3 forceToAdd = cam.transform.forward * throwForce + transform.up * throwUpwardForce;
+        Vector3 forceToAdd = new Vector3(force.x, force.y, z: force.y);
 
-        objectRb.AddForce(forceToAdd, ForceMode.Impulse);
+        objectRb.AddForce(forceToAdd);
 
         Invoke(nameof(ResetThrow), throwCD);
     }

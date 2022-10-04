@@ -83,4 +83,12 @@ public class SceneObjectItemManager : NetworkBehaviour
             }
         }
     }
+
+    public void TryPickUp()
+    {
+        if (NetworkClient.localPlayer.GetComponent<ItemManager>().CheckIfMissingLimb(thisLimb))
+        {
+            NetworkClient.localPlayer.GetComponent<ItemManager>().CmdPickUpLimb(gameObject);
+        }      
+    }
 }
