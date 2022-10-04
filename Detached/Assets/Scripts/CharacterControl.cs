@@ -77,6 +77,7 @@ public class CharacterControl : NetworkBehaviour
 
         playerObjectController = GetComponent<PlayerObjectController>();
 
+        if (!isLocalPlayer) return;
         camTransform = Camera.main.transform;
 
         cinemaFreelook = CinemachineFreeLook.FindObjectOfType<CinemachineFreeLook>();
@@ -86,12 +87,12 @@ public class CharacterControl : NetworkBehaviour
 
     private void Update()
     {
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    controllingPlayer = !controllingPlayer;
-        //    CMFreeLook.SetActive(controllingPlayer);
-        //}
-                 
+        if (Input.GetMouseButtonDown(0))
+        {
+            controllingPlayer = !controllingPlayer;
+            CMFreeLook.SetActive(controllingPlayer);
+        }
+
         if (!isLocalPlayer) return;
        
         if (SceneManager.GetActiveScene().buildIndex > 1 && controllingPlayer)

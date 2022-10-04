@@ -25,8 +25,8 @@ public class Goal : NetworkBehaviour
         }
     }
 
-    [Command]
-    void cmdServerChangeScene(string sceneName)
+    [Server]
+    void ServerChangeScene(string sceneName)
     {
         Manager.ServerChangeScene(sceneName);
     }
@@ -38,7 +38,7 @@ public class Goal : NetworkBehaviour
             playerNumber++;
             if (CheckVictoryStatus())
             {
-                cmdServerChangeScene(Maps[NextMapIndex]);
+                ServerChangeScene(Maps[NextMapIndex]);
             }
             
         }
