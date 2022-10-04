@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7943216775234910781}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: InactiveLever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6426317524849070510}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: TriggeredLever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,9 @@ GameObject:
   - component: {fileID: 398537928302962123}
   - component: {fileID: 6552105109505350080}
   - component: {fileID: 3047170389002406878}
-  m_Layer: 0
+  - component: {fileID: 5569106309925532686}
+  - component: {fileID: 1991375109614507660}
+  m_Layer: 15
   m_Name: Large lever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,6 +182,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -402598429359361868, guid: 5100e82d695c1be49873fc2133f950c4, type: 3}
+--- !u!114 &5569106309925532686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2207945746576856986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: dcf0c20c58eabbc48b0f1a7327ce3761
+  hasSpawned: 0
+--- !u!114 &1991375109614507660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2207945746576856986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f066cc1d96f97348a5bddd68dfb08a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isHighlighted: 0
+  renderers: []
 --- !u!1 &3436855835173457833
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,7 +224,7 @@ GameObject:
   - component: {fileID: 3751024728387869183}
   - component: {fileID: 4364673327764632558}
   - component: {fileID: 2422356066429467674}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Rod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,7 +305,7 @@ GameObject:
   - component: {fileID: 8164848696693907367}
   - component: {fileID: 3996151553008366495}
   - component: {fileID: 3603328707774465246}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -353,7 +386,7 @@ GameObject:
   - component: {fileID: 5271510651165633870}
   - component: {fileID: 2629551924042943022}
   - component: {fileID: 8610327149684786512}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Rod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,7 +467,7 @@ GameObject:
   - component: {fileID: 7775087008623667147}
   - component: {fileID: 3071815139743229182}
   - component: {fileID: 6067366299740498689}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,11 @@ GameObject:
   - component: {fileID: 189818050452334280}
   - component: {fileID: 7142123974862566746}
   - component: {fileID: 1173018361959470713}
-  m_Layer: 0
+  - component: {fileID: -5716011354193088785}
+  - component: {fileID: -1595524526066001954}
+  - component: {fileID: -59758241933524935}
+  - component: {fileID: 6149716335811143913}
+  m_Layer: 15
   m_Name: Lego3
   m_TagString: Box
   m_Icon: {fileID: 0}
@@ -65,6 +69,93 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-5716011354193088785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714258345335946354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 9052fe23459cb1d46a59dd8520977a47
+  hasSpawned: 0
+--- !u!114 &-1595524526066001954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714258345335946354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 0
+  sendInterval: 0.05
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 0
+  bufferTimeMultiplier: 1
+  bufferSizeLimit: 64
+  catchupThreshold: 4
+  catchupMultiplier: 0.1
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 5
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+--- !u!114 &-59758241933524935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714258345335946354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83392ae5c1b731446909f252fd494ae4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  target: {fileID: 1173018361959470713}
+  clientAuthority: 0
+  syncVelocity: 1
+  clearVelocity: 0
+  velocitySensitivity: 0.1
+  syncAngularVelocity: 1
+  clearAngularVelocity: 0
+  angularVelocitySensitivity: 0.1
+--- !u!114 &6149716335811143913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 714258345335946354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f066cc1d96f97348a5bddd68dfb08a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isHighlighted: 0
+  renderers: []
 --- !u!1 &1214433700613845376
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,7 +167,7 @@ GameObject:
   - component: {fileID: 5040801149380196662}
   - component: {fileID: 3947806625435557848}
   - component: {fileID: 8355689620153768385}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: pasted__pCylinder30
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,7 +248,7 @@ GameObject:
   - component: {fileID: 4050039118887374740}
   - component: {fileID: 2362769930526678918}
   - component: {fileID: 3867716674567636101}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: pasted__pCylinder32
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +329,7 @@ GameObject:
   - component: {fileID: 8271969814359629521}
   - component: {fileID: 3520502637742001056}
   - component: {fileID: 3942773418094353316}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: pasted__pCylinder31
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +410,7 @@ GameObject:
   - component: {fileID: 8384695820466986242}
   - component: {fileID: 6568714275500998047}
   - component: {fileID: 8111023488502807318}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: pasted__pCube26
   m_TagString: Untagged
   m_Icon: {fileID: 0}
