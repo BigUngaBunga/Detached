@@ -70,6 +70,7 @@ public class PickUp : MonoBehaviour
                     heldItem = GameObject.Find(objectHit.transform.gameObject.name);
                     heldItem.transform.parent = dest.transform;
                     heldItem.GetComponent<Rigidbody>().useGravity = false;
+                    holding = true;
                 }
             }
             else if (holding)
@@ -111,10 +112,9 @@ public class PickUp : MonoBehaviour
                 heldItem.transform.position = dropDest.position;
                 heldItem.transform.parent = null;
                 heldItem.GetComponent<Rigidbody>().useGravity = true;
+                holding = false;
+                heldItem = null;
             }
-
-
-            holding = !holding;
         }
 
     }
