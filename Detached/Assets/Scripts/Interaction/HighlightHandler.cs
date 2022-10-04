@@ -3,13 +3,13 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class ObjectHighlighter : MonoBehaviour
+public class HighlightHandler : MonoBehaviour
 {
     //Made with help from https://xroft666.blogspot.com/2015/07/glow-highlighting-in-unity.html?view=classic
     //GaussianBlur shader from https://github.com/keijiro/GaussianBlur
 
     [Range(1, 25)]
-    [SerializeField] private int blurIntensity;
+    [SerializeField] private int blurIntensity = 3;
     [SerializeField] private bool displayOnlyHighlights;
 
     [Header("Materials")]

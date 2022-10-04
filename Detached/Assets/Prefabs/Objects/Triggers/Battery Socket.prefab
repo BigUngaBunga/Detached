@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 433882148527572634}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Battery position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,8 @@ GameObject:
   - component: {fileID: 8604815358420904335}
   - component: {fileID: 5868581482882232847}
   - component: {fileID: 168812067053955166}
-  m_Layer: 0
+  - component: {fileID: 6327482218750403113}
+  m_Layer: 15
   m_Name: Battery Socket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,3 +158,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.2862606, y: 0.84490824, z: 4.516742}
   m_Center: {x: 0, y: 0.79267895, z: 0}
+--- !u!114 &6327482218750403113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3904413418102798754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f066cc1d96f97348a5bddd68dfb08a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isHighlighted: 0
+  renderers: []
