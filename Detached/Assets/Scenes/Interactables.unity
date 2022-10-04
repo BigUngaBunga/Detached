@@ -467,6 +467,7 @@ GameObject:
   - component: {fileID: 263758080}
   - component: {fileID: 263758079}
   - component: {fileID: 263758084}
+  - component: {fileID: 263758085}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Player
@@ -624,6 +625,20 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 
   hasSpawned: 0
+--- !u!114 &263758085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 263758077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 429ec79a6abf2a94b92c3a1e8161e99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dest: {fileID: 788732080}
+  camera: {fileID: 679104628}
 --- !u!1 &269607661
 GameObject:
   m_ObjectHideFlags: 0
@@ -1475,7 +1490,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 667207442}
-  m_LocalRotation: {x: 0.011439678, y: -0.7554223, z: 0.013193458, w: 0.65500563}
+  m_LocalRotation: {x: 0.011439679, y: -0.75542223, z: 0.013193456, w: 0.65500563}
   m_LocalPosition: {x: -0.0000009536743, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1551,7 +1566,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 679104624}
-  m_LocalRotation: {x: 0.011439678, y: -0.7554223, z: 0.0131934555, w: 0.65500563}
+  m_LocalRotation: {x: 0.011439677, y: -0.75542223, z: 0.013193454, w: 0.65500563}
   m_LocalPosition: {x: 6.7493944, y: 2.8000002, z: 0.9917159}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
