@@ -78,18 +78,14 @@ public class CharacterControl : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            controllingPlayer = !controllingPlayer;
-            CMFreeLook.SetActive(controllingPlayer);
-        }
-            
-
-        //if (active && controllingPlayer)
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    controllingPlayer = !controllingPlayer;
+        //    CMFreeLook.SetActive(controllingPlayer);
+        //}
+                 
         if (!isLocalPlayer) return;
-        //if (SceneManager.GetActiveScene().name == "Game" && active && controllingPlayer)
-
-
+       
         if (SceneManager.GetActiveScene().buildIndex > 1 && controllingPlayer)
         {
                
