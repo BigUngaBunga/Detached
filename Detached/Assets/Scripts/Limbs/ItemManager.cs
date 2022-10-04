@@ -203,9 +203,19 @@ public class ItemManager : NetworkBehaviour
         return false;
     }
 
+    public bool CheckIfMissingLimb(Limb_enum limb)
+    {
+       
+        return limb switch
+        {
+            Limb_enum.Arm => rightArmDetached && leftLegDetached,
+            Limb_enum.Leg => rightLegDetached && leftLegDetached,
+            Limb_enum.Head => headDetached,
+            _ => false,
+        };
+    }
+
     #endregion
-
-
 
     #region LimbControll
 
@@ -477,8 +487,10 @@ public class ItemManager : NetworkBehaviour
 
     private void TrajectoryCal()
     {
+
         Vector3 forceInit = Input.mousePosition - mousePressDownPos + cam.transform.forward * throwForce + cam.transform.up * throwUpwardForce; //idek what im doing anymore
         Vector3 forceV = new Vector3(forceInit.x, forceInit.y, z: forceInit.y);
+        
         dir = (Input.mousePosition - mousePressDownPos).normalized; 
         DrawTrajectory.instance.UpdateTrajectory(forceV, throwPoint.position, dir.y); //throwing point = body?   
     }
@@ -488,10 +500,11 @@ public class ItemManager : NetworkBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             mousePressDownPos = Input.mousePosition;
+        
             readyToThrow = true;
             dragging = true;
 
-            if (!CheckIfSelectedCanBeThrown())
+                if (!CheckIfSelectedCanBeThrown())
                 return;
 
             CmdThrowDropLimb(selectedLimbToThrow, throwPoint.position, gameObject.GetComponent<NetworkIdentity>());          

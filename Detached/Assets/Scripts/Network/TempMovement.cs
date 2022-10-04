@@ -21,19 +21,21 @@ public class TempMovement : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            CmdMoveForward();
+            gameObject.transform.position += new Vector3(0, 0, movementSpeed);
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            gameObject.transform.position += new Vector3(0, 0, -movementSpeed);
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            gameObject.transform.position += new Vector3(-movementSpeed, 0, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            gameObject.transform.position += new Vector3(movementSpeed, 0, 0);
         }
     }
 
-    [Command]
-    void CmdMoveForward()
-    {
-        RpcMoveForward();
-    }
-
-    [ClientRpc]
-    void RpcMoveForward()
-    {
-        gameObject.transform.position += new Vector3(0, 0, movementSpeed);
-    }
+    
 }
