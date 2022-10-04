@@ -187,7 +187,23 @@ public class ItemManager : NetworkBehaviour
 
     }
 
-   
+    #region Check status of players limbs
+
+    public bool CheckIfPlayerHasTwoLegs()
+    {
+        if (!rightLegDetached && !leftLegDetached)
+            return true;
+        return false;
+    }
+
+    public bool CheckIfPlayerHasTwoArms()
+    {
+        if (!rightArmDetached && !leftLegDetached)
+            return true;
+        return false;
+    }
+
+    #endregion
 
 
 
@@ -307,7 +323,8 @@ public class ItemManager : NetworkBehaviour
     [Command]
     void CmdThrowLimb(Vector3 force, GameObject sceneObject)
     {
-        sceneObject.GetComponent<Rigidbody>().useGravity = false;
+        sceneObject.GetComponent<Rigidbody>().useGravity = true;
+        //sceneObject.GetComponent<SceneObjectItemManager>().isBeingControlled = false;
         ThrowLimb(force, sceneObject);
     }
 
@@ -443,7 +460,10 @@ public class ItemManager : NetworkBehaviour
             default:
                 return;
                 
+
+
         }
+        //SceneObjectScript.isBeingControlled = true;
         newSceneObject.GetComponent<Rigidbody>().useGravity = false;
         TargetRpcGetThrowingGameObject(identity, newSceneObject);
         return;
@@ -459,15 +479,9 @@ public class ItemManager : NetworkBehaviour
     {
         Vector3 forceInit = Input.mousePosition - mousePressDownPos + cam.transform.forward * throwForce + transform.up * throwUpwardForce; //idek what im doing anymore
         Vector3 forceV = new Vector3(forceInit.x, forceInit.y, z: forceInit.y);
-        dir = (Input.mousePosition - mousePressDownPos).normalized;
-        //if (readyToThrow)
-        //{
-        /*      if (!limbList[select].GetComponent<Rigidbody>())
-                  limbList[select].AddComponent<Rigidbody>();*/
-        DrawTrajectory.instance.UpdateTrajectory(forceV, throwPoint.position, dir.y); //throwing point = body?
-        //}
+        dir = (Input.mousePosition - mousePressDownPos).normalized; 
+        DrawTrajectory.instance.UpdateTrajectory(forceV, throwPoint.position, dir.y); //throwing point = body?   
     }
-
 
     private void UpdateThrowButton()
     {

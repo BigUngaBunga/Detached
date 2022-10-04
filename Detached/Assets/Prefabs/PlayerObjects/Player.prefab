@@ -178,7 +178,7 @@ GameObject:
   - component: {fileID: 3995271110104510247}
   m_Layer: 0
   m_Name: RightLeg
-  m_TagString: Untagged
+  m_TagString: Leg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -475,6 +475,7 @@ MonoBehaviour:
     m_Bits: 64
   playerBody: {fileID: 5403426992234688411}
   playerObjectController: {fileID: 0}
+  limbManager: {fileID: 2459182320428627406}
   cameraFollow: {fileID: 3995271111322003540}
   cinemaFreelook: {fileID: 0}
 --- !u!114 &4452546296898031474
@@ -597,9 +598,9 @@ MonoBehaviour:
   rightArmParent: {fileID: 3995271111063708596}
   leftLegParent: {fileID: 3995271110385834944}
   rightLegParent: {fileID: 3995271110269420386}
-  throwForce: 50
-  throwUpwardForce: 30
-  throwCD: 2
+  throwForce: 25
+  throwUpwardForce: 0
+  throwCD: 0.1
   cam: {fileID: 0}
   throwPoint: {fileID: 5504953492409216491}
   headDetached: 0
@@ -998,7 +999,7 @@ GameObject:
   - component: {fileID: 3995271111075614503}
   m_Layer: 0
   m_Name: LeftLeg
-  m_TagString: Untagged
+  m_TagString: Leg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

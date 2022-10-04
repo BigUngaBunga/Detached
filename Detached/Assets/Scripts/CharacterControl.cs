@@ -8,6 +8,7 @@ using Cinemachine;
 
 public class CharacterControl : NetworkBehaviour
 {
+   
     //TEMPORARY
     [Header("Temporary")]
     [SerializeField] private bool controllingPlayer = true;
@@ -44,6 +45,7 @@ public class CharacterControl : NetworkBehaviour
     [Header("NetWorking")]
     [SerializeField] private GameObject playerBody;
     [SerializeField] private PlayerObjectController playerObjectController;
+    [SerializeField] ItemManager limbManager;
 
     [Header("Camera")]
     [SerializeField] private GameObject cameraFollow;
@@ -64,7 +66,7 @@ public class CharacterControl : NetworkBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.useGravity = false;
+        
         playerCol = GetComponent<CapsuleCollider>();
         originHeight = playerCol.height;
         ResetJump();
@@ -74,6 +76,12 @@ public class CharacterControl : NetworkBehaviour
         Cursor.lockState = CursorLockMode.Confined;
 
         playerObjectController = GetComponent<PlayerObjectController>();
+
+        camTransform = Camera.main.transform;
+
+        cinemaFreelook = CinemachineFreeLook.FindObjectOfType<CinemachineFreeLook>();
+        cinemaFreelook.LookAt = cameraFollow.transform;
+        cinemaFreelook.Follow = cameraFollow.transform;
     }
 
     private void Update()
@@ -89,18 +97,7 @@ public class CharacterControl : NetworkBehaviour
         if (SceneManager.GetActiveScene().buildIndex > 1 && controllingPlayer)
         {
                
-
-            if (rb.useGravity == false)
-            {
-
-                camTransform = Camera.main.transform;
-                rb.useGravity = true;
-                cinemaFreelook = CinemachineFreeLook.FindObjectOfType<CinemachineFreeLook>();
-                cinemaFreelook.LookAt = cameraFollow.transform;
-                cinemaFreelook.Follow = cameraFollow.transform;
-            }
-
-            if (isBeingControlled)
+            if (isBeingControlled) //If player is being actively controlled as oppose to a limb
             {
                 GroundCheck();
                 MyInput();
@@ -162,7 +159,7 @@ public class CharacterControl : NetworkBehaviour
 
     private void Jump()
     {
-        if (isGrounded && Input.GetButton("Jump") && readyToJump && DetachScript.numOfLegs>1)
+        if (isGrounded && Input.GetButton("Jump") && readyToJump && limbManager.CheckIfPlayerHasTwoArms())
         {
             readyToJump = false;
 
