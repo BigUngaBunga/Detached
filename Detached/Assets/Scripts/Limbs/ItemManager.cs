@@ -33,6 +33,13 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public Transform leftLegParent;
     [SerializeField] public Transform rightLegParent;
 
+    //OrginalPositions
+    private Vector3 orginalHeadPosition;
+    private Vector3 orginalLeftArmPosition;
+    private Vector3 orginalRightArmPosition;
+    private Vector3 orginalLeftLegPosition;
+    private Vector3 orginalRightLegPosition;
+
     private List<GameObject> limbs = new List<GameObject>();
     private int indexControll;
     private bool isControllingLimb;
@@ -45,13 +52,14 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public Transform throwPoint;
 
     private bool readyToThrow;
-    private Limb_enum selectedLimbToThrow;
+    private Limb_enum selectedLimbToThrow = Limb_enum.Head;
     private GameObject headObj;
     private bool dragging;
     private Vector3 mousePressDownPos;
     private Vector3 dir;
     private Vector3 mouseReleasePos;
     private GameObject sceneObjectHoldingToThrow;
+    private Vector3 orignalPosition = Vector3.zero;
 
     #region Syncvars with hooks
 
@@ -72,7 +80,7 @@ public class ItemManager : NetworkBehaviour
     public bool leftLegDetached;
 
     #endregion
-  
+
     public enum Limb_enum
     {
         Head,
@@ -156,6 +164,7 @@ public class ItemManager : NetworkBehaviour
     private void Start()
     {
         cam = Camera.main.transform;
+        
     }
     void Update()
     {
@@ -163,7 +172,7 @@ public class ItemManager : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
-            CmdDropLimb(Limb_enum.Head);      
+            CmdDropLimb(Limb_enum.Head);
         if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
             CmdDropLimb(Limb_enum.Arm);
         if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
@@ -182,8 +191,8 @@ public class ItemManager : NetworkBehaviour
 
         UpdateThrowButton();
 
-        if(dragging)
-        TrajectoryCal();
+        if (dragging)
+            TrajectoryCal();
 
     }
 
@@ -205,7 +214,7 @@ public class ItemManager : NetworkBehaviour
 
     public bool CheckIfMissingLimb(Limb_enum limb)
     {
-       
+
         return limb switch
         {
             Limb_enum.Arm => rightArmDetached && leftLegDetached,
@@ -233,13 +242,13 @@ public class ItemManager : NetworkBehaviour
         indexControll++;
         indexControll %= limbs.Count;
 
-        if(limbs[indexControll] != gameObject)
+        if (limbs[indexControll] != gameObject)
         {
             ChangeControllingforLimbAndPlayer(gameObject, false); //If this check dosen't happen, player can control limbs and body at the same time
         }
 
         //Checks if other player is controlling, if true: move index one further
-        if(CheckIfOtherPlayerIsControllingLimb(limbs[indexControll]))
+        if (CheckIfOtherPlayerIsControllingLimb(limbs[indexControll]))
         {
             indexControll++;
             indexControll %= limbs.Count;
@@ -249,7 +258,7 @@ public class ItemManager : NetworkBehaviour
     }
     private bool CheckIfOtherPlayerIsControllingLimb(GameObject objToCheck)
     {
-        if(objToCheck != gameObject)
+        if (objToCheck != gameObject)
         {
             if (objToCheck.GetComponent<SceneObjectItemManager>().isBeingControlled)
             {
@@ -260,7 +269,7 @@ public class ItemManager : NetworkBehaviour
     }
     private void ChangeControllingforLimbAndPlayer(GameObject objToCheck, bool value)
     {
-        if(objToCheck == gameObject)
+        if (objToCheck == gameObject)
         {
             gameObject.GetComponent<CharacterControl>().isBeingControlled = value;
         }
@@ -272,9 +281,9 @@ public class ItemManager : NetworkBehaviour
 
     private void CheckIfRemoveClientAuthority(GameObject objToCheck)
     {
-        if(objToCheck != gameObject)
+        if (objToCheck != gameObject)
         {
-            if(objToCheck.GetComponent<SceneObjectItemManager>().thisLimb != Limb_enum.Head)
+            if (objToCheck.GetComponent<SceneObjectItemManager>().thisLimb != Limb_enum.Head)
             {
                 CmdRemoveClientAutohrity(objToCheck);
             }
@@ -322,8 +331,8 @@ public class ItemManager : NetworkBehaviour
         sceneObject.GetComponent<NetworkIdentity>().RemoveClientAuthority();
     }
 
-    
-#endregion
+
+    #endregion
 
     [Command]
     void CmdDropLimb(Limb_enum limb)
@@ -331,11 +340,12 @@ public class ItemManager : NetworkBehaviour
         DropLimb(limb);
     }
     [Command]
-    void CmdThrowLimb(Vector3 force, GameObject sceneObject)
+    void CmdThrowLimb(Limb_enum limb, Vector3 force, Vector3 throwPoint)
     {
-        sceneObject.GetComponent<Rigidbody>().useGravity = true;
+        //sceneObject.GetComponent<Rigidbody>().useGravity = true;
         //sceneObject.GetComponent<SceneObjectItemManager>().isBeingControlled = false;
-        ThrowLimb(force, sceneObject);
+
+        ThrowLimb(force, CmdThrowDropLimb(limb, throwPoint));
     }
 
 
@@ -421,8 +431,8 @@ public class ItemManager : NetworkBehaviour
         return newSceneObject;
     }
 
-    [Command]
-    void CmdThrowDropLimb(Limb_enum limb, Vector3 throwpoint, NetworkIdentity identity)
+    [Server]
+    GameObject CmdThrowDropLimb(Limb_enum limb, Vector3 throwpoint)
     {
         GameObject newSceneObject = null;
         SceneObjectItemManager SceneObjectScript = null;
@@ -443,7 +453,7 @@ public class ItemManager : NetworkBehaviour
                     newSceneObject = Instantiate(wrapperSceneObject, throwpoint, leftArmParent.transform.rotation);
                     DropGenericLimb(newSceneObject, SceneObjectScript, limb);
                     leftArmDetached = true;
-                }               
+                }
                 else
                 {
                     Debug.Log("No arm to detach");
@@ -468,46 +478,65 @@ public class ItemManager : NetworkBehaviour
                 }
                 break;
             default:
-                return;
-                
+                return null;
+
 
 
         }
         //SceneObjectScript.isBeingControlled = true;
-        newSceneObject.GetComponent<Rigidbody>().useGravity = false;
-        TargetRpcGetThrowingGameObject(identity, newSceneObject);
-        return;
+        //newSceneObject.GetComponent<Rigidbody>().useGravity = false;
+        //TargetRpcGetThrowingGameObject(identity, newSceneObject);
+        return newSceneObject;
     }
 
-    [TargetRpc]
-    public void TargetRpcGetThrowingGameObject(NetworkIdentity identity, GameObject sceneObject)
-    {
-        sceneObjectHoldingToThrow = sceneObject;
-    }
+
+
+    //[TargetRpc]
+    //public void TargetRpcGetThrowingGameObject(NetworkIdentity identity, GameObject sceneObject)
+    //{
+    //    sceneObjectHoldingToThrow = sceneObject;
+    //}
 
     private void TrajectoryCal()
     {
-
-        Vector3 forceInit = Input.mousePosition - mousePressDownPos + cam.transform.forward * throwForce + cam.transform.up * throwUpwardForce; //idek what im doing anymore
+        Vector3 forceInit = Input.mousePosition - mousePressDownPos /*+ cam.transform.forward * throwForce + transform.up * throwUpwardForce */; //idek what im doing anymore
         Vector3 forceV = new Vector3(forceInit.x, forceInit.y, z: forceInit.y);
-        
-        dir = (Input.mousePosition - mousePressDownPos).normalized; 
+
+        dir = (Input.mousePosition - mousePressDownPos).normalized;
         DrawTrajectory.instance.UpdateTrajectory(forceV, throwPoint.position, dir.y); //throwing point = body?   
+    }
+
+    private GameObject GetGameObjectLimbFromSelect()
+    {
+        switch (selectedLimbToThrow)
+        {
+            case Limb_enum.Arm:
+                return leftArmObject;
+            case Limb_enum.Head:
+                return headObject;
+            case Limb_enum.Leg:
+                if (!leftLegDetached)
+                    return leftLegObject;
+                else if (!rightLegDetached)
+                    return rightLegObject;
+                break;
+        }
+        return null;
     }
 
     private void UpdateThrowButton()
     {
         if (Input.GetMouseButtonDown(1))
         {
+            if (!CheckIfSelectedCanBeThrown()) return;
+
             mousePressDownPos = Input.mousePosition;
-        
+
             readyToThrow = true;
             dragging = true;
 
-                if (!CheckIfSelectedCanBeThrown())
-                return;
-
-            CmdThrowDropLimb(selectedLimbToThrow, throwPoint.position, gameObject.GetComponent<NetworkIdentity>());          
+            sceneObjectHoldingToThrow = GetGameObjectLimbFromSelect();  
+            sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;            
         }
         else if (Input.GetMouseButtonUp(1))
         {
@@ -518,20 +547,24 @@ public class ItemManager : NetworkBehaviour
 
             if(sceneObjectHoldingToThrow != null)
             {
-                CmdPickUpLimb(sceneObjectHoldingToThrow);
-            }         
+                sceneObjectHoldingToThrow.transform.localPosition = Vector3.zero;
+                sceneObjectHoldingToThrow = null;
+            }
+
         }
         if (Input.GetMouseButtonUp(0) && readyToThrow && sceneObjectHoldingToThrow != null)
         {
-                       
+
             DrawTrajectory.instance.HideLine();
             mouseReleasePos = Input.mousePosition;
-            
+            sceneObjectHoldingToThrow.transform.localPosition = Vector3.zero;
+            sceneObjectHoldingToThrow = null;
+
             //ending point - starting point + cam movement
             dir = (Input.mousePosition - mousePressDownPos).normalized;
-            CmdThrowLimb(force: (mouseReleasePos - mousePressDownPos) * dir.y + cam.transform.forward * throwForce + cam.transform.up * throwUpwardForce, sceneObjectHoldingToThrow);
+            CmdThrowLimb(selectedLimbToThrow, force: (mouseReleasePos - mousePressDownPos) * dir.y + cam.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position);
 
-            sceneObjectHoldingToThrow = null;
+            
         }
     }
 
