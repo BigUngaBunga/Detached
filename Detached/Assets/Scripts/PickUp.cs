@@ -6,37 +6,16 @@ public class PickUp : MonoBehaviour
 {
     // Start is called before the first frame update
     public Transform dest;
+
     private Transform dropDest;
-    public Material baseMaterial;
-    public Material hoverMaterial;
     bool holding = false;
 
-    private Transform objectHit;
     public Camera camera;
+
+    private Transform objectHit;
     private string nameObject;
     private bool hitObject;
-
-
-
-    void OnMouseOver()
-    {
-
-        this.GetComponent<MeshRenderer>().material = hoverMaterial;
-        if (Input.GetKeyDown("e"))
-        {
-            GetComponent<Rigidbody>().useGravity = false;
-            this.transform.parent = GameObject.Find("PickUpDestination").transform;
-            holding = true;
-        }
-
-
-
-    }
-
-    void OnMouseExit()
-    {
-        this.GetComponent<MeshRenderer>().material = baseMaterial;
-    }
+    private GameObject heldItem;
 
 
     private void Update()
@@ -55,67 +34,99 @@ public class PickUp : MonoBehaviour
             nameObject = hit.transform.gameObject.name;
         }
 
+
+        if (hitObject)
+        {
+            if (objectHit.transform.gameObject.tag == "Box" || objectHit.transform.gameObject.tag == "Battery" || objectHit.transform.gameObject.tag == "Key")
+            {
+                if (Input.GetKeyDown("e") && !holding)
+                {
+                    heldItem = GameObject.Find(objectHit.transform.gameObject.name);
+                    heldItem.transform.parent = dest.transform;
+                    heldItem.GetComponent<Rigidbody>().useGravity = false;
+                }
+            }
+
+
+        }
+
+
         if (holding)
         {
-            this.transform.position = dest.position;
-            GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-            this.transform.eulerAngles = new Vector3(0, 0, 0);
-            GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0);
+            heldItem.transform.position = dest.position;
+            heldItem.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+            heldItem.transform.eulerAngles = new Vector3(0, 0, 0);
+            heldItem.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0);
 
 
+        }
+        if (Input.GetKeyDown("e"))
+        {
 
-            if (Input.GetKeyUp("e"))
+            if (!holding && hitObject)
+            {
+                if (objectHit.transform.gameObject.tag == "Box" || objectHit.transform.gameObject.tag == "Battery" || objectHit.transform.gameObject.tag == "Key")
+                {
+                    heldItem = GameObject.Find(objectHit.transform.gameObject.name);
+                    heldItem.transform.parent = dest.transform;
+                    heldItem.GetComponent<Rigidbody>().useGravity = false;
+                }
+            }
+            else if (holding)
             {
 
-                if (this.transform.gameObject.name == "Battery")
+                //if(TooFarGone(objectHit) == false)
+                //{
+                if (heldItem.transform.gameObject.tag == "Battery")
                 {
                     if (objectHit.transform.gameObject.tag == "BatteryBox")
                     {
                         dropDest = GameObject.Find(objectHit.transform.gameObject.name + "/SlotDestination").transform;
-                        this.transform.parent = dropDest.transform;
+
                     }
                     else
                     {
-                        this.transform.parent = null;
-                        dropDest = this.transform;
+                        dropDest = dest.transform;
                     }
                 }
-                else if (this.transform.gameObject.name == "Key")
+                else if (heldItem.transform.gameObject.tag == "Key")
                 {
                     if (objectHit.transform.gameObject.tag == "Lock")
                     {
                         dropDest = GameObject.Find(objectHit.transform.gameObject.name + "/KeyDestination").transform;
-                        this.transform.parent = dropDest.transform;
                     }
                     else
                     {
-                        this.transform.parent = null;
-                        dropDest = this.transform;
+                        dropDest = dest.transform;
                     }
                 }
-                else if (this.transform.gameObject.tag == "Box")
-                {
+                //}
 
-                    this.transform.parent = null;
-                    dropDest = this.transform;
+                if (heldItem.transform.gameObject.tag == "Box")
+                {
+                    dropDest = dest.transform;
 
                 }
 
-
-                this.transform.position = dropDest.position;
-                GetComponent<Rigidbody>().useGravity = true;
-
-
-                holding = false;
-
+                heldItem.transform.position = dropDest.position;
+                heldItem.transform.parent = null;
+                heldItem.GetComponent<Rigidbody>().useGravity = true;
             }
+
+
+            holding = !holding;
         }
 
+    }
 
+    bool TooFarGone(Transform oh)
+    {
+        int size = 10;
+        if (Mathf.Abs(this.transform.position.x - oh.position.x) > size || Mathf.Abs(this.transform.position.y - oh.position.y) > size || Mathf.Abs(this.transform.position.z - oh.position.z) > size)
+        {
+            return true;
+        }
 
-
-
-
-
+        return false;
     }
 }
