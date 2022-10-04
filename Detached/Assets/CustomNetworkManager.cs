@@ -16,7 +16,7 @@ public class CustomNetworkManager : NetworkManager
 
     public static event Action<NetworkConnectionToClient> OnServerReadied;
 
-    public override void OnServerAd dPlayer(NetworkConnectionToClient conn)
+    public override void OnServerAdd Player(NetworkConnectionToClient conn)
     {
         if(SceneManager.GetActiveScene().name == "SteamLobby")
         {
