@@ -1,9 +1,8 @@
-Shader "Hidden/NewImageEffectShader"
+Shader "Custom/HighlightShader"
 {
     Properties
     {
         _Color("Color", Color) = (1,1,1,1)
-        //_MainTex ("Texture", 2D) = "white" {}
     }
     SubShader
     {
@@ -19,6 +18,7 @@ Shader "Hidden/NewImageEffectShader"
             #pragma fragment frag
 
             fixed4 _Color;
+            
             float4 vert(float4 v:POSITION) : POSITION {
                 return UnityObjectToClipPos(v);
             }

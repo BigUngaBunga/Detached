@@ -1,4 +1,4 @@
-Shader "Hidden/NewImageEffectShader"
+Shader "Custom/Removal"
 {
     Properties
     {
@@ -18,7 +18,7 @@ Shader "Hidden/NewImageEffectShader"
             
                 sampler2D _MainTex;
                 sampler2D _OccludeMap;
-            
+
                 half4 frag(v2f_img IN) : COLOR {
                     return tex2D (_MainTex, IN.uv) - tex2D(_OccludeMap, IN.uv);
                 }
@@ -34,7 +34,7 @@ Shader "Hidden/NewImageEffectShader"
             
                 sampler2D _MainTex;
                 sampler2D _OccludeMap;
-            
+
                 half4 frag(v2f_img IN) : COLOR {
                     return tex2D (_MainTex, IN.uv) + tex2D(_OccludeMap, IN.uv);
                 }
