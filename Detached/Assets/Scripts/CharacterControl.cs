@@ -74,6 +74,8 @@ public class CharacterControl : NetworkBehaviour
         Cursor.lockState = CursorLockMode.Confined;
 
         playerObjectController = GetComponent<PlayerObjectController>();
+
+        DontDestroyOnLoad(this.gameObject);
     }
 
     private void Update()

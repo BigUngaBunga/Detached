@@ -51,7 +51,8 @@ public class PlayerObjectController : NetworkBehaviour
 
     public override void OnStopClient()
     {
-        Manager.GamePlayers.Remove(this);        
+        Manager.GamePlayers.Remove(this);
+        //LobbyController.Instance.UpdatePlayerList();
     }
 
     private void PlayerReadyUpdate(bool oldValue, bool newValue)
