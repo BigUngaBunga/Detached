@@ -49,7 +49,12 @@ public class InteractionChecker : MonoBehaviour
     private void HighlightObject(GameObject hitObject) => hitObject.GetComponent<HighlightObject>().DurationHighlight();
 
     private void AttemptInteraction(GameObject hitObject)
-    {
+    {//TODO fixa så att båda spelare läggs till korrekt i skriptet
+        if (player == null)
+        {
+            player = gameObject;
+        }
+
         if (interacting && allowInteraction)
         {
             if (hitObject.CompareTag("Limb"))

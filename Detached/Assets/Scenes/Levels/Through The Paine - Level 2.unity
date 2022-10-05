@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.24647538, g: 0.28234535, b: 0.3457032, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3177,6 +3177,8 @@ GameObject:
   - component: {fileID: 1893991251}
   - component: {fileID: 1893991250}
   - component: {fileID: 1893991249}
+  - component: {fileID: 1893991252}
+  - component: {fileID: 1893991253}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -3283,6 +3285,39 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1893991252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893991247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2c52ca07f289d344ae2d7b2bfcece65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionDistance: 16
+  player: {fileID: 0}
+  allowInteraction: 1
+  debugRayAngle: -0.2
+--- !u!114 &1893991253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893991247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe4f4f72aaf5c60419b65fe0a37fe863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blurIntensity: 3
+  displayOnlyHighlights: 0
+  drawMaterial: {fileID: 2100000, guid: 34648dc252ebbf04a9d20cff0892d2fa, type: 2}
+  blurMaterial: {fileID: 2100000, guid: ccbda6943bd3e754295306d9fe926b1e, type: 2}
+  highlightMaterial: {fileID: 2100000, guid: f80b0fb5d2166844f82ceff8528377ce, type: 2}
 --- !u!1 &1960329993
 GameObject:
   m_ObjectHideFlags: 0
@@ -3294,6 +3329,7 @@ GameObject:
   - component: {fileID: 1960329994}
   - component: {fileID: 1960329996}
   - component: {fileID: 1960329995}
+  - component: {fileID: 1960329997}
   m_Layer: 0
   m_Name: FallOutOfWorldTrigger
   m_TagString: Untagged
@@ -3340,6 +3376,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 557a6e3f8bba7c641895b7320aeec508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!114 &1960329997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960329993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3708234644
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &2030075154
 GameObject:
   m_ObjectHideFlags: 3
