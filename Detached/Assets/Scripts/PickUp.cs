@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PickUp : MonoBehaviour
 {
-    // Start is called before the first frame update
     public Transform dest;
 
     private Transform dropDest;
@@ -17,7 +16,7 @@ public class PickUp : MonoBehaviour
     private bool hitObject;
     private GameObject heldItem;
 
-
+    //TODO dela upp i mindre metoder
     private void Update()
     {
         Cursor.visible = true;
@@ -122,11 +121,8 @@ public class PickUp : MonoBehaviour
     bool TooFarGone(Transform oh)
     {
         int size = 10;
-        if (Mathf.Abs(this.transform.position.x - oh.position.x) > size || Mathf.Abs(this.transform.position.y - oh.position.y) > size || Mathf.Abs(this.transform.position.z - oh.position.z) > size)
-        {
-            return true;
-        }
-
-        return false;
+        return Mathf.Abs(transform.position.x - oh.position.x) > size
+            || Mathf.Abs(transform.position.y - oh.position.y) > size
+            || Mathf.Abs(transform.position.z - oh.position.z) > size;
     }
 }

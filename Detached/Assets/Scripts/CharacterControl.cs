@@ -285,7 +285,7 @@ void Movement()
 
     private void Jump()
     {
-        if (isGrounded && Input.GetButton("Jump") && readyToJump && limbManager.CheckIfPlayerHasTwoArms())
+        if (isGrounded && Input.GetButton("Jump") && readyToJump && limbManager.HasBothLegs())
         {
             readyToJump = false;
 

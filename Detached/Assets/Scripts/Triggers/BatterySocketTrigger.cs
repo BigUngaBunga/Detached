@@ -7,9 +7,9 @@ public class BatterySocketTrigger : Trigger, IInteractable
     [Header("Battery Socket Fields")]
     [SerializeField] Transform batteryPosition;
 
-    public void Interact()
+    public void Interact(GameObject activatingObject)
     {
-        if (IsTriggered)
+        if (IsTriggered && HasEnoughArms(activatingObject, 1))
         {
             //Plocka upp batteri
             IsTriggered = false;

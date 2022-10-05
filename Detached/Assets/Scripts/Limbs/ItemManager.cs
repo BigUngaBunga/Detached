@@ -198,27 +198,39 @@ public class ItemManager : NetworkBehaviour
 
     #region Check status of players limbs
 
-    public bool CheckIfPlayerHasTwoLegs()
+    public bool HasBothLegs() => NumberOfLegs() > 1;
+
+    public bool HasBothArms() => NumberOfArms() > 1;
+
+    public int NumberOfLegs()
     {
-        if (!rightLegDetached && !leftLegDetached)
-            return true;
-        return false;
+        int i = 0;
+        if (!rightLegDetached)
+            ++i;
+        if (!leftLegDetached)
+            ++i;
+        return i;
     }
 
-    public bool CheckIfPlayerHasTwoArms()
+    public int NumberOfArms()
     {
-        if (!rightArmDetached && !leftLegDetached)
-            return true;
-        return false;
+        int i = 0;
+        if (!rightArmDetached)
+            ++i;
+        if (!leftArmDetached)
+            ++i;
+        return i;
     }
+
+
 
     public bool CheckIfMissingLimb(Limb_enum limb)
     {
 
         return limb switch
         {
-            Limb_enum.Arm => rightArmDetached && leftLegDetached,
-            Limb_enum.Leg => rightLegDetached && leftLegDetached,
+            Limb_enum.Arm => rightArmDetached || leftArmDetached,
+            Limb_enum.Leg => rightLegDetached || leftLegDetached,
             Limb_enum.Head => headDetached,
             _ => false,
         };
@@ -260,7 +272,7 @@ public class ItemManager : NetworkBehaviour
     {
         if (objToCheck != gameObject)
         {
-            if (objToCheck.GetComponent<SceneObjectItemManager>().isBeingControlled)
+            if (objToCheck.GetComponent<SceneObjectItemManager>().IsBeingControlled)
             {
                 return true;
             }
@@ -275,7 +287,7 @@ public class ItemManager : NetworkBehaviour
         }
         else
         {
-            objToCheck.GetComponent<SceneObjectItemManager>().isBeingControlled = value;
+            objToCheck.GetComponent<SceneObjectItemManager>().IsBeingControlled = value;
         }
     }
 
@@ -343,7 +355,7 @@ public class ItemManager : NetworkBehaviour
     void CmdThrowLimb(Limb_enum limb, Vector3 force, Vector3 throwPoint)
     {
         //sceneObject.GetComponent<Rigidbody>().useGravity = true;
-        //sceneObject.GetComponent<SceneObjectItemManager>().isBeingControlled = false;
+        //sceneObject.GetComponent<SceneObjectItemManager>().IsBeingControlled = false;
 
         ThrowLimb(force, CmdThrowDropLimb(limb, throwPoint));
     }
@@ -483,7 +495,7 @@ public class ItemManager : NetworkBehaviour
 
 
         }
-        //SceneObjectScript.isBeingControlled = true;
+        //SceneObjectScript.IsBeingControlled = true;
         //newSceneObject.GetComponent<Rigidbody>().useGravity = false;
         //TargetRpcGetThrowingGameObject(identity, newSceneObject);
         return newSceneObject;
@@ -607,6 +619,8 @@ public class ItemManager : NetworkBehaviour
     [Command]
     public void CmdPickUpLimb(GameObject sceneObject)
     {
+        sceneObject.GetComponent<HighlightObject>().EndHighlight();
+
         switch (sceneObject.GetComponent<SceneObjectItemManager>().thisLimb)
         {
             case Limb_enum.Head:

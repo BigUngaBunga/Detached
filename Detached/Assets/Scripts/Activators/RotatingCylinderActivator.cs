@@ -21,6 +21,6 @@ public class RotatingCylinderActivator : Activator
     }
     private void Update()
     {
-        transform.eulerAngles = new Vector3(initialRotation.x, Mathf.LerpAngle(transform.eulerAngles.y, TargetRotation, lerpIncrement));
+        transform.eulerAngles = new Vector3(initialRotation.x, Mathf.LerpAngle(transform.eulerAngles.y, TargetRotation, lerpIncrement * Time.deltaTime));
     }
 }

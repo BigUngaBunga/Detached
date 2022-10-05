@@ -8,10 +8,13 @@ public class SmallButtonTrigger : Trigger, IInteractable
     [SerializeField] float pushedHeight;
     [Min(0.1f)]
     [SerializeField] float triggeredSeconds;
+    private int requiredArms = 1;
     private Vector3 heightDifference => new Vector3(0, pushedHeight, 0);
 
-    public void Interact()
+    public void Interact(GameObject activatingObject)
     {
+        //if (HasEnoughArms(activatingObject, requiredArms))
+        //    StartCoroutine(PushButton());
         StartCoroutine(PushButton());
     }
 
