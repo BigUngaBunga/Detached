@@ -1,35 +1,24 @@
 using UnityEngine;
-using Mirror;
 using UnityEngine.SceneManagement;
 
-public class Goal : NetworkBehaviour
+public class Goal : MonoBehaviour
 {
     [SerializeField] private int playerNumber;
-    [SerializeField] private string nextScene;
 
-    public string[] Maps;
-    public int NextMapIndex;
+     public LevelChanging levelChanging;
 
-    //Manager
-    private CustomNetworkManager manager;
-
-    private CustomNetworkManager Manager
+    public void Start()
     {
-        get
-        {
-            if (manager != null)
-            {
-                return manager;
-            }
-            return manager = CustomNetworkManager.singleton as CustomNetworkManager;
-        }
+        //levelChanging.cmdServerChangeScene();
     }
 
-    [Server]
+
+    //[Server]
     void ServerChangeScene(string sceneName)
     {
-        Manager.ServerChangeScene(sceneName);
+        //Manager.ServerChangeScene(sceneName);
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -38,7 +27,10 @@ public class Goal : NetworkBehaviour
             playerNumber++;
             if (CheckVictoryStatus())
             {
-                ServerChangeScene(Maps[NextMapIndex]);
+
+                //ServerChangeScene(Maps[NextMapIndex]);
+
+                levelChanging.cmdServerChangeScene();
             }
             
         }
