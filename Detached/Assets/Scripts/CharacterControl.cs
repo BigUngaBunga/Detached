@@ -95,7 +95,7 @@ public class CharacterControl : NetworkBehaviour
         cinemaFreelook.LookAt = cameraFollow.transform;
         cinemaFreelook.Follow = cameraFollow.transform;
 
-        DontDestroyOnLoad(this.gameObject);
+        //DontDestroyOnLoad(this.gameObject);
     }
 
     private void Update()

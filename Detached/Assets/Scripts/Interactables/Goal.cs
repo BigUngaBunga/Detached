@@ -1,11 +1,31 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Mirror;
 
-public class Goal : MonoBehaviour
+public class Goal : NetworkBehaviour
 {
     [SerializeField] private int playerNumber;
 
      public LevelChanging levelChanging;
+
+    //Maps
+    [SerializeField] public string[] Maps;
+    public int NextMapIndex;
+
+    //Manager
+    private CustomNetworkManager manager;
+
+    private CustomNetworkManager Manager
+    {
+        get
+        {
+            if (manager != null)
+            {
+                return manager;
+            }
+            return manager = CustomNetworkManager.singleton as CustomNetworkManager;
+        }
+    }
 
     public void Start()
     {
@@ -13,10 +33,10 @@ public class Goal : MonoBehaviour
     }
 
 
-    //[Server]
+    [Server]
     void ServerChangeScene(string sceneName)
     {
-        //Manager.ServerChangeScene(sceneName);
+        Manager.ServerChangeScene(sceneName);
     }
 
 
@@ -28,9 +48,9 @@ public class Goal : MonoBehaviour
             if (CheckVictoryStatus())
             {
 
-                //ServerChangeScene(Maps[NextMapIndex]);
+                ServerChangeScene(Maps[NextMapIndex]);
 
-                levelChanging.cmdServerChangeScene();
+                //levelChanging.cmdServerChangeScene();
             }
             
         }
