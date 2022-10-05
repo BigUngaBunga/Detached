@@ -40,7 +40,7 @@ public class HighlightObject : MonoBehaviour
             renderers.Add(rendererInChild);
     }
 
-    public void HighlightItem()
+    public void DurationHighlight()
     {
         if (!isHighlighted)
             highlighter.AddRenderers(renderers);
@@ -49,9 +49,18 @@ public class HighlightObject : MonoBehaviour
             CancelInvoke(StopMethod);
         Invoke(StopMethod, highlightMilliseconds / 1000);
     }
+
+    public void Highlight()
+    {
+        if (!isHighlighted)
+            highlighter.AddRenderers(renderers);
+        isHighlighted = true;
+    }
+
     public void EndHighlight()
     {
-        highlighter.RemoveRenderers(renderers);
-        isHighlighted=false;
+        if (isHighlighted)
+            highlighter.RemoveRenderers(renderers);
+        isHighlighted =false;
     }
 }

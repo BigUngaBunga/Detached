@@ -17,7 +17,7 @@ public class TempMovement : NetworkBehaviour
     {
         if (!hasAuthority) return;
 
-        if (!sceneObjectItemManagerScript.isBeingControlled) return;
+        if (!sceneObjectItemManagerScript.IsBeingControlled) return;
 
         if (Input.GetKeyDown(KeyCode.W))
         {

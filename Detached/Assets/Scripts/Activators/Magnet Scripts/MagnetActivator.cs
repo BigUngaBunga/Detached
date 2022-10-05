@@ -22,6 +22,4 @@ public class MagnetActivator : Activator
                 gameObject.AddForce(GetDirection(gameObject.transform.position) * attractionSpeed * Time.deltaTime);
         }
     }
-
-
 }
