@@ -39,7 +39,7 @@ public class Goal : NetworkBehaviour
         Manager.ServerChangeScene(sceneName);
     }
 
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
