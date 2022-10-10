@@ -120,7 +120,7 @@ public class PickUp : MonoBehaviour
 
     bool TooFarGone(Transform oh)
     {
-        int size = 12;
+        int size = 50;
         return Mathf.Abs(transform.position.x - oh.position.x) > size
             || Mathf.Abs(transform.position.y - oh.position.y) > size
             || Mathf.Abs(transform.position.z - oh.position.z) > size;

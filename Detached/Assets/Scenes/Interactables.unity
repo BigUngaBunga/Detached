@@ -668,7 +668,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 301969720}
-  m_LocalRotation: {x: 0.023351986, y: -0.7550573, z: 0.026932001, w: 0.6546892}
+  m_LocalRotation: {x: 0.023352006, y: -0.7550573, z: 0.02693202, w: 0.6546892}
   m_LocalPosition: {x: -0.0000019073486, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -908,7 +908,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 469753779}
-  m_LocalRotation: {x: -0.00044496005, y: -0.75553733, z: -0.0005131754, w: 0.6551053}
+  m_LocalRotation: {x: -0.00044496008, y: -0.7555373, z: -0.0005131754, w: 0.65510535}
   m_LocalPosition: {x: -0.0000009536743, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1213,6 +1213,7 @@ GameObject:
   - component: {fileID: 574575051}
   - component: {fileID: 574575050}
   - component: {fileID: 574575049}
+  - component: {fileID: 574575053}
   m_Layer: 0
   m_Name: BatterySlot1
   m_TagString: BatteryBox
@@ -1228,7 +1229,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 574575048}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -1297,6 +1298,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &574575053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574575048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7c61c43703c4f4bbf26068c8244e0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseM: {fileID: 2100000, guid: ab0cde95447fb49429f41c5660d0bc7d, type: 2}
+  activeM: {fileID: 2100000, guid: 0bec1a1746860604aa498fe4baf35195, type: 2}
 --- !u!1 &617786028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1465,7 +1480,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 667207442}
-  m_LocalRotation: {x: 0.011439679, y: -0.7554223, z: 0.01319346, w: 0.65500563}
+  m_LocalRotation: {x: 0.011439678, y: -0.7554223, z: 0.013193458, w: 0.65500563}
   m_LocalPosition: {x: -0.0000009536743, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1756,6 +1771,7 @@ GameObject:
   - component: {fileID: 802832940}
   - component: {fileID: 802832939}
   - component: {fileID: 802832938}
+  - component: {fileID: 802832937}
   m_Layer: 0
   m_Name: BatterySlot2
   m_TagString: BatteryBox
@@ -1763,6 +1779,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &802832937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802832936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7c61c43703c4f4bbf26068c8244e0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseM: {fileID: 2100000, guid: ab0cde95447fb49429f41c5660d0bc7d, type: 2}
+  activeM: {fileID: 2100000, guid: 0bec1a1746860604aa498fe4baf35195, type: 2}
 --- !u!65 &802832938
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1771,7 +1801,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 802832936}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -2126,6 +2156,7 @@ GameObject:
   - component: {fileID: 1117060460}
   - component: {fileID: 1117060459}
   - component: {fileID: 1117060458}
+  - component: {fileID: 1117060462}
   m_Layer: 0
   m_Name: Lock
   m_TagString: Lock
@@ -2141,7 +2172,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1117060457}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -2165,7 +2196,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0bec1a1746860604aa498fe4baf35195, type: 2}
+  - {fileID: 2100000, guid: 84599418f274f7344958617169d53b60, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2210,6 +2241,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1117060462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1117060457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7c61c43703c4f4bbf26068c8244e0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseM: {fileID: 2100000, guid: 84599418f274f7344958617169d53b60, type: 2}
+  activeM: {fileID: 2100000, guid: 0bec1a1746860604aa498fe4baf35195, type: 2}
 --- !u!1 &1319828736
 GameObject:
   m_ObjectHideFlags: 3
