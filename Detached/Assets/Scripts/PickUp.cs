@@ -114,9 +114,9 @@ public class PickUp : MonoBehaviour
                 holding = false;
                 heldItem = null;
             }
-        }
-
     }
+
+}
 
     bool TooFarGone(Transform oh)
     {
