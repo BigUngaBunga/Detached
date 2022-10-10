@@ -323,30 +323,13 @@ GameObject:
   - component: {fileID: 127247287}
   - component: {fileID: 127247286}
   - component: {fileID: 127247285}
-  - component: {fileID: 127247284}
   m_Layer: 0
-  m_Name: Battery
-  m_TagString: Untagged
+  m_Name: Battery1
+  m_TagString: Battery
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &127247284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 127247283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 429ec79a6abf2a94b92c3a1e8161e99a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dest: {fileID: 788732080}
-  baseMaterial: {fileID: 2100000, guid: d8e3198381bd3a0488bb210dc31a10b5, type: 2}
-  hoverMaterial: {fileID: 2100000, guid: cf3f41c572b491e4e8ba7b4e029cbb4c, type: 2}
-  camera: {fileID: 679104628}
 --- !u!54 &127247285
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -483,6 +466,7 @@ GameObject:
   - component: {fileID: 263758081}
   - component: {fileID: 263758080}
   - component: {fileID: 263758079}
+  - component: {fileID: 263758084}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Player
@@ -616,6 +600,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 263758077}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &263758084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 263758077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 429ec79a6abf2a94b92c3a1e8161e99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dest: {fileID: 788732080}
+  camera: {fileID: 679104628}
 --- !u!1 &269607661
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,7 +668,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 301969720}
-  m_LocalRotation: {x: 0.023352018, y: -0.7550573, z: 0.026932038, w: 0.6546892}
+  m_LocalRotation: {x: 0.023351986, y: -0.7550573, z: 0.026932001, w: 0.6546892}
   m_LocalPosition: {x: -0.0000019073486, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -973,7 +971,6 @@ GameObject:
   - component: {fileID: 508923883}
   - component: {fileID: 508923882}
   - component: {fileID: 508923881}
-  - component: {fileID: 508923880}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Box
@@ -981,22 +978,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &508923880
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 508923879}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 429ec79a6abf2a94b92c3a1e8161e99a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dest: {fileID: 788732080}
-  baseMaterial: {fileID: 2100000, guid: 07405274e7eff51498d84c8d19d499d2, type: 2}
-  hoverMaterial: {fileID: 2100000, guid: 84599418f274f7344958617169d53b60, type: 2}
-  camera: {fileID: 679104628}
 --- !u!54 &508923881
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1329,30 +1310,13 @@ GameObject:
   - component: {fileID: 617786032}
   - component: {fileID: 617786031}
   - component: {fileID: 617786030}
-  - component: {fileID: 617786029}
   m_Layer: 0
   m_Name: Battery
-  m_TagString: Untagged
+  m_TagString: Battery
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &617786029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 617786028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 429ec79a6abf2a94b92c3a1e8161e99a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dest: {fileID: 788732080}
-  baseMaterial: {fileID: 2100000, guid: d8e3198381bd3a0488bb210dc31a10b5, type: 2}
-  hoverMaterial: {fileID: 2100000, guid: cf3f41c572b491e4e8ba7b4e029cbb4c, type: 2}
-  camera: {fileID: 679104628}
 --- !u!54 &617786030
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1501,7 +1465,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 667207442}
-  m_LocalRotation: {x: 0.011439679, y: -0.75542223, z: 0.013193456, w: 0.65500563}
+  m_LocalRotation: {x: 0.011439679, y: -0.7554223, z: 0.01319346, w: 0.65500563}
   m_LocalPosition: {x: -0.0000009536743, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1577,7 +1541,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 679104624}
-  m_LocalRotation: {x: 0.011439677, y: -0.75542223, z: 0.013193454, w: 0.65500563}
+  m_LocalRotation: {x: 0.011439678, y: -0.7554223, z: 0.0131934555, w: 0.65500563}
   m_LocalPosition: {x: 6.7493944, y: 2.8000002, z: 0.9917159}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2051,7 +2015,6 @@ GameObject:
   - component: {fileID: 1102535441}
   - component: {fileID: 1102535440}
   - component: {fileID: 1102535439}
-  - component: {fileID: 1102535444}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Box
@@ -2151,22 +2114,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1102535444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1102535438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 429ec79a6abf2a94b92c3a1e8161e99a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dest: {fileID: 788732080}
-  baseMaterial: {fileID: 2100000, guid: 07405274e7eff51498d84c8d19d499d2, type: 2}
-  hoverMaterial: {fileID: 2100000, guid: 84599418f274f7344958617169d53b60, type: 2}
-  camera: {fileID: 679104628}
 --- !u!1 &1117060457
 GameObject:
   m_ObjectHideFlags: 0
@@ -2464,7 +2411,6 @@ GameObject:
   - component: {fileID: 1419999493}
   - component: {fileID: 1419999492}
   - component: {fileID: 1419999491}
-  - component: {fileID: 1419999490}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Box
@@ -2472,22 +2418,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1419999490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1419999489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 429ec79a6abf2a94b92c3a1e8161e99a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dest: {fileID: 788732080}
-  baseMaterial: {fileID: 2100000, guid: 07405274e7eff51498d84c8d19d499d2, type: 2}
-  hoverMaterial: {fileID: 2100000, guid: 84599418f274f7344958617169d53b60, type: 2}
-  camera: {fileID: 679104628}
 --- !u!54 &1419999491
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2717,30 +2647,13 @@ GameObject:
   - component: {fileID: 1871621837}
   - component: {fileID: 1871621836}
   - component: {fileID: 1871621835}
-  - component: {fileID: 1871621834}
   m_Layer: 0
   m_Name: Key
-  m_TagString: Untagged
+  m_TagString: Key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1871621834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1871621833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 429ec79a6abf2a94b92c3a1e8161e99a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dest: {fileID: 788732080}
-  baseMaterial: {fileID: 2100000, guid: 07405274e7eff51498d84c8d19d499d2, type: 2}
-  hoverMaterial: {fileID: 2100000, guid: 84599418f274f7344958617169d53b60, type: 2}
-  camera: {fileID: 679104628}
 --- !u!54 &1871621835
 Rigidbody:
   m_ObjectHideFlags: 0
