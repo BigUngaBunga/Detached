@@ -64,7 +64,7 @@ public class PickUp : MonoBehaviour
 
             if (!holding && hitObject)
             {
-                if (objectHit.transform.gameObject.tag == "Box" || objectHit.transform.gameObject.tag == "Battery" || objectHit.transform.gameObject.tag == "Key")
+                if ((objectHit.transform.gameObject.tag == "Box" || objectHit.transform.gameObject.tag == "Battery" || objectHit.transform.gameObject.tag == "Key") && TooFarGone(objectHit) == false)
                 {
                     heldItem = GameObject.Find(objectHit.transform.gameObject.name);
                     heldItem.transform.parent = dest.transform;
@@ -75,9 +75,9 @@ public class PickUp : MonoBehaviour
             else if (holding)
             {
 
-                if (TooFarGone(objectHit) == false)
+                if(TooFarGone(objectHit) == false)
                 {
-                    if (heldItem.transform.gameObject.tag == "Battery")
+                if (heldItem.transform.gameObject.tag == "Battery")
                 {
                     if (objectHit.transform.gameObject.tag == "BatteryBox")
                     {
@@ -100,9 +100,9 @@ public class PickUp : MonoBehaviour
                         dropDest = dest.transform;
                     }
                 }
-            }
+                }
 
-            if (heldItem.transform.gameObject.tag == "Box")
+                if (heldItem.transform.gameObject.tag == "Box")
                 {
                     dropDest = dest.transform;
 
@@ -114,13 +114,13 @@ public class PickUp : MonoBehaviour
                 holding = false;
                 heldItem = null;
             }
-    }
+        }
 
-}
+    }
 
     bool TooFarGone(Transform oh)
     {
-        int size = 10;
+        int size = 12;
         return Mathf.Abs(transform.position.x - oh.position.x) > size
             || Mathf.Abs(transform.position.y - oh.position.y) > size
             || Mathf.Abs(transform.position.z - oh.position.z) > size;
