@@ -14,20 +14,6 @@ public class HighlightObject : MonoBehaviour
     private HighlightHandler highlighter;
     [SerializeField] private List<Renderer> renderers;
 
-    private void Update()
-    {
-        //if (isHighlighted && !wasHighlighted)
-        //{
-        //    HighlightItem();
-        //    wasHighlighted = true;
-        //}
-        //else if (!isHighlighted && wasHighlighted)
-        //{
-        //    EndHighlight();
-        //    wasHighlighted = false;
-        //}
-    }
-
     void Start()
     {
         highlighter = FindObjectOfType<HighlightHandler>();

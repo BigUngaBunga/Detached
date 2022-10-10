@@ -620,53 +620,34 @@ public class ItemManager : NetworkBehaviour
     public void CmdPickUpLimb(GameObject sceneObject)
     {
         sceneObject.GetComponent<HighlightObject>().EndHighlight();
-
+        bool keepSceneObject = true;
         switch (sceneObject.GetComponent<SceneObjectItemManager>().thisLimb)
         {
             case Limb_enum.Head:
                 if (headDetached)
-                {
-                    headDetached = false;
-                    NetworkServer.Destroy(sceneObject);
-                }
+                    keepSceneObject = headDetached = false;
                 break;
             case Limb_enum.Arm:
                 if (rightArmDetached)
-                {
-                    rightArmDetached = false;
-                    NetworkServer.Destroy(sceneObject);
-                }
+                    keepSceneObject = rightArmDetached = false;
                 else if (leftArmDetached)
-                {
-                    leftArmDetached = false;
-                    NetworkServer.Destroy(sceneObject);
-                }
+                    keepSceneObject = leftArmDetached = false;
                 else
-                {
-                    Debug.Log("No Spots to attach arm too");
-                }
+                    Debug.Log("No Spots to attach arm to");
                 break;
             case Limb_enum.Leg:
                 if (rightLegDetached)
-                {
-                    rightLegDetached = false;
-                    NetworkServer.Destroy(sceneObject);
-                }
+                    keepSceneObject = rightLegDetached = false;
                 else if (leftLegDetached)
-                {
-                    leftLegDetached = false;
-                    NetworkServer.Destroy(sceneObject);
-                }
+                    keepSceneObject = leftLegDetached = false;
                 else
-                {
-                    Debug.Log("No Spots to attach arm too");
-                }
+                    Debug.Log("No Spots to attach leg to");
                 break;
             default:
                 return;
         }
-
-
+        if (!keepSceneObject)
+            NetworkServer.Destroy(sceneObject);
     }
 
     #endregion

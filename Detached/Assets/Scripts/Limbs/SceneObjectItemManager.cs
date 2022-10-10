@@ -83,18 +83,19 @@ public class SceneObjectItemManager : NetworkBehaviour
         //Todo Needs to be changed to a more specific pickup action
         if (Input.GetKeyDown(KeyCode.T) && !IsBeingControlled)
         {
+            var itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
             switch (thisLimb)
             {
                 case ItemManager.Limb_enum.Arm:
-                    if (NetworkClient.localPlayer.GetComponent<ItemManager>().rightArmDetached || NetworkClient.localPlayer.GetComponent<ItemManager>().leftArmDetached)
+                    if (itemManager.rightArmDetached || itemManager.leftArmDetached)
                     {
-                        NetworkClient.localPlayer.GetComponent<ItemManager>().CmdPickUpLimb(gameObject);
+                        itemManager.CmdPickUpLimb(gameObject);
                     }
                     break;
                 case ItemManager.Limb_enum.Leg:
-                    if (NetworkClient.localPlayer.GetComponent<ItemManager>().rightLegDetached || NetworkClient.localPlayer.GetComponent<ItemManager>().leftLegDetached)
+                    if (itemManager.rightLegDetached || itemManager.leftLegDetached)
                     {
-                        NetworkClient.localPlayer.GetComponent<ItemManager>().CmdPickUpLimb(gameObject);
+                        itemManager.CmdPickUpLimb(gameObject);
                     }
                     break;
             }
@@ -104,10 +105,11 @@ public class SceneObjectItemManager : NetworkBehaviour
     public void TryPickUp()
     {
         Debug.Log("Attempting pickup");
-        if (NetworkClient.localPlayer.GetComponent<ItemManager>().CheckIfMissingLimb(thisLimb))
+        var itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
+        if (itemManager.CheckIfMissingLimb(thisLimb))
         {
             Debug.Log("Picking it up");
-            NetworkClient.localPlayer.GetComponent<ItemManager>().CmdPickUpLimb(gameObject);
+            itemManager.CmdPickUpLimb(gameObject);
         }      
     }
 }

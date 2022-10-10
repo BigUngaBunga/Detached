@@ -1,14 +1,19 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractionChecker : MonoBehaviour
+public class InteractionChecker : NetworkBehaviour
 {
 
     [SerializeField] private float interactionDistance;
     [SerializeField] private GameObject player;
     private LayerMask targetMask;
     private bool interacting = false;
+    private bool Interacting => interacting && allowInteraction;
+    private InteractableManager interactableManager;
+
+    private bool ray1Hit, ray2Hit;
 
     [Header("Debug values")]
     [SerializeField] private bool allowInteraction = false;
@@ -17,7 +22,14 @@ public class InteractionChecker : MonoBehaviour
 
     private void Awake()
     {
+        //player.TryGetComponent(out interactableManager);
         targetMask = LayerMask.GetMask("Interactable");
+    }
+
+    private void Start()
+    {
+        NetworkClient.localPlayer.TryGetComponent(out interactableManager); //TODO kolla så att det faktiskt fungerar
+        player = interactableManager.gameObject;
     }
 
     private void Update()
@@ -30,8 +42,10 @@ public class InteractionChecker : MonoBehaviour
 
     private void FixedUpdate()
     {
+        ray1Hit = ray2Hit = false;
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, interactionDistance, targetMask))
         {
+            ray1Hit = true;
             HighlightObject(hit.transform.gameObject);
             AttemptInteraction(hit.transform.gameObject);
         }
@@ -40,10 +54,14 @@ public class InteractionChecker : MonoBehaviour
         var debugDirection = (transform.forward + transform.up * debugRayAngle).normalized;
         if (Physics.Raycast(transform.position, debugDirection, out RaycastHit hit2, interactionDistance, targetMask))
         {
+            ray2Hit = true;
             HighlightObject(hit2.transform.gameObject);
             AttemptInteraction(hit2.transform.gameObject);
         }
         Debug.DrawRay(transform.position, debugDirection * interactionDistance, Color.yellow);
+        
+        if (!ray1Hit && !ray2Hit)
+            AttemptDropItem();
     }
 
     private void HighlightObject(GameObject hitObject) => hitObject.GetComponent<HighlightObject>().DurationHighlight();
@@ -51,11 +69,9 @@ public class InteractionChecker : MonoBehaviour
     private void AttemptInteraction(GameObject hitObject)
     {//TODO fixa så att båda spelare läggs till korrekt i skriptet
         if (player == null)
-        {
-            player = gameObject;
-        }
+            player = NetworkClient.localPlayer.gameObject;
 
-        if (interacting && allowInteraction)
+        if (Interacting && allowInteraction)
         {
             if (hitObject.CompareTag("Limb"))
             {
@@ -68,5 +84,14 @@ public class InteractionChecker : MonoBehaviour
                 hitObject.GetComponentInChildren<IInteractable>().Interact(player);
             interacting = false;
         }
+    }
+
+    private void AttemptDropItem()
+    {
+        if (Interacting)
+        {
+            interactableManager.AttemptDropItem();
+        }
+            
     }
 }

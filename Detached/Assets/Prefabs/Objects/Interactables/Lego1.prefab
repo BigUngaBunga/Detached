@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2772405921108101813}
   - component: {fileID: 3227197938731620103}
   - component: {fileID: -6284798525986877175}
+  - component: {fileID: 6338363039671693557}
   m_Layer: 15
   m_Name: Lego1
   m_TagString: Box
@@ -205,6 +206,20 @@ MonoBehaviour:
   isHighlighted: 0
   highlightMilliseconds: 50
   renderers: []
+--- !u!114 &6338363039671693557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3778121554060850741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20d706bf776ac6a468d6f5c03c8d3ad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requiredArms: 2
+  positionTarget: {fileID: 0}
 --- !u!1 &5071249758527522427
 GameObject:
   m_ObjectHideFlags: 0

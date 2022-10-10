@@ -28,8 +28,8 @@ public class LeverTrigger : Trigger, IInteractable
 
     public void Interact(GameObject activatingObject)
     {
-        //if (HasEnoughArms(activatingObject, requiredArms))
-        //    TriggerLever();
-        TriggerLever();
+        if (HasEnoughArms(activatingObject, requiredArms))
+            TriggerLever();
+        //TriggerLever();
     }
 }
