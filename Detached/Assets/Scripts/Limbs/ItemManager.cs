@@ -164,7 +164,7 @@ public class ItemManager : NetworkBehaviour
     private void Start()
     {
         cam = Camera.main.transform;
-        
+
     }
     void Update()
     {
@@ -511,11 +511,12 @@ public class ItemManager : NetworkBehaviour
 
     private void TrajectoryCal()
     {
-        Vector3 forceInit = Input.mousePosition - mousePressDownPos /*+ cam.transform.forward * throwForce + transform.up * throwUpwardForce */; //idek what im doing anymore
+        Quaternion dir = Quaternion.AngleAxis(cam.rotation.eulerAngles.y, Vector3.up).normalized;
+        Vector3 forceInit = Input.mousePosition - mousePressDownPos + cam.transform.forward * throwForce + transform.up * throwUpwardForce; //idek what im doing anymore
         Vector3 forceV = new Vector3(forceInit.x, forceInit.y, z: forceInit.y);
 
-        dir = (Input.mousePosition - mousePressDownPos).normalized;
-        DrawTrajectory.instance.UpdateTrajectory(forceV, throwPoint.position, dir.y); //throwing point = body?   
+        //dir = (Input.mousePosition - mousePressDownPos).normalized;
+        DrawTrajectory.instance.UpdateTrajectory(forceV, throwPoint.position, 1); //throwing point = body?   
     }
 
     private GameObject GetGameObjectLimbFromSelect()
@@ -547,8 +548,8 @@ public class ItemManager : NetworkBehaviour
             readyToThrow = true;
             dragging = true;
 
-            sceneObjectHoldingToThrow = GetGameObjectLimbFromSelect();  
-            sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;            
+            sceneObjectHoldingToThrow = GetGameObjectLimbFromSelect();
+            sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
         }
         else if (Input.GetMouseButtonUp(1))
         {
@@ -557,7 +558,7 @@ public class ItemManager : NetworkBehaviour
 
             DrawTrajectory.instance.HideLine();
 
-            if(sceneObjectHoldingToThrow != null)
+            if (sceneObjectHoldingToThrow != null)
             {
                 sceneObjectHoldingToThrow.transform.localPosition = Vector3.zero;
                 sceneObjectHoldingToThrow = null;
@@ -574,9 +575,9 @@ public class ItemManager : NetworkBehaviour
 
             //ending point - starting point + cam movement
             dir = (Input.mousePosition - mousePressDownPos).normalized;
-            CmdThrowLimb(selectedLimbToThrow, force: (mouseReleasePos - mousePressDownPos) * dir.y + cam.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position);
+            CmdThrowLimb(selectedLimbToThrow, force: (mouseReleasePos - mousePressDownPos + cam.transform.forward * throwForce + transform.up * throwUpwardForce), throwPoint.position);
 
-            
+
         }
     }
 
