@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LeverTrigger : Trigger
+public class LeverTrigger : Trigger, IInteractable
 {
     [SerializeField] private int requiredArms = 1;
 
@@ -12,13 +12,6 @@ public class LeverTrigger : Trigger
     private void Start()
     {
         UpdateLeverPosition();
-    }
-
-    //TODO implementera faktisk aktiveringsfunktionalitet
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-            TriggerLever();
     }
 
     public void TriggerLever()
@@ -31,5 +24,12 @@ public class LeverTrigger : Trigger
     {
         normalLever.SetActive(!IsTriggered);
         triggeredLever.SetActive(IsTriggered);
+    }
+
+    public void Interact(GameObject activatingObject)
+    {
+        if (HasEnoughArms(activatingObject, requiredArms))
+            TriggerLever();
+        //TriggerLever();
     }
 }

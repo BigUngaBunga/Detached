@@ -87,12 +87,15 @@ public class CharacterControl : NetworkBehaviour
 
         playerObjectController = GetComponent<PlayerObjectController>();
 
+
         if (!isLocalPlayer) return;
         camTransform = Camera.main.transform;
 
         cinemaFreelook = CinemachineFreeLook.FindObjectOfType<CinemachineFreeLook>();
         cinemaFreelook.LookAt = cameraFollow.transform;
         cinemaFreelook.Follow = cameraFollow.transform;
+
+        //DontDestroyOnLoad(this.gameObject);
     }
 
     private void Update()
@@ -282,7 +285,7 @@ void Movement()
 
     private void Jump()
     {
-        if (isGrounded && Input.GetButton("Jump") && readyToJump && limbManager.CheckIfPlayerHasTwoArms())
+        if (isGrounded && Input.GetButton("Jump") && readyToJump && limbManager.HasBothLegs())
         {
             readyToJump = false;
 

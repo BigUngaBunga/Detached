@@ -33,6 +33,7 @@ public class SteamLobby : MonoBehaviour
 
     public void HostLobby()
     {
+        Debug.Log("Hosting lobby");
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, manager.maxConnections);
     }
 

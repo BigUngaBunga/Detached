@@ -6,17 +6,25 @@ public class BatterySocketTrigger : Trigger, IInteractable
 {
     [Header("Battery Socket Fields")]
     [SerializeField] Transform batteryPosition;
+    [SerializeField] GameObject battery;
 
-    public void Interact()
+    private void MoveToBatteryPosition(GameObject battery)
     {
-        if (IsTriggered)
+        battery.transform.position = batteryPosition.transform.position;
+        battery.transform.rotation = batteryPosition.transform.rotation;
+    }
+
+    public void Interact(GameObject activatingObject)
+    {
+        var itemManager = activatingObject.GetComponent<InteractableManager>();
+        if (IsTriggered && HasEnoughArms(activatingObject, 1))
         {
-            //Plocka upp batteri
+            itemManager.AttemptPickUpItem(battery);
             IsTriggered = false;
         }
-        else if(true)//Om spelare håller ett batteri
+        else if(itemManager.TryCompareTag("Battery") && itemManager.AttemptDropItem(out GameObject battery))//Om spelare håller ett batteri
         {
-            //Fäst batteri
+            MoveToBatteryPosition(battery);
             IsTriggered = true;
         }
     }
@@ -26,9 +34,8 @@ public class BatterySocketTrigger : Trigger, IInteractable
         if (other.gameObject.CompareTag("Battery"))
         {
             Debug.Log("Attached battery");
+            battery = other.gameObject;
             IsTriggered = true;
-            other.transform.position = batteryPosition.transform.position;
-            other.transform.rotation = batteryPosition.transform.rotation;
         }
     }
 

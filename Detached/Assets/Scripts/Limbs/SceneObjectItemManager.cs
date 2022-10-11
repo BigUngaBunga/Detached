@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEditor;
+
 public class SceneObjectItemManager : NetworkBehaviour
 {
     [SerializeField] private GameObject headLimb;
@@ -12,6 +14,8 @@ public class SceneObjectItemManager : NetworkBehaviour
     private KeyCode detachKeyArm;
     private KeyCode detachKeyLeg;
 
+    private HighlightObject highlight;
+
     [SyncVar(hook = nameof(OnChangeDetached))]
     public bool detached = false;
     [SyncVar]
@@ -20,6 +24,18 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SyncVar]
     public bool isBeingControlled = false;
 
+    public bool IsBeingControlled
+    {
+        get { return isBeingControlled; }
+        set { isBeingControlled = value;
+            if (isBeingControlled)
+                highlight.Highlight();
+            else
+                highlight.EndHighlight();
+        }
+    }
+
+
     public bool test = true;
 
     public ItemManager itemManager;
@@ -27,6 +43,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     private void Start()
     {
         itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
+        highlight = GetComponent<HighlightObject>();
         detachKeyHead = itemManager.detachKeyHead;
         detachKeyArm = itemManager.detachKeyArm;
         detachKeyLeg = itemManager.detachKeyLeg;
@@ -64,20 +81,21 @@ public class SceneObjectItemManager : NetworkBehaviour
         }
 
         //Todo Needs to be changed to a more specific pickup action
-        if (Input.GetKeyDown(KeyCode.T) && !isBeingControlled)
+        if (Input.GetKeyDown(KeyCode.T) && !IsBeingControlled)
         {
+            var itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
             switch (thisLimb)
             {
                 case ItemManager.Limb_enum.Arm:
-                    if (NetworkClient.localPlayer.GetComponent<ItemManager>().rightArmDetached || NetworkClient.localPlayer.GetComponent<ItemManager>().leftArmDetached)
+                    if (itemManager.rightArmDetached || itemManager.leftArmDetached)
                     {
-                        NetworkClient.localPlayer.GetComponent<ItemManager>().CmdPickUpLimb(gameObject);
+                        itemManager.CmdPickUpLimb(gameObject);
                     }
                     break;
                 case ItemManager.Limb_enum.Leg:
-                    if (NetworkClient.localPlayer.GetComponent<ItemManager>().rightLegDetached || NetworkClient.localPlayer.GetComponent<ItemManager>().leftLegDetached)
+                    if (itemManager.rightLegDetached || itemManager.leftLegDetached)
                     {
-                        NetworkClient.localPlayer.GetComponent<ItemManager>().CmdPickUpLimb(gameObject);
+                        itemManager.CmdPickUpLimb(gameObject);
                     }
                     break;
             }
@@ -86,9 +104,12 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     public void TryPickUp()
     {
-        if (NetworkClient.localPlayer.GetComponent<ItemManager>().CheckIfMissingLimb(thisLimb))
+        Debug.Log("Attempting pickup");
+        var itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
+        if (itemManager.CheckIfMissingLimb(thisLimb))
         {
-            NetworkClient.localPlayer.GetComponent<ItemManager>().CmdPickUpLimb(gameObject);
+            Debug.Log("Picking it up");
+            itemManager.CmdPickUpLimb(gameObject);
         }      
     }
 }

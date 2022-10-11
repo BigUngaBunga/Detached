@@ -4,13 +4,49 @@ using UnityEngine;
 
 public class HighlightObject : MonoBehaviour
 {
-    private ObjectHighlighter highlighter;
-    private Renderer renderer;
+    [Header("Debug variables")]
+    [SerializeField] private bool isHighlighted = false;
+    [SerializeField] private float highlightMilliseconds = 50;
+    private bool wasHighlighted = false;
+
+    private string StopMethod => nameof(EndHighlight);
+
+    private HighlightHandler highlighter;
+    [SerializeField] private List<Renderer> renderers;
+
     void Start()
     {
-        highlighter = GameObject.FindObjectOfType<ObjectHighlighter>();
-        renderer = gameObject.GetComponent<Renderer>();
+        highlighter = FindObjectOfType<HighlightHandler>();
+        renderers = new List<Renderer>();
+        if (gameObject.TryGetComponent<Renderer>(out var renderer))
+            renderers.Add(renderer);
+
+        var renderersInChildren = GetComponentsInChildren<Renderer>();
+        foreach (var rendererInChild in renderersInChildren)
+            renderers.Add(rendererInChild);
     }
 
+    public void DurationHighlight()
+    {
+        if (!isHighlighted)
+            highlighter.AddRenderers(renderers);
+        isHighlighted = true;
+        if (IsInvoking(StopMethod))
+            CancelInvoke(StopMethod);
+        Invoke(StopMethod, highlightMilliseconds / 1000);
+    }
 
+    public void Highlight()
+    {
+        if (!isHighlighted)
+            highlighter.AddRenderers(renderers);
+        isHighlighted = true;
+    }
+
+    public void EndHighlight()
+    {
+        if (isHighlighted)
+            highlighter.RemoveRenderers(renderers);
+        isHighlighted =false;
+    }
 }
