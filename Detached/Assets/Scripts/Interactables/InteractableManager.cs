@@ -15,20 +15,22 @@ public class InteractableManager : NetworkBehaviour
     private void Start()
     {
         itemManager = GetComponent<ItemManager>();
+        itemManager.dropLimbEvent.AddListener(CanStillCarryItem);
     }
 
-    public bool TryCompareTag(string tag)
+    public bool IsCarryingTag(string tag)
     {
         if (isCarryingItem)
             return carriedItem.CompareTag(tag);
         return false;
     }
 
+    public bool CanPickUpItem(GameObject item) => !isCarryingItem && item.GetComponent<PickUpInteractable>().RequiredArms <= itemManager.NumberOfArms;
+
     public void AttemptPickUpItem(GameObject item)
     {
         Debug.Log("Picking up item");
-        var interactable = item.GetComponent<PickUpInteractable>();
-        if (!isCarryingItem && interactable.RequiredArms <= itemManager.NumberOfArms())
+        if (CanPickUpItem(item))
         {
             isCarryingItem = true;
             carriedItem = item;
@@ -65,6 +67,12 @@ public class InteractableManager : NetworkBehaviour
         }
     }
 
+    private void CanStillCarryItem()
+    {
+        if (isCarryingItem && carriedItem.GetComponent<PickUpInteractable>().RequiredArms > itemManager.NumberOfArms)
+            AttemptDropItem();
+    }
+
     private void MoveTo(GameObject item, Transform target, bool moveItem = true)
     {
         if (target == null)
@@ -81,5 +89,6 @@ public class InteractableManager : NetworkBehaviour
         rigidbody.useGravity = !rigidbody.useGravity;
         rigidbody.velocity = Vector3.zero;
         rigidbody.angularVelocity = Vector3.zero;
+        rigidbody.angularDrag = rigidbody.useGravity ? 0.05f : 0.5f;
     }
 }

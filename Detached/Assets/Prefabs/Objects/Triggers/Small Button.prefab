@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8275085830935521169}
   - component: {fileID: 2707198166553919338}
   - component: {fileID: 6841059786632799842}
+  - component: {fileID: -5251356243174245783}
   m_Layer: 15
   m_Name: Small Button
   m_TagString: Untagged
@@ -129,7 +130,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isHighlighted: 0
+  highlightMilliseconds: 50
   renderers: []
+--- !u!114 &-5251356243174245783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088924935946270924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 9a69d090ca4cbe648820956817a46973
+  hasSpawned: 0
 --- !u!1 &3473848230966096605
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System;
+using UnityEngine.Events;
 
 public class ItemManager : NetworkBehaviour
 {
@@ -60,6 +61,8 @@ public class ItemManager : NetworkBehaviour
     private Vector3 mouseReleasePos;
     private GameObject sceneObjectHoldingToThrow;
     private Vector3 orignalPosition = Vector3.zero;
+
+    public readonly UnityEvent dropLimbEvent = new UnityEvent();
 
     #region Syncvars with hooks
 
@@ -198,28 +201,26 @@ public class ItemManager : NetworkBehaviour
 
     #region Check status of players limbs
 
-    public bool HasBothLegs() => NumberOfLegs() > 1;
+    public bool HasBothLegs() => NumberOfLegs > 1;
 
-    public bool HasBothArms() => NumberOfArms() > 1;
+    public bool HasBothArms() => NumberOfArms > 1;
 
-    public int NumberOfLegs()
-    {
-        int i = 0;
-        if (!rightLegDetached)
-            ++i;
-        if (!leftLegDetached)
-            ++i;
-        return i;
+    public int NumberOfLegs{
+        get
+        {
+            int i = 0;
+            if (!rightLegDetached) ++i;
+            if (!leftLegDetached) ++i;
+            return i;
+        }
     }
-
-    public int NumberOfArms()
-    {
-        int i = 0;
-        if (!rightArmDetached)
-            ++i;
-        if (!leftArmDetached)
-            ++i;
-        return i;
+    public int NumberOfArms { 
+        get {
+            int i = 0;
+            if (!rightArmDetached) ++i;
+            if (!leftArmDetached) ++i;
+            return i; 
+        } 
     }
 
 
@@ -440,6 +441,8 @@ public class ItemManager : NetworkBehaviour
             default:
                 return null;
         }
+
+        dropLimbEvent.Invoke();
         return newSceneObject;
     }
 

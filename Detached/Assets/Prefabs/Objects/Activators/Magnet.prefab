@@ -9,9 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4568419422708293320}
-  - component: {fileID: 9019340238684926656}
-  - component: {fileID: 2695397488948278363}
   - component: {fileID: 3775344491639691612}
+  - component: {fileID: 8781716057948534988}
+  - component: {fileID: 1212426585777495228}
+  - component: {fileID: 6282614434320751992}
+  - component: {fileID: 369213013247572113}
   m_Layer: 15
   m_Name: Magnet
   m_TagString: Untagged
@@ -35,7 +37,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9019340238684926656
+--- !u!114 &3775344491639691612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193211390194262745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f066cc1d96f97348a5bddd68dfb08a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isHighlighted: 0
+  highlightMilliseconds: 50
+  renderers: []
+--- !u!114 &8781716057948534988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193211390194262745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: f2ab5a90f5737ec43986b7660a0fcbe2
+  hasSpawned: 0
+--- !u!114 &1212426585777495228
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -53,9 +87,9 @@ MonoBehaviour:
   isActivated: 0
   totalConnections: 0
   activeConnections: 0
-  attractionSpeed: 250.77
+  attractionSpeed: 250
   attractionPosition: {fileID: 8592563677337491924}
---- !u!114 &2695397488948278363
+--- !u!114 &6282614434320751992
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,28 +98,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 193211390194262745}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Script: {fileID: 11500000, guid: dcfcac9102b4c7c4fba62f45d03ce0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: f2ab5a90f5737ec43986b7660a0fcbe2
-  hasSpawned: 0
---- !u!114 &3775344491639691612
-MonoBehaviour:
+  syncMode: 0
+  syncInterval: 0.1
+  angleWidth: 30
+  inputSpeed: 5
+  magnetHead: {fileID: 8015336585784938277}
+--- !u!65 &369213013247572113
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 193211390194262745}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f066cc1d96f97348a5bddd68dfb08a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isHighlighted: 0
-  renderers: []
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.51, z: 2.02}
+  m_Center: {x: 0, y: -0.75, z: 0}
 --- !u!1 &1213077667465491314
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +130,7 @@ GameObject:
   - component: {fileID: 8592563677337491924}
   - component: {fileID: 3691213465692470564}
   - component: {fileID: 6093297961649092052}
-  m_Layer: 15
+  m_Layer: 0
   m_Name: Attraction target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +189,7 @@ GameObject:
   - component: {fileID: 2821914367851636201}
   - component: {fileID: 3395194223090968486}
   - component: {fileID: 3019197591546921719}
-  m_Layer: 15
+  m_Layer: 0
   m_Name: Stand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,12 +281,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5415071377605040137}
-  - component: {fileID: 9155568126181521578}
   - component: {fileID: 6312053434066626829}
   - component: {fileID: 5158445020614351562}
   - component: {fileID: 8631365140263751720}
   - component: {fileID: 327138138615155932}
-  m_Layer: 15
+  m_Layer: 0
   m_Name: Magnet Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -275,20 +307,6 @@ Transform:
   m_Father: {fileID: 4568419422708293320}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &9155568126181521578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8015336585784938277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcfcac9102b4c7c4fba62f45d03ce0f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  angleWidth: 30.11
-  inputSpeed: 5.05
 --- !u!33 &6312053434066626829
 MeshFilter:
   m_ObjectHideFlags: 0

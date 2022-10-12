@@ -22,7 +22,6 @@ public class InteractionChecker : NetworkBehaviour
 
     private void Awake()
     {
-        //player.TryGetComponent(out interactableManager);
         targetMask = LayerMask.GetMask("Interactable");
     }
 
@@ -46,8 +45,12 @@ public class InteractionChecker : NetworkBehaviour
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, interactionDistance, targetMask))
         {
             ray1Hit = true;
-            HighlightObject(hit.transform.gameObject);
-            AttemptInteraction(hit.transform.gameObject);
+            GameObject hitObject = hit.transform.gameObject;
+            if (CanInteractWith(hitObject))
+            {
+                HighlightObject(hitObject);
+                AttemptInteraction(hitObject);
+            }
         }
         Debug.DrawRay(transform.position, transform.forward * interactionDistance, Color.yellow);
 
@@ -55,8 +58,13 @@ public class InteractionChecker : NetworkBehaviour
         if (Physics.Raycast(transform.position, debugDirection, out RaycastHit hit2, interactionDistance, targetMask))
         {
             ray2Hit = true;
-            HighlightObject(hit2.transform.gameObject);
-            AttemptInteraction(hit2.transform.gameObject);
+            GameObject hitObject = hit2.transform.gameObject;
+            if (CanInteractWith(hitObject))
+            {
+                HighlightObject(hitObject);
+                AttemptInteraction(hitObject);
+            }
+            
         }
         Debug.DrawRay(transform.position, debugDirection * interactionDistance, Color.yellow);
         
@@ -64,10 +72,27 @@ public class InteractionChecker : NetworkBehaviour
             AttemptDropItem();
     }
 
+    private bool CanInteractWith(GameObject hitObject)
+    {
+        bool canInteract = false;
+
+        if (hitObject.CompareTag("Limb"))
+            return true;
+        
+        if (hitObject.TryGetComponent(out IInteractable interactable))
+            canInteract = interactable.CanInteract(player);
+        else
+            canInteract = hitObject.GetComponentInChildren<IInteractable>().CanInteract(player);
+
+        Debug.Log("hitObject name: " + hitObject.name + " can interact " + canInteract);
+        return canInteract;
+
+    }
+
     private void HighlightObject(GameObject hitObject) => hitObject.GetComponent<HighlightObject>().DurationHighlight();
 
     private void AttemptInteraction(GameObject hitObject)
-    {//TODO fixa så att båda spelare läggs till korrekt i skriptet
+    {
         if (player == null)
             player = NetworkClient.localPlayer.gameObject;
 
@@ -83,7 +108,6 @@ public class InteractionChecker : NetworkBehaviour
                 interactable.Interact(player);
                 hitObject.GetComponent<HighlightObject>().UpdateHighlight();
             }
-
             else
             {
                 hitObject.GetComponentInChildren<IInteractable>().Interact(player);

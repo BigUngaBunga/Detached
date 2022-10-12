@@ -1,6 +1,4 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MagnetTargeting : NetworkBehaviour, IInteractable
@@ -11,14 +9,17 @@ public class MagnetTargeting : NetworkBehaviour, IInteractable
 
     [SerializeField] private float angleWidth;
     [SerializeField] private float inputSpeed;
+    [SerializeField] private GameObject magnetHead;
+
+    private Transform Transform => magnetHead.transform;
 
     public void Update()
     {
         if (isPlayerPresent)
         {
             AdjustHeight();
-            transform.LookAt(controllingPlayer.transform);
-            transform.eulerAngles += new Vector3(90 + heightTargeting, 0, 0);
+            Transform.LookAt(controllingPlayer.transform);
+            Transform.eulerAngles += new Vector3(90 + heightTargeting, 0, 0);
         }
     }
 
@@ -31,7 +32,7 @@ public class MagnetTargeting : NetworkBehaviour, IInteractable
 
     public void Interact(GameObject activatingObject)
     {
-        if (!isPlayerPresent && activatingObject.GetComponent<ItemManager>().NumberOfArms() >= 1)
+        if (!isPlayerPresent && activatingObject.GetComponent<ItemManager>().NumberOfArms >= 1)
         {
             isPlayerPresent = true;
             controllingPlayer = activatingObject;
@@ -42,4 +43,6 @@ public class MagnetTargeting : NetworkBehaviour, IInteractable
             controllingPlayer = null;
         }
     }
+
+    public bool CanInteract(GameObject activatingObject) => activatingObject.GetComponent<ItemManager>().NumberOfArms >= 1 && !isPlayerPresent;
 }
