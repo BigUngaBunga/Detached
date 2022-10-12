@@ -32,4 +32,6 @@ public class LeverTrigger : Trigger, IInteractable
             TriggerLever();
         //TriggerLever();
     }
+
+    public bool CanInteract(GameObject activatingObject) => HasEnoughArms(activatingObject, requiredArms);
 }

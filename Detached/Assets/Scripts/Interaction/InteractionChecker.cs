@@ -10,19 +10,16 @@ public class InteractionChecker : NetworkBehaviour
     [SerializeField] private GameObject player;
     private LayerMask targetMask;
     private bool interacting = false;
-    private bool Interacting => interacting && allowInteraction;
     private InteractableManager interactableManager;
 
     private bool ray1Hit, ray2Hit;
 
     [Header("Debug values")]
-    [SerializeField] private bool allowInteraction = false;
     [Range(-1f, 0f)]
     [SerializeField] private float debugRayAngle = -0.2f;
 
     private void Awake()
     {
-        //player.TryGetComponent(out interactableManager);
         targetMask = LayerMask.GetMask("Interactable");
     }
 
@@ -46,8 +43,12 @@ public class InteractionChecker : NetworkBehaviour
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, interactionDistance, targetMask))
         {
             ray1Hit = true;
-            HighlightObject(hit.transform.gameObject);
-            AttemptInteraction(hit.transform.gameObject);
+            GameObject hitObject = hit.transform.gameObject;
+            if (CanInteractWith(hitObject))
+            {
+                HighlightObject(hitObject);
+                AttemptInteraction(hitObject);
+            }
         }
         Debug.DrawRay(transform.position, transform.forward * interactionDistance, Color.yellow);
 
@@ -55,8 +56,13 @@ public class InteractionChecker : NetworkBehaviour
         if (Physics.Raycast(transform.position, debugDirection, out RaycastHit hit2, interactionDistance, targetMask))
         {
             ray2Hit = true;
-            HighlightObject(hit2.transform.gameObject);
-            AttemptInteraction(hit2.transform.gameObject);
+            GameObject hitObject = hit2.transform.gameObject;
+            if (CanInteractWith(hitObject))
+            {
+                HighlightObject(hitObject);
+                AttemptInteraction(hitObject);
+            }
+            
         }
         Debug.DrawRay(transform.position, debugDirection * interactionDistance, Color.yellow);
         
@@ -64,14 +70,24 @@ public class InteractionChecker : NetworkBehaviour
             AttemptDropItem();
     }
 
+    private bool CanInteractWith(GameObject hitObject)
+    {
+        if (hitObject.CompareTag("Limb"))
+            return true;
+        else if (hitObject.TryGetComponent(out IInteractable interactable))
+            return interactable.CanInteract(player);
+        else
+            return hitObject.GetComponentInChildren<IInteractable>().CanInteract(player);
+    }
+
     private void HighlightObject(GameObject hitObject) => hitObject.GetComponent<HighlightObject>().DurationHighlight();
 
     private void AttemptInteraction(GameObject hitObject)
-    {//TODO fixa så att båda spelare läggs till korrekt i skriptet
+    {
         if (player == null)
             player = NetworkClient.localPlayer.gameObject;
 
-        if (Interacting && allowInteraction)
+        if (interacting)
         {
             if (hitObject.CompareTag("Limb"))
             {
@@ -79,19 +95,23 @@ public class InteractionChecker : NetworkBehaviour
                 hitObject.GetComponent<SceneObjectItemManager>().TryPickUp();
             }
             else if (hitObject.TryGetComponent(out IInteractable interactable))
+            {
                 interactable.Interact(player);
+                hitObject.GetComponent<HighlightObject>().UpdateHighlight();
+            }
             else
+            {
                 hitObject.GetComponentInChildren<IInteractable>().Interact(player);
+                hitObject.GetComponent<HighlightObject>().UpdateHighlight();
+            }
+                
             interacting = false;
         }
     }
 
     private void AttemptDropItem()
     {
-        if (Interacting)
-        {
+        if (interacting)
             interactableManager.AttemptDropItem();
-        }
-            
     }
 }

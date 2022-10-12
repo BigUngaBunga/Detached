@@ -23,4 +23,6 @@ public class PickUpInteractable : MonoBehaviour, IInteractable
         if (positionTarget != null)
             transform.position = positionTarget.position;
     }
+
+    public bool CanInteract(GameObject activatingObject) => activatingObject.GetComponent<InteractableManager>().CanPickUpItem(gameObject);
 }

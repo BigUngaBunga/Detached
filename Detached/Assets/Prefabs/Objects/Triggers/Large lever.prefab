@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7943216775234910781}
-  m_Layer: 15
+  m_Layer: 0
   m_Name: InactiveLever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6426317524849070510}
-  m_Layer: 15
+  m_Layer: 0
   m_Name: TriggeredLever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,6 +212,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isHighlighted: 0
+  highlightMilliseconds: 50
   renderers: []
 --- !u!1 &3436855835173457833
 GameObject:
@@ -224,7 +225,8 @@ GameObject:
   - component: {fileID: 3751024728387869183}
   - component: {fileID: 4364673327764632558}
   - component: {fileID: 2422356066429467674}
-  m_Layer: 15
+  - component: {fileID: 1853858087258563907}
+  m_Layer: 0
   m_Name: Rod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,6 +296,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &1853858087258563907
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3436855835173457833}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.27
+  m_Height: 2.0458155
+  m_Direction: 1
+  m_Center: {x: 0.000000014901161, y: 1.3476019, z: -0.93636906}
 --- !u!1 &4810640969224013899
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,7 +321,8 @@ GameObject:
   - component: {fileID: 8164848696693907367}
   - component: {fileID: 3996151553008366495}
   - component: {fileID: 3603328707774465246}
-  m_Layer: 15
+  - component: {fileID: 642025400781012296}
+  m_Layer: 0
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -375,6 +392,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &642025400781012296
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4810640969224013899}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5829326, y: 0.25660396, z: 0.25193655}
+  m_Center: {x: 0, y: 2.1412425, z: -1.2481105}
 --- !u!1 &5567346828259987149
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,7 +416,8 @@ GameObject:
   - component: {fileID: 5271510651165633870}
   - component: {fileID: 2629551924042943022}
   - component: {fileID: 8610327149684786512}
-  m_Layer: 15
+  - component: {fileID: 3443883123754850971}
+  m_Layer: 0
   m_Name: Rod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -456,6 +487,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &3443883123754850971
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5567346828259987149}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.29
+  m_Height: 2.0458155
+  m_Direction: 1
+  m_Center: {x: 0.000000014901161, y: 1.3476019, z: -0.93636906}
 --- !u!1 &7939530948749649987
 GameObject:
   m_ObjectHideFlags: 0
@@ -467,7 +512,8 @@ GameObject:
   - component: {fileID: 7775087008623667147}
   - component: {fileID: 3071815139743229182}
   - component: {fileID: 6067366299740498689}
-  m_Layer: 15
+  - component: {fileID: 6213022533643035735}
+  m_Layer: 0
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -537,3 +583,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6213022533643035735
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7939530948749649987}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5829326, y: 0.25660396, z: 0.25193655}
+  m_Center: {x: 0, y: 2.1412425, z: -1.2481105}

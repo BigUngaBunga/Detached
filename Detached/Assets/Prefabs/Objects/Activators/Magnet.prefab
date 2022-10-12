@@ -9,9 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4568419422708293320}
-  - component: {fileID: 9019340238684926656}
-  - component: {fileID: 2695397488948278363}
   - component: {fileID: 3775344491639691612}
+  - component: {fileID: 8781716057948534988}
+  - component: {fileID: 1212426585777495228}
+  - component: {fileID: 6282614434320751992}
+  - component: {fileID: 369213013247572113}
   m_Layer: 15
   m_Name: Magnet
   m_TagString: Untagged
@@ -32,10 +34,43 @@ Transform:
   m_Children:
   - {fileID: 5415071377605040137}
   - {fileID: 96427645190468952}
+  - {fileID: 1479902210085152666}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9019340238684926656
+--- !u!114 &3775344491639691612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193211390194262745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f066cc1d96f97348a5bddd68dfb08a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isHighlighted: 0
+  highlightMilliseconds: 50
+  renderers: []
+--- !u!114 &8781716057948534988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193211390194262745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: f2ab5a90f5737ec43986b7660a0fcbe2
+  hasSpawned: 0
+--- !u!114 &1212426585777495228
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -53,9 +88,11 @@ MonoBehaviour:
   isActivated: 0
   totalConnections: 0
   activeConnections: 0
-  attractionSpeed: 250.77
+  attractionSpeed: 1000
+  centralizationSpeed: 500
   attractionPosition: {fileID: 8592563677337491924}
---- !u!114 &2695397488948278363
+  magnetizationField: {fileID: 0}
+--- !u!114 &6282614434320751992
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,28 +101,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 193211390194262745}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Script: {fileID: 11500000, guid: dcfcac9102b4c7c4fba62f45d03ce0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: f2ab5a90f5737ec43986b7660a0fcbe2
-  hasSpawned: 0
---- !u!114 &3775344491639691612
-MonoBehaviour:
+  syncMode: 0
+  syncInterval: 0.1
+  magnetHead: {fileID: 8015336585784938277}
+  cameraFocus: {fileID: 1479902210085152666}
+--- !u!65 &369213013247572113
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 193211390194262745}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f066cc1d96f97348a5bddd68dfb08a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isHighlighted: 0
-  renderers: []
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.51, z: 2.02}
+  m_Center: {x: 0, y: -0.75, z: 0}
 --- !u!1 &1213077667465491314
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,7 +132,7 @@ GameObject:
   - component: {fileID: 8592563677337491924}
   - component: {fileID: 3691213465692470564}
   - component: {fileID: 6093297961649092052}
-  m_Layer: 15
+  m_Layer: 0
   m_Name: Attraction target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +147,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1213077667465491314}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalPosition: {x: 0, y: -1.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5415071377605040137}
@@ -144,6 +179,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c964e744f299db41ab24752e236f3a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3804026965467116569
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1479902210085152666}
+  m_Layer: 0
+  m_Name: cameraFocus
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1479902210085152666
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3804026965467116569}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.29, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4568419422708293320}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4659731930591479593
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +221,7 @@ GameObject:
   - component: {fileID: 2821914367851636201}
   - component: {fileID: 3395194223090968486}
   - component: {fileID: 3019197591546921719}
-  m_Layer: 15
+  m_Layer: 0
   m_Name: Stand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,12 +313,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5415071377605040137}
-  - component: {fileID: 9155568126181521578}
   - component: {fileID: 6312053434066626829}
   - component: {fileID: 5158445020614351562}
   - component: {fileID: 8631365140263751720}
   - component: {fileID: 327138138615155932}
-  m_Layer: 15
+  m_Layer: 0
   m_Name: Magnet Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,23 +336,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8592563677337491924}
+  - {fileID: 5700545014595797023}
   m_Father: {fileID: 4568419422708293320}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &9155568126181521578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8015336585784938277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcfcac9102b4c7c4fba62f45d03ce0f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  angleWidth: 30.11
-  inputSpeed: 5.05
 --- !u!33 &6312053434066626829
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -364,3 +415,97 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 3
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940699}
+--- !u!1 &8831905537954771718
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5700545014595797023}
+  - component: {fileID: 2171708724962272277}
+  - component: {fileID: 7959422611930821336}
+  - component: {fileID: 6308264634862436756}
+  m_Layer: 0
+  m_Name: Magnetization
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5700545014595797023
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831905537954771718}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -20.78, z: -0}
+  m_LocalScale: {x: 3.9528377, y: 20.01213, z: 3.9528377}
+  m_Children: []
+  m_Father: {fileID: 5415071377605040137}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &2171708724962272277
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831905537954771718}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &7959422611930821336
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831905537954771718}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 73eeafb48736cf94cadb4cbba590e96e, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6308264634862436756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831905537954771718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afcce350853d66a4898285d7a1b5310c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

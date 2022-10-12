@@ -31,7 +31,7 @@ public class Trigger : MonoBehaviour
             activator.TriggerInactive();
     }
 
-    protected bool HasEnoughArms(GameObject player, int requiredArms) => player.GetComponent<ItemManager>().NumberOfArms() >= requiredArms;
+    protected bool HasEnoughArms(GameObject player, int requiredArms) => player.GetComponent<ItemManager>().NumberOfArms >= requiredArms;
 
     public void Awake()
     {
