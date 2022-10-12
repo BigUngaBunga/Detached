@@ -48,8 +48,12 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public float throwForce;
     [SerializeField] public float throwUpwardForce;
     [SerializeField] public float throwCD;
-    [SerializeField] public Transform cam;
+    [SerializeField] public Transform camPoint;
     [SerializeField] public Transform throwPoint;
+    [SerializeField] public Transform camFocus;
+
+
+    [SerializeField] public Transform body;
 
     private bool readyToThrow;
     private Limb_enum selectedLimbToThrow = Limb_enum.Head;
@@ -163,7 +167,7 @@ public class ItemManager : NetworkBehaviour
      */
     private void Start()
     {
-        cam = Camera.main.transform;
+        camPoint = Camera.main.transform;
 
     }
     void Update()
@@ -457,6 +461,8 @@ public class ItemManager : NetworkBehaviour
                 NetworkServer.Spawn(newSceneObject, connectionToClient); //Set Authority to client att spawn since no other player should be able to control it.
                 SceneObjectScript.detached = true;
                 headDetached = true;
+                camFocus.parent = SceneObjectScript.transform;
+                SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation; 
                 break;
 
             case Limb_enum.Arm:
@@ -511,8 +517,8 @@ public class ItemManager : NetworkBehaviour
 
     private void TrajectoryCal()
     {
-        Quaternion dir = Quaternion.AngleAxis(cam.rotation.eulerAngles.y, Vector3.up).normalized;
-        Vector3 forceInit = Input.mousePosition - mousePressDownPos + cam.transform.forward * throwForce + transform.up * throwUpwardForce; //idek what im doing anymore
+        Quaternion dir = Quaternion.AngleAxis(camPoint.rotation.eulerAngles.y, Vector3.up).normalized;
+        Vector3 forceInit = Input.mousePosition - mousePressDownPos + camPoint.transform.forward * throwForce + transform.up * throwUpwardForce; //idek what im doing anymore
         Vector3 forceV = new Vector3(forceInit.x, forceInit.y, z: forceInit.y);
 
         //dir = (Input.mousePosition - mousePressDownPos).normalized;
@@ -575,7 +581,7 @@ public class ItemManager : NetworkBehaviour
 
             //ending point - starting point + cam movement
             dir = (Input.mousePosition - mousePressDownPos).normalized;
-            CmdThrowLimb(selectedLimbToThrow, force: (mouseReleasePos - mousePressDownPos + cam.transform.forward * throwForce + transform.up * throwUpwardForce), throwPoint.position);
+            CmdThrowLimb(selectedLimbToThrow, force: (mouseReleasePos - mousePressDownPos + camPoint.transform.forward * throwForce + transform.up * throwUpwardForce), throwPoint.position);
 
 
         }
@@ -593,7 +599,10 @@ public class ItemManager : NetworkBehaviour
         Vector3 forceToAdd = new Vector3(force.x, force.y, z: force.y);
 
         objectRb.AddForce(forceToAdd);
+        //if (sceneObjectHoldingToThrow == headObj)
+        //{
 
+        //}
         Invoke(nameof(ResetThrow), throwCD);
     }
 
@@ -627,6 +636,11 @@ public class ItemManager : NetworkBehaviour
             case Limb_enum.Head:
                 if (headDetached)
                     keepSceneObject = headDetached = false;
+                camFocus.parent = body;
+
+                camFocus.localPosition = Vector3.zero;
+                camFocus.localEulerAngles = Vector3.zero;
+                camFocus.localScale = Vector3.one;
                 break;
             case Limb_enum.Arm:
                 if (rightArmDetached)
