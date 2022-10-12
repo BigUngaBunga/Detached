@@ -44,7 +44,6 @@ public class HighlightHandler : MonoBehaviour
         Debug.Log("Removed item, now highligting " + rendererCollections.Count + " items");
     }
 
-
     private void ClearCommandBuffers()
     {
         commandBuffer.Clear();
@@ -57,7 +56,7 @@ public class HighlightHandler : MonoBehaviour
     private void RenderHighlights()
     {
         commandBuffer.SetRenderTarget(renderTargetIdentifier);
-        
+
         foreach (var rendererCollection in rendererCollections)
             foreach (var renderer in rendererCollection)
                 if (renderer.gameObject.activeSelf)

@@ -13,28 +13,20 @@ public class HighlightObject : MonoBehaviour
 
     private HighlightHandler highlighter;
     [SerializeField] private List<Renderer> renderers;
-
-    private void Update()
-    {
-        //if (isHighlighted && !wasHighlighted)
-        //{
-        //    HighlightItem();
-        //    wasHighlighted = true;
-        //}
-        //else if (!isHighlighted && wasHighlighted)
-        //{
-        //    EndHighlight();
-        //    wasHighlighted = false;
-        //}
-    }
+    public List<Renderer> Renderers { get => renderers; }
 
     void Start()
     {
         highlighter = FindObjectOfType<HighlightHandler>();
         renderers = new List<Renderer>();
+        GetRenderers();
+    }
+
+    private void GetRenderers()
+    {
+        renderers.Clear();
         if (gameObject.TryGetComponent<Renderer>(out var renderer))
             renderers.Add(renderer);
-
         var renderersInChildren = GetComponentsInChildren<Renderer>();
         foreach (var rendererInChild in renderersInChildren)
             renderers.Add(rendererInChild);
@@ -53,14 +45,26 @@ public class HighlightObject : MonoBehaviour
     public void Highlight()
     {
         if (!isHighlighted)
+        {
             highlighter.AddRenderers(renderers);
+        }
         isHighlighted = true;
     }
 
     public void EndHighlight()
     {
         if (isHighlighted)
+        {
             highlighter.RemoveRenderers(renderers);
+        }
+            
         isHighlighted =false;
+    }
+
+    public void UpdateHighlight()
+    {
+        highlighter.RemoveRenderers(renderers);
+        GetRenderers();
+        highlighter.AddRenderers(renderers);
     }
 }

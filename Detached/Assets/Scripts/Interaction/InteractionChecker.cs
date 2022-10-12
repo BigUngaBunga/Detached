@@ -63,9 +63,17 @@ public class InteractionChecker : MonoBehaviour
                 hitObject.GetComponent<SceneObjectItemManager>().TryPickUp();
             }
             else if (hitObject.TryGetComponent(out IInteractable interactable))
+            {
                 interactable.Interact(player);
+                hitObject.GetComponent<HighlightObject>().UpdateHighlight();
+            }
+
             else
+            {
                 hitObject.GetComponentInChildren<IInteractable>().Interact(player);
+                hitObject.GetComponent<HighlightObject>().UpdateHighlight();
+            }
+                
             interacting = false;
         }
     }
