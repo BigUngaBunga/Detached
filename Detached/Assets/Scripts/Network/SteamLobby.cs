@@ -7,14 +7,18 @@ using UnityEngine.UI;
 public class SteamLobby : MonoBehaviour
 {
     public static SteamLobby Instance;
+    public bool debug;
 
     //Callbacks
     protected Callback<LobbyCreated_t> lobbyCreated;
     protected Callback<GameLobbyJoinRequested_t> joinRequest;
     protected Callback<LobbyEnter_t> lobbyEntered;
+    protected Callback<LobbyInvite_t> lobbyInvited;
+    protected Callback<LobbyKicked_t> lobbyKicked;
+    
 
     public ulong currentLobbyID;
-    private const string HostAdressKey = "HostAddress";
+    public const string HostAdressKey = "HostAddress";
     private CustomNetworkManager manager;
    
 
@@ -29,11 +33,15 @@ public class SteamLobby : MonoBehaviour
         joinRequest = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequest);
         lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
 
-    }
+        
+    }   
 
     public void HostLobby()
     {
-        Debug.Log("Hosting lobby");
+        if (debug)
+        {
+            Debug.Log("Hosting lobby");
+        }
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, manager.maxConnections);
     }
 
@@ -41,15 +49,18 @@ public class SteamLobby : MonoBehaviour
     {
         if (callback.m_eResult != EResult.k_EResultOK) { return; }
 
-        Debug.Log("Lobby creates susccesfully");
+        if (debug)
+        {
+            Debug.Log("Lobby creates susccesfully");
+        }
 
         manager.StartHost();
 
         SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAdressKey, SteamUser.GetSteamID().ToString());
         SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "name", SteamFriends.GetPersonaName().ToString() + "'s lobby");
-
-
     }
+
+    
 
     private void OnJoinRequest(GameLobbyJoinRequested_t callback)
     {
