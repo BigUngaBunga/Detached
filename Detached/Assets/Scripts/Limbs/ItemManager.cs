@@ -63,6 +63,7 @@ public class ItemManager : NetworkBehaviour
     private Vector3 orignalPosition = Vector3.zero;
 
     public readonly UnityEvent dropLimbEvent = new UnityEvent();
+    public bool allowLimbInteraction = true;
 
     #region Syncvars with hooks
 
@@ -171,8 +172,7 @@ public class ItemManager : NetworkBehaviour
     }
     void Update()
     {
-
-        if (!isLocalPlayer) return;
+        if (!isLocalPlayer || !allowLimbInteraction) return;
 
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
             CmdDropLimb(Limb_enum.Head);

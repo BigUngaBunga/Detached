@@ -10,13 +10,11 @@ public class InteractionChecker : NetworkBehaviour
     [SerializeField] private GameObject player;
     private LayerMask targetMask;
     private bool interacting = false;
-    private bool Interacting => interacting && allowInteraction;
     private InteractableManager interactableManager;
 
     private bool ray1Hit, ray2Hit;
 
     [Header("Debug values")]
-    [SerializeField] private bool allowInteraction = false;
     [Range(-1f, 0f)]
     [SerializeField] private float debugRayAngle = -0.2f;
 
@@ -74,19 +72,12 @@ public class InteractionChecker : NetworkBehaviour
 
     private bool CanInteractWith(GameObject hitObject)
     {
-        bool canInteract = false;
-
         if (hitObject.CompareTag("Limb"))
             return true;
-        
-        if (hitObject.TryGetComponent(out IInteractable interactable))
-            canInteract = interactable.CanInteract(player);
+        else if (hitObject.TryGetComponent(out IInteractable interactable))
+            return interactable.CanInteract(player);
         else
-            canInteract = hitObject.GetComponentInChildren<IInteractable>().CanInteract(player);
-
-        Debug.Log("hitObject name: " + hitObject.name + " can interact " + canInteract);
-        return canInteract;
-
+            return hitObject.GetComponentInChildren<IInteractable>().CanInteract(player);
     }
 
     private void HighlightObject(GameObject hitObject) => hitObject.GetComponent<HighlightObject>().DurationHighlight();
@@ -96,7 +87,7 @@ public class InteractionChecker : NetworkBehaviour
         if (player == null)
             player = NetworkClient.localPlayer.gameObject;
 
-        if (Interacting && allowInteraction)
+        if (interacting)
         {
             if (hitObject.CompareTag("Limb"))
             {
@@ -120,10 +111,7 @@ public class InteractionChecker : NetworkBehaviour
 
     private void AttemptDropItem()
     {
-        if (Interacting)
-        {
+        if (interacting)
             interactableManager.AttemptDropItem();
-        }
-            
     }
 }
