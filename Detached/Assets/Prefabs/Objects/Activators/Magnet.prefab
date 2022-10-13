@@ -91,7 +91,7 @@ MonoBehaviour:
   attractionSpeed: 1000
   centralizationSpeed: 500
   attractionPosition: {fileID: 8592563677337491924}
-  magnetizationField: {fileID: 0}
+  magnetizationField: {fileID: 8831905537954771718}
 --- !u!114 &6282614434320751992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,6 +427,7 @@ GameObject:
   - component: {fileID: 2171708724962272277}
   - component: {fileID: 7959422611930821336}
   - component: {fileID: 6308264634862436756}
+  - component: {fileID: 6183569467510622154}
   m_Layer: 0
   m_Name: Magnetization
   m_TagString: Untagged
@@ -507,5 +508,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afcce350853d66a4898285d7a1b5310c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frequency: 1
+--- !u!114 &6183569467510622154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8831905537954771718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8667164900012a74e904d6f9f2e79fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

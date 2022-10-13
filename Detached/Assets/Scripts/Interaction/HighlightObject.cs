@@ -15,7 +15,7 @@ public class HighlightObject : MonoBehaviour
     [SerializeField] private List<Renderer> renderers;
     public List<Renderer> Renderers { get => renderers; }
 
-    void Start()
+    private void Awake()
     {
         highlighter = FindObjectOfType<HighlightHandler>();
         renderers = new List<Renderer>();
@@ -32,10 +32,16 @@ public class HighlightObject : MonoBehaviour
             renderers.Add(rendererInChild);
     }
 
+    public void TryRemoveRenderer(Renderer renderer)
+    {
+        if (renderers.Contains(renderer))
+            renderers.Remove(renderer);
+    }
+
     public void DurationHighlight()
     {
         if (!isHighlighted)
-            highlighter.AddRenderers(renderers);
+            highlighter.AddHighlight(this);
         isHighlighted = true;
         if (IsInvoking(StopMethod))
             CancelInvoke(StopMethod);
@@ -45,26 +51,14 @@ public class HighlightObject : MonoBehaviour
     public void Highlight()
     {
         if (!isHighlighted)
-        {
-            highlighter.AddRenderers(renderers);
-        }
+            highlighter.AddHighlight(this);
         isHighlighted = true;
     }
 
     public void EndHighlight()
     {
         if (isHighlighted)
-        {
-            highlighter.RemoveRenderers(renderers);
-        }
-            
-        isHighlighted =false;
-    }
-
-    public void UpdateHighlight()
-    {
-        highlighter.RemoveRenderers(renderers);
-        GetRenderers();
-        highlighter.AddRenderers(renderers);
+            highlighter.RemoveHighlight(this);
+        isHighlighted = false;
     }
 }

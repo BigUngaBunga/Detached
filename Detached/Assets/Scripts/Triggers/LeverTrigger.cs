@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class LeverTrigger : Trigger, IInteractable
@@ -22,15 +23,24 @@ public class LeverTrigger : Trigger, IInteractable
 
     private void UpdateLeverPosition()
     {
-        normalLever.SetActive(!IsTriggered);
-        triggeredLever.SetActive(IsTriggered);
+        SetRecursiveActivation(!IsTriggered, normalLever);
+        SetRecursiveActivation(IsTriggered, triggeredLever);
+
+        void SetRecursiveActivation(bool isActive, GameObject gameObject)
+        {
+            int children = gameObject.transform.childCount;
+            gameObject.SetActive(isActive);
+            if (children <= 0)
+                return;
+            for (int i = 0; i < children; i++)
+                SetRecursiveActivation(isActive, gameObject.transform.GetChild(i).gameObject);
+        }
     }
 
     public void Interact(GameObject activatingObject)
     {
         if (HasEnoughArms(activatingObject, requiredArms))
             TriggerLever();
-        //TriggerLever();
     }
 
     public bool CanInteract(GameObject activatingObject) => HasEnoughArms(activatingObject, requiredArms);

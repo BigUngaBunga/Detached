@@ -97,12 +97,10 @@ public class InteractionChecker : NetworkBehaviour
             else if (hitObject.TryGetComponent(out IInteractable interactable))
             {
                 interactable.Interact(player);
-                hitObject.GetComponent<HighlightObject>().UpdateHighlight();
             }
             else
             {
                 hitObject.GetComponentInChildren<IInteractable>().Interact(player);
-                hitObject.GetComponent<HighlightObject>().UpdateHighlight();
             }
                 
             interacting = false;
