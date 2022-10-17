@@ -517,11 +517,12 @@ public class ItemManager : NetworkBehaviour
 
     private void TrajectoryCal()
     {
-        Vector3 forceInit = Input.mousePosition - mousePressDownPos /*+ cam.transform.forward * throwForce + transform.up * throwUpwardForce */; //idek what im doing anymore
+        Quaternion dir = Quaternion.AngleAxis(camPoint.rotation.eulerAngles.y, Vector3.up).normalized;
+        Vector3 forceInit = Input.mousePosition - mousePressDownPos + camPoint.transform.forward * throwForce + transform.up * throwUpwardForce; //idek what im doing anymore
         Vector3 forceV = new Vector3(forceInit.x, forceInit.y, z: forceInit.y);
 
-        dir = (Input.mousePosition - mousePressDownPos).normalized;
-        DrawTrajectory.instance.UpdateTrajectory(forceV, throwPoint.position, dir.y); //throwing point = body?   
+        //dir = (Input.mousePosition - mousePressDownPos).normalized;
+        DrawTrajectory.instance.UpdateTrajectory(forceV, throwPoint.position, 1); //throwing point = body?   
     }
 
     private GameObject GetGameObjectLimbFromSelect()
