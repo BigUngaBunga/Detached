@@ -633,6 +633,12 @@ public class ItemManager : NetworkBehaviour
             case Limb_enum.Head:
                 if (headDetached)
                     keepSceneObject = headDetached = false;
+
+                camFocus.parent = body;
+
+                camFocus.localPosition = Vector3.zero;
+                camFocus.localEulerAngles = Vector3.zero;
+                camFocus.localScale = Vector3.one;
                 break;
             case Limb_enum.Arm:
                 if (rightArmDetached)
