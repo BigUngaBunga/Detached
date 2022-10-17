@@ -6,30 +6,50 @@ public class MagnetActivator : Activator
 {
     [Header("Magnet fields")]
     [SerializeField] private float attractionSpeed;
-    [SerializeField] private float centralizationSpeed;
+    [Range(0, 1f)]
+    [SerializeField] private float centralizationStrength;
     [SerializeField] private Transform attractionPosition;
     [SerializeField] private GameObject magnetizationField;
     private List<Rigidbody> magnetizedObjects = new List<Rigidbody>();
 
+    private Vector3 Forward => attractionPosition.up * -1f;
+
     public void AddMagnetizedObject(GameObject gameObject) => magnetizedObjects.Add(gameObject.GetComponent<Rigidbody>());
     public void RemoveMagnetizedObject(GameObject gameObject) => magnetizedObjects.Remove(gameObject.GetComponent<Rigidbody>());
 
-    public Vector3 GetDirection(Vector3 target) => attractionPosition.position - target;
+    private Vector3 GetDirection(Vector3 position) => attractionPosition.position - position;
 
-    public Vector3 GetCentralDirection(Vector3 direction) => direction.normalized - attractionPosition.forward;
+    private Vector3 GetCentralDirection(Vector3 position)
+    {
+
+        float projectionLength = Vector3.Project(GetDirection(position), Forward).magnitude;
+        Vector3 centralPosition = attractionPosition.position + Forward * projectionLength;
+        return centralPosition - position;
+    }
+
+    private Vector3 GetForce(Vector3 direction, float speed) => direction.normalized * speed * Time.deltaTime;
 
     public void FixedUpdate()
     {
         if (IsActivated)
+            ApplyForce();
+    }
+
+    private void ApplyForce()
+    {
+        foreach (var gameObject in magnetizedObjects)
         {
-            foreach (var gameObject in magnetizedObjects)
-            {
-                Vector3 direction = GetDirection(gameObject.transform.position);
-                gameObject.AddForce(direction.normalized * attractionSpeed * Time.deltaTime);
-                gameObject.AddForce(GetCentralDirection(direction) * centralizationSpeed * Time.deltaTime);
-            }
-                
+            Vector3 direction = GetDirection(gameObject.transform.position);
+            var forwardsForce = GetForce(direction.normalized, attractionSpeed);
+            var centralForce = GetForce(GetCentralDirection(gameObject.transform.position), attractionSpeed * centralizationStrength);
+
+            Debug.DrawRay(gameObject.transform.position, forwardsForce, Color.red);
+            Debug.DrawRay(gameObject.transform.position, centralForce, Color.yellow);
+
+            gameObject.AddForce(forwardsForce);
+            gameObject.AddForce(centralForce);
         }
+        Debug.DrawRay(attractionPosition.position, Forward * 10f, Color.green);
     }
 
     protected override void Activate()

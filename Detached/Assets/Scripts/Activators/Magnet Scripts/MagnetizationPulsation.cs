@@ -5,16 +5,8 @@ using UnityEngine.Rendering;
 
 public class MagnetizationPulsation : MonoBehaviour
 {
-    [SerializeField] Material shaderMaterial;
-    [SerializeField] float frequency = 1f;
+    [SerializeField] Transform magnet;
     private Material material;
-    private float time;
-    private float max = 0.1f;
-    private float min = 0.05f;
-
-    private RenderTexture highlightRenderTexture;
-    private RenderTargetIdentifier renderTargetIdentifier;
-    private CommandBuffer commandBuffer;
 
     private void Start()
     {
@@ -23,10 +15,7 @@ public class MagnetizationPulsation : MonoBehaviour
 
     void Update()
     {
-        time += Time.deltaTime;
-        Color color = new Color(material.color.r, material.color.g, material.color.b, GetAlpha());
-        material.color = color;
+        material.SetVector("_TargetPosition", magnet.position);
+        Shader.SetGlobalFloat("_GameTime", Time.timeSinceLevelLoad);
     }
-
-    private float GetAlpha() => Mathf.Lerp(max, min, Mathf.Sin(time * frequency));
 }

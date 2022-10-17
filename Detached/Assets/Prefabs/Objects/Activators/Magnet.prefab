@@ -89,7 +89,7 @@ MonoBehaviour:
   totalConnections: 0
   activeConnections: 0
   attractionSpeed: 1000
-  centralizationSpeed: 500
+  centralizationStrength: 0.75
   attractionPosition: {fileID: 8592563677337491924}
   magnetizationField: {fileID: 8831905537954771718}
 --- !u!114 &6282614434320751992
@@ -476,7 +476,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73eeafb48736cf94cadb4cbba590e96e, type: 2}
+  - {fileID: 2100000, guid: 18ad40387d9d842459e61fab7f01db48, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -510,7 +510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afcce350853d66a4898285d7a1b5310c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frequency: 1
+  magnet: {fileID: 4568419422708293320}
 --- !u!114 &6183569467510622154
 MonoBehaviour:
   m_ObjectHideFlags: 0

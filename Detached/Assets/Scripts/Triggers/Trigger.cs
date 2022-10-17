@@ -8,9 +8,10 @@ public class Trigger : MonoBehaviour
     [SerializeField] private bool isTriggered;
     private Data data;
 
-    private void Start()
+    protected virtual void Start()
     {
         data = GetComponent<Data>();
+        Debug.Log("Activations " + data.Activations);
     }
     protected bool IsTriggered
     {

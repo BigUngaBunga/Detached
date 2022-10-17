@@ -15,7 +15,7 @@ public class TargetAttractables : MonoBehaviour
     {
         if (HasAMagneticTag(other.gameObject) && other.gameObject.TryGetComponent(out Rigidbody rigidbody))
         {
-            Debug.Log("Encountered magnetic object");
+            //Debug.Log("Encountered magnetic object");
             magnet.AddMagnetizedObject(other.gameObject);
         }
     }
@@ -24,7 +24,7 @@ public class TargetAttractables : MonoBehaviour
     {
         if (HasAMagneticTag(other.gameObject))
         {
-            Debug.Log("Lost magnetic object");
+            //Debug.Log("Lost magnetic object");
             magnet.RemoveMagnetizedObject(other.gameObject);
         }
     }

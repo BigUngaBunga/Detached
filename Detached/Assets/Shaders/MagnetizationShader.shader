@@ -3,35 +3,57 @@ Shader "Custom/MagnetizationShader"
     Properties
     {
         _Color("Color", Color) = (1,1,1,1)
+        _Max("Max alpha value", Float) = 0.2
+        _Min("Minimum alpha value", Float) = 0.05
+        _Alpha("Alpha", Float) = 0.1
+        _Frequency("Frequency of the cosine wave", Float) = 1
+        _UseObjectSpace("Use object space bool", Int) = 1
+        _WaveSpeed("Speed of the magnetic waves", Float) = 10
+        _TargetPosition("Point of effect origin", Vector) = (0,0,0,0)
     }
     SubShader
     {
+        Tags {"Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Fade"}
+        ZWrite Off
+        Blend SrcAlpha OneMinusSrcAlpha
+        LOD 100
+
         Pass {
-            Tags {"RenderType" = "Fade"}
-            ZWrite On ZTest Always Fog { Mode Off }
+            
 
             CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
+            #pragma vertex vert alpha
+            #pragma fragment frag alpha
 
             fixed4 _Color;
             float _Max;
             float _Min;
-            float _Length;
+            float _Alpha;
             float _Frequency;
+            float _UseObjectSpace;
+            Vector _TargetPosition;
 
-            float putInRange(float value, float min, float max) {
-                return value * (max - min) + min;
+            float _GameTime;
+            float _WaveSpeed;
+
+            float putInRange(float value) {
+                return value * (_Max - _Min) + _Min;
+            }
+
+            float putInPositiveRange(float value){
+                float positiveValue = (value + 1)/2;
+                return putInRange(positiveValue);
             }
 
             float4 vert(float4 v:POSITION) : POSITION {
                 return UnityObjectToClipPos(v);
             }
             fixed4 frag(float4 v:POSITION) : SV_Target{
-
-                float value = cos(length(v) + _Length);
-                float alpha = putInRange(value, _Min, _Max);
-                return fixed4(_Color.rgb * alpha, 1.0);
+                
+                float3 objectPosition = _TargetPosition.xyz - mul(unity_WorldToObject, v).xyz;
+                float value = cos(length(objectPosition) * _Frequency + _GameTime * _WaveSpeed);
+                _Alpha = putInPositiveRange(value);
+                return fixed4(_Color * _Alpha);
             }
             ENDCG
         }

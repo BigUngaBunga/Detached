@@ -10,8 +10,9 @@ public class LeverTrigger : Trigger, IInteractable
     [SerializeField] private GameObject triggeredLever;
     [SerializeField] private GameObject normalLever;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         UpdateLeverPosition();
     }
 
