@@ -129,8 +129,8 @@ public class CharacterControl : NetworkBehaviour
     #region Input
     private void MyInput()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        horizontalInput = Input.GetAxisRaw("Horizontal") * Time.deltaTime;
+        verticalInput = Input.GetAxisRaw("Vertical") * Time.deltaTime;
     }
 
     public void TogglePlayerControl() => isBeingControlled = !isBeingControlled;
