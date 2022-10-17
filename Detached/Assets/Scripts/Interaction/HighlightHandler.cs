@@ -23,27 +23,18 @@ public class HighlightHandler : MonoBehaviour
     private CommandBuffer commandBuffer;
     private int sortingType;
 
-    private List<List<Renderer>> rendererCollections;
+    private List<HighlightObject> highlights;
 
     private void Awake()
     {
         highlightRenderTexture = new RenderTexture(Screen.width, Screen.height, 0);
         renderTargetIdentifier = new RenderTargetIdentifier(highlightRenderTexture);
         commandBuffer = new CommandBuffer();
-        rendererCollections = new List<List<Renderer>>();
+        highlights = new List<HighlightObject>();
     }
 
-    public void AddRenderers(List<Renderer> renderers)
-    {
-        rendererCollections.Add(renderers);
-        Debug.Log("Added item, now highligting " + rendererCollections.Count + " items");
-    }
-    public void RemoveRenderers(List<Renderer> renderers)
-    {
-        rendererCollections.Remove(renderers);
-        Debug.Log("Removed item, now highligting " + rendererCollections.Count + " items");
-    }
-
+    public void AddHighlight(HighlightObject highlight) => highlights.Add(highlight);
+    public void RemoveHighlight(HighlightObject highlight) => highlights.Remove(highlight);
 
     private void ClearCommandBuffers()
     {
@@ -57,9 +48,9 @@ public class HighlightHandler : MonoBehaviour
     private void RenderHighlights()
     {
         commandBuffer.SetRenderTarget(renderTargetIdentifier);
-        
-        foreach (var rendererCollection in rendererCollections)
-            foreach (var renderer in rendererCollection)
+
+        foreach (var highlight in highlights)
+            foreach (var renderer in highlight.Renderers)
                 if (renderer.gameObject.activeSelf)
                     commandBuffer.DrawRenderer(renderer, drawMaterial, 0, sortingType);
 

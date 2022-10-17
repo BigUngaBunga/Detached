@@ -6,6 +6,12 @@ public class Trigger : MonoBehaviour
     [Header("Default fields")]
     [SerializeField] List<Activator> activators = new List<Activator>();
     [SerializeField] private bool isTriggered;
+    private Data data;
+
+    private void Start()
+    {
+        data = GetComponent<Data>();
+    }
     protected bool IsTriggered
     {
         get => isTriggered;
@@ -21,6 +27,7 @@ public class Trigger : MonoBehaviour
 
     private void StartTrigger()
     {
+        data.Activations++;
         foreach (var activator in activators)
             activator.TriggerActive();
     }
@@ -31,7 +38,7 @@ public class Trigger : MonoBehaviour
             activator.TriggerInactive();
     }
 
-    protected bool HasEnoughArms(GameObject player, int requiredArms) => player.GetComponent<ItemManager>().NumberOfArms() >= requiredArms;
+    protected bool HasEnoughArms(GameObject player, int requiredArms) => player.GetComponent<ItemManager>().NumberOfArms >= requiredArms;
 
     public void Awake()
     {

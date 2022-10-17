@@ -60,18 +60,6 @@ public class CharacterControl : NetworkBehaviour
     float horizontalInput;
     float verticalInput;
 
-
-    //[Header("PickUp")]
-    //[SerializeField] public Transform dest;
-    //[SerializeField] public Camera camera;
-    // private Transform dropDest;
-    // bool holding = false;
-    // private Transform objectHit;
-    // private string nameObject;
-    // private bool hitObject;
-    // private GameObject heldItem;
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -91,21 +79,14 @@ public class CharacterControl : NetworkBehaviour
         if (!isLocalPlayer) return;
         camTransform = Camera.main.transform;
 
-        cinemaFreelook = CinemachineFreeLook.FindObjectOfType<CinemachineFreeLook>();
-        cinemaFreelook.LookAt = cameraFollow.transform;
-        cinemaFreelook.Follow = cameraFollow.transform;
+        cinemaFreelook = FindObjectOfType<CinemachineFreeLook>();
+        SetCameraFocusPlayer();
 
         //DontDestroyOnLoad(this.gameObject);
     }
 
     private void Update()
     {
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    controllingPlayer = !controllingPlayer;
-        //    CMFreeLook.SetActive(controllingPlayer);
-        //}
-
         if (!isLocalPlayer) return;
        
         if (SceneManager.GetActiveScene().buildIndex > 1 && controllingPlayer)
@@ -119,7 +100,6 @@ public class CharacterControl : NetworkBehaviour
                 Jump();
                 Sprint();
                 Crouch();
-                //PickUp();
 
                 SpeedControl();
                 gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up);
@@ -135,13 +115,32 @@ public class CharacterControl : NetworkBehaviour
         }
     }
 
-    void MyInput()
+    #region Camera focus
+    public void SetCameraFocusPlayer() => SetCameraFocus(cameraFollow.transform);
+
+    public void SetCameraFocus(Transform transform)
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        cinemaFreelook.LookAt = transform;
+        cinemaFreelook.Follow = transform;
     }
 
-    void SpeedControl()
+    #endregion
+
+    #region Input
+    private void MyInput()
+    {
+        horizontalInput = Input.GetAxisRaw("Horizontal") * Time.deltaTime;
+        verticalInput = Input.GetAxisRaw("Vertical") * Time.deltaTime;
+    }
+
+    public void TogglePlayerControl() => isBeingControlled = !isBeingControlled;
+
+    #endregion
+
+
+    #region movement
+
+    private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
@@ -152,118 +151,7 @@ public class CharacterControl : NetworkBehaviour
         }
     }
 
-    void PickUp()
-    {
-
-        //    RaycastHit hit;
-        //    Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-
-        //    hitObject = false;
-        //    if (Physics.Raycast(ray, out hit))
-        //    {
-        //        hitObject = true;
-        //        objectHit = hit.transform;
-        //        nameObject = hit.transform.gameObject.name;
-        //    }
-
-
-        //    if (hitObject)
-        //    {
-        //        if (objectHit.transform.gameObject.tag == "Box" || objectHit.transform.gameObject.tag == "Battery" || objectHit.transform.gameObject.tag == "Key")
-        //        {
-        //            if (Input.GetKeyDown("e") && !holding)
-        //            {
-        //                heldItem = GameObject.Find(objectHit.transform.gameObject.name);
-        //                heldItem.transform.parent = dest.transform;
-        //                heldItem.GetComponent<Rigidbody>().useGravity = false;
-        //            }
-        //        }
-        //    }
-
-
-        //    if (holding)
-        //    {
-        //        heldItem.transform.position = dest.position;
-        //        heldItem.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-        //        heldItem.transform.eulerAngles = new Vector3(0, 0, 0);
-        //        heldItem.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0);
-
-
-        //    }
-        //    if (Input.GetKeyDown("e"))
-        //    {
-
-        //        if (!holding && hitObject)
-        //        {
-        //            if (objectHit.transform.gameObject.tag == "Box" || objectHit.transform.gameObject.tag == "Battery" || objectHit.transform.gameObject.tag == "Key")
-        //            {
-        //                heldItem = GameObject.Find(objectHit.transform.gameObject.name);
-        //                heldItem.transform.parent = dest.transform;
-        //                heldItem.GetComponent<Rigidbody>().useGravity = false;
-        //                holding = true;
-        //            }
-
-        //        }
-        //        else if (holding)
-        //        {
-
-        //            //if(TooFarGone(objectHit) == false)
-        //            //{
-        //            if (heldItem.transform.gameObject.tag == "Battery")
-        //            {
-        //                if (objectHit.transform.gameObject.tag == "BatteryBox")
-        //                {
-        //                    dropDest = GameObject.Find(objectHit.transform.gameObject.name + "/SlotDestination").transform;
-
-        //                }
-        //                else
-        //                {
-        //                    dropDest = dest.transform;
-        //                }
-        //            }
-        //            else if (heldItem.transform.gameObject.tag == "Key")
-        //            {
-        //                if (objectHit.transform.gameObject.tag == "Lock")
-        //                {
-        //                    dropDest = GameObject.Find(objectHit.transform.gameObject.name + "/KeyDestination").transform;
-        //                }
-        //                else
-        //                {
-        //                    dropDest = dest.transform;
-        //                }
-        //            }
-        //            //}
-
-        //            if (heldItem.transform.gameObject.tag == "Box")
-        //            {
-        //                dropDest = dest.transform;
-
-        //            }
-
-        //            heldItem.transform.position = dropDest.position;
-        //            heldItem.transform.parent = null;
-        //            heldItem.GetComponent<Rigidbody>().useGravity = true;
-        //            heldItem = null;
-        //            holding = false;
-        //        }
-        //}
-    }
-
-
-
-
-bool TooFarGone(Transform oh)
-{
-    int size = 10;
-    if (Mathf.Abs(this.transform.position.x - oh.position.x) > size || Mathf.Abs(this.transform.position.y - oh.position.y) > size || Mathf.Abs(this.transform.position.z - oh.position.z) > size)
-    {
-        return true;
-    }
-
-    return false;
-}
-
-void Movement()
+    private void Movement()
     {
 
         moveDir = new Vector3(horizontalInput, 0, verticalInput);
@@ -276,7 +164,6 @@ void Movement()
 
         //transform.position += moveDir * movementSpeed * Time.deltaTime;
     }
-
 
     private void GroundCheck()
     {
@@ -297,7 +184,7 @@ void Movement()
         }
     }
 
-    void Sprint()
+    private void Sprint()
     {
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -307,7 +194,7 @@ void Movement()
             movementSpeed = walkSpeed;
     }
 
-    void Crouch()
+    private void Crouch()
     {
         if (Input.GetKey(KeyCode.LeftControl))
         {
@@ -320,10 +207,12 @@ void Movement()
         }
     }
 
-    void ResetJump()
+    private void ResetJump()
     {
         readyToJump = true;
     }
+
+    #endregion
 
     private void OnDrawGizmos()
     {

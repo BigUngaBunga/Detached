@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5419195425566959168}
-  m_Layer: 15
+  m_Layer: 0
   m_Name: TrigeredLever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8316002679333136516}
-  m_Layer: 15
+  m_Layer: 0
   m_Name: InactiveLever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 7110475653196968330}
   - component: {fileID: 3669008712394733478}
   - component: {fileID: 2153429572442907870}
-  m_Layer: 15
+  m_Layer: 0
   m_Name: Stick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 5554008857199150624}
   - component: {fileID: 5450890815130605093}
   - component: {fileID: 1989453866166103028}
+  - component: {fileID: 8917074725643182403}
   m_Layer: 15
   m_Name: Small lever
   m_TagString: Untagged
@@ -292,7 +293,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isHighlighted: 0
+  highlightMilliseconds: 50
   renderers: []
+--- !u!114 &8917074725643182403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2260196344984033470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06cf753a0f55c7441b467defa4f75d63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6914901980339938677
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,7 +318,8 @@ GameObject:
   - component: {fileID: 7031505897200551096}
   - component: {fileID: 1729152294367144391}
   - component: {fileID: 222938149126077287}
-  m_Layer: 15
+  - component: {fileID: 385033963167642928}
+  m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -374,6 +389,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &385033963167642928
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6914901980339938677}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.18534899
+  m_Center: {x: 0.000000022351742, y: 4.0170436, z: -0.84622085}
 --- !u!1 &8057051379832803892
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,7 +413,7 @@ GameObject:
   - component: {fileID: 8315121699267045648}
   - component: {fileID: 1308916023690037508}
   - component: {fileID: 2533996345232578001}
-  m_Layer: 15
+  m_Layer: 0
   m_Name: Stick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -466,7 +494,8 @@ GameObject:
   - component: {fileID: 3360595397981142279}
   - component: {fileID: 2469030608661260094}
   - component: {fileID: 7465789517094984627}
-  m_Layer: 15
+  - component: {fileID: 8023990935706912871}
+  m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -536,3 +565,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &8023990935706912871
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8279951672205519541}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.18534899
+  m_Center: {x: 0.000000022351742, y: 4.0170436, z: -0.84622085}

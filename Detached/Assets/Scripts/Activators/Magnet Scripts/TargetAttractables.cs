@@ -13,7 +13,7 @@ public class TargetAttractables : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (HasAMagneticTag(other.gameObject))
+        if (HasAMagneticTag(other.gameObject) && other.gameObject.TryGetComponent(out Rigidbody rigidbody))
         {
             Debug.Log("Encountered magnetic object");
             magnet.AddMagnetizedObject(other.gameObject);
@@ -31,7 +31,7 @@ public class TargetAttractables : MonoBehaviour
 
     private bool HasAMagneticTag(GameObject gameObject)
     {
-        string[] tags = { "Leg", "Torso", "Player", "Battery", "Magnetic"};
+        string[] tags = { "Leg", "Torso", "Player", "Battery", "Key", "Magnetic"};
         foreach (var tag in tags)
             if (gameObject.CompareTag(tag))
                 return true;

@@ -11,11 +11,12 @@ public class SmallButtonTrigger : Trigger, IInteractable
     private int requiredArms = 1;
     private Vector3 heightDifference => new Vector3(0, pushedHeight, 0);
 
+    public bool CanInteract(GameObject activatingObject) => HasEnoughArms(activatingObject, requiredArms);
+
     public void Interact(GameObject activatingObject)
     {
-        //if (HasEnoughArms(activatingObject, requiredArms))
-        //    StartCoroutine(PushButton());
-        StartCoroutine(PushButton());
+        if (HasEnoughArms(activatingObject, requiredArms))
+            StartCoroutine(PushButton());
     }
 
     public IEnumerator PushButton()
@@ -26,11 +27,5 @@ public class SmallButtonTrigger : Trigger, IInteractable
         IsTriggered = false;
         smallButton.transform.position += heightDifference;
         yield return null;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (!IsTriggered && collision.gameObject.CompareTag("Player"))
-            StartCoroutine(PushButton());
     }
 }
