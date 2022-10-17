@@ -27,12 +27,13 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public GameObject wrapperSceneObject;
 
 
-    [Header("LimbsParents")]
+    [Header("Origin Transform")]
     [SerializeField] public Transform headParent;
     [SerializeField] public Transform leftArmParent;
     [SerializeField] public Transform rightArmParent;
     [SerializeField] public Transform leftLegParent;
     [SerializeField] public Transform rightLegParent;
+    [SerializeField] public Transform camFocusOrigin;
 
     //OrginalPositions
     private Vector3 orginalHeadPosition;
@@ -40,6 +41,7 @@ public class ItemManager : NetworkBehaviour
     private Vector3 orginalRightArmPosition;
     private Vector3 orginalLeftLegPosition;
     private Vector3 orginalRightLegPosition;
+
 
     private List<GameObject> limbs = new List<GameObject>();
     private int indexControll;
@@ -52,6 +54,7 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public Transform camPoint;
     [SerializeField] public Transform throwPoint;
     [SerializeField] public Transform camFocus;
+
 
     private bool readyToThrow;
     private Limb_enum selectedLimbToThrow = Limb_enum.Head;
@@ -161,7 +164,12 @@ public class ItemManager : NetworkBehaviour
 
     #endregion
 
-
+    private void Awake()
+    {
+        /* originalCamTransform.position = camFocus.localPosition;
+         originalCamTransform.eulerAngles = camFocus.localEulerAngles;
+         originalCamTransform.rotation = camFocus.localRotation;*/
+    }
     /* All drop/throw updates happens below.
      * All pickup checks happen on each object in script: SceneObjectManager
      * 
@@ -169,6 +177,7 @@ public class ItemManager : NetworkBehaviour
     private void Start()
     {
         camPoint = Camera.main.transform;
+    
         
     }
     void Update()
@@ -634,11 +643,14 @@ public class ItemManager : NetworkBehaviour
                 if (headDetached)
                     keepSceneObject = headDetached = false;
 
-                camFocus.parent = body;
+                camFocus.parent = camFocusOrigin;
 
                 camFocus.localPosition = Vector3.zero;
-                camFocus.localEulerAngles = Vector3.zero;
+                camFocus.localEulerAngles =Vector3.zero;
                 camFocus.localScale = Vector3.one;
+
+              /*  camFocus = originalCamTransform;
+                Debug.Log(originalCamTransform);*/
                 break;
             case Limb_enum.Arm:
                 if (rightArmDetached)
