@@ -102,7 +102,7 @@ public class CharacterControl : NetworkBehaviour
                 Crouch();
 
                 SpeedControl();
-                gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up);
+
                 //Debug.Log(movementSpeed);
 
                 if (isGrounded)
@@ -156,7 +156,7 @@ public class CharacterControl : NetworkBehaviour
 
         moveDir = new Vector3(horizontalInput, 0, verticalInput);
         moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * moveDir;
-       
+
         if (isGrounded)
             rb.AddForce(moveDir.normalized * movementSpeed * 10f, ForceMode.Force);
         else if (!isGrounded)

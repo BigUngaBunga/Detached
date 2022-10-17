@@ -153,7 +153,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2102515530099968466}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.79, y: 0.16999996, z: 0.82}
+  m_LocalPosition: {x: 0.79, y: 0.17, z: 0.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3995271110296735849}
@@ -596,7 +596,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRend: {fileID: 2245236517418697437}
-  lineSegmentCount: 30
+  lineSegmentCount: 20
 --- !u!114 &2459182320428627406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -633,10 +633,8 @@ MonoBehaviour:
   throwForce: 25
   throwUpwardForce: 0
   throwCD: 0.1
-  camPoint: {fileID: 0}
+  cam: {fileID: 0}
   throwPoint: {fileID: 5504953492409216491}
-  camFocus: {fileID: 3995271111322003543}
-  body: {fileID: 5529373746053644455}
   headDetached: 0
   leftArmDetached: 0
   rightArmDetached: 0
