@@ -137,8 +137,8 @@ public class CharacterControl : NetworkBehaviour
 
     void MyInput()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal") * Time.deltaTime;
-        verticalInput = Input.GetAxisRaw("Vertical") * Time.deltaTime;
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticalInput = Input.GetAxisRaw("Vertical");
     }
 
     void SpeedControl()
