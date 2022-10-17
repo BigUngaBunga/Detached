@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18865041, g: 0.059915237, b: 0.13478455, a: 1}
+  m_IndirectSpecularColor: {r: 0.37984633, g: 0.15926318, b: 0.27741793, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -388,6 +388,10 @@ PrefabInstance:
       propertyPath: activators.Array.data[1]
       value: 
       objectReference: {fileID: 2057116448}
+    - target: {fileID: 4863158210707445866, guid: 30d97b331a6dbcb43a90be0424afaa12, type: 3}
+      propertyPath: Name
+      value: YellowButton
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30d97b331a6dbcb43a90be0424afaa12, type: 3}
 --- !u!4 &289743747 stripped
@@ -1239,7 +1243,6 @@ MonoBehaviour:
   syncInterval: 0.1
   interactionDistance: 16.11
   player: {fileID: 0}
-  allowInteraction: 1
   debugRayAngle: -0.2
 --- !u!114 &918350344
 MonoBehaviour:
@@ -1727,6 +1730,10 @@ PrefabInstance:
       propertyPath: activators.Array.data[0]
       value: 
       objectReference: {fileID: 909835312}
+    - target: {fileID: 4863158210707445866, guid: 30d97b331a6dbcb43a90be0424afaa12, type: 3}
+      propertyPath: Name
+      value: RedButton
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30d97b331a6dbcb43a90be0424afaa12, type: 3}
 --- !u!4 &1166687544 stripped
