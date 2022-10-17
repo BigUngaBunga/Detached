@@ -5,7 +5,6 @@ using Mirror;
 using Steamworks;
 using UnityEngine.UI;
 using System.Linq;
-using UnityEngine.SceneManagement;
 
 public class LobbyController : MonoBehaviour
 {

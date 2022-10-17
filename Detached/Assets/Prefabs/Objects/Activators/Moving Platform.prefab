@@ -46,8 +46,6 @@ GameObject:
   - component: {fileID: 5426010991081658762}
   - component: {fileID: 5189197445030474694}
   - component: {fileID: 1119376082463039279}
-  - component: {fileID: 3725218110010337280}
-  - component: {fileID: 1927922668928875225}
   m_Layer: 6
   m_Name: Moving Platform
   m_TagString: Untagged
@@ -81,17 +79,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e2b5bbd48494c49ad5100a6e52ec75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   activationRequirement: 1
   isActivated: 0
   totalConnections: 0
   activeConnections: 0
   platformSpeed: 3
   targetDistance: 0.5
-  goingBackwards: 0
   track: {fileID: 0}
+  currentStop: 0
+  currentPath: 0
   targetNode: {fileID: 0}
+  goingBackwards: 0
 --- !u!33 &8590394671087010178
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -170,57 +168,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3725218110010337280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1586119667297130536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: 7496aa9a3093ee9428b688a91c7db8eb
-  hasSpawned: 0
---- !u!114 &1927922668928875225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1586119667297130536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  clientAuthority: 0
-  sendInterval: 0.05
-  syncPosition: 1
-  syncRotation: 1
-  syncScale: 0
-  interpolatePosition: 1
-  interpolateRotation: 1
-  interpolateScale: 0
-  bufferTimeMultiplier: 1
-  bufferSizeLimit: 64
-  catchupThreshold: 4
-  catchupMultiplier: 0.1
-  onlySyncOnChange: 1
-  bufferResetMultiplier: 5
-  positionSensitivity: 0.01
-  rotationSensitivity: 0.01
-  scaleSensitivity: 0.01
-  showGizmos: 0
-  showOverlay: 0
-  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
 --- !u!1 &5694476215347910944
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,7 +227,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2812822951409124410}
   - component: {fileID: 6068009388418943291}
-  - component: {fileID: 7581406349395184112}
   m_Layer: 0
   m_Name: Track
   m_TagString: Untagged
@@ -315,28 +261,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d24f0dd04eb8717428ff9e707c4fc78d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   activationRequirement: 0
   isActivated: 0
   totalConnections: 0
   activeConnections: 0
   startNode: {fileID: 0}
   currentNode: {fileID: 0}
---- !u!114 &7581406349395184112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7693794874649343535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  visible: 0
-  m_AssetId: 7496aa9a3093ee9428b688a91c7db8eb
-  hasSpawned: 0
