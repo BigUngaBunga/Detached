@@ -102,7 +102,7 @@ public class CharacterControl : NetworkBehaviour
                 Crouch();
 
                 SpeedControl();
-
+                gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up);
                 //Debug.Log(movementSpeed);
 
                 if (isGrounded)
