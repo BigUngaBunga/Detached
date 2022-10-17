@@ -49,8 +49,9 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public float throwForce;
     [SerializeField] public float throwUpwardForce;
     [SerializeField] public float throwCD;
-    [SerializeField] public Transform cam;
+    [SerializeField] public Transform camPoint;
     [SerializeField] public Transform throwPoint;
+    [SerializeField] public Transform camFocus;
 
     private bool readyToThrow;
     private Limb_enum selectedLimbToThrow = Limb_enum.Head;
@@ -167,7 +168,7 @@ public class ItemManager : NetworkBehaviour
      */
     private void Start()
     {
-        cam = Camera.main.transform;
+        camPoint = Camera.main.transform;
         
     }
     void Update()
@@ -577,7 +578,7 @@ public class ItemManager : NetworkBehaviour
 
             //ending point - starting point + cam movement
             dir = (Input.mousePosition - mousePressDownPos).normalized;
-            CmdThrowLimb(selectedLimbToThrow, force: (mouseReleasePos - mousePressDownPos) * dir.y + cam.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position);
+            CmdThrowLimb(selectedLimbToThrow, force: (mouseReleasePos - mousePressDownPos) * dir.y + camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position);
 
             
         }
