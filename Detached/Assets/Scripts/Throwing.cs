@@ -108,7 +108,7 @@ public class Throwing : MonoBehaviour
         //{
         /*      if (!limbList[select].GetComponent<Rigidbody>())
                   limbList[select].AddComponent<Rigidbody>();*/
-        DrawTrajectory.instance.UpdateTrajectory(forceV, limbList[select].transform.position, dir.y); //throwing point = body?
+        //DrawTrajectory.instance.UpdateTrajectory(forceV, limbList[select].transform.position, dir.y); //throwing point = body?
         //}
     }
 

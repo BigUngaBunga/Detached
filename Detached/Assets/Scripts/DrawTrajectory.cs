@@ -49,9 +49,9 @@ public class DrawTrajectory : MonoBehaviour
             float stepTimePassed = stepTime * i;
 
             Vector3 movementVector = new Vector3(
-                vel.x * stepTimePassed,
+                vel.x * stepTimePassed*dir,
                 vel.y * stepTimePassed - 0.5f *  Physics.gravity.y * Mathf.Pow(stepTimePassed, 2),
-                vel.z * stepTimePassed );
+                vel.z * stepTimePassed*dir);
 
             RaycastHit hit;
             if (Physics.Raycast(startingPoint, -movementVector, out hit, movementVector.magnitude) )
