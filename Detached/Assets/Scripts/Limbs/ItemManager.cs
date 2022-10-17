@@ -461,6 +461,8 @@ public class ItemManager : NetworkBehaviour
                 NetworkServer.Spawn(newSceneObject, connectionToClient); //Set Authority to client att spawn since no other player should be able to control it.
                 SceneObjectScript.detached = true;
                 headDetached = true;
+                camFocus.parent = SceneObjectScript.transform;
+                SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 break;
 
             case Limb_enum.Arm:
