@@ -12,6 +12,7 @@ public class SteamLobby : MonoBehaviour
     //Callbacks
     protected Callback<LobbyCreated_t> lobbyCreated;
     protected Callback<GameLobbyJoinRequested_t> joinRequest;
+    protected Callback<GameRichPresenceJoinRequested_t> gameRichJoinRequest;
     protected Callback<LobbyEnter_t> lobbyEntered;
     protected Callback<LobbyInvite_t> lobbyInvited;
     protected Callback<LobbyKicked_t> lobbyKicked;
@@ -32,8 +33,9 @@ public class SteamLobby : MonoBehaviour
         lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
         joinRequest = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequest);
         lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
+        gameRichJoinRequest = Callback<GameRichPresenceJoinRequested_t>.Create(onJoinGame);
 
-        
+
     }   
 
     public void HostLobby()
@@ -60,7 +62,11 @@ public class SteamLobby : MonoBehaviour
         SteamMatchmaking.SetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), "name", SteamFriends.GetPersonaName().ToString() + "'s lobby");
     }
 
-    
+    private void onJoinGame(GameRichPresenceJoinRequested_t callback)
+    {
+        Debug.Log("Request join game");
+        
+    }
 
     private void OnJoinRequest(GameLobbyJoinRequested_t callback)
     {
