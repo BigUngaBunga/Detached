@@ -269,9 +269,7 @@ public class LobbyController : MonoBehaviour
     {
         if (friendSteamId == null) return;
       
-        SteamFriends.InviteUserToGame(friendSteamId, SteamLobby.HostAdressKey);
-        CSteamID lobby = new CSteamID(Manager.GetComponent<SteamLobby>().currentLobbyID);
-        
-        SteamMatchmaking.InviteUserToLobby(lobby, lobby);
+        CSteamID lobby = new CSteamID(Manager.GetComponent<SteamLobby>().currentLobbyID);  
+        SteamMatchmaking.InviteUserToLobby(lobby, friendSteamId);
     }
 }
