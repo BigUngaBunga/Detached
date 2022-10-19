@@ -56,6 +56,7 @@ public class CharacterControl : NetworkBehaviour
     
 
     Vector3 moveDir;
+    Vector3 input;
 
     float horizontalInput;
     float verticalInput;
@@ -154,8 +155,9 @@ public class CharacterControl : NetworkBehaviour
     private void Movement()
     {
 
-        moveDir = new Vector3(horizontalInput, 0, verticalInput);
-        moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * moveDir;
+        input = new Vector3(horizontalInput, 0, verticalInput);
+        moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
+
 
         if (isGrounded)
             rb.AddForce(moveDir.normalized * movementSpeed * 10f, ForceMode.Force);
