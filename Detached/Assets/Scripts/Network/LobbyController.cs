@@ -275,6 +275,7 @@ public class LobbyController : MonoBehaviour
 
     public void BackButton()
     {
+        SteamMatchmaking.LeaveLobby(new CSteamID(localPlayerController.PlayerSteamID));
         CustomNetworkManager.singleton.StopClient();
     }
 }
