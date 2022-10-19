@@ -543,7 +543,7 @@ namespace Mirror
                 && gameObject.scene.name == "DontDestroyOnLoad"
                 && !string.IsNullOrWhiteSpace(offlineScene)
                 && SceneManager.GetActiveScene().path != offlineScene)
-                SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+                //SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
 
             OnStopServer();
 
@@ -584,7 +584,7 @@ namespace Mirror
                 && gameObject.scene.name == "DontDestroyOnLoad"
                 && !string.IsNullOrWhiteSpace(offlineScene)
                 && SceneManager.GetActiveScene().path != offlineScene)
-                SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+                //SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
 
             OnStopClient();
 
