@@ -272,4 +272,9 @@ public class LobbyController : MonoBehaviour
         CSteamID lobby = new CSteamID(Manager.GetComponent<SteamLobby>().currentLobbyID);  
         SteamMatchmaking.InviteUserToLobby(lobby, friendSteamId);
     }
+
+    public void BackButton()
+    {
+        CustomNetworkManager.singleton.StopClient();
+    }
 }

@@ -15,7 +15,6 @@ public class SteamLobby : MonoBehaviour
     protected Callback<GameRichPresenceJoinRequested_t> gameRichJoinRequest;
     protected Callback<LobbyEnter_t> lobbyEntered;
     protected Callback<LobbyInvite_t> lobbyInvited;
-    protected Callback<LobbyKicked_t> lobbyKicked;
     
 
     public ulong currentLobbyID;
