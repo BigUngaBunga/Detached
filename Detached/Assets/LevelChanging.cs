@@ -20,7 +20,7 @@ public class LevelChanging : NetworkBehaviour
             {
                 return manager;
             }
-            return manager = CustomNetworkManager.singleton as CustomNetworkManager;
+            return manager = NetworkManager.singleton as CustomNetworkManager;
         }
     }
 

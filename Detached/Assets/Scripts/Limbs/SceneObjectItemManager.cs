@@ -29,9 +29,9 @@ public class SceneObjectItemManager : NetworkBehaviour
         get { return isBeingControlled; }
         set { isBeingControlled = value;
             if (isBeingControlled)
-                highlight.Highlight();
+                highlight.ForceHighlight();
             else
-                highlight.EndHighlight();
+                highlight.ForceStopHighlight();
         }
     }
 
