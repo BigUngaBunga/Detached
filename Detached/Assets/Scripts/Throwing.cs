@@ -95,22 +95,22 @@ public class Throwing : MonoBehaviour
         {
             if (detachScript[select].partName == "Arm" && DetachScript.numOfArms < 2)
                 return;
-            TrajectoryCal();
+            //TrajectoryCal();
         }
     }
 
-    private void TrajectoryCal()
+    /*private void TrajectoryCal()
     {
         Vector3 forceInit = Input.mousePosition - mousePressDownPos + cam.transform.forward * throwForce + transform.up * throwUpwardForce; //idek what im doing anymore
         Vector3 forceV = new Vector3(forceInit.x, forceInit.y, z: forceInit.y);
         dir = (Input.mousePosition - mousePressDownPos).normalized;
         //if (readyToThrow)
         //{
-        /*      if (!limbList[select].GetComponent<Rigidbody>())
-                  limbList[select].AddComponent<Rigidbody>();*/
+        *//*      if (!limbList[select].GetComponent<Rigidbody>())
+                  limbList[select].AddComponent<Rigidbody>();*//*
         DrawTrajectory.instance.UpdateTrajectory(forceV, limbList[select].transform.position, dir.y); //throwing point = body?
         //}
-    }
+    }*/
 
     private void ThrowButton()
     {

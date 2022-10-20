@@ -76,12 +76,12 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.1
+    widthMultiplier: 1
     widthCurve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
+        time: 1
         value: 1
         inSlope: 0
         outSlope: 0
@@ -626,8 +626,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3a18df546e67f942ae8193eced1db67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineRend: {fileID: 2245236517418697437}
-  lineSegmentCount: 30
+  LineRenderer: {fileID: 2245236517418697437}
+  collidable:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  LinePoints: 25
+  TimeBetweenPoints: 0.1
 --- !u!114 &2459182320428627406
 MonoBehaviour:
   m_ObjectHideFlags: 0
