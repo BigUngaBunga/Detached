@@ -5,12 +5,7 @@ using Mirror;
 public class Goal : NetworkBehaviour
 {
     [SerializeField] private int playerNumber;
-
-     public LevelChanging levelChanging;
-
-    //Maps
-    [SerializeField] public string[] Maps;
-    public int NextMapIndex;
+    [SerializeField] private int NextMapIndex;
 
     //Manager
     private CustomNetworkManager manager;
@@ -27,11 +22,10 @@ public class Goal : NetworkBehaviour
         }
     }
 
-    public void Start()
+    private void Start()
     {
-        //levelChanging.cmdServerChangeScene();
+        Debug.Log("Number of levels: " + GlobalLevelIndex.levelNames.Length);
     }
-
 
     [Server]
     void ServerChangeScene(string sceneName)
@@ -46,13 +40,8 @@ public class Goal : NetworkBehaviour
         {
             playerNumber++;
             if (CheckVictoryStatus())
-            {
+                ServerChangeScene(GlobalLevelIndex.levelNames[NextMapIndex]);
 
-                ServerChangeScene(Maps[NextMapIndex]);
-
-                //levelChanging.cmdServerChangeScene();
-            }
-            
         }
     }
 
