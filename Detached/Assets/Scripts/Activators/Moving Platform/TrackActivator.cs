@@ -8,6 +8,7 @@ public class TrackActivator : Activator
     [Header("Track fields")]
     [SerializeField] private TrackNode startNode;
     [SerializeField] private TrackNode currentNode;
+    [SerializeField] private bool DrawNodes;
 
     private void Awake() => currentNode = startNode;
 
@@ -22,5 +23,9 @@ public class TrackActivator : Activator
             isGoingBackwards = !isGoingBackwards;
         currentNode = currentNode.GetNextNode(isGoingBackwards);
         return currentNode;
+    }
+
+    private void OnDrawGizmos()
+    {
     }
 }

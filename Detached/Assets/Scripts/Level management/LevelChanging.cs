@@ -5,9 +5,8 @@ using UnityEngine;
 
 public class LevelChanging : NetworkBehaviour
 {
-    //Maps
-    public string[] Maps;
-    public int NextMapIndex;
+    //Add level names in GlobalLevelIndex instead
+    [SerializeField] private int NextMapIndex;
 
     //Manager
     private CustomNetworkManager manager;
@@ -20,13 +19,13 @@ public class LevelChanging : NetworkBehaviour
             {
                 return manager;
             }
-            return manager = CustomNetworkManager.singleton as CustomNetworkManager;
+            return manager = NetworkManager.singleton as CustomNetworkManager;
         }
     }
 
     [Command(requiresAuthority = false)]
     public void cmdServerChangeScene()
     {
-         Manager.ServerChangeScene(Maps[NextMapIndex]);
+         Manager.ServerChangeScene(GlobalLevelIndex.levelNames[NextMapIndex]);
     }
 }

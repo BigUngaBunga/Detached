@@ -166,6 +166,8 @@ public class LobbyController : MonoBehaviour
         localPlayerController.canStartGame(SceneName);
     }
 
+    public void StartGame(int levelNumber) => StartGame(GlobalLevelIndex.levelNames[levelNumber - 1]);
+
     public void ReadyPlayer()
     {
         localPlayerController.ChangeReady();

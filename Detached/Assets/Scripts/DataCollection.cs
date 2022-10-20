@@ -23,7 +23,7 @@ public class DataCollection : MonoBehaviour
             {
                 return manager;
             }
-            return manager = CustomNetworkManager.singleton as CustomNetworkManager;
+            return manager = NetworkManager.singleton as CustomNetworkManager;
         }
     }
 
@@ -48,8 +48,8 @@ public class DataCollection : MonoBehaviour
         triggerStructArray = new TriggerActivationStruct[triggers.Length];
         for (int i = 0; i < triggers.Length; i++)
         {
-            triggerStructArray[i].name = triggers[i].gameObject.GetComponent<Data>().name;
-            triggerStructArray[i].activations = triggers[i].gameObject.GetComponent<Data>().Activations;
+            triggerStructArray[i].name = triggers[i].GetComponent<Data>().name;
+            triggerStructArray[i].activations = triggers[i].GetComponent<Data>().Activations;
         }
         conn = Manager.GamePlayers[0].connectionToClient;
         gameVersion = 1;
@@ -61,8 +61,8 @@ public class DataCollection : MonoBehaviour
         playerPosition = player.transform.position;
         for (int i = 0; i < triggers.Length; i++)
         {
-            triggerStructArray[i].name = triggers[i].gameObject.GetComponent<Data>().name;
-            triggerStructArray[i].activations = triggers[i].gameObject.GetComponent<Data>().Activations;
+            triggerStructArray[i].name = triggers[i].GetComponent<Data>().name;
+            triggerStructArray[i].activations = triggers[i].GetComponent<Data>().Activations;
         }
         WriteString();
     }

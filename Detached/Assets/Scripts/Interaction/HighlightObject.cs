@@ -8,6 +8,7 @@ public class HighlightObject : MonoBehaviour
     [SerializeField] private bool isHighlighted = false;
     [SerializeField] private float highlightMilliseconds = 50;
     private bool wasHighlighted = false;
+    private bool lockHighlight = false;
 
     private string StopMethod => nameof(EndHighlight);
 
@@ -20,6 +21,12 @@ public class HighlightObject : MonoBehaviour
         highlighter = FindObjectOfType<HighlightHandler>();
         renderers = new List<Renderer>();
         GetRenderers();
+    }
+
+    private void Start()
+    {
+        if (renderers.Count <= 0)
+            GetRenderers();
     }
 
     private void GetRenderers()
@@ -51,14 +58,33 @@ public class HighlightObject : MonoBehaviour
     public void Highlight()
     {
         if (!isHighlighted)
+        {
+            isHighlighted = true;
             highlighter.AddHighlight(this);
-        isHighlighted = true;
+        }
+            
+    }
+
+    public void ForceHighlight()
+    {
+        lockHighlight = true;
+        Highlight();
     }
 
     public void EndHighlight()
     {
-        if (isHighlighted)
+        if (isHighlighted && !lockHighlight)
+        {
+            isHighlighted = false;
             highlighter.RemoveHighlight(this);
-        isHighlighted = false;
+        }
+            
+        
+    }
+
+    public void ForceStopHighlight()
+    {
+        lockHighlight = false;
+        EndHighlight();
     }
 }

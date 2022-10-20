@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class TrackNode : MonoBehaviour
@@ -11,6 +12,7 @@ public class TrackNode : MonoBehaviour
     [SerializeField] private TrackNode nextNode, nextActiveNode;
     [SerializeField] private TrackNode previousNode, previousActiveNode;
     [SerializeField] private bool isActivated;
+
     public bool IsStop => type.Equals(NodeType.Stop);
     public Vector3 Position { get { return transform.position; } }
 
