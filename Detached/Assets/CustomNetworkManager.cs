@@ -18,10 +18,7 @@ public class CustomNetworkManager : NetworkManager
 
     public override void Awake()
     {
-        if(transport == null)
-        {
-            transport = GameObject.Find("SteamManager").GetComponent<FizzySteamworks>();
-        }
+        transport = FindObjectOfType<FizzySteamworks>();
 
         base.Awake();
     }
