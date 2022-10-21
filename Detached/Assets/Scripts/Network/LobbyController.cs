@@ -289,5 +289,7 @@ public class LobbyController : NetworkBehaviour
         {
             Manager.CustomStopClient();
         }
+
+        UpdatePlayerList();
     }
 }

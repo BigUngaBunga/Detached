@@ -18,6 +18,7 @@ public class CustomNetworkManager : NetworkManager
 
     public override void Awake()
     {
+        //When back is pressed (go back from lobby) the networkManager loses it connection to the transport.
         transport = FindObjectOfType<FizzySteamworks>();
 
         base.Awake();

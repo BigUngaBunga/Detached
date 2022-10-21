@@ -39,8 +39,6 @@ public class SteamLobby : MonoBehaviour
         if (!SteamManager.Initialized) { return; }
         if(Instance == null) { Instance = this; }
 
-        manager = GetComponent<CustomNetworkManager>();
-
         lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
         joinRequest = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequest);
         lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
@@ -53,7 +51,7 @@ public class SteamLobby : MonoBehaviour
         {
             Debug.Log("Hosting lobby");
         }
-        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, manager.maxConnections);
+        SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, Manager.maxConnections);
     }
 
     private void OnLobbyCreated(LobbyCreated_t callback)
@@ -91,7 +89,7 @@ public class SteamLobby : MonoBehaviour
         //Checks wether this is server
         if (NetworkServer.active) { return; }
 
-        manager.networkAddress = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAdressKey);
-        manager.StartClient();
+        Manager.networkAddress = SteamMatchmaking.GetLobbyData(new CSteamID(callback.m_ulSteamIDLobby), HostAdressKey);
+        Manager.StartClient();
     }   
 }
