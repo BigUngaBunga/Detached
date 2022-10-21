@@ -26,7 +26,7 @@ public class Unlock : MonoBehaviour
         if (this.transform.gameObject.tag == "Lock" && other.GetComponent<Collider>().tag == "Key")
         {
             a.locked = false;
-            //a.ReevaluateActivation();
+            a.ReevaluateActivation();
             Destroy(other.gameObject);
             Destroy(gameObject);
         }

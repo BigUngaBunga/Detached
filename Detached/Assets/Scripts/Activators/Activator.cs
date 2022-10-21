@@ -43,6 +43,7 @@ public class Activator : NetworkBehaviour
     public void AddConnection() => ++totalConnections;
     public void TriggerActive() => ++ActiveConnections;
     public void TriggerInactive() => --ActiveConnections;
+    public void ReevaluateActivation() => IsActivated = active;
 
     protected virtual void Activate() { }
     protected virtual void Deactivate() { }
