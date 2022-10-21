@@ -7,21 +7,16 @@ public class Unlock : MonoBehaviour
 
 
 
-    [SerializeField] private Material baseM;
-    [SerializeField] private Material activeM;
+    
     [SerializeField] private GameObject activator;
-    //Activator a;
+    Activator a;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        this.GetComponent<MeshRenderer>().material = baseM;
-        //a = activator.GetComponent<Activator>();
-        //a.locked = true;
-
-
-
+        a = activator.GetComponent<Activator>();
+        a.locked = true;
     }
 
 
@@ -30,9 +25,7 @@ public class Unlock : MonoBehaviour
     {
         if (this.transform.gameObject.tag == "Lock" && other.GetComponent<Collider>().tag == "Key")
         {
-
-
-            //a.locked = false;
+            a.locked = false;
             //a.ReevaluateActivation();
             Destroy(other.gameObject);
             Destroy(gameObject);

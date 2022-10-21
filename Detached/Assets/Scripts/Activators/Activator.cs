@@ -8,9 +8,17 @@ public class Activator : NetworkBehaviour
     [Header("Default fields")]
     [SerializeField] protected ActivationRequirement activationRequirement;
     [SerializeField] private bool isActivated = false;
-    protected bool IsActivated { 
+
+    public bool locked;
+    private bool active;
+
+    protected bool IsActivated
+    {
         get { return isActivated; }
-        set { isActivated = value;
+        set
+        {
+            active = value;
+            isActivated = active && !locked;
             if (isActivated)
                 Activate();
             else
@@ -54,3 +62,4 @@ public class Activator : NetworkBehaviour
         IsActivated = GetActivationStatus();
     }
 }
+
