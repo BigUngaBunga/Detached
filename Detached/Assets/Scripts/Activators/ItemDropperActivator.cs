@@ -9,6 +9,14 @@ public class ItemDropperActivator : Activator
     [SerializeField] private GameObject currentInstantiation;
     [SerializeField] private Transform dropLocation;
     [SerializeField] private Transform interactableFolder;
+
+    protected override void Start()
+    {
+        base.Start();
+        if (interactableFolder == null)
+            interactableFolder = GameObject.Find("Interactables").transform;
+    }
+
     protected override void Activate()
     {
         base.Activate();

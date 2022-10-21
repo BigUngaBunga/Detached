@@ -8,13 +8,13 @@ public class TrackActivator : Activator
     [Header("Track fields")]
     [SerializeField] private TrackNode startNode;
     [SerializeField] private TrackNode currentNode;
-    [SerializeField] private bool DrawNodes;
+    [SerializeField] private bool drawConnections;
 
     private void Awake() => currentNode = startNode;
 
     protected override void Activate() => startNode.SetActivation(IsActivated);
     protected override void Deactivate() => startNode.SetActivation(IsActivated);
-    public void Update() => startNode.DrawNodeConnections(Color.red);
+    //public void Update() => startNode.DrawNodeConnections(Color.red);
     public Vector3 GetStartPosition() => startNode.Position;
 
     public TrackNode GetNextNode(ref bool isGoingBackwards)
@@ -27,5 +27,7 @@ public class TrackActivator : Activator
 
     private void OnDrawGizmos()
     {
+        if (drawConnections) 
+            startNode.DrawNodeConnections(Color.red);
     }
 }

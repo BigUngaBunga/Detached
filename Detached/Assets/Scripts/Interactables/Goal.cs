@@ -6,6 +6,7 @@ public class Goal : NetworkBehaviour
 {
     [SerializeField] private int playerNumber;
     [SerializeField] private int NextMapIndex;
+    public bool isLocked;
 
     //Manager
     private CustomNetworkManager manager;
@@ -39,9 +40,7 @@ public class Goal : NetworkBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             playerNumber++;
-            if (CheckVictoryStatus())
-                ServerChangeScene(GlobalLevelIndex.levelNames[NextMapIndex]);
-
+            EvaluateVictory();
         }
     }
 
@@ -53,11 +52,17 @@ public class Goal : NetworkBehaviour
 
     private bool CheckVictoryStatus()
     {
-        if (playerNumber >= 2)
+        if (!isLocked && playerNumber >= 2)
         {
             Debug.Log("The players won");
             return true;
         }
         return false;
+    }
+
+    public void EvaluateVictory()
+    {
+        if (CheckVictoryStatus())
+            ServerChangeScene(GlobalLevelIndex.levelNames[NextMapIndex]);
     }
 }

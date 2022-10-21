@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEditor;
 public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
@@ -12,7 +10,7 @@ public class MainMenu : MonoBehaviour
     public void QuitGame ()
     {
         Debug.Log("QUIT!");
-        UnityEditor.EditorApplication.isPlaying = false;
+        EditorApplication.isPlaying = false;
         Application.Quit();
 
     }

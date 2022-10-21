@@ -1,37 +1,67 @@
-using System.Collections;
-using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public class Unlock : MonoBehaviour
+public class Unlock : NetworkBehaviour, IInteractable
 {
+    enum LockType { Door, Activator}
+
+    [SerializeField] private GameObject lockedObject;
+    private LockType lockType;
+    private Activator activator;
+    private Goal door;
 
 
-
-    
-    [SerializeField] private GameObject activator;
-    Activator a;
-
-
-    // Start is called before the first frame update
     void Start()
     {
-        a = activator.GetComponent<Activator>();
-        a.locked = true;
+        if (lockedObject.TryGetComponent(out Activator activator))
+        {
+            lockType = LockType.Activator;
+            activator.locked = true;
+            this.activator = activator;
+        }
+        else if (lockedObject.TryGetComponent(out Goal door))
+        {
+            lockType=LockType.Door;
+            door.isLocked = true;
+            this.door = door;
+        }
     }
-
-
 
     void OnTriggerEnter(Collider other)
     {
-        if (this.transform.gameObject.tag == "Lock" && other.GetComponent<Collider>().tag == "Key")
+        if (other.CompareTag("Key"))
         {
-            a.locked = false;
-            a.ReevaluateActivation();
-            Destroy(other.gameObject);
-            Destroy(gameObject);
+            UnlockObject(other.gameObject);
         }
 
     }
 
+    private void UnlockObject(GameObject key)
+    {
+        switch (lockType)
+        {
+            case LockType.Door:
+                door.isLocked = false;
+                door.EvaluateVictory();
+                break;
+            case LockType.Activator:
+                activator.locked = false;
+                activator.ReevaluateActivation();
+                break;
+            default:
+                break;
+        }
+        gameObject.GetComponent<HighlightObject>().ForceStopHighlight();
+        NetworkServer.Destroy(key);
+        NetworkServer.Destroy(gameObject);
+    }
 
+    public void Interact(GameObject activatingObject)
+    {
+        var manager = activatingObject.GetComponent<InteractableManager>();
+        if (manager.IsCarryingTag("Key") && manager.AttemptDropItem(out GameObject key))
+            UnlockObject(key);
+    }
+
+    public bool CanInteract(GameObject activatingObject) => activatingObject.GetComponent<InteractableManager>().IsCarryingTag("Key");
 }

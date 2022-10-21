@@ -1,23 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using TMPro;
 using UnityEngine;
 
 public class MovingPlatformActivator : Activator
 {
     [Header("Moving platform fields")]
+    [SerializeField] private GameObject platform;
     [SerializeField] private float platformSpeed;
     [SerializeField] private float targetDistance;
     [SerializeField] private bool goingBackwards;
-    [SerializeField] private TrackActivator track;
     [SerializeField] private TrackNode targetNode;
+
+    private TrackActivator track;
+    private Transform Transform => platform.transform;
 
     private float Speed => platformSpeed * Time.deltaTime;
     private bool isMoving;
     private readonly List<GameObject> connectedObjects = new List<GameObject>();
+    
+    protected override void Start()
+    {
+        base.Start();
+        track = GetComponent<TrackActivator>();
+        Transform.position = track.GetStartPosition();
+    }
 
-    private bool IsCloseToTarget(Vector3 target) => Vector3.Distance(transform.position, target) <= targetDistance;
-    private Vector3 GetDirectionTo(Vector3 target) => (target - transform.position).normalized;
+    private bool IsCloseToTarget(Vector3 target) => Vector3.Distance(Transform.position, target) <= targetDistance;
+    private Vector3 GetDirectionTo(Vector3 target) => (target - Transform.position).normalized;
 
     protected override void Activate()
     {
@@ -44,7 +55,7 @@ public class MovingPlatformActivator : Activator
             Vector3 direction = GetDirectionTo(targetNode.Position);
             while (!IsCloseToTarget(targetNode.Position))
             {
-                transform.position += direction * Speed;
+                Transform.position += direction * Speed;
                 foreach (var gameObject in connectedObjects)
                     gameObject.transform.position += direction * Speed;//TODO använd krafter istället
 
@@ -60,22 +71,6 @@ public class MovingPlatformActivator : Activator
         yield return null;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("Entered platform collider");
-        if (collision.rigidbody != null)
-            connectedObjects.Add(collision.gameObject);
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        Debug.Log("Left platform collider");
-        if (collision.rigidbody != null)
-            connectedObjects.Remove(collision.gameObject);
-    }
-
-    private void Start()
-    {
-        transform.position = track.GetStartPosition();
-    }
+    public void Attach(GameObject connectingObject) => connectedObjects.Add(connectingObject);
+    public void Detach(GameObject connectingObject) => connectedObjects.Remove(connectingObject);
 }

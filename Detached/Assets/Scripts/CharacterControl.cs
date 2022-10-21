@@ -41,6 +41,7 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] private Transform groundCheckTransform;
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask groundMask;
+    [SerializeField] private LayerMask iteractableMask;
 
     [Header("NetWorking")]
     [SerializeField] private GameObject playerBody;
@@ -169,7 +170,9 @@ public class CharacterControl : NetworkBehaviour
 
     private void GroundCheck()
     {
-        isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask);
+        isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask) 
+            || Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, iteractableMask);
+        
     }
 
     private void Jump()

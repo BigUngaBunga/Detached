@@ -58,7 +58,7 @@ public class Activator : NetworkBehaviour
         };
     }
 
-    void Start()
+    protected virtual void Start()
     {
         IsActivated = GetActivationStatus();
     }
