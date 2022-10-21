@@ -7,7 +7,7 @@ using Steamworks;
 using UnityEngine.UI;
 using System.Linq;
 
-public class LobbyController : MonoBehaviour
+public class LobbyController : NetworkBehaviour
 {
     public static LobbyController Instance;
 
@@ -277,5 +277,17 @@ public class LobbyController : MonoBehaviour
     {
         SteamMatchmaking.LeaveLobby(new CSteamID(localPlayerController.PlayerSteamID));
         CustomNetworkManager.singleton.StopClient();
+    }
+
+    public void StopServer()
+    {
+        if (isServer)
+        {
+            Manager.TestStopServer();
+        }
+        if (isClient)
+        {
+            Manager.CustomStopClient();
+        }
     }
 }

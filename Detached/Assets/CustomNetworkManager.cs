@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
 using Steamworks;
-
+using Mirror.FizzySteam;
 using System;
 
 public class CustomNetworkManager : NetworkManager
@@ -15,6 +15,16 @@ public class CustomNetworkManager : NetworkManager
     public List<PlayerObjectController> GamePlayers { get; } = new List<PlayerObjectController>();
 
     public static event Action<NetworkConnectionToClient> OnServerReadied;
+
+    public override void Awake()
+    {
+        if(transport == null)
+        {
+            transport = GameObject.Find("SteamManager").GetComponent<FizzySteamworks>();
+        }
+
+        base.Awake();
+    }
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {
@@ -35,8 +45,7 @@ public class CustomNetworkManager : NetworkManager
 
     public void StartGame(string SceneName)
     {
-
-        ServerChangeScene(SceneName);           
+        ServerChangeScene(SceneName);    
     }
 
     public override void ServerChangeScene(string newSceneName)
@@ -61,4 +70,14 @@ public class CustomNetworkManager : NetworkManager
         OnServerReadied?.Invoke(conn);
     }
 
+    public void TestStopServer()
+    {
+
+        StopHost();
+    }
+
+    public void CustomStopClient()
+    {
+        StopClient();
+    }
 }

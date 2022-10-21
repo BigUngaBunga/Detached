@@ -666,7 +666,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1756315498}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99997723
+  m_Size: 0.9984505
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -967,7 +967,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1793974306}
         m_TargetAssemblyTypeName: LobbyController, Assembly-CSharp
-        m_MethodName: BackButton
+        m_MethodName: StopServer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1419,7 +1419,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00015018157}
+  m_AnchoredPosition: {x: 0, y: 0.00016551896}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1343112447
@@ -2114,6 +2114,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1793974307}
   - component: {fileID: 1793974306}
+  - component: {fileID: 1793974308}
   m_Layer: 0
   m_Name: LobbyController
   m_TagString: Untagged
@@ -2133,6 +2134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b4759fd421d6544eb8e32b878bb4c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   LobbyNameText: {fileID: 1804305925}
   StartGameButton: {fileID: 1044528207}
   ReadyButtonText: {fileID: 356594808}
@@ -2160,6 +2163,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1793974308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793974305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2755103824
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &1804305924
 GameObject:
   m_ObjectHideFlags: 0
