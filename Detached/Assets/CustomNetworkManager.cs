@@ -36,7 +36,7 @@ public class CustomNetworkManager : NetworkManager
     public void StartGame(string SceneName)
     {
 
-        ServerChangeScene(SceneName);        
+        ServerChangeScene(SceneName);           
     }
 
     public override void ServerChangeScene(string newSceneName)
