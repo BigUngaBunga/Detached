@@ -30,7 +30,6 @@ public class LobbyController : NetworkBehaviour
     public bool PlayerItemCreated = false;
     private List<PlayerListItem> PlayerListItems = new List<PlayerListItem>();
     public PlayerObjectController localPlayerController;
-    private CSteamID userToInvite;
 
     //Manager
     private CustomNetworkManager manager;
@@ -135,7 +134,6 @@ public class LobbyController : NetworkBehaviour
         }
 
         CheckIfAllReady();
-
     }
 
     public void RemovePlayerItem()

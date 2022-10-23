@@ -37,13 +37,12 @@ public class PlayerListItem : MonoBehaviour
     private void Start()
     {
         ImageLoaded = Callback<AvatarImageLoaded_t>.Create(OnImageLoaded);
-
     }
 
     public void SetPlayerValues()
     {
         PlayerNameText.text = PlayerName;
-        if(AvatarReceived!) { GetPlayerIcon(); }
+        if(!AvatarReceived) { GetPlayerIcon(); }
         ChangeReadyStatus();
     }
 
@@ -87,5 +86,4 @@ public class PlayerListItem : MonoBehaviour
         if(ImageId == -1) { return; }
         PlayerIcon.texture = GetSteamImageAsTexture(ImageId);
     }
-
 }
