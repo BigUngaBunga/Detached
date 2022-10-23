@@ -25,6 +25,8 @@ public class DrawTrajectory : MonoBehaviour
     [Range(0.01f, 0.25f)]
     private float TimeBetweenPoints = 0.1f;
 
+    public GameObject indicator;
+
   //  private List<Vector3> linePoints;
 
     #region singleton
@@ -39,14 +41,17 @@ public class DrawTrajectory : MonoBehaviour
     {
         LineRenderer = GameObject.Find("Line").GetComponent<LineRenderer>();
         /*        linePoints = new List<Vector3>();*/
+        LineRenderer.startWidth = 0.15f;
+        LineRenderer.endWidth = 0.15f;
+        indicator.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        LineRenderer.startWidth=0.15f;
-        LineRenderer.endWidth = 0.15f;
-        //LineRenderer.GetPosition(LineRenderer.positionCount);
+        if(indicator.activeSelf)
+        indicator.transform.position = LineRenderer.GetPosition(LineRenderer.positionCount - 1);
+
     }
 
     public void DrawProjection(Vector3 forward, Vector3 up, Vector3 startingPoint, float throwForce,float upforce)
@@ -74,6 +79,7 @@ public class DrawTrajectory : MonoBehaviour
                 return;
             }
         }
+        
     }
 
     //public void UpdateTrajectory(Vector3 forceVector,/*, Rigidbody rigidbody,*/ Vector3 startingPoint)

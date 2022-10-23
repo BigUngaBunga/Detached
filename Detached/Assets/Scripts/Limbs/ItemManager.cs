@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using System;
 using UnityEngine.Events;
+using Cinemachine;
 
 public class ItemManager : NetworkBehaviour
 {
@@ -54,6 +55,9 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public Transform camPoint;
     [SerializeField] public Transform throwPoint;
     [SerializeField] public Transform camFocus;
+    [SerializeField] public CinemachineFreeLook cinemachine;
+    [SerializeField] public Vector3 throwCamOffset;
+    public GameObject indicator;
 
 
     private bool readyToThrow;
@@ -177,7 +181,8 @@ public class ItemManager : NetworkBehaviour
     private void Start()
     {
         camPoint = Camera.main.transform;
-
+        cinemachine = FindObjectOfType<CinemachineFreeLook>();
+        
 
     }
     void Update()
@@ -570,17 +575,22 @@ public class ItemManager : NetworkBehaviour
 
             readyToThrow = true;
             dragging = true;
-
+            indicator.SetActive(true);
             sceneObjectHoldingToThrow = GetGameObjectLimbFromSelect();
             sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
+            /*cinemachine.m_YAxis.Value=0.4f;
+            cinemachine.m_YAxis.m_InputAxisName = "";*/
+            
+            //cam when aiming
+            camFocus.localPosition = new Vector3(camFocus.localPosition.x+ throwCamOffset.x, camFocus.localPosition.y+ throwCamOffset.y, camFocus.localPosition.z+ throwCamOffset.z);
         }
         else if (Input.GetMouseButtonUp(1))
         {
             readyToThrow = false;
             dragging = false;
-
             DrawTrajectory.instance.HideLine();
-
+            indicator.SetActive(false);
+            camFocus.localPosition = Vector3.zero;
             if (sceneObjectHoldingToThrow != null)
             {
                 sceneObjectHoldingToThrow.transform.localPosition = Vector3.zero;
@@ -590,14 +600,16 @@ public class ItemManager : NetworkBehaviour
         }
         if (Input.GetMouseButtonUp(0) && readyToThrow && sceneObjectHoldingToThrow != null)
         {
-
+            dragging = false;
             DrawTrajectory.instance.HideLine();
+            indicator.SetActive(false);
             mouseReleasePos = Input.mousePosition;
             sceneObjectHoldingToThrow.transform.localPosition = Vector3.zero;
             sceneObjectHoldingToThrow = null;
 
             //ending point - starting point + cam movement
             // dir = (Input.mousePosition - mousePressDownPos).normalized;
+           // CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position);
             CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position);
 
 
@@ -652,11 +664,12 @@ public class ItemManager : NetworkBehaviour
                 if (headDetached)
                     keepSceneObject = headDetached = false;
 
+                #region camfocus Resset
                 camFocus.parent = camFocusOrigin;
-
                 camFocus.localPosition = Vector3.zero;
                 camFocus.localEulerAngles = Vector3.zero;
                 camFocus.localScale = Vector3.one;
+                #endregion
 
                 /*  camFocus = originalCamTransform;
                   Debug.Log(originalCamTransform);*/
