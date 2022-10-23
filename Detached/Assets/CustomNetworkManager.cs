@@ -68,9 +68,8 @@ public class CustomNetworkManager : NetworkManager
         OnServerReadied?.Invoke(conn);
     }
 
-    public void TestStopServer()
+    public void CustomStopServer()
     {
-
         StopHost();
     }
 

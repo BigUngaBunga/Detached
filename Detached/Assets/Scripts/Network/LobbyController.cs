@@ -35,8 +35,6 @@ public class LobbyController : NetworkBehaviour
     private CustomNetworkManager manager;
     public string GameScene;
 
-    
-
     private CustomNetworkManager Manager
     {
         get
@@ -48,8 +46,6 @@ public class LobbyController : NetworkBehaviour
             return manager = CustomNetworkManager.singleton as CustomNetworkManager;
         }
     }
-
-
 
     public void Awake()
     {
@@ -113,7 +109,6 @@ public class LobbyController : NetworkBehaviour
             }
         }
     }
-
     public void UpdatePlayerItem()
     {
         foreach (PlayerObjectController player in Manager.GamePlayers) // error här
@@ -281,7 +276,7 @@ public class LobbyController : NetworkBehaviour
     {
         if (isServer)
         {
-            Manager.TestStopServer();
+            Manager.CustomStopServer();
         }
         if (isClient)
         {
@@ -289,5 +284,5 @@ public class LobbyController : NetworkBehaviour
         }
 
         UpdatePlayerList();
-    }
+    }  
 }
