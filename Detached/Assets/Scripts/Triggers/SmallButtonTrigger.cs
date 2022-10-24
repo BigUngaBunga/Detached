@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using UnityEngine;
 
@@ -12,10 +13,10 @@ public class SmallButtonTrigger : Trigger, IInteractable
     private Vector3 heightDifference => new Vector3(0, pushedHeight, 0);
 
     public bool CanInteract(GameObject activatingObject) => HasEnoughArms(activatingObject, requiredArms);
-
+    
     public void Interact(GameObject activatingObject)
     {
-        if (HasEnoughArms(activatingObject, requiredArms))
+        if (!IsTriggered && HasEnoughArms(activatingObject, requiredArms))
             StartCoroutine(PushButton());
     }
 

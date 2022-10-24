@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Mirror;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Trigger : MonoBehaviour
+public abstract class Trigger : NetworkBehaviour
 {
     [Header("Default fields")]
     [SerializeField] List<Activator> activators = new List<Activator>();
-    [SerializeField] private bool isTriggered;
+    [SyncVar] [SerializeField] private bool isTriggered;
     private Data data;
 
     protected virtual void Start()
@@ -46,5 +47,4 @@ public class Trigger : MonoBehaviour
         foreach (var activator in activators)
             activator.AddConnection();
     }
-
 }

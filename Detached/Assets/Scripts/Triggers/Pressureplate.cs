@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Pressureplate : Trigger
 {
-    private int TriggeringObjects { 
-        get => triggeringObjects; 
+    private int TriggeringObjects {
+        get => triggeringObjects;
         set {
             triggeringObjects = value;
             IsTriggered = triggeringObjects > 0;

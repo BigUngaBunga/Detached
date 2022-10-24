@@ -9,8 +9,8 @@ public class Activator : NetworkBehaviour
     [SerializeField] protected ActivationRequirement activationRequirement;
     [SerializeField] private bool isActivated = false;
 
-    public bool locked;
-    private bool active;
+    [SyncVar] public bool locked;
+    [SyncVar] private bool active;
 
     protected bool IsActivated
     {
@@ -27,7 +27,7 @@ public class Activator : NetworkBehaviour
     }
 
     [SerializeField] private int totalConnections;
-    [SerializeField] private int activeConnections;
+    [SyncVar] [SerializeField] private int activeConnections;
     protected int ActiveConnections
     {
         get => activeConnections;
@@ -58,6 +58,7 @@ public class Activator : NetworkBehaviour
         };
     }
 
+    [Server]
     protected virtual void Start()
     {
         IsActivated = GetActivationStatus();

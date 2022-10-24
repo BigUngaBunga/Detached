@@ -14,14 +14,22 @@ public class PickUpInteractable : MonoBehaviour, IInteractable
         activatingObject.GetComponent<InteractableManager>().AttemptPickUpItem(gameObject);
     }
 
-    public void PickUp(Transform positionTarget) => this.positionTarget = positionTarget;
-
+    //public void PickUp(Transform positionTarget) => this.positionTarget = positionTarget;
+    public void PickUp(Transform positionTarget)
+    {
+        Debug.Log("New position target: " + positionTarget);
+        this.positionTarget = positionTarget;
+    } 
+    
     public void Drop() => positionTarget = null;
 
     public void Update()
     {
         if (positionTarget != null)
+        {
             transform.position = positionTarget.position;
+            transform.rotation = positionTarget.rotation;
+        } 
     }
 
     public bool CanInteract(GameObject activatingObject) => activatingObject.GetComponent<InteractableManager>().CanPickUpItem(gameObject);
