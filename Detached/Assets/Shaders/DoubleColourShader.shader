@@ -7,6 +7,7 @@ Shader "Custom/DoubleColourShader"
         _Metallic ("Metallic", Range(0,1)) = 0.0
         _Color1 ("First colour", Color) = (0,0,0,1)
         _Color2 ("Second colour", Color) = (1,1,1,1)
+        _Strength ("Primary colour strength", Range(0, 5)) = 1.0
     }
     SubShader
     {
@@ -31,6 +32,7 @@ Shader "Custom/DoubleColourShader"
         half _Metallic;
         fixed4 _Color1;
         fixed4 _Color2;
+        half _Strength;
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
         // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -45,7 +47,8 @@ Shader "Custom/DoubleColourShader"
             fixed4 c = tex2D (_MainTex, IN.uv_MainTex);
             o.Albedo = c.rgb;
 
-            float precense = o.Albedo.r;
+            float precense = o.Albedo.r * _Strength;
+            precense = min(precense, 1);
             o.Albedo = _Color1.xyz * precense + _Color2.xyz * (1-precense);
 
             // Metallic and smoothness come from slider variables
