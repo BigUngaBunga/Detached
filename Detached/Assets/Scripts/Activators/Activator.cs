@@ -7,23 +7,35 @@ public class Activator : NetworkBehaviour
 
     [Header("Default fields")]
     [SerializeField] protected ActivationRequirement activationRequirement;
-    [SerializeField] private bool isActivated = false;
+    //[SerializeField] private bool isActivated = false;
+
+    [SyncVar(hook = nameof(OnChangeActivation))][SerializeField] protected bool isActivated = false;
 
     [SyncVar] public bool locked;
-    [SyncVar] private bool active;
+    [SyncVar] protected bool active;
 
-    protected bool IsActivated
+    //protected bool IsActivated
+    //{
+    //    get { return isActivated; }
+    //    set
+    //    {
+    //        active = value;
+    //        isActivated = active && !locked;
+    //        if (isActivated)
+    //            Activate();
+    //        else
+    //            Deactivate();
+    //    }
+    //}
+
+    private void OnChangeActivation(bool oldValue, bool newValue)
     {
-        get { return isActivated; }
-        set
-        {
-            active = value;
-            isActivated = active && !locked;
-            if (isActivated)
-                Activate();
-            else
-                Deactivate();
-        }
+        active = newValue;
+        isActivated = active && !locked;
+        if (isActivated)
+            Activate();
+        else
+            Deactivate();
     }
 
     [SerializeField] private int totalConnections;
@@ -34,7 +46,7 @@ public class Activator : NetworkBehaviour
         set
         {
             activeConnections = value;
-            IsActivated = GetActivationStatus();
+            isActivated = GetActivationStatus();
         }
     }
 
@@ -43,9 +55,11 @@ public class Activator : NetworkBehaviour
     public void AddConnection() => ++totalConnections;
     public void TriggerActive() => ++ActiveConnections;
     public void TriggerInactive() => --ActiveConnections;
-    public void ReevaluateActivation() => IsActivated = active;
+    public void ReevaluateActivation() => isActivated = active;
 
+    [Server]
     protected virtual void Activate() { }
+    [Server]
     protected virtual void Deactivate() { }
     private bool GetActivationStatus()
     {
@@ -58,10 +72,14 @@ public class Activator : NetworkBehaviour
         };
     }
 
-    [Server]
+    private void OnLevelWasLoaded(int level)
+    {
+        isActivated = GetActivationStatus();
+    }
+
     protected virtual void Start()
     {
-        IsActivated = GetActivationStatus();
+        isActivated = GetActivationStatus();
     }
 }
 

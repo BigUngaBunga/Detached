@@ -41,10 +41,13 @@ public class ActivatedPlatform : Activator
     }
     private void SetAlpha()
     {
-        if (IsActivated)
+        if (isActivated)
             alpha = 1f;
         else if (activationRequirement.Equals(ActivationRequirement.All))
+        {
             alpha = Mathf.Max(PercentageActive / 2f, minimumAlpha);
+            Debug.Log("New alpha: " + alpha);
+        }
         else
             alpha = inactiveAlpha;
     }

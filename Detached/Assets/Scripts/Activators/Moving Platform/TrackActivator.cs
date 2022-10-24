@@ -12,8 +12,8 @@ public class TrackActivator : Activator
 
     private void Awake() => currentNode = startNode;
 
-    protected override void Activate() => startNode.SetActivation(IsActivated);
-    protected override void Deactivate() => startNode.SetActivation(IsActivated);
+    protected override void Activate() => startNode.SetActivation(isActivated);
+    protected override void Deactivate() => startNode.SetActivation(isActivated);
     //public void Update() => startNode.DrawNodeConnections(Color.red);
     public Vector3 GetStartPosition() => startNode.Position;
 

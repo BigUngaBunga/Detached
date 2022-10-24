@@ -38,12 +38,39 @@ public class MovingPlatformActivator : Activator
 
     private void PickNextStop()
     {
-        if (isMoving)
-            return;
-        StartCoroutine(MoveToNextStop());
+        //if (isMoving)
+        //    return;
+        //StartCoroutine(MoveToNextStop());
+        isMoving = true;
+        targetNode = track.GetNextNode(ref goingBackwards);
     }
 
     //TODO gör att den återvänder vid krock med vägg||platform
+
+    private void FixedUpdate()
+    {
+        if (isMoving)
+        {
+            if (IsCloseToTarget(targetNode.Position))
+            {
+                if (targetNode.IsStop)
+                    isMoving = false;
+                else
+                    targetNode = track.GetNextNode(ref goingBackwards);
+            }
+            
+            Vector3 direction = GetDirectionTo(targetNode.Position);
+
+            Transform.position += direction * Speed;
+            foreach (var gameObject in connectedObjects)
+            {
+                if (gameObject != null)
+                    gameObject.transform.position += direction * Speed;//TODO använd krafter istället
+            }
+        }
+        else if (isActivated)
+            Invoke(nameof(PickNextStop), 0.1f);
+    }
 
     private IEnumerator MoveToNextStop()
     {
@@ -57,7 +84,11 @@ public class MovingPlatformActivator : Activator
             {
                 Transform.position += direction * Speed;
                 foreach (var gameObject in connectedObjects)
-                    gameObject.transform.position += direction * Speed;//TODO använd krafter istället
+                {
+                    if (gameObject != null)
+                        gameObject.transform.position += direction * Speed;//TODO använd krafter istället
+                }
+                    
 
                 yield return new WaitForFixedUpdate();
             }
@@ -65,7 +96,7 @@ public class MovingPlatformActivator : Activator
         } while (!targetNode.IsStop);
 
         isMoving = false;
-        if (IsActivated)
+        if (isActivated)
             Invoke(nameof(PickNextStop), 0.1f);
 
         yield return null;
