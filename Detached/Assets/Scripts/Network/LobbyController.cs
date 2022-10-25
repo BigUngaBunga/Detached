@@ -3,21 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Steamworks;
+
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
-public class LobbyController : MonoBehaviour
+public class LobbyController : NetworkBehaviour
 {
     public static LobbyController Instance;
 
     //UI Elements
     public Text LobbyNameText;
+    public Button StartGameButton;
+    public Text ReadyButtonText;
+    public Button Invite;   
 
     //PlayerData
     public GameObject PlayerListViewContent;
     public GameObject PlayerListItemPrefab;
     public GameObject LocalPlayerObject;
+    public GameObject friendListPrefab;
+    public GameObject friendListViewContent;
+    private List<GameObject> friendsInContentView = new List<GameObject>();
 
     //OtherData
     public ulong CurrentLobbyId;
@@ -28,9 +35,6 @@ public class LobbyController : MonoBehaviour
     //Manager
     private CustomNetworkManager manager;
     public string GameScene;
-
-    public Button StartGameButton;
-    public Text ReadyButtonText;
 
     private CustomNetworkManager Manager
     {
@@ -43,8 +47,6 @@ public class LobbyController : MonoBehaviour
             return manager = CustomNetworkManager.singleton as CustomNetworkManager;
         }
     }
-
-
 
     public void Awake()
     {
@@ -108,7 +110,6 @@ public class LobbyController : MonoBehaviour
             }
         }
     }
-
     public void UpdatePlayerItem()
     {
         foreach (PlayerObjectController player in Manager.GamePlayers) // error här
@@ -129,7 +130,6 @@ public class LobbyController : MonoBehaviour
         }
 
         CheckIfAllReady();
-
     }
 
     public void RemovePlayerItem()
@@ -218,4 +218,74 @@ public class LobbyController : MonoBehaviour
             StartGameButton.interactable = false;
         }
     }
+
+    public void GetFriendsPlaying()
+    {
+        ClearPlayerInviteList();
+
+        int numberOfFriends = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagImmediate); //Gets int of "reguler" friends
+        CGameID thisGameId = new CGameID(SteamUtils.GetAppID());
+
+        if (numberOfFriends == -1) //Good practice according to documentation
+        {
+            numberOfFriends = 0;
+        }
+
+        for (int i = 0; i < numberOfFriends; i++)
+        {
+            FriendGameInfo_t friendGameInfo;
+            CSteamID friendSteamId = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagImmediate);
+            SteamFriends.GetFriendGamePlayed(friendSteamId, out friendGameInfo);
+
+            if(friendGameInfo.m_gameID == thisGameId)
+            {
+                AddPlayerToInviteList(friendSteamId);
+            }
+        }
+    }
+    private void ClearPlayerInviteList()
+    {
+        foreach(GameObject friend in friendsInContentView)
+        {
+            Destroy(friend);
+        }
+    }
+
+    private void AddPlayerToInviteList(CSteamID friendSteamId)
+    {
+        GameObject friend = Instantiate(friendListPrefab, friendListViewContent.transform);
+        FriendObjectScript friendObjectScript = friend.GetComponent<FriendObjectScript>();
+        friendObjectScript.ID = friendSteamId;
+        friendObjectScript.Name = SteamFriends.GetFriendPersonaName(friendSteamId);
+        friendsInContentView.Add(friend);
+
+    }
+
+    public void InvitePlayerToGame(CSteamID friendSteamId)
+    {
+        if (friendSteamId == null) return;
+      
+        CSteamID lobby = new CSteamID(Manager.GetComponent<SteamLobby>().currentLobbyID);  
+        SteamMatchmaking.InviteUserToLobby(lobby, friendSteamId);
+    }
+
+    public void BackButton()
+    {
+        SteamMatchmaking.LeaveLobby(new CSteamID(localPlayerController.PlayerSteamID));
+        CustomNetworkManager.singleton.StopClient();
+    }
+
+    public void StopServer()
+    {
+        if (isServer)
+        {
+            Manager.CustomStopServer();
+        }
+        if (isClient)
+        {
+            Manager.CustomStopClient();
+        }
+
+        UpdatePlayerList();
+    }  
 }
