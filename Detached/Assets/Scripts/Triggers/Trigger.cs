@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class Trigger : MonoBehaviour
+public class Trigger : NetworkBehaviour
 {
     [Header("Default fields")]
     [SerializeField] List<Activator> activators = new List<Activator>();

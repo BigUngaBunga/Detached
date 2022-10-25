@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using Mirror;
 
 public class LeverTrigger : Trigger, IInteractable
 {
@@ -16,7 +17,8 @@ public class LeverTrigger : Trigger, IInteractable
         UpdateLeverPosition();
     }
 
-    public void TriggerLever()
+    [ClientRpc]
+    public void RPCTriggerLever()
     {
         IsTriggered = !IsTriggered;
         UpdateLeverPosition();
@@ -41,7 +43,13 @@ public class LeverTrigger : Trigger, IInteractable
     public void Interact(GameObject activatingObject)
     {
         if (HasEnoughArms(activatingObject, requiredArms))
-            TriggerLever();
+            CMDInteract();
+    }
+
+    [Command]
+    public void CMDInteract()
+    {
+        RPCTriggerLever();
     }
 
     public bool CanInteract(GameObject activatingObject) => HasEnoughArms(activatingObject, requiredArms);
