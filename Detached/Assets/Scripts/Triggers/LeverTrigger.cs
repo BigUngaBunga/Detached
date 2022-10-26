@@ -22,14 +22,15 @@ public class LeverTrigger : Trigger, IInteractable
         IsTriggered = !IsTriggered;
         UpdateLeverPosition();
     }
-
+    
+    [Command(requiresAuthority = false)]
     private void UpdateLeverPosition()
     {
         SetRecursiveActivation(!IsTriggered, normalLever);
         SetRecursiveActivation(IsTriggered, triggeredLever);
     }
 
-    [Command(requiresAuthority = false)]
+    
     private void SetRecursiveActivation(bool isActive, GameObject gameObject)
     {
         int children = gameObject.transform.childCount;
