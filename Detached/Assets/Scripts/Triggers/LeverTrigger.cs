@@ -23,6 +23,7 @@ public class LeverTrigger : Trigger, IInteractable
         UpdateLeverPosition();
     }
 
+    [Command(requiresAuthority = false)]
     private void UpdateLeverPosition()
     {
         SetRecursiveActivation(!IsTriggered, normalLever);

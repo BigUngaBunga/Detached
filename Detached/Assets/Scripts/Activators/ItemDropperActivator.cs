@@ -27,7 +27,7 @@ public class ItemDropperActivator : Activator
     {
         if (currentInstantiation != null)
             NetworkServer.Destroy(currentInstantiation);
-        currentInstantiation = Instantiate(prefab, interactableFolder, true);
+        currentInstantiation = NetworkManager.Instantiate(prefab, interactableFolder, true);
         currentInstantiation.transform.position = dropLocation.position;
         NetworkServer.Spawn(currentInstantiation);
     }
