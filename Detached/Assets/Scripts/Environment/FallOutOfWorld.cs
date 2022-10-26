@@ -26,6 +26,11 @@ public class FallOutOfWorld : NetworkBehaviour
         {
             ServerChangeScene(SceneManager.GetActiveScene().name);
         }
+        if (other.gameObject.CompareTag("Leg") || other.gameObject.CompareTag("Head") || other.gameObject.CompareTag("Arm"))
+        {         
+            var SceneObject = other.gameObject.GetComponentInParent<SceneObjectItemManager>();
+            SceneObject.HandleFallOutOfWorld();
+        }
     }
 
     [Server]

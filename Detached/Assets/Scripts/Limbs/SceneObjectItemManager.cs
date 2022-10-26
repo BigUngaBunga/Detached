@@ -10,6 +10,12 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SerializeField] private GameObject armLimb;
     [SerializeField] private GameObject legLimb;
 
+    //Ground Checks
+    private Transform safeLocation;
+    [SerializeField] public LayerMask groundMask;
+    [SerializeField] float groundCheckRadius;
+
+
     private KeyCode detachKeyHead;
     private KeyCode detachKeyArm;
     private KeyCode detachKeyLeg;
@@ -47,6 +53,7 @@ public class SceneObjectItemManager : NetworkBehaviour
         detachKeyHead = itemManager.detachKeyHead;
         detachKeyArm = itemManager.detachKeyArm;
         detachKeyLeg = itemManager.detachKeyLeg;
+        safeLocation = transform;
 
     }
 
@@ -111,5 +118,47 @@ public class SceneObjectItemManager : NetworkBehaviour
             Debug.Log("Picking it up");
             itemManager.CmdPickUpLimb(gameObject);
         }      
+    }
+
+    public void HandleFallOutOfWorld()
+    {
+        if (safeLocation != null)
+        {
+            if (isServer)
+            {
+                RpcUpdatePosition(safeLocation.position);
+            }
+            if (isClient)
+            {
+                CmdUpdatePosition(safeLocation.position);
+            }
+        }
+        else
+        {
+            itemManager.CmdPickUpLimb(gameObject);
+        }
+    }
+
+    [Command]
+    public void CmdUpdatePosition(Vector3 safeLocation)
+    {
+        RpcUpdatePosition(safeLocation);
+    }
+
+    [ClientRpc]
+    public void RpcUpdatePosition(Vector3 safeLocation)
+    {
+        gameObject.transform.position = Vector3.zero;
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        
+        if (Physics.CheckSphere(transform.position, groundCheckRadius, groundMask))
+        {
+                safeLocation.position = transform.position;
+                safeLocation.rotation = transform.rotation;
+        }
+        
     }
 }
