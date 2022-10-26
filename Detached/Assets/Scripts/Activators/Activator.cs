@@ -14,19 +14,19 @@ public class Activator : NetworkBehaviour
     [SyncVar] public bool locked;
     [SyncVar] protected bool active;
 
-    //protected bool IsActivated
-    //{
-    //    get { return isActivated; }
-    //    set
-    //    {
-    //        active = value;
-    //        isActivated = active && !locked;
-    //        if (isActivated)
-    //            Activate();
-    //        else
-    //            Deactivate();
-    //    }
-    //}
+    protected bool IsActivated
+    {
+        get { return isActivated; }
+        set
+        {
+            active = value;
+            isActivated = active && !locked;
+            if (isActivated)
+                Activate();
+            else
+                Deactivate();
+        }
+    }
 
     private void OnChangeActivation(bool oldValue, bool newValue)
     {
@@ -53,13 +53,11 @@ public class Activator : NetworkBehaviour
     protected int TotalConnections { get { return totalConnections; } }
 
     public void AddConnection() => ++totalConnections;
-    public void TriggerActive() => ++ActiveConnections;
-    public void TriggerInactive() => --ActiveConnections;
+    public virtual void TriggerActive() => ++ActiveConnections;
+    public virtual void TriggerInactive() => --ActiveConnections;
     public void ReevaluateActivation() => isActivated = active;
 
-    [Server]
     protected virtual void Activate() { }
-    [Server]
     protected virtual void Deactivate() { }
     private bool GetActivationStatus()
     {
@@ -72,14 +70,10 @@ public class Activator : NetworkBehaviour
         };
     }
 
-    private void OnLevelWasLoaded(int level)
-    {
-        isActivated = GetActivationStatus();
-    }
-
+    [Server]
     protected virtual void Start()
     {
-        isActivated = GetActivationStatus();
+        IsActivated = GetActivationStatus();
     }
 }
 

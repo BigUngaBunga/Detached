@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class RotatingCylinderActivator : Activator
@@ -10,8 +9,6 @@ public class RotatingCylinderActivator : Activator
     [SerializeField] private float lerpIncrement;
     [SerializeField] private Vector3 initialRotation;
     private float TargetRotation => initialRotation.y + degreesPerActivation * ActiveConnections;
-
-    private IEnumerator coroutine;
 
     private void Awake()
     {

@@ -19,23 +19,54 @@ public abstract class Trigger : NetworkBehaviour
         get => isTriggered;
         set
         {
-            if (!value && IsTriggered)
-                StopTrigger();
-            else if (value && !IsTriggered)
-                StartTrigger();
-            isTriggered = value;
+            //if (!value && IsTriggered)
+            //    StopTrigger();
+            //else if (value && !IsTriggered)
+            //    StartTrigger();
+
+            if ((!value && IsTriggered) || (value && !IsTriggered))
+                HandleTrigger();
+            //isTriggered = value;
         }
     }
 
+    private void HandleTrigger()
+    {
+        if (isClient)
+        {
+            if (IsTriggered)
+                CommandStartTrigger();
+            else
+                CommandStopTrigger();
+        }
+        else
+        {
+            if (IsTriggered)
+                StartTrigger();
+            else
+                StopTrigger();
+        }
+    }
+
+    [Command]
+    private void CommandStartTrigger() => StartTrigger();
+
+    [Command]
+    private void CommandStopTrigger() => StopTrigger();
+
+    [Server]
     private void StartTrigger()
     {
+        isTriggered = true;
         data.Activations++;
         foreach (var activator in activators)
             activator.TriggerActive();
     }
 
+    [Server]
     private void StopTrigger()
     {
+        isTriggered = false;
         foreach (var activator in activators)
             activator.TriggerInactive();
     }
