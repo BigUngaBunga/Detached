@@ -28,7 +28,7 @@ public class Activator : NetworkBehaviour
         set
         {
             activeConnections = value;
-            isActivated = GetActivationStatus();
+            IsActivated = GetActivationStatus();
         }
     }
 
@@ -37,7 +37,7 @@ public class Activator : NetworkBehaviour
     public void AddConnection() => ++totalConnections;
     public virtual void TriggerActive() => ++ActiveConnections;
     public virtual void TriggerInactive() => --ActiveConnections;
-    public void ReevaluateActivation() => isActivated = active;
+    public void ReevaluateActivation() => IsActivated = active;
 
     [Command(requiresAuthority = false)]
     private void SetActivation(bool value)
@@ -52,6 +52,7 @@ public class Activator : NetworkBehaviour
 
     [Command(requiresAuthority = false)]
     protected virtual void Activate() {}
+
     [Command(requiresAuthority = false)]
     protected virtual void Deactivate() {}
     private bool GetActivationStatus()

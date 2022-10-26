@@ -38,8 +38,8 @@ public class MovingPlatformActivator : Activator
 
     private void PickNextStop()
     {
-        //if (isMoving)
-        //    return;
+        if (isMoving)
+            return;
         //StartCoroutine(MoveToNextStop());
         isMoving = true;
         targetNode = track.GetNextNode(ref goingBackwards);

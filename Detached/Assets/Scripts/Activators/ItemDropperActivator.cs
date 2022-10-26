@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 public class ItemDropperActivator : Activator
@@ -23,11 +22,13 @@ public class ItemDropperActivator : Activator
         InstantiateObject();
     }
 
+
     private void InstantiateObject()
     {
         if (currentInstantiation != null)
-            Destroy(currentInstantiation);
+            NetworkServer.Destroy(currentInstantiation);
         currentInstantiation = Instantiate(prefab, interactableFolder, true);
         currentInstantiation.transform.position = dropLocation.position;
+        NetworkServer.Spawn(currentInstantiation);
     }
 }
