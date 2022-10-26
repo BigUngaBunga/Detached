@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1212426585777495228}
   - component: {fileID: 6282614434320751992}
   - component: {fileID: 369213013247572113}
+  - component: {fileID: 3923369070337922924}
   m_Layer: 15
   m_Name: Magnet
   m_TagString: Untagged
@@ -86,6 +87,7 @@ MonoBehaviour:
   syncInterval: 0.1
   activationRequirement: 0
   isActivated: 0
+  locked: 0
   totalConnections: 0
   activeConnections: 0
   attractionSpeed: 1000
@@ -121,6 +123,41 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2.51, z: 2.02}
   m_Center: {x: 0, y: -0.75, z: 0}
+--- !u!114 &3923369070337922924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193211390194262745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734b48bea0b204338958ee3d885e11f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 0
+  sendInterval: 0.05
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 0
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 0
+  bufferTimeMultiplier: 1
+  bufferSizeLimit: 64
+  catchupThreshold: 4
+  catchupMultiplier: 0.1
+  onlySyncOnChange: 1
+  bufferResetMultiplier: 5
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  target: {fileID: 5415071377605040137}
 --- !u!1 &1213077667465491314
 GameObject:
   m_ObjectHideFlags: 0
