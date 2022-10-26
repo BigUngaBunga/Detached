@@ -31,5 +31,12 @@ public class ItemDropperActivator : Activator
         currentInstantiation = Instantiate(prefab, interactableFolder);
         currentInstantiation.transform.position = dropLocation.position;
         NetworkServer.Spawn(currentInstantiation);
+        RPCMoveToParent();
+    }
+
+    [ClientRpc]
+    private void RPCMoveToParent()
+    {
+        currentInstantiation.transform.parent = interactableFolder;
     }
 }
