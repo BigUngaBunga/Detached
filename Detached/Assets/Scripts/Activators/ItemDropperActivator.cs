@@ -19,10 +19,11 @@ public class ItemDropperActivator : Activator
     protected override void Activate()
     {
         base.Activate();
-        InstantiateObject();
+        if(isServer)
+            InstantiateObject();
     }
 
-    [Command(requiresAuthority = false)]
+    [Server]
     private void InstantiateObject()
     {
         if (currentInstantiation != null)
