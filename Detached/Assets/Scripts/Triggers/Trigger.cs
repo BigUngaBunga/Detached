@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using Mirror;
+using System.Collections.Generic;
+using Telepathy;
+using UnityEditor;
 using UnityEngine;
 
-public class Trigger : MonoBehaviour
+public abstract class Trigger : NetworkBehaviour
 {
     [Header("Default fields")]
     [SerializeField] List<Activator> activators = new List<Activator>();
-    [SerializeField] private bool isTriggered;
+    [SyncVar] [SerializeField] private bool isTriggered;
     private Data data;
 
     protected virtual void Start()
@@ -22,22 +25,26 @@ public class Trigger : MonoBehaviour
                 StopTrigger();
             else if (value && !IsTriggered)
                 StartTrigger();
-            isTriggered = value;
         }
     }
 
+    [Command(requiresAuthority = false)]
     private void StartTrigger()
     {
+        isTriggered = true;
         data.Activations++;
         foreach (var activator in activators)
             activator.TriggerActive();
     }
-
+    [Command(requiresAuthority = false)]
     private void StopTrigger()
     {
+        isTriggered = false;
         foreach (var activator in activators)
             activator.TriggerInactive();
     }
+
+
 
     protected bool HasEnoughArms(GameObject player, int requiredArms) => player.GetComponent<ItemManager>().NumberOfArms >= requiredArms;
 
@@ -46,5 +53,4 @@ public class Trigger : MonoBehaviour
         foreach (var activator in activators)
             activator.AddConnection();
     }
-
 }

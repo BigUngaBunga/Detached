@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -21,27 +22,30 @@ public class LeverTrigger : Trigger, IInteractable
         IsTriggered = !IsTriggered;
         UpdateLeverPosition();
     }
-
+    
+    [Command(requiresAuthority = false)]
     private void UpdateLeverPosition()
     {
         SetRecursiveActivation(!IsTriggered, normalLever);
         SetRecursiveActivation(IsTriggered, triggeredLever);
+    }
 
-        void SetRecursiveActivation(bool isActive, GameObject gameObject)
-        {
-            int children = gameObject.transform.childCount;
-            gameObject.SetActive(isActive);
-            if (children <= 0)
-                return;
-            for (int i = 0; i < children; i++)
-                SetRecursiveActivation(isActive, gameObject.transform.GetChild(i).gameObject);
-        }
+    
+    private void SetRecursiveActivation(bool isActive, GameObject gameObject)
+    {
+        int children = gameObject.transform.childCount;
+        gameObject.SetActive(isActive);
+        if (children <= 0)
+            return;
+        for (int i = 0; i < children; i++)
+            SetRecursiveActivation(isActive, gameObject.transform.GetChild(i).gameObject);
     }
 
     public void Interact(GameObject activatingObject)
     {
         if (HasEnoughArms(activatingObject, requiredArms))
             TriggerLever();
+
     }
 
     public bool CanInteract(GameObject activatingObject) => HasEnoughArms(activatingObject, requiredArms);

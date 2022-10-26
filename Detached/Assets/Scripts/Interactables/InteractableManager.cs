@@ -2,13 +2,13 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class InteractableManager : NetworkBehaviour
 {
     [SerializeField] private bool isCarryingItem;
-    [SerializeField] private GameObject carriedItem;
-    [SerializeField] private Transform holdingParent;
-    [SerializeField] private Transform previousParent;
+    [SerializeField] private Transform holdingPosition;
+    [SerializeField] private PickUpInteractable carriedItem;
     private ItemManager itemManager;
     public bool IsCarryingItem { get { return isCarryingItem; } }
 
@@ -18,12 +18,7 @@ public class InteractableManager : NetworkBehaviour
         itemManager.dropLimbEvent.AddListener(CanStillCarryItem);
     }
 
-    public bool IsCarryingTag(string tag)
-    {
-        if (isCarryingItem)
-            return carriedItem.CompareTag(tag);
-        return false;
-    }
+    public bool IsCarryingTag(string tag) => isCarryingItem && carriedItem.CompareTag(tag);
 
     public bool CanPickUpItem(GameObject item) => !isCarryingItem && item.GetComponent<PickUpInteractable>().RequiredArms <= itemManager.NumberOfArms;
 
@@ -33,11 +28,9 @@ public class InteractableManager : NetworkBehaviour
         if (CanPickUpItem(item))
         {
             isCarryingItem = true;
-            carriedItem = item;
-            previousParent = item.transform.parent;
-            MoveTo(carriedItem, holdingParent);
-            ToggleGravity(carriedItem);
-            carriedItem.GetComponent<PickUpInteractable>().PickUp(holdingParent);
+            ToggleGravity(item);
+            carriedItem = item.GetComponent<PickUpInteractable>();
+            carriedItem.PickUp(holdingPosition);
         }
     }
 
@@ -47,24 +40,26 @@ public class InteractableManager : NetworkBehaviour
         if (isCarryingItem)
         {
             isCarryingItem = false;
-            MoveTo(carriedItem, previousParent, false);
-            ToggleGravity(carriedItem);
-            carriedItem.GetComponent<PickUpInteractable>().Drop();
-            item = carriedItem;
+            carriedItem.Drop();
+            item = carriedItem.gameObject;
+            ToggleGravity(item);
+            carriedItem = null;
             return true;
         }
         return false;
     }
 
-    public void AttemptDropItem()
+    public bool AttemptDropItem()
     {
         if (isCarryingItem)
         {
             isCarryingItem = false;
-            MoveTo(carriedItem, previousParent, false);
-            ToggleGravity(carriedItem);
-            carriedItem.GetComponent<PickUpInteractable>().Drop();
+            carriedItem.Drop();
+            ToggleGravity(carriedItem.gameObject);
+            carriedItem = null;
+            return true;
         }
+        return false;
     }
 
     private void CanStillCarryItem()
@@ -73,22 +68,11 @@ public class InteractableManager : NetworkBehaviour
             AttemptDropItem();
     }
 
-    private void MoveTo(GameObject item, Transform target, bool moveItem = true)
-    {
-        if (target == null)
-            return;
-        item.transform.parent = target;
-        if (moveItem)
-            item.transform.position = target.position;
-
-    }
-
     private void ToggleGravity(GameObject item)
     {
         item.TryGetComponent(out Rigidbody rigidbody);
         rigidbody.useGravity = !rigidbody.useGravity;
         rigidbody.velocity = Vector3.zero;
         rigidbody.angularVelocity = Vector3.zero;
-        rigidbody.angularDrag = rigidbody.useGravity ? 0.05f : 0.5f;
     }
 }

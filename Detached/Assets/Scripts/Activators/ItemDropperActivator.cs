@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 public class ItemDropperActivator : Activator
@@ -20,14 +19,25 @@ public class ItemDropperActivator : Activator
     protected override void Activate()
     {
         base.Activate();
-        InstantiateObject();
+        if(isServer)
+            InstantiateObject();
     }
 
+    [Server]
     private void InstantiateObject()
     {
         if (currentInstantiation != null)
-            Destroy(currentInstantiation);
-        currentInstantiation = Instantiate(prefab, interactableFolder, true);
+            NetworkServer.Destroy(currentInstantiation);
+        currentInstantiation = Instantiate(prefab, interactableFolder);
         currentInstantiation.transform.position = dropLocation.position;
+        NetworkServer.Spawn(currentInstantiation);
+        RPCMoveToParent();
+    }
+
+    //TODO lägg till InteractableFolder som förälder till currentInstantiation
+    [ClientRpc]
+    private void RPCMoveToParent()
+    {
+        currentInstantiation.transform.parent = interactableFolder;
     }
 }

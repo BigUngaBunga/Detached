@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Pressureplate : Trigger
 {
-    private int TriggeringObjects { 
-        get => triggeringObjects; 
+    private int TriggeringObjects {
+        get => triggeringObjects;
         set {
             triggeringObjects = value;
             IsTriggered = triggeringObjects > 0;
@@ -17,14 +17,14 @@ public class Pressureplate : Trigger
 
     public void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Something entered");
+        //Debug.Log("Something entered");
         if (IsCollisionObject(collision.gameObject.tag))
             ++TriggeringObjects;
     }
 
     public void OnCollisionExit(Collision collision)
     {
-        Debug.Log("Something left");
+        //Debug.Log("Something left");
         if (IsCollisionObject(collision.gameObject.tag))
             --TriggeringObjects;
     }

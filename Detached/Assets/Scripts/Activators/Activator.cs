@@ -7,27 +7,21 @@ public class Activator : NetworkBehaviour
 
     [Header("Default fields")]
     [SerializeField] protected ActivationRequirement activationRequirement;
-    [SerializeField] private bool isActivated = false;
+    //[SerializeField] private bool isActivated = false;
 
-    public bool locked;
-    private bool active;
+    [SyncVar][SerializeField] protected bool isActivated = false;
+
+    [SyncVar] public bool locked;
+    [SyncVar] protected bool active;
 
     protected bool IsActivated
     {
         get { return isActivated; }
-        set
-        {
-            active = value;
-            isActivated = active && !locked;
-            if (isActivated)
-                Activate();
-            else
-                Deactivate();
-        }
+        set { SetActivation(value); }
     }
 
     [SerializeField] private int totalConnections;
-    [SerializeField] private int activeConnections;
+    [SyncVar] [SerializeField] private int activeConnections;
     protected int ActiveConnections
     {
         get => activeConnections;
@@ -41,12 +35,26 @@ public class Activator : NetworkBehaviour
     protected int TotalConnections { get { return totalConnections; } }
 
     public void AddConnection() => ++totalConnections;
-    public void TriggerActive() => ++ActiveConnections;
-    public void TriggerInactive() => --ActiveConnections;
+    public virtual void TriggerActive() => ++ActiveConnections;
+    public virtual void TriggerInactive() => --ActiveConnections;
     public void ReevaluateActivation() => IsActivated = active;
 
-    protected virtual void Activate() { }
-    protected virtual void Deactivate() { }
+    [Command(requiresAuthority = false)]
+    private void SetActivation(bool value)
+    {
+        active = value;
+        isActivated = active && !locked;
+        if (isActivated)
+            Activate();
+        else
+            Deactivate();
+    }
+
+    [Command(requiresAuthority = false)]
+    protected virtual void Activate() {}
+
+    [Command(requiresAuthority = false)]
+    protected virtual void Deactivate() {}
     private bool GetActivationStatus()
     {
         return activationRequirement switch
@@ -58,6 +66,7 @@ public class Activator : NetworkBehaviour
         };
     }
 
+    [Command(requiresAuthority = false)]
     protected virtual void Start()
     {
         IsActivated = GetActivationStatus();

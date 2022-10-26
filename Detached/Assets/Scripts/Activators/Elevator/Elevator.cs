@@ -17,7 +17,7 @@ public class Elevator : Activator
 
     [SerializeField] private bool goingUp = true;
 
-    private void Start()
+    protected override void Start()
     {
         movement = elevatorFloor.GetComponent<ElevatorMovement>();
     }
@@ -52,7 +52,7 @@ public class Elevator : Activator
             yield return new WaitForFixedUpdate();
         }
         isMoving = false;
-        if (IsActivated)
+        if (isActivated)
             Invoke(nameof(PickNextStop), 0.1f);
 
         yield return null;

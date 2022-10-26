@@ -31,7 +31,7 @@ public class MagnetActivator : Activator
 
     public void FixedUpdate()
     {
-        if (IsActivated)
+        if (isActivated)
             ApplyForce();
     }
 
