@@ -34,6 +34,7 @@ public class ItemDropperActivator : Activator
         RPCMoveToParent();
     }
 
+    //TODO lägg till InteractableFolder som förälder till currentInstantiation
     [ClientRpc]
     private void RPCMoveToParent()
     {
