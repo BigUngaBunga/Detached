@@ -11,7 +11,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SerializeField] private GameObject legLimb;
 
     //Ground Checks
-    private Transform safeLocation;
+    private Vector3 safeLocation;
     [SerializeField] public LayerMask groundMask;
     [SerializeField] float groundCheckRadius;
 
@@ -53,7 +53,6 @@ public class SceneObjectItemManager : NetworkBehaviour
         detachKeyHead = itemManager.detachKeyHead;
         detachKeyArm = itemManager.detachKeyArm;
         detachKeyLeg = itemManager.detachKeyLeg;
-        safeLocation = transform;
 
     }
 
@@ -122,33 +121,24 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     public void HandleFallOutOfWorld()
     {
-        if (safeLocation != null)
+        if (safeLocation != null && safeLocation != Vector3.zero)
         {
             if (isServer)
             {
-                RpcUpdatePosition(safeLocation.position);
-            }
-            if (isClient)
-            {
-                CmdUpdatePosition(safeLocation.position);
-            }
+                RpcUpdatePosition(safeLocation);
+            }            
         }
+
         else
         {
             itemManager.CmdPickUpLimb(gameObject);
         }
     }
 
-    [Command(requiresAuthority = false)]
-    public void CmdUpdatePosition(Vector3 safeLocation)
-    {
-        RpcUpdatePosition(safeLocation);
-    }
-
     [ClientRpc]
     public void RpcUpdatePosition(Vector3 safeLocation)
     {
-        gameObject.transform.position = Vector3.zero;
+        gameObject.transform.position = safeLocation;
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
@@ -156,11 +146,12 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        
-        if (Physics.CheckSphere(transform.position, groundCheckRadius, groundMask))
+        if (collision.gameObject.tag == "Ground")
         {
-                safeLocation.position = transform.position;
-                safeLocation.rotation = transform.rotation;
+            if (Physics.CheckSphere(transform.position, groundCheckRadius, groundMask))
+            {
+                safeLocation = transform.position;
+            }
         }
         
     }
