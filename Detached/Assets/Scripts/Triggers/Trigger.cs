@@ -1,5 +1,7 @@
 ﻿using Mirror;
 using System.Collections.Generic;
+using Telepathy;
+using UnityEditor;
 using UnityEngine;
 
 public abstract class Trigger : NetworkBehaviour
@@ -19,42 +21,35 @@ public abstract class Trigger : NetworkBehaviour
         get => isTriggered;
         set
         {
-            //if (!value && IsTriggered)
-            //    StopTrigger();
-            //else if (value && !IsTriggered)
-            //    StartTrigger();
-
-            if ((!value && IsTriggered) || (value && !IsTriggered))
-                HandleTrigger();
+            if (!value && IsTriggered)
+                StopTrigger();
+            else if (value && !IsTriggered)
+                StartTrigger();
             //isTriggered = value;
         }
     }
 
-    private void HandleTrigger()
-    {
-        if (isClient)
-        {
-            if (IsTriggered)
-                CommandStartTrigger();
-            else
-                CommandStopTrigger();
-        }
-        else
-        {
-            if (IsTriggered)
-                StartTrigger();
-            else
-                StopTrigger();
-        }
-    }
+    //private void HandleTrigger(bool value)
+    //{
+    //        if (NetworkClient.localPlayer.isClientOnly)
+    //        {
+    //            Debug.Log("Activating as non host client");
+    //        if (!value)
+    //            StartTrigger();
+    //        else
+    //            StopTrigger();
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("Activating as host client");
+    //            if (!value)
+    //                StartTrigger();
+    //            else
+    //                StopTrigger();
+    //        }
+    //}
 
-    [Command]
-    private void CommandStartTrigger() => StartTrigger();
-
-    [Command]
-    private void CommandStopTrigger() => StopTrigger();
-
-    [Server]
+    [Command(requiresAuthority = false)]
     private void StartTrigger()
     {
         isTriggered = true;
@@ -62,14 +57,15 @@ public abstract class Trigger : NetworkBehaviour
         foreach (var activator in activators)
             activator.TriggerActive();
     }
-
-    [Server]
+    [Command(requiresAuthority = false)]
     private void StopTrigger()
     {
         isTriggered = false;
         foreach (var activator in activators)
             activator.TriggerInactive();
     }
+
+
 
     protected bool HasEnoughArms(GameObject player, int requiredArms) => player.GetComponent<ItemManager>().NumberOfArms >= requiredArms;
 

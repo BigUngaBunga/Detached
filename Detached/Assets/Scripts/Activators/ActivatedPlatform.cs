@@ -37,7 +37,7 @@ public class ActivatedPlatform : Activator
     {
         base.Deactivate();
         collider.enabled = false;
-        if (isServer)
+        if (NetworkClient.isHostClient)
             UpdateAlpha();
 
     }
@@ -45,14 +45,14 @@ public class ActivatedPlatform : Activator
     public override void TriggerActive()
     {
         base.TriggerActive();
-        if (isServer)
+        if (NetworkClient.isHostClient)
             UpdateAlpha();
     }
 
     public override void TriggerInactive()
     {
         base.TriggerInactive();
-        if (isServer)
+        if (NetworkClient.isHostClient)
             UpdateAlpha();
     }
 
@@ -64,7 +64,6 @@ public class ActivatedPlatform : Activator
         else if (activationRequirement.Equals(ActivationRequirement.All))
         {
             alpha = Mathf.Max(PercentageActive / 2f, minimumAlpha);
-            Debug.Log("New alpha: " + alpha + " Percentage active: " + PercentageActive);
         }
         else
             alpha = inactiveAlpha;
