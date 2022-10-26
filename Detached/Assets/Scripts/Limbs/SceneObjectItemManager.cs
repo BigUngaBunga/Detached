@@ -139,7 +139,7 @@ public class SceneObjectItemManager : NetworkBehaviour
         }
     }
 
-    [Command]
+    [Command(requiresAuthority = false)]
     public void CmdUpdatePosition(Vector3 safeLocation)
     {
         RpcUpdatePosition(safeLocation);
@@ -149,6 +149,9 @@ public class SceneObjectItemManager : NetworkBehaviour
     public void RpcUpdatePosition(Vector3 safeLocation)
     {
         gameObject.transform.position = Vector3.zero;
+        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+
     }
 
     public void OnCollisionEnter(Collision collision)
