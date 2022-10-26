@@ -22,13 +22,13 @@ public class ItemDropperActivator : Activator
         InstantiateObject();
     }
 
-    [Server]
+    [Command(requiresAuthority = false)]
     private void InstantiateObject()
     {
         if (currentInstantiation != null)
             NetworkServer.Destroy(currentInstantiation);
-        currentInstantiation = Instantiate(prefab, dropLocation.position, prefab.transform.rotation, interactableFolder);
-        //currentInstantiation.transform.position = dropLocation.position;
+        currentInstantiation = Instantiate(prefab, interactableFolder);
+        currentInstantiation.transform.position = dropLocation.position;
         NetworkServer.Spawn(currentInstantiation);
     }
 }
