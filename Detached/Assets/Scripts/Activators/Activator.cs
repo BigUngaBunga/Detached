@@ -9,7 +9,7 @@ public class Activator : NetworkBehaviour
     [SerializeField] protected ActivationRequirement activationRequirement;
     //[SerializeField] private bool isActivated = false;
 
-    [SyncVar(hook = nameof(OnChangeActivation))][SerializeField] protected bool isActivated = false;
+    [SyncVar][SerializeField] protected bool isActivated = false;
 
     [SyncVar] public bool locked;
     [SyncVar] protected bool active;
@@ -17,25 +17,7 @@ public class Activator : NetworkBehaviour
     protected bool IsActivated
     {
         get { return isActivated; }
-        set
-        {
-            active = value;
-            isActivated = active && !locked;
-            if (isActivated)
-                Activate();
-            else
-                Deactivate();
-        }
-    }
-
-    private void OnChangeActivation(bool oldValue, bool newValue)
-    {
-        active = newValue;
-        isActivated = active && !locked;
-        if (isActivated)
-            Activate();
-        else
-            Deactivate();
+        set { SetActivation(value); }
     }
 
     [SerializeField] private int totalConnections;
@@ -57,8 +39,21 @@ public class Activator : NetworkBehaviour
     public virtual void TriggerInactive() => --ActiveConnections;
     public void ReevaluateActivation() => isActivated = active;
 
-    protected virtual void Activate() { }
-    protected virtual void Deactivate() { }
+    [Command(requiresAuthority = false)]
+    private void SetActivation(bool value)
+    {
+        active = value;
+        isActivated = active && !locked;
+        if (isActivated)
+            Activate();
+        else
+            Deactivate();
+    }
+
+    [Command(requiresAuthority = false)]
+    protected virtual void Activate() {}
+    [Command(requiresAuthority = false)]
+    protected virtual void Deactivate() {}
     private bool GetActivationStatus()
     {
         return activationRequirement switch
@@ -70,7 +65,7 @@ public class Activator : NetworkBehaviour
         };
     }
 
-    [Server]
+    [Command(requiresAuthority = false)]
     protected virtual void Start()
     {
         IsActivated = GetActivationStatus();

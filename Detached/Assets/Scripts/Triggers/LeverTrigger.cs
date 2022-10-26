@@ -17,10 +17,6 @@ public class LeverTrigger : Trigger, IInteractable
         UpdateLeverPosition();
     }
 
-    [Command]
-    public void TriggerLeverCommand() => TriggerLever();
-
-    [Server]
     public void TriggerLever()
     {
         IsTriggered = !IsTriggered;
@@ -46,13 +42,8 @@ public class LeverTrigger : Trigger, IInteractable
     public void Interact(GameObject activatingObject)
     {
         if (HasEnoughArms(activatingObject, requiredArms))
-        {
-            if (isClientOnly)
-                TriggerLeverCommand();
-            else
-                TriggerLever();
-        }
-            
+            TriggerLever();
+
     }
 
     public bool CanInteract(GameObject activatingObject) => HasEnoughArms(activatingObject, requiredArms);

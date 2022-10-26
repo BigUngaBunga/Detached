@@ -62,9 +62,7 @@ public class ActivatedPlatform : Activator
         if (isActivated)
             alpha = 1f;
         else if (activationRequirement.Equals(ActivationRequirement.All))
-        {
             alpha = Mathf.Max(PercentageActive / 2f, minimumAlpha);
-        }
         else
             alpha = inactiveAlpha;
     }

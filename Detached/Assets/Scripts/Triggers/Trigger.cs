@@ -25,29 +25,8 @@ public abstract class Trigger : NetworkBehaviour
                 StopTrigger();
             else if (value && !IsTriggered)
                 StartTrigger();
-            //isTriggered = value;
         }
     }
-
-    //private void HandleTrigger(bool value)
-    //{
-    //        if (NetworkClient.localPlayer.isClientOnly)
-    //        {
-    //            Debug.Log("Activating as non host client");
-    //        if (!value)
-    //            StartTrigger();
-    //        else
-    //            StopTrigger();
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("Activating as host client");
-    //            if (!value)
-    //                StartTrigger();
-    //            else
-    //                StopTrigger();
-    //        }
-    //}
 
     [Command(requiresAuthority = false)]
     private void StartTrigger()
