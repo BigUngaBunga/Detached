@@ -138,7 +138,8 @@ public class SceneObjectItemManager : NetworkBehaviour
     [ClientRpc]
     public void RpcUpdatePosition(Vector3 safeLocation)
     {
-        gameObject.transform.position = safeLocation;
+        //So it dosne't cvollide with ground or other limbs
+        gameObject.transform.position = safeLocation + new Vector3(0,2,0);
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
