@@ -128,7 +128,6 @@ public class SceneObjectItemManager : NetworkBehaviour
                 RpcUpdatePosition(safeLocation);
             }            
         }
-
         else
         {
             itemManager.CmdPickUpLimb(gameObject);

@@ -19,23 +19,42 @@ public class TempMovement : NetworkBehaviour
 
         if (!sceneObjectItemManagerScript.IsBeingControlled) return;
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (isClient)
         {
-            gameObject.transform.position += new Vector3(0, 0, movementSpeed);
+            ServerUpdateMovement();
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        else
         {
-            gameObject.transform.position += new Vector3(0, 0, -movementSpeed);
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            gameObject.transform.position += new Vector3(-movementSpeed, 0, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            gameObject.transform.position += new Vector3(movementSpeed, 0, 0);
+
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                gameObject.transform.position += new Vector3(0, 0, movementSpeed);
+            }
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                gameObject.transform.position += new Vector3(0, 0, -movementSpeed);
+            }
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                gameObject.transform.position += new Vector3(-movementSpeed, 0, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                gameObject.transform.position += new Vector3(movementSpeed, 0, 0);
+            }
         }
     }
 
     
+    private void ServerUpdateMovement()
+    {
+
+    }
+    
+    private void ClientUpdateMovement()
+    {
+
+    }
+
+
 }
