@@ -6,6 +6,6 @@ public class ProjectileScript : MonoBehaviour
 {
     void Update()
     {
-        transform.position = transform.position + new Vector3(0f, 0f, 1f) * Time.deltaTime;
+        transform.position = transform.position + new Vector3(0f, -1f, 0f) * Time.deltaTime;
     }
 }

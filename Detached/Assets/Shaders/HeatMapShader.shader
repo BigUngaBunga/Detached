@@ -24,8 +24,6 @@ Shader "Unlit/HeatMapShader"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
 
@@ -55,10 +53,11 @@ Shader "Unlit/HeatMapShader"
                 return o;
             }
 
+            //The colors and the ranges in where those colors will apply
             float4 colors[5];
             float pointranges[5];
 
-            float _Hits[3 * 64];
+            float _Hits[3 * 256];
             int _HitCount = 0;
 
             float4 _Color0;
@@ -85,7 +84,7 @@ Shader "Unlit/HeatMapShader"
 
             float distsq(float2 a, float2 b)
             {
-                float area_of_effect_size = 1.0f;
+                float area_of_effect_size = 0.8f;
 
                 float d = pow(max(0.0, 1.0 - distance(a, b) / area_of_effect_size), 2);
 
@@ -139,7 +138,7 @@ Shader "Unlit/HeatMapShader"
                 float pt_intensity = _Hits[i * 3 + 2];
 
                 totalWeight += 0.5 * distsq(uv, work_pt) * pt_intensity;
-            }//for i
+            }
             float3 heat = GetHeatForPixel(totalWeight);
             col = col + float4(heat, 0.5);
             col.a = _Alpha;
