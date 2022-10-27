@@ -17,7 +17,7 @@ public class MagnetController : NetworkBehaviour, IInteractable
 
     public void Update()
     {
-        if (isPlayerPresent)
+        if (isPlayerPresent && NetworkClient.localPlayer.gameObject == controllingPlayer)
         {
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E))
                 Exit();
@@ -40,6 +40,7 @@ public class MagnetController : NetworkBehaviour, IInteractable
             Enter(activatingObject);
     }
 
+    [Command(requiresAuthority = false)]
     private void Enter(GameObject player)
     {
         isPlayerPresent = true;
@@ -50,6 +51,7 @@ public class MagnetController : NetworkBehaviour, IInteractable
         controller.TogglePlayerControl();
     }
 
+    [Command(requiresAuthority = false)]
     private void Exit()
     {
         controllingPlayer.GetComponent<ItemManager>().allowLimbInteraction = true;
