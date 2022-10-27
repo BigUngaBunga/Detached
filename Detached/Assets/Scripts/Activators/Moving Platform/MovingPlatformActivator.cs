@@ -18,8 +18,9 @@ public class MovingPlatformActivator : Activator
 
     private float Speed => platformSpeed * Time.deltaTime;
     private bool isMoving;
-    private readonly List<GameObject> connectedObjects = new List<GameObject>();
-    
+    //private readonly List<GameObject> connectedObjects = new List<GameObject>();
+    private readonly Dictionary<GameObject, int> connectedObjects = new Dictionary<GameObject, int>();
+
     protected override void Start()
     {
         base.Start();
@@ -62,7 +63,7 @@ public class MovingPlatformActivator : Activator
             Vector3 direction = GetDirectionTo(targetNode.Position);
 
             Transform.position += direction * Speed;
-            foreach (var gameObject in connectedObjects)
+            foreach (var gameObject in connectedObjects.Keys)
             {
                 if (gameObject != null)
                     gameObject.transform.position += direction * Speed;//TODO använd krafter istället
@@ -83,7 +84,7 @@ public class MovingPlatformActivator : Activator
             while (!IsCloseToTarget(targetNode.Position))
             {
                 Transform.position += direction * Speed;
-                foreach (var gameObject in connectedObjects)
+                foreach (var gameObject in connectedObjects.Keys)
                 {
                     if (gameObject != null)
                         gameObject.transform.position += direction * Speed;//TODO använd krafter istället
@@ -102,6 +103,26 @@ public class MovingPlatformActivator : Activator
         yield return null;
     }
 
-    public void Attach(GameObject connectingObject) => connectedObjects.Add(connectingObject);
-    public void Detach(GameObject connectingObject) => connectedObjects.Remove(connectingObject);
+    public void Attach(GameObject connectingObject)
+    {
+        if (connectedObjects.ContainsKey(connectingObject))
+        {
+            Debug.Log("Attached " + connectingObject.name);
+            connectedObjects[connectingObject]++;
+        }
+        else
+            connectedObjects.Add(connectingObject, 1);
+            
+    }
+    public void Detach(GameObject connectingObject)
+    {
+        if (!connectedObjects.ContainsKey(connectingObject))
+            return;
+
+        if (connectedObjects[connectingObject] == 1)
+            connectedObjects.Remove(connectingObject);
+        else
+            connectedObjects[connectingObject]--;
+
+    }
 }
