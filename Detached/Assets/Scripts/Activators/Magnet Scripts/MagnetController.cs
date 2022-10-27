@@ -45,10 +45,24 @@ public class MagnetController : NetworkBehaviour, IInteractable
     {
         isPlayerPresent = true;
         controllingPlayer = player;
+        Debug.Log("Updated variables");
         controllingPlayer.GetComponent<ItemManager>().allowLimbInteraction = false;
-        controllingPlayer.TryGetComponent(out CharacterControl controller);
-        controller.SetCameraFocus(cameraFocus);
-        controller.TogglePlayerControl();
+        if (controllingPlayer.TryGetComponent(out CharacterControl controller))
+        {
+            Debug.Log("Got components successfully");
+            Debug.Log("Attempting camera focus change");
+            controller.SetCameraFocus(cameraFocus);
+            Debug.Log("Attempting player control toggle");
+            controller.TogglePlayerControl();
+        }
+        else
+        {
+            Debug.Log("Could not get characterController");
+            controllingPlayer = null;
+            isPlayerPresent = false;
+        }
+        
+        
     }
 
     [Command(requiresAuthority = false)]
