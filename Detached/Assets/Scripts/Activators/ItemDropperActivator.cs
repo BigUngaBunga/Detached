@@ -28,8 +28,8 @@ public class ItemDropperActivator : Activator
     {
         if (currentInstantiation != null)
             NetworkServer.Destroy(currentInstantiation);
-        currentInstantiation = Instantiate(prefab, interactableFolder);
-        currentInstantiation.transform.position = dropLocation.position;
+        currentInstantiation = Instantiate(prefab, dropLocation.position, prefab.transform.rotation, interactableFolder);
+        //currentInstantiation.transform.position = prefab.transform.rotation;
         NetworkServer.Spawn(currentInstantiation);
         RPCMoveToParent();
     }

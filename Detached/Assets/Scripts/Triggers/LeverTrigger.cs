@@ -24,7 +24,7 @@ public class LeverTrigger : Trigger, IInteractable
         IsTriggered = !IsTriggered;
         UpdateLeverPosition();
     }
-    
+
     [Command(requiresAuthority = false)]
     private void UpdateLeverPosition()
     {
@@ -49,7 +49,7 @@ public class LeverTrigger : Trigger, IInteractable
             CMDInteract();
     }
 
-    [Command]
+    [Command(requiresAuthority = false)]
     public void CMDInteract()
     {
         RPCTriggerLever();
