@@ -15,24 +15,29 @@ public class LeverTrigger : Trigger, IInteractable
     protected override void Start()
     {
         base.Start();
-        UpdateLeverPosition();
+        UpdateLeverOnServer();
     }
 
-    [ClientRpc]
-    public void RPCTriggerLever()
-    {
-        IsTriggered = !IsTriggered;
-        UpdateLeverPosition();
-    }
+    //[ClientRpc]
+    //public void RPCTriggerLever()
+    //{
+    //    IsTriggered = !IsTriggered;
+    //    UpdateLeverPosition();
+    //}
 
-    [Command(requiresAuthority = false)]
     private void UpdateLeverPosition()
     {
         SetRecursiveActivation(!IsTriggered, normalLever);
         SetRecursiveActivation(IsTriggered, triggeredLever);
     }
-
     
+    [Server]
+    private void UpdateLeverOnServer()
+    {
+        SetRecursiveActivation(!IsTriggered, normalLever);
+        SetRecursiveActivation(IsTriggered, triggeredLever);
+    }
+
     private void SetRecursiveActivation(bool isActive, GameObject gameObject)
     {
         int children = gameObject.transform.childCount;
@@ -43,18 +48,24 @@ public class LeverTrigger : Trigger, IInteractable
             SetRecursiveActivation(isActive, gameObject.transform.GetChild(i).gameObject);
     }
 
+    [Command(requiresAuthority = false)]
     public void Interact(GameObject activatingObject)
     {
         if (HasEnoughArms(activatingObject, requiredArms))
-            CMDInteract();
+        {
+            IsTriggered = !IsTriggered;
+            UpdateLeverPosition();
+            //CMDInteract();
+        }
+            
     }
 
-    [Command(requiresAuthority = false)]
-    public void CMDInteract()
-    {
-        RPCTriggerLever();
+    //[Command(requiresAuthority = false)]
+    //public void CMDInteract()
+    //{
+    //    RPCTriggerLever();
 
-    }
+    //}
 
     public bool CanInteract(GameObject activatingObject) => HasEnoughArms(activatingObject, requiredArms);
 }
