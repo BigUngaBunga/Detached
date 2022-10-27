@@ -1,12 +1,14 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickUpInteractable : MonoBehaviour, IInteractable
+public class PickUpInteractable : NetworkBehaviour, IInteractable
 {
     [Range(1, 2)]
     [SerializeField] private int requiredArms = 1;
     [SerializeField] private Transform positionTarget;
+    [SyncVar] private bool isHeld;
 
     public int RequiredArms { get { return requiredArms; } }
     public void Interact(GameObject activatingObject)
@@ -15,13 +17,20 @@ public class PickUpInteractable : MonoBehaviour, IInteractable
     }
 
     //public void PickUp(Transform positionTarget) => this.positionTarget = positionTarget;
+    [Command(requiresAuthority = false)]
     public void PickUp(Transform positionTarget)
     {
         Debug.Log("New position target: " + positionTarget);
         this.positionTarget = positionTarget;
-    } 
-    
-    public void Drop() => positionTarget = null;
+        isHeld = true;
+    }
+
+    [Command(requiresAuthority = false)]
+    public void Drop()
+    {
+        positionTarget = null;
+        isHeld = false;
+    }
 
     public void Update()
     {
