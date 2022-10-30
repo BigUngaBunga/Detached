@@ -1,8 +1,7 @@
 ﻿using Mirror;
 using System.Collections.Generic;
-using Telepathy;
-using UnityEditor;
 using UnityEngine;
+
 
 public abstract class Trigger : NetworkBehaviour
 {

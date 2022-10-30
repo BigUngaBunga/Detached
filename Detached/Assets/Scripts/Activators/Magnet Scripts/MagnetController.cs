@@ -17,7 +17,7 @@ public class MagnetController : NetworkBehaviour, IInteractable
 
     public void Update()
     {
-        if (isPlayerPresent)
+        if (isPlayerPresent && NetworkClient.localPlayer.gameObject == controllingPlayer)
         {
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E))
                 Exit();
@@ -40,16 +40,32 @@ public class MagnetController : NetworkBehaviour, IInteractable
             Enter(activatingObject);
     }
 
+    [Command(requiresAuthority = false)]
     private void Enter(GameObject player)
     {
         isPlayerPresent = true;
         controllingPlayer = player;
+        Debug.Log("Updated variables");
         controllingPlayer.GetComponent<ItemManager>().allowLimbInteraction = false;
-        controllingPlayer.TryGetComponent(out CharacterControl controller);
-        controller.SetCameraFocus(cameraFocus);
-        controller.TogglePlayerControl();
+        if (controllingPlayer.TryGetComponent(out CharacterControl controller))
+        {
+            Debug.Log("Got components successfully");
+            Debug.Log("Attempting camera focus change");
+            controller.SetCameraFocus(cameraFocus);
+            Debug.Log("Attempting player control toggle");
+            controller.TogglePlayerControl();
+        }
+        else
+        {
+            Debug.Log("Could not get characterController");
+            controllingPlayer = null;
+            isPlayerPresent = false;
+        }
+        
+        
     }
 
+    [Command(requiresAuthority = false)]
     private void Exit()
     {
         controllingPlayer.GetComponent<ItemManager>().allowLimbInteraction = true;

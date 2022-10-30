@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,14 +41,14 @@ public class MagnetActivator : Activator
         foreach (var gameObject in magnetizedObjects)
         {
             Vector3 direction = GetDirection(gameObject.transform.position);
-            var forwardsForce = GetForce(direction.normalized, attractionSpeed);
+            var forwardsForce = GetForce(direction.normalized, attractionSpeed * 0.25f);
             var centralForce = GetForce(GetCentralDirection(gameObject.transform.position), attractionSpeed * centralizationStrength);
 
             Debug.DrawRay(gameObject.transform.position, forwardsForce, Color.red);
             Debug.DrawRay(gameObject.transform.position, centralForce, Color.yellow);
 
-            gameObject.AddForce(forwardsForce);
-            gameObject.AddForce(centralForce);
+            gameObject.AddForce(forwardsForce * gameObject.mass);
+            gameObject.AddForce(centralForce * gameObject.mass);
         }
         Debug.DrawRay(attractionPosition.position, Forward * 10f, Color.green);
     }
@@ -56,6 +57,7 @@ public class MagnetActivator : Activator
     {
         base.Activate();
         magnetizationField.SetActive(true);
+        
     }
 
     protected override void Deactivate()

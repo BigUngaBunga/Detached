@@ -11,7 +11,10 @@ public class BigButtonTrigger : Trigger, IInteractable
         get => triggeringObjects; 
         set {
             triggeringObjects = value;
-            IsTriggered = triggeringObjects > 0;
+            if (triggeringObjects == 1)
+                IsTriggered = true;
+            else if (triggeringObjects == 0)
+                IsTriggered = false;
         } 
     }
     [SerializeField] private int triggeringObjects;

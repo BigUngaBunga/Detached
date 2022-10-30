@@ -10,6 +10,12 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SerializeField] private GameObject armLimb;
     [SerializeField] private GameObject legLimb;
 
+    //Ground Checks
+    private Vector3 safeLocation;
+    [SerializeField] public LayerMask groundMask;
+    [SerializeField] float groundCheckRadius;
+
+
     private KeyCode detachKeyHead;
     private KeyCode detachKeyArm;
     private KeyCode detachKeyLeg;
@@ -111,5 +117,42 @@ public class SceneObjectItemManager : NetworkBehaviour
             Debug.Log("Picking it up");
             itemManager.CmdPickUpLimb(gameObject);
         }      
+    }
+
+    public void HandleFallOutOfWorld()
+    {
+        if (safeLocation != null && safeLocation != Vector3.zero)
+        {
+            if (isServer)
+            {
+                RpcUpdatePosition(safeLocation);
+            }            
+        }
+        else
+        {
+            itemManager.CmdPickUpLimb(gameObject);
+        }
+    }
+
+    [ClientRpc]
+    public void RpcUpdatePosition(Vector3 safeLocation)
+    {
+        //So it dosne't cvollide with ground or other limbs
+        gameObject.transform.position = safeLocation + new Vector3(0,2,0);
+        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        {
+            if (Physics.CheckSphere(transform.position, groundCheckRadius, groundMask))
+            {
+                safeLocation = transform.position;
+            }
+        }
+        
     }
 }

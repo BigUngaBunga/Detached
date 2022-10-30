@@ -56,6 +56,7 @@ public class DataCollection : MonoBehaviour
     }
     void Update()
     {
+        /*
         time += Time.deltaTime;
         player = conn.identity.gameObject;
         playerPosition = player.transform.position;
@@ -65,6 +66,7 @@ public class DataCollection : MonoBehaviour
             triggerStructArray[i].activations = triggers[i].GetComponent<Data>().Activations;
         }
         WriteString();
+        */
     }
 
     void WriteString()

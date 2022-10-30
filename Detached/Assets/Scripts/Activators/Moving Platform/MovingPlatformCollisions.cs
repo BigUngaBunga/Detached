@@ -11,7 +11,10 @@ public class MovingPlatformCollisions : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.rigidbody != null)
+        {
             activator.Attach(collision.gameObject);
+        }
+            
     }
 
     private void OnCollisionExit(Collision collision)
