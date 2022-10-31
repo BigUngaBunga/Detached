@@ -41,7 +41,7 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] private Transform groundCheckTransform;
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask groundMask;
-    [SerializeField] private LayerMask iteractableMask;
+    [SerializeField] private LayerMask interactableMask;
 
     [Header("NetWorking")]
     [SerializeField] private GameObject playerBody;
@@ -62,7 +62,6 @@ public class CharacterControl : NetworkBehaviour
     float horizontalInput;
     float verticalInput;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -122,6 +121,8 @@ public class CharacterControl : NetworkBehaviour
 
     public void SetCameraFocus(Transform transform)
     {
+        if (cinemaFreelook == null)
+            cinemaFreelook = FindObjectOfType<CinemachineFreeLook>();
         cinemaFreelook.LookAt = transform;
         cinemaFreelook.Follow = transform;
     }
@@ -171,7 +172,7 @@ public class CharacterControl : NetworkBehaviour
     private void GroundCheck()
     {
         isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask) 
-            || Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, iteractableMask);
+            || Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, interactableMask);
         
     }
 

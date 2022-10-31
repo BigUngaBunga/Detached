@@ -67,7 +67,20 @@ public class ItemManager : NetworkBehaviour
     private Vector3 orignalPosition = Vector3.zero;
 
     public readonly UnityEvent dropLimbEvent = new UnityEvent();
-    public bool allowLimbInteraction = true;
+
+    private InteractionChecker interactionChecker;
+    public bool allowInteraction = true;
+    public bool AllowInteraction
+    {
+        get => allowInteraction;
+        set
+        {
+            allowInteraction = value;
+            if (interactionChecker == null)
+                interactionChecker = FindObjectOfType<Camera>().GetComponent<InteractionChecker>();
+            interactionChecker.AllowInteraction = value;
+        }
+    }
 
     #region Syncvars with hooks
 
@@ -182,7 +195,7 @@ public class ItemManager : NetworkBehaviour
     }
     void Update()
     {
-        if (!isLocalPlayer || !allowLimbInteraction) return;
+        if (!isLocalPlayer || !AllowInteraction) return;
 
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
             CmdDropLimb(Limb_enum.Head);

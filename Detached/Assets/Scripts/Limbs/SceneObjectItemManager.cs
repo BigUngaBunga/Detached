@@ -30,16 +30,21 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SyncVar]
     public bool isBeingControlled = false;
 
+    
     public bool IsBeingControlled
     {
         get { return isBeingControlled; }
-        set { isBeingControlled = value;
-            if (isBeingControlled)
+        set { 
+            SetControlledStatus(value);
+            if (value)
                 highlight.ForceHighlight();
             else
                 highlight.ForceStopHighlight();
         }
     }
+
+    [Command(requiresAuthority = false)]
+    private void SetControlledStatus(bool value) => isBeingControlled = value;
 
 
     public bool test = true;
@@ -112,7 +117,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     {
         Debug.Log("Attempting pickup");
         var itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
-        if (itemManager.CheckIfMissingLimb(thisLimb))
+        if (!IsBeingControlled && itemManager.CheckIfMissingLimb(thisLimb))
         {
             Debug.Log("Picking it up");
             itemManager.CmdPickUpLimb(gameObject);

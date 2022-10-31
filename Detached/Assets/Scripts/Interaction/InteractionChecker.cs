@@ -12,6 +12,25 @@ public class InteractionChecker : NetworkBehaviour
     private bool interacting = false;
     private InteractableManager interactableManager;
 
+    private bool allowInteraction = true;
+    public bool AllowInteraction
+    {
+        get => allowInteraction;
+        set 
+        {  
+            if(value)
+                StartCoroutine(TimedAllowInteractions());
+            else
+                allowInteraction = false;
+        }
+    }
+
+    private IEnumerator TimedAllowInteractions()
+    {
+        yield return new WaitForSeconds(0.25f);
+        allowInteraction = true;
+    }
+
     private bool ray1Hit, ray2Hit;
 
     [Header("Debug values")]
@@ -33,19 +52,21 @@ public class InteractionChecker : NetworkBehaviour
     {
         if (!interacting)
             interacting = Input.GetKeyDown(KeyCode.E);
-        else if (interacting)
+        else
             interacting = !Input.GetKeyUp(KeyCode.E);
     }
 
     private void FixedUpdate()
     {
+        if (!allowInteraction)
+            return;
         ray1Hit = ray2Hit = false;
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, interactionDistance, targetMask))
         {
-            ray1Hit = true;
             GameObject hitObject = hit.transform.gameObject;
             if (CanInteractWith(hitObject))
             {
+                ray1Hit = true;
                 HighlightObject(hitObject);
                 AttemptInteraction(hitObject);
             }
@@ -55,10 +76,10 @@ public class InteractionChecker : NetworkBehaviour
         var debugDirection = (transform.forward + transform.up * debugRayAngle).normalized;
         if (Physics.Raycast(transform.position, debugDirection, out RaycastHit hit2, interactionDistance, targetMask))
         {
-            ray2Hit = true;
             GameObject hitObject = hit2.transform.gameObject;
             if (CanInteractWith(hitObject))
             {
+                ray2Hit = true;
                 HighlightObject(hitObject);
                 AttemptInteraction(hitObject);
             }
@@ -109,7 +130,10 @@ public class InteractionChecker : NetworkBehaviour
 
     private void AttemptDropItem()
     {
-        if (interacting)
+        if (interacting && interactableManager.IsCarryingItem)
+        {
             interactableManager.AttemptDropItem();
+            interacting = false;
+        }           
     }
 }
