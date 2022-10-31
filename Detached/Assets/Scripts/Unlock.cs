@@ -36,6 +36,7 @@ public class Unlock : NetworkBehaviour, IInteractable
 
     }
 
+    [Command(requiresAuthority = false)]
     private void UnlockObject(GameObject key)
     {
         switch (lockType)

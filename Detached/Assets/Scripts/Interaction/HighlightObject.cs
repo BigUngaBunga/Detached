@@ -1,14 +1,15 @@
+using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HighlightObject : MonoBehaviour
+public class HighlightObject : NetworkBehaviour
 {
     [Header("Debug variables")]
     [SerializeField] private bool isHighlighted = false;
     [SerializeField] private float highlightMilliseconds = 50;
-    private bool wasHighlighted = false;
-    private bool lockHighlight = false;
+    [SyncVar] private bool lockHighlight = false;
 
     private string StopMethod => nameof(EndHighlight);
 
@@ -20,16 +21,20 @@ public class HighlightObject : MonoBehaviour
     {
         highlighter = FindObjectOfType<HighlightHandler>();
         renderers = new List<Renderer>();
-        GetRenderers();
+        UpdateRenderers();
     }
 
     private void Start()
     {
         if (renderers.Count <= 0)
-            GetRenderers();
+            UpdateRenderers();
     }
 
-    private void GetRenderers()
+    [Command(requiresAuthority = false)]
+    public void UpdateRenderers() => RCPUpdateRenderers();
+
+    [ClientRpc]
+    private void RCPUpdateRenderers()
     {
         renderers.Clear();
         if (gameObject.TryGetComponent<Renderer>(out var renderer))
@@ -41,15 +46,24 @@ public class HighlightObject : MonoBehaviour
 
     public void TryRemoveRenderer(Renderer renderer)
     {
+        int index = -1;
         if (renderers.Contains(renderer))
-            renderers.Remove(renderer);
+            index = renderers.IndexOf(renderer);
+        if (index == -1 || index >= renderers.Count)
+            return;
+        RemoveRenderer(index);
     }
+
+
+    [Command(requiresAuthority = false)]
+    public void RemoveRenderer(int index) => RCPRemoveRenderer(index);
+
+    [ClientRpc]
+    private void RCPRemoveRenderer(int index) => renderers.RemoveAt(index);
 
     public void DurationHighlight()
     {
-        if (!isHighlighted)
-            highlighter.AddHighlight(this);
-        isHighlighted = true;
+        Highlight();
         if (IsInvoking(StopMethod))
             CancelInvoke(StopMethod);
         Invoke(StopMethod, highlightMilliseconds / 1000);
@@ -59,10 +73,11 @@ public class HighlightObject : MonoBehaviour
     {
         if (!isHighlighted)
         {
+            if (renderers.Count <= 0)
+                UpdateRenderers();
             isHighlighted = true;
             highlighter.AddHighlight(this);
-        }
-            
+        }       
     }
 
     public void ForceHighlight()
@@ -71,6 +86,7 @@ public class HighlightObject : MonoBehaviour
         Highlight();
     }
 
+
     public void EndHighlight()
     {
         if (isHighlighted && !lockHighlight)
@@ -78,8 +94,6 @@ public class HighlightObject : MonoBehaviour
             isHighlighted = false;
             highlighter.RemoveHighlight(this);
         }
-            
-        
     }
 
     public void ForceStopHighlight()

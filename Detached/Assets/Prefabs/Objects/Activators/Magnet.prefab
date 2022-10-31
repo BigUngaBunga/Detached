@@ -51,6 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f066cc1d96f97348a5bddd68dfb08a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   isHighlighted: 0
   highlightMilliseconds: 50
   renderers: []
@@ -110,6 +112,7 @@ MonoBehaviour:
   syncInterval: 0.1
   magnetHead: {fileID: 8015336585784938277}
   cameraFocus: {fileID: 1479902210085152666}
+  rotationLimit: 40
 --- !u!65 &369213013247572113
 BoxCollider:
   m_ObjectHideFlags: 0

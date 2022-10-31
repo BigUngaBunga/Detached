@@ -5,15 +5,24 @@ using UnityEngine.Animations;
 
 public class MagnetController : NetworkBehaviour, IInteractable
 {
-    private GameObject controllingPlayer;
-    private float heightTargeting;
-    [SyncVar] private bool isPlayerPresent;
+    [SyncVar(hook = nameof(HookControllingPLayer))] private GameObject controllingPlayer;
+    [SyncVar(hook = nameof(HookIsPlayerPresent))] private bool isPlayerPresent;
 
     [SerializeField] private GameObject magnetHead;
     [SerializeField] private Transform cameraFocus;
+    [Range(0, 180)]
+    [SerializeField] private float rotationLimit; 
 
     private Transform Transform => magnetHead.transform;
-    private Vector3 rotation = new Vector3(90, 180);
+    private Vector3 initialRotation = new Vector3(90, 180);
+    private Vector3 rotation = Vector3.zero;
+
+    [Command (requiresAuthority = false)]
+    private void HookIsPlayerPresent(bool oldValue, bool newValue) => isPlayerPresent = newValue;
+    [Command(requiresAuthority = false)]
+    private void HookControllingPLayer(GameObject oldValue, GameObject newValue) => controllingPlayer = newValue;
+    [Command(requiresAuthority = false)]
+    private void SetMagnetRotation(Vector3 angles) => Transform.eulerAngles = angles;
 
     public void Update()
     {
@@ -28,10 +37,11 @@ public class MagnetController : NetworkBehaviour, IInteractable
 
     private void Rotate()
     {
-        rotation.x += Input.GetAxis("Mouse Y");
+        rotation.x = Mathf.Clamp(rotation.x + Input.GetAxis("Mouse Y"), -rotationLimit, rotationLimit);
         Vector3 camera = Camera.main.transform.eulerAngles;
-        Vector3 eulerAngles =  camera + rotation;
-        Transform.eulerAngles = eulerAngles;
+        Vector3 eulerAngles =  camera + rotation + initialRotation;
+        eulerAngles.x = Mathf.Clamp(eulerAngles.x, initialRotation.x-rotationLimit, initialRotation.x + rotationLimit);
+        SetMagnetRotation(eulerAngles);
     }
 
     public void Interact(GameObject activatingObject)
@@ -40,43 +50,32 @@ public class MagnetController : NetworkBehaviour, IInteractable
             Enter(activatingObject);
     }
 
-    [Command(requiresAuthority = false)]
     private void Enter(GameObject player)
     {
         isPlayerPresent = true;
         controllingPlayer = player;
-        Debug.Log("Updated variables");
-        controllingPlayer.GetComponent<ItemManager>().allowLimbInteraction = false;
+        controllingPlayer.GetComponent<ItemManager>().AllowInteraction = false;
         if (controllingPlayer.TryGetComponent(out CharacterControl controller))
         {
-            Debug.Log("Got components successfully");
-            Debug.Log("Attempting camera focus change");
             controller.SetCameraFocus(cameraFocus);
-            Debug.Log("Attempting player control toggle");
             controller.TogglePlayerControl();
         }
         else
         {
-            Debug.Log("Could not get characterController");
             controllingPlayer = null;
             isPlayerPresent = false;
         }
-        
-        
     }
 
-    [Command(requiresAuthority = false)]
     private void Exit()
     {
-        controllingPlayer.GetComponent<ItemManager>().allowLimbInteraction = true;
+        controllingPlayer.GetComponent<ItemManager>().AllowInteraction = true;
         controllingPlayer.TryGetComponent(out CharacterControl controller);
         controller.SetCameraFocusPlayer();
         controller.TogglePlayerControl();
         isPlayerPresent = false;
         controllingPlayer = null;
     }
-
-
-
+    
     public bool CanInteract(GameObject activatingObject) => activatingObject.GetComponent<ItemManager>().NumberOfArms >= 1 && !isPlayerPresent;
 }
