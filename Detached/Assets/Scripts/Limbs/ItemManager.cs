@@ -226,6 +226,7 @@ public class ItemManager : NetworkBehaviour
 
     private void Awake()
     {
+        numberOfLimbs = 5;
         /* originalCamTransform.position = camFocus.localPosition;
          originalCamTransform.eulerAngles = camFocus.localEulerAngles;
          originalCamTransform.rotation = camFocus.localRotation;*/
@@ -239,7 +240,7 @@ public class ItemManager : NetworkBehaviour
         camPoint = Camera.main.transform;
 
         //Todo Add so that goal can specify how many limbs each player should have.
-        numberOfLimbs = 5;
+       
     }
     void Update()
     {

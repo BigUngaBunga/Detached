@@ -64,6 +64,8 @@ public class PlayerSpawnSystem : NetworkBehaviour {
         Transform spawnPoint = spawnPoints.ElementAtOrDefault(nextIndex);
         SpawnPoint spawnPointScript = spawnPointsObj.ElementAtOrDefault(nextIndex).GetComponent<SpawnPoint>();
 
+
+
         GameObject playerInstance = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
 
         playerInstance.GetComponent<ItemManager>().SetAmountOfLimbsToSpawn(spawnPointScript.numOfArms, spawnPointScript.numOfLegs);
@@ -72,5 +74,5 @@ public class PlayerSpawnSystem : NetworkBehaviour {
         NetworkServer.ReplacePlayerForConnection(conn, playerInstance);
 
         nextIndex++;
-    }
+    }   
 }

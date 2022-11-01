@@ -6,8 +6,8 @@ public class Goal : NetworkBehaviour
 {
     [SerializeField] private int playerNumber;
     [SerializeField] private int NextMapIndex;
-    [SerializeField] private int numOfLimbsRequired;
     [SerializeField] private bool sameNumLimbInAsOut = true;
+    private int numOfLimbsRequired = 0;
     public bool isLocked;
 
     //Manager
