@@ -31,11 +31,11 @@ public class Goal : NetworkBehaviour
         {
             GameObject[] spawnLocations = GameObject.FindGameObjectsWithTag("SpawnLocation");
 
-            if (spawnLocations.Length != 2) Debug.Log("Missing one or more spawnLocations, possibly missing tags.");
+            if (spawnLocations.Length != 2) Debug.Log("Missing one or more spawnLocations, possible missing tag.");
 
             foreach(GameObject spawnLocation in spawnLocations)
             {
-                numOfLimbsRequired += spawnLocation.GetComponent<SpawnPoint>().numOfLimbsAtSpawn;
+                numOfLimbsRequired += spawnLocation.GetComponent<SpawnPoint>().NumOfLimbsAtSpawn;
             }
         }
         

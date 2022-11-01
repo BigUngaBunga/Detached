@@ -119,8 +119,6 @@ public class ItemManager : NetworkBehaviour
         {
             leftArmObject.SetActive(false);
             numberOfLimbs--;
-
-
         }
         else // if Detached == False
         {
@@ -142,7 +140,6 @@ public class ItemManager : NetworkBehaviour
         {
             rightArmObject.SetActive(true);
             numberOfLimbs++;
-
         }
     }
     private void OnChangeHeadDetachedHook(bool oldValue, bool newValue)
@@ -151,14 +148,11 @@ public class ItemManager : NetworkBehaviour
         {
             headObject.SetActive(false);
             numberOfLimbs--;
-
-
         }
         else // if Detached == False
         {
             headObject.SetActive(true);
             numberOfLimbs++;
-
         }
     }
     private void OnChangeLeftLegDetachedHook(bool oldValue, bool newValue)
@@ -191,6 +185,42 @@ public class ItemManager : NetworkBehaviour
             numberOfLimbs++;
         }
     }
+
+    #endregion
+
+    #region Spawn Functions
+
+    public void SetAmountOfLimbsToSpawn(int arms, int legs)
+    {
+        switch (arms)
+        {
+            case 0:
+                leftArmDetached = true;
+                rightArmDetached = true;
+                break;
+
+            case 1:
+                leftArmDetached = true;
+                break;
+            case 2:
+                break;
+        }
+
+        switch (legs)
+        {
+            case 0:
+                leftLegDetached = true;
+                rightLegDetached = true;
+                break;
+
+            case 1:
+                leftLegDetached = true;
+                break;
+            case 2:
+                break;
+        }
+    }
+
 
     #endregion
 
