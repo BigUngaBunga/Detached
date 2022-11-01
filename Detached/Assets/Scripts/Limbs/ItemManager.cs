@@ -66,6 +66,8 @@ public class ItemManager : NetworkBehaviour
     private GameObject sceneObjectHoldingToThrow;
     private Vector3 orignalPosition = Vector3.zero;
 
+    public int numberOfLimbs;
+
     public readonly UnityEvent dropLimbEvent = new UnityEvent();
 
     private InteractionChecker interactionChecker;
@@ -116,11 +118,15 @@ public class ItemManager : NetworkBehaviour
         if (newValue) // if Detached == true
         {
             leftArmObject.SetActive(false);
+            numberOfLimbs--;
+
 
         }
         else // if Detached == False
         {
             leftArmObject.SetActive(true);
+            numberOfLimbs++;
+
         }
     }
     private void OnChangeRightArmDetachedHook(bool oldValue, bool newValue)
@@ -128,11 +134,15 @@ public class ItemManager : NetworkBehaviour
         if (newValue) // if Detached == true
         {
             rightArmObject.SetActive(false);
+            numberOfLimbs--;
+
 
         }
         else // if Detached == False
         {
             rightArmObject.SetActive(true);
+            numberOfLimbs++;
+
         }
     }
     private void OnChangeHeadDetachedHook(bool oldValue, bool newValue)
@@ -140,11 +150,14 @@ public class ItemManager : NetworkBehaviour
         if (newValue) // if Detached == true
         {
             headObject.SetActive(false);
+            numberOfLimbs--;
+
 
         }
         else // if Detached == False
         {
             headObject.SetActive(true);
+            numberOfLimbs++;
 
         }
     }
@@ -153,11 +166,14 @@ public class ItemManager : NetworkBehaviour
         if (newValue) // if Detached == true
         {
             leftLegObject.SetActive(false);
+            numberOfLimbs--;
+
 
         }
         else // if Detached == False
         {
             leftLegObject.SetActive(true);
+            numberOfLimbs++;
 
         }
     }
@@ -166,12 +182,13 @@ public class ItemManager : NetworkBehaviour
         if (newValue) // if Detached == true
         {
             rightLegObject.SetActive(false);
+            numberOfLimbs--;
 
         }
         else // if Detached == False
         {
             rightLegObject.SetActive(true);
-
+            numberOfLimbs++;
         }
     }
 
@@ -191,7 +208,8 @@ public class ItemManager : NetworkBehaviour
     {
         camPoint = Camera.main.transform;
 
-
+        //Todo Add so that goal can specify how many limbs each player should have.
+        numberOfLimbs = 5;
     }
     void Update()
     {

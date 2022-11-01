@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SpawnPoint : MonoBehaviour
 {
+    [SerializeField] public int numOfLimbsAtSpawn;
+
     private void Awake()
     {
         PlayerSpawnSystem.AddSpawnPoints(transform);
