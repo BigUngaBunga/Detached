@@ -137,10 +137,9 @@ public class SceneObjectItemManager : NetworkBehaviour
         }
         else
         {
-            if (!isServer)
-            {
+            
                 itemManager.CmdPickUpLimb(gameObject);
-            }
+            
         }
     }
 
