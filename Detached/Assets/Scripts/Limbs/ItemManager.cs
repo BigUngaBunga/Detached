@@ -696,8 +696,7 @@ public class ItemManager : NetworkBehaviour
         SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
         NetworkServer.Spawn(newSceneObject);
         SceneObjectScript.detached = true;
-        SceneObjectScript.itemManager = this;
-        
+        //SceneObjectScript.itemManager = this;    
     }
 
     #endregion
