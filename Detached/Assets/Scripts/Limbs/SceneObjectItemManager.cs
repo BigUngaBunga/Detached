@@ -49,11 +49,12 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     public bool test = true;
 
+    [SyncVar]
     public ItemManager itemManager;
 
     private void Start()
     {
-        itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
+        //itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
         highlight = GetComponent<HighlightObject>();
         detachKeyHead = itemManager.detachKeyHead;
         detachKeyArm = itemManager.detachKeyArm;
@@ -126,6 +127,7 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     public void HandleFallOutOfWorld()
     {
+
         if (safeLocation != null && safeLocation != Vector3.zero)
         {
             if (isServer)

@@ -524,6 +524,7 @@ public class ItemManager : NetworkBehaviour
     [Server]
     GameObject CmdThrowDropLimb(Limb_enum limb, Vector3 throwpoint)
     {
+        
         GameObject newSceneObject = null;
         SceneObjectItemManager SceneObjectScript = null;
         switch (limb)
@@ -536,9 +537,8 @@ public class ItemManager : NetworkBehaviour
                 SceneObjectScript.detached = true;
                 headDetached = true;
                 camFocus.parent = SceneObjectScript.transform;
-                SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+                SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;             
                 break;
-
             case Limb_enum.Arm:
                 if (!leftArmDetached)
                 {
@@ -696,6 +696,8 @@ public class ItemManager : NetworkBehaviour
         SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
         NetworkServer.Spawn(newSceneObject);
         SceneObjectScript.detached = true;
+        SceneObjectScript.itemManager = this;
+        
     }
 
     #endregion
