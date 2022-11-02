@@ -52,9 +52,17 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SyncVar]
     public ItemManager itemManager;
 
-    private void Start()
+    [SyncVar]
+    public int throwingPlayerId;
+
+    private void Awake()
     {
         itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
+
+    }
+    private void Start()
+    {
+        //itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
         highlight = GetComponent<HighlightObject>();
         detachKeyHead = itemManager.detachKeyHead;
         detachKeyArm = itemManager.detachKeyArm;
@@ -127,7 +135,7 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     public void HandleFallOutOfWorld()
     {
-        var itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
+        // itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
         if (safeLocation != null && safeLocation != Vector3.zero)
         {
             if (isServer)
@@ -137,9 +145,11 @@ public class SceneObjectItemManager : NetworkBehaviour
         }
         else
         {
-            
+            //if (throwingPlayerId == NetworkClient.localPlayer.netId)
+            //{
+                //var itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
                 itemManager.CmdPickUpLimb(gameObject);
-            
+            //}
         }
     }
 
