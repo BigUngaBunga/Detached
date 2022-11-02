@@ -52,17 +52,12 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SyncVar]
     public ItemManager itemManager;
 
-    [SyncVar]
-    public int throwingPlayerId;
-
     private void Awake()
     {
         itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
-
     }
     private void Start()
     {
-        //itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
         highlight = GetComponent<HighlightObject>();
         detachKeyHead = itemManager.detachKeyHead;
         detachKeyArm = itemManager.detachKeyArm;

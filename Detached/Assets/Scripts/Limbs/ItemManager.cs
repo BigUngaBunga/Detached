@@ -537,7 +537,8 @@ public class ItemManager : NetworkBehaviour
                 SceneObjectScript.detached = true;
                 headDetached = true;
                 camFocus.parent = SceneObjectScript.transform;
-                SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;             
+                SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+                SceneObjectScript.itemManager = this;
                 break;
             case Limb_enum.Arm:
                 if (!leftArmDetached)
