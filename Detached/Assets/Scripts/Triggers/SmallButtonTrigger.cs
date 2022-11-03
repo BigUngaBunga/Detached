@@ -37,7 +37,7 @@ public class SmallButtonTrigger : Trigger, IInteractable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (IsLimbOfType(collision.gameObject, ItemManager.Limb_enum.Arm) && !IsTriggered)
+        if (isServer && IsLimbOfType(collision.gameObject, ItemManager.Limb_enum.Arm) && !IsTriggered)
             StartCoroutine(PushButton());
     }
 }

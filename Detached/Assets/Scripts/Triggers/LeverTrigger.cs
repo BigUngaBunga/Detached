@@ -66,7 +66,7 @@ public class LeverTrigger : Trigger, IInteractable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!collision.gameObject.CompareTag("Player") && CanInteract(collision.gameObject))
+        if (isServer && !collision.gameObject.CompareTag("Player") && CanInteract(collision.gameObject))
             PullLever();
     }
 }

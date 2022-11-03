@@ -16,8 +16,6 @@ public class PickUpInteractable : NetworkBehaviour, IInteractable
         activatingObject.GetComponent<InteractableManager>().AttemptPickUpItem(gameObject);
     }
 
-    //public void PickUp(Transform positionTarget) => this.positionTarget = positionTarget;
-    //[Command(requiresAuthority = false)]
     public void PickUp(Transform positionTarget)
     {
         Debug.Log("New position target: " + positionTarget);
@@ -25,7 +23,6 @@ public class PickUpInteractable : NetworkBehaviour, IInteractable
         isHeld = true;
     }
 
-    //[Command(requiresAuthority = false)]
     public void Drop()
     {
         positionTarget = null;

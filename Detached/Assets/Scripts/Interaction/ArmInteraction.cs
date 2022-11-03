@@ -1,14 +1,13 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class ArmInteraction : MonoBehaviour
+public class ArmInteraction : NetworkBehaviour
 {
-    public SceneObjectItemManager SceneObjectItemManager { private get; set; }
     private List<GameObject> interactableObjects = new List<GameObject>();
     private List<HighlightObject> highlighters = new List<HighlightObject>();
-    private bool interacting;
 
     private void Start()
     {
@@ -17,15 +16,12 @@ public class ArmInteraction : MonoBehaviour
         collider.radius = 3;
     }
 
-    private void Update()
+    public void UpdateInteractor(bool eKeyDown)
     {
-        if (!SceneObjectItemManager.isBeingControlled && !SceneObjectItemManager.isLocalPlayer)
-            return;
-
         foreach (var highlighter in highlighters)
             highlighter.DurationHighlight();
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (eKeyDown && interactableObjects.Count > 0)
             GetClosestInteractable().Interact(gameObject);
     }
 
