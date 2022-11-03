@@ -1,5 +1,6 @@
 using Mirror;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Unlock : NetworkBehaviour, IInteractable
 {
@@ -64,5 +65,10 @@ public class Unlock : NetworkBehaviour, IInteractable
             UnlockObject(key);
     }
 
-    public bool CanInteract(GameObject activatingObject) => activatingObject.GetComponent<InteractableManager>().IsCarryingTag("Key");
+    public bool CanInteract(GameObject activatingObject)
+    {
+        if (activatingObject.CompareTag("Player"))
+            activatingObject.GetComponent<InteractableManager>().IsCarryingTag("Key");
+        return false;
+    }
 }

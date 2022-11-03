@@ -29,7 +29,6 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     [SyncVar]
     public bool isBeingControlled = false;
-
     
     public bool IsBeingControlled
     {
@@ -58,6 +57,13 @@ public class SceneObjectItemManager : NetworkBehaviour
         detachKeyHead = itemManager.detachKeyHead;
         detachKeyArm = itemManager.detachKeyArm;
         detachKeyLeg = itemManager.detachKeyLeg;
+
+        if (thisLimb == ItemManager.Limb_enum.Arm)
+        {
+            var interactor = gameObject.AddComponent<ArmInteraction>();
+            interactor.SceneObjectItemManager = this;
+        }
+            
 
     }
 

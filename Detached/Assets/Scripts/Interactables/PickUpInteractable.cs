@@ -51,5 +51,10 @@ public class PickUpInteractable : NetworkBehaviour, IInteractable
         transform.rotation = positionTarget.rotation;
     }
 
-    public bool CanInteract(GameObject activatingObject) => !isHeld && activatingObject.GetComponent<InteractableManager>().CanPickUpItem(gameObject);
+    public bool CanInteract(GameObject activatingObject)
+    {
+        if (activatingObject.CompareTag("Player"))
+            return !isHeld && activatingObject.GetComponent<InteractableManager>().CanPickUpItem(gameObject);
+        return false;
+    }
 }
