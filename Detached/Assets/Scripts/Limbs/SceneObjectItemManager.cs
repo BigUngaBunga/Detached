@@ -24,6 +24,8 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SyncVar]
     public bool isBeingControlled = false;
 
+    public Rigidbody rb;
+
     public bool IsBeingControlled
     {
         get { return isBeingControlled; }
@@ -47,6 +49,8 @@ public class SceneObjectItemManager : NetworkBehaviour
         detachKeyHead = itemManager.detachKeyHead;
         detachKeyArm = itemManager.detachKeyArm;
         detachKeyLeg = itemManager.detachKeyLeg;
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
 
     }
 
@@ -58,7 +62,10 @@ public class SceneObjectItemManager : NetworkBehaviour
             switch (thisLimb)
             {
                 case ItemManager.Limb_enum.Head:
+                    //headLimb.AddComponent<Rigidbody>();
+                    //headLimb.GetComponent<Rigidbody>().useGravity = false;
                     Instantiate(headLimb, transform.position, transform.rotation, transform);
+                   
                     break;
                 case ItemManager.Limb_enum.Arm:
                     Instantiate(armLimb, transform.position, transform.rotation, transform);
@@ -101,6 +108,12 @@ public class SceneObjectItemManager : NetworkBehaviour
             }
         }
     }
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+
+    //    rb.drag = 100;
+    //}
 
     public void TryPickUp()
     {
