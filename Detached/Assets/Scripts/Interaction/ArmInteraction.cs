@@ -19,7 +19,7 @@ public class ArmInteraction : MonoBehaviour
 
     private void Update()
     {
-        if (!SceneObjectItemManager.isBeingControlled)
+        if (!SceneObjectItemManager.isBeingControlled && !SceneObjectItemManager.isLocalPlayer)
             return;
 
         foreach (var highlighter in highlighters)
