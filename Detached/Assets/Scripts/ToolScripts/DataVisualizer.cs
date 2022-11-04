@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -7,11 +8,29 @@ using UnityEngine.SceneManagement;
 public class DataVisualizer : MonoBehaviour
 {
 
+    //Manager
+    private CustomNetworkManager manager;
+
+    private CustomNetworkManager Manager
+    {
+        get
+        {
+            if (manager != null)
+            {
+                return manager;
+            }
+            return manager = CustomNetworkManager.singleton as CustomNetworkManager;
+        }
+    }
+    public GameObject[] textArray;
+    public GameObject textPrefab;
+
     public QuadScript Target;
     private struct TriggerActivationStruct
     {
         public string name;
         public int activations;
+        public float x, y, z;
     }
     private struct DataStruct
     {
@@ -25,41 +44,59 @@ public class DataVisualizer : MonoBehaviour
     private string filePath;
     private List<DataStruct> dataList = new List<DataStruct>();
 
-    //The colors and the ranges in where those colors will apply
-    //Color[] colors;
-    //float[] pointranges;
-
     public LineRenderer line;
 
     void Start()
     {
         DontDestroyOnLoad(this);
-        filePath = "Assets/Resources/test.txt";
+    }
+
+    public void DrawStart(string filePath)
+    {
+        this.filePath = filePath;
+        Debug.Log(filePath);
+        if (!File.Exists(filePath)) return;
         ReadFile();
         HeatmapDraw();
         line.positionCount = dataList.Count;
-
-        //colors = new Color[5];
-        //pointranges = new float[5];
-
-        //colors[0] = new Color(0, 0, 0, 1);//Black
-        //colors[1] = new Color(0, 0.9f, 0.2f, 1);//Green
-        //colors[2] = new Color(0.9f, 1, 0.3f, 1);//Yellowish green
-        //colors[3] = new Color(0.9f, 0.7f, 0.1f, 1);//Orange
-        //colors[4] = new Color(1, 0, 0, 1);//Red
-
-        //pointranges[0] = 0;
-        //pointranges[1] = 0.15f;
-        //pointranges[2] = 0.35f;
-        //pointranges[3] = 0.50f;
-        //pointranges[4] = 0.75f;
         LineDraw();
+        TriggerDraw();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //LineDraw();
+
+        GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+        if (camera == null) return;
+        if (camera.activeInHierarchy)
+        {
+            camera.SetActive(false);
+        }
+        
+    }
+
+    void TriggerDraw()
+    {
+        if (textArray.Length > 0 )
+        {
+            for (int i = 0; i < textArray.Length; i++)
+            {
+                Destroy(textArray[i]);
+            }
+        }
+        textArray = new GameObject[dataList[dataList.Count-1].triggerStructList.Count];
+        Debug.Log("count: " + textArray.Length);
+
+        for (int i = 0; i < textArray.Length; i++)
+        {
+            textArray[i] = Instantiate(textPrefab, new Vector3(dataList[dataList.Count - 1].triggerStructList[i].x,
+                dataList[dataList.Count - 1].triggerStructList[i].y,
+                dataList[dataList.Count - 1].triggerStructList[i].z), 
+                Quaternion.identity);
+            textArray[i].GetComponent<TextMesh>().text = dataList[dataList.Count - 1].triggerStructList[i].activations.ToString();
+
+        }
     }
 
     void LineDraw()
@@ -69,39 +106,6 @@ public class DataVisualizer : MonoBehaviour
             line.SetPosition(i, dataList[i].playerPosition);
         }
         
-    }
-
-    Color GetColorForLine(float weight)
-    {
-        //if (weight <= pointranges[0])
-        //{
-        //    return colors[0];
-        //}
-        //if (weight >= pointranges[4])
-        //{
-        //    return colors[4];
-        //}
-
-        //for (int i = 1; i < 5; i++)
-        //{
-        //    if (weight < pointranges[i])
-        //    {
-        //        float dist_from_lower_point = weight - pointranges[i - 1];
-        //        float size_of_point_range = pointranges[i] - pointranges[i - 1];
-
-        //        float ratio_over_lower_point = dist_from_lower_point / size_of_point_range;
-
-        //        Color color_range = colors[i] - colors[i - 1];
-        //        Color color_contribution = color_range * ratio_over_lower_point;
-
-        //        Color new_color = colors[i - 1] + color_contribution;
-
-        //        return new_color;
-        //    }
-        //}
-
-        //return colors[0];
-        return Color.black;
     }
 
     void HeatmapDraw()
@@ -116,7 +120,9 @@ public class DataVisualizer : MonoBehaviour
         {
             int x = (int)((dataList[i].playerPosition.x - left.x)/ sizeOfSquares);
             int y = (int)((dataList[i].playerPosition.z - down.z) / sizeOfSquares);
-            
+            if (x <0 || x > 15) continue;
+            if (y < 0 || y > 15) continue;
+
             weightArray[x, y]++;
         }
 
@@ -152,6 +158,7 @@ public class DataVisualizer : MonoBehaviour
 
     void ReadFile()
     {
+        dataList.Clear();
         StreamReader reader = new StreamReader(filePath);
         string ln;
 
@@ -159,15 +166,17 @@ public class DataVisualizer : MonoBehaviour
         {
             DataStruct dataStruct = new DataStruct();
             string[] data = ln.Split(';');
-            int nmbrOfTriggers = data.Length - 5;
             dataStruct.level = data[0];
             dataStruct.gameVersion = int.Parse(data[1]);
             dataStruct.time = float.Parse(data[2]);
-            for (int i = 3; i < nmbrOfTriggers; i+=2)
+            for (int i = 3; i < data.Length - 4; i+=5)
             {
                 TriggerActivationStruct trigger = new TriggerActivationStruct();
                 trigger.name = data[i];
                 trigger.activations = int.Parse(data[i + 1]);
+                trigger.x = float.Parse(data[i + 2]);
+                trigger.y = float.Parse(data[i + 3]);
+                trigger.z = float.Parse(data[i + 4]);
                 dataStruct.triggerStructList = new List<TriggerActivationStruct>();
                 dataStruct.triggerStructList.Add(trigger);
             }
@@ -179,6 +188,12 @@ public class DataVisualizer : MonoBehaviour
 
     public void ChangeScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
+        ServerChangeScene(sceneName);
+    }
+
+    [Server]
+    void ServerChangeScene(string sceneName)
+    {
+        Manager.ServerChangeScene(sceneName);
     }
 }

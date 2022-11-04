@@ -6,4 +6,9 @@ public class Data : MonoBehaviour
 {
     public string Name = "";
     public int Activations = 0;
+    public Vector3 position;
+    private void Start()
+    {
+        position = transform.position;
+    }
 }
