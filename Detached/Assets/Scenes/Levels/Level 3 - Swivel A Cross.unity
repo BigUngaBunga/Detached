@@ -260,6 +260,8 @@ MonoBehaviour:
   syncInterval: 0.1
   interactionDistance: 16
   player: {fileID: 0}
+  targetLayer: 15
+  allowInteraction: 1
   debugRayAngle: -0.2
 --- !u!114 &41979096
 MonoBehaviour:
@@ -655,7 +657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29139067ca59a7541ba6a4628b225782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numOfLegs: 0
+  numOfLegs: 2
   numOfArms: 2
 --- !u!1 &244568537
 GameObject:
@@ -3826,7 +3828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29139067ca59a7541ba6a4628b225782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numOfLegs: 0
+  numOfLegs: 2
   numOfArms: 2
 --- !u!1 &2083883143
 GameObject:
