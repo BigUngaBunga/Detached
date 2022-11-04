@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using Mirror;
+using UnityEditor;
 
 public class LeverTrigger : Trigger, IInteractable
 {
@@ -11,61 +11,62 @@ public class LeverTrigger : Trigger, IInteractable
 
     [SerializeField] private GameObject triggeredLever;
     [SerializeField] private GameObject normalLever;
+    private HighlightObject highlight;
 
     protected override void Start()
     {
         base.Start();
-        UpdateLeverOnServer();
-    }
-
-    //[ClientRpc]
-    //public void RPCTriggerLever()
-    //{
-    //    IsTriggered = !IsTriggered;
-    //    UpdateLeverPosition();
-    //}
-
-    private void UpdateLeverPosition()
-    {
-        SetRecursiveActivation(!IsTriggered, normalLever);
-        SetRecursiveActivation(IsTriggered, triggeredLever);
+        normalLever = transform.Find("InactiveLever").gameObject;
+        triggeredLever = transform.Find("TriggeredLever").gameObject;
+        highlight = GetComponent<HighlightObject>();
+        UpdateLeverRPC();
     }
     
-    [Server]
-    private void UpdateLeverOnServer()
-    {
-        SetRecursiveActivation(!IsTriggered, normalLever);
-        SetRecursiveActivation(IsTriggered, triggeredLever);
-    }
+    [Command(requiresAuthority = false)]
+    private void UpdateLeverRPC() => RPCSetLeverActivation(IsTriggered);
 
     private void SetRecursiveActivation(bool isActive, GameObject gameObject)
     {
+        //Debug.Log("Setting object to " + (isActive ? "active" : "inactive"));
         int children = gameObject.transform.childCount;
-        gameObject.SetActive(isActive);
-        if (children <= 0)
-            return;
         for (int i = 0; i < children; i++)
             SetRecursiveActivation(isActive, gameObject.transform.GetChild(i).gameObject);
+        gameObject.SetActive(isActive);
+    }
+
+    public void Interact(GameObject activatingObject)
+    {
+        if (CanInteract(activatingObject))
+            PullLever();
     }
 
     [Command(requiresAuthority = false)]
-    public void Interact(GameObject activatingObject)
+    private void PullLever()
     {
-        if (HasEnoughArms(activatingObject, requiredArms))
-        {
-            IsTriggered = !IsTriggered;
-            UpdateLeverPosition();
-            //CMDInteract();
-        }
-            
+        IsTriggered = !IsTriggered;
+        RPCSetLeverActivation(IsTriggered);
+        highlight.UpdateRenderers();
     }
 
-    //[Command(requiresAuthority = false)]
-    //public void CMDInteract()
-    //{
-    //    RPCTriggerLever();
+    [ClientRpc]
+    private void RPCSetLeverActivation(bool isTriggered)
+    {
+        SetRecursiveActivation(!isTriggered, normalLever);
+        SetRecursiveActivation(isTriggered, triggeredLever);
+    }
 
-    //}
+    public bool CanInteract(GameObject activatingObject)
+    {
+        if (activatingObject.CompareTag("Player"))
+            return HasEnoughArms(activatingObject, requiredArms);
+        else if (IsLimbOfType(activatingObject, ItemManager.Limb_enum.Arm))
+            return requiredArms < 2;
+        return false;
+    }
 
-    public bool CanInteract(GameObject activatingObject) => HasEnoughArms(activatingObject, requiredArms);
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (isServer && !collision.gameObject.CompareTag("Player") && CanInteract(collision.gameObject))
+            PullLever();
+    }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEditor;
+using Steamworks;
+using LimbType = ItemManager.Limb_enum;
 
 public class SceneObjectItemManager : NetworkBehaviour
 {
@@ -12,7 +14,7 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     //Ground Checks
     private Vector3 safeLocation;
-    [SerializeField] public LayerMask groundMask;
+    public LayerMask groundMask;
     [SerializeField] float groundCheckRadius;
 
 
@@ -21,27 +23,42 @@ public class SceneObjectItemManager : NetworkBehaviour
     private KeyCode detachKeyLeg;
 
     private HighlightObject highlight;
+    private ArmInteraction armInteractor;
 
     [SyncVar(hook = nameof(OnChangeDetached))]
     public bool detached = false;
     [SyncVar]
-    public ItemManager.Limb_enum thisLimb;
+    public LimbType thisLimb;
 
     [SyncVar]
-    public bool isBeingControlled = false;
-
+    private bool isBeingControlled = false;
     public bool IsBeingControlled
     {
         get { return isBeingControlled; }
-        set { isBeingControlled = value;
-            if (isBeingControlled)
+        set { 
+            SetControlledStatus(value);
+            if (value)
                 highlight.ForceHighlight();
             else
                 highlight.ForceStopHighlight();
         }
     }
 
+    [Command(requiresAuthority = false)]
+    private void SetControlledStatus(bool value) => isBeingControlled = value;
 
+    [SyncVar]
+    private ItemManager controllingManager;
+    public ItemManager ControllingManager
+    {
+        get { return controllingManager; }
+        set { SetController(value); }
+    }
+
+    [Command(requiresAuthority = false)]
+    private void SetController(ItemManager value) => controllingManager = value;
+
+    
     public bool test = true;
 
     public ItemManager itemManager;
@@ -54,6 +71,10 @@ public class SceneObjectItemManager : NetworkBehaviour
         detachKeyArm = itemManager.detachKeyArm;
         detachKeyLeg = itemManager.detachKeyLeg;
 
+        if (thisLimb == LimbType.Arm)
+            armInteractor = gameObject.AddComponent<ArmInteraction>();
+
+
     }
 
     //Instantiates the limb as a child on the SceneObject 
@@ -63,13 +84,13 @@ public class SceneObjectItemManager : NetworkBehaviour
         {
             switch (thisLimb)
             {
-                case ItemManager.Limb_enum.Head:
+                case LimbType.Head:
                     Instantiate(headLimb, transform.position, transform.rotation, transform);
                     break;
-                case ItemManager.Limb_enum.Arm:
+                case LimbType.Arm:
                     Instantiate(armLimb, transform.position, transform.rotation, transform);
                     break;
-                case ItemManager.Limb_enum.Leg:
+                case LimbType.Leg:
                     Instantiate(legLimb, transform.position, transform.rotation, transform);
                     break;
             }
@@ -78,7 +99,7 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     void Update()
     {       
-        if (thisLimb == ItemManager.Limb_enum.Head && hasAuthority)
+        if (thisLimb == LimbType.Head && hasAuthority)
         {
             if (hasAuthority && Input.GetKeyDown(detachKeyHead))
             {
@@ -86,19 +107,22 @@ public class SceneObjectItemManager : NetworkBehaviour
             }
         }
 
+        if (thisLimb == LimbType.Arm && IsBeingControlled && ControllingManager.isLocalPlayer)
+            armInteractor.UpdateInteractor(Input.GetKeyDown(KeyCode.E));
+
         //Todo Needs to be changed to a more specific pickup action
         if (Input.GetKeyDown(KeyCode.T) && !IsBeingControlled)
         {
             var itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
             switch (thisLimb)
             {
-                case ItemManager.Limb_enum.Arm:
+                case LimbType.Arm:
                     if (itemManager.rightArmDetached || itemManager.leftArmDetached)
                     {
                         itemManager.CmdPickUpLimb(gameObject);
                     }
                     break;
-                case ItemManager.Limb_enum.Leg:
+                case LimbType.Leg:
                     if (itemManager.rightLegDetached || itemManager.leftLegDetached)
                     {
                         itemManager.CmdPickUpLimb(gameObject);
@@ -112,7 +136,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     {
         Debug.Log("Attempting pickup");
         var itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
-        if (itemManager.CheckIfMissingLimb(thisLimb))
+        if (!IsBeingControlled && itemManager.CheckIfMissingLimb(thisLimb))
         {
             Debug.Log("Picking it up");
             itemManager.CmdPickUpLimb(gameObject);
@@ -146,7 +170,7 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Ground")
+        if (collision.gameObject.CompareTag("Ground"))
         {
             if (Physics.CheckSphere(transform.position, groundCheckRadius, groundMask))
             {

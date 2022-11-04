@@ -23,7 +23,7 @@ public class HighlightHandler : MonoBehaviour
     private CommandBuffer commandBuffer;
     private int sortingType;
 
-    private List<HighlightObject> highlights;
+    [SerializeField] private List<HighlightObject> highlights;
 
     private void Awake()
     {
@@ -51,7 +51,7 @@ public class HighlightHandler : MonoBehaviour
 
         foreach (var highlight in highlights)
             foreach (var renderer in highlight.Renderers)
-                if (renderer.gameObject.activeSelf)
+                if (renderer != null && renderer.gameObject.activeSelf)
                     commandBuffer.DrawRenderer(renderer, drawMaterial, 0, sortingType);
 
         RenderTexture.active = highlightRenderTexture;

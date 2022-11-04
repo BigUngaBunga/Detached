@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5419195425566959168}
   m_Layer: 0
-  m_Name: TrigeredLever
+  m_Name: TriggeredLever
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -245,11 +245,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe49282cb17b8e247ae21888e7952170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   activators: []
   isTriggered: 0
   requiredArms: 1
-  triggeredLever: {fileID: 1089601614539491282}
-  normalLever: {fileID: 1254447710370761741}
 --- !u!65 &5554008857199150624
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -307,6 +307,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06cf753a0f55c7441b467defa4f75d63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: 
+  Activations: 0
 --- !u!1 &6914901980339938677
 GameObject:
   m_ObjectHideFlags: 0

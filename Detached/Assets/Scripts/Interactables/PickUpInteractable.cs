@@ -16,8 +16,6 @@ public class PickUpInteractable : NetworkBehaviour, IInteractable
         activatingObject.GetComponent<InteractableManager>().AttemptPickUpItem(gameObject);
     }
 
-    //public void PickUp(Transform positionTarget) => this.positionTarget = positionTarget;
-    [Command(requiresAuthority = false)]
     public void PickUp(Transform positionTarget)
     {
         Debug.Log("New position target: " + positionTarget);
@@ -25,21 +23,35 @@ public class PickUpInteractable : NetworkBehaviour, IInteractable
         isHeld = true;
     }
 
-    [Command(requiresAuthority = false)]
     public void Drop()
     {
         positionTarget = null;
         isHeld = false;
     }
 
-    public void Update()
+    public void Update() 
     {
-        if (positionTarget != null)
-        {
-            transform.position = positionTarget.position;
-            transform.rotation = positionTarget.rotation;
-        } 
+        if (isHeld && positionTarget != null)
+            MoveObject();
+
     }
 
-    public bool CanInteract(GameObject activatingObject) => activatingObject.GetComponent<InteractableManager>().CanPickUpItem(gameObject);
+    [Command(requiresAuthority = false)]
+    private void MoveObject() => RPCMoveObject();
+
+    [ClientRpc]
+    private void RPCMoveObject()
+    {
+        if (positionTarget == null)
+            return;
+        transform.position = positionTarget.position;
+        transform.rotation = positionTarget.rotation;
+    }
+
+    public bool CanInteract(GameObject activatingObject)
+    {
+        if (activatingObject.CompareTag("Player"))
+            return !isHeld && activatingObject.GetComponent<InteractableManager>().CanPickUpItem(gameObject);
+        return false;
+    }
 }

@@ -67,7 +67,20 @@ public class ItemManager : NetworkBehaviour
     private Vector3 orignalPosition = Vector3.zero;
 
     public readonly UnityEvent dropLimbEvent = new UnityEvent();
-    public bool allowLimbInteraction = true;
+
+    private InteractionChecker interactionChecker;
+    public bool allowInteraction = true;
+    public bool AllowInteraction
+    {
+        get => allowInteraction;
+        set
+        {
+            allowInteraction = value;
+            if (interactionChecker == null)
+                interactionChecker = FindObjectOfType<Camera>().GetComponent<InteractionChecker>();
+            interactionChecker.AllowInteraction = value;
+        }
+    }
 
     #region Syncvars with hooks
 
@@ -182,7 +195,14 @@ public class ItemManager : NetworkBehaviour
     }
     void Update()
     {
-        if (!isLocalPlayer || !allowLimbInteraction) return;
+        if (!isLocalPlayer) return;
+
+        if (Input.GetKeyDown(keySwitchBetweenLimbs))
+        {
+            GetAllLimbsInScene();
+            ChangeLimbControll();
+        }
+        if (!AllowInteraction) return;
 
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
             CmdDropLimb(Limb_enum.Head);
@@ -190,11 +210,7 @@ public class ItemManager : NetworkBehaviour
             CmdDropLimb(Limb_enum.Arm);
         if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
             CmdDropLimb(Limb_enum.Leg);
-        if (Input.GetKeyDown(keySwitchBetweenLimbs))
-        {
-            GetAllLimbsInScene();
-            ChangeLimbControll();
-        }
+        
         if (Input.GetKeyDown(selectHeadKey))
             selectedLimbToThrow = Limb_enum.Head;
         if (Input.GetKeyDown(selectArmKey))
@@ -206,7 +222,6 @@ public class ItemManager : NetworkBehaviour
 
         if (dragging)
             TrajectoryCal();
-
     }
 
     #region Check status of players limbs
@@ -282,6 +297,7 @@ public class ItemManager : NetworkBehaviour
         ChangeControllingforLimbAndPlayer(limbs[indexControll], true);
         CheckIfAddClientAuthority(limbs[indexControll]);
     }
+
     private bool CheckIfOtherPlayerIsControllingLimb(GameObject objToCheck)
     {
         if (objToCheck != gameObject)
@@ -298,10 +314,14 @@ public class ItemManager : NetworkBehaviour
         if (objToCheck == gameObject)
         {
             gameObject.GetComponent<CharacterControl>().isBeingControlled = value;
+            isControllingLimb = !value;
+            AllowInteraction = value;
         }
         else
         {
-            objToCheck.GetComponent<SceneObjectItemManager>().IsBeingControlled = value;
+            var sceneObject = objToCheck.GetComponent<SceneObjectItemManager>();
+            sceneObject.IsBeingControlled = value;
+            sceneObject.ControllingManager = value ? this : null;
         }
     }
 
