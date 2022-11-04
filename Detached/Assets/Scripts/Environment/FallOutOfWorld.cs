@@ -22,14 +22,15 @@ public class FallOutOfWorld : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        GameObject otherObject = other.gameObject;
         if (other.gameObject.CompareTag("Player"))
         {
             ServerChangeScene(SceneManager.GetActiveScene().name);
         }
-        if (other.gameObject.CompareTag("Leg") || other.gameObject.CompareTag("Head") || other.gameObject.CompareTag("Arm"))
-        {         
-            var SceneObject = other.gameObject.GetComponentInParent<SceneObjectItemManager>();
-            SceneObject.HandleFallOutOfWorld();
+        if (otherObject.CompareTag("Leg") || otherObject.CompareTag("Head") || otherObject.CompareTag("Arm"))
+        {
+            if (otherObject.transform.parent.gameObject.TryGetComponent(out SceneObjectItemManager sceneObject))
+                sceneObject.HandleFallOutOfWorld();
         }
     }
 

@@ -154,6 +154,8 @@ public class SceneObjectItemManager : NetworkBehaviour
         }
         else
         {
+            if (itemManager.IsControllingLimb)
+                itemManager.AllowInteraction = true;
             itemManager.CmdPickUpLimb(gameObject);
         }
     }
