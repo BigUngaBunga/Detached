@@ -66,6 +66,8 @@ public class ItemManager : NetworkBehaviour
     private GameObject sceneObjectHoldingToThrow;
     private Vector3 orignalPosition = Vector3.zero;
 
+    public int numberOfLimbs;
+
     public readonly UnityEvent dropLimbEvent = new UnityEvent();
 
     private InteractionChecker interactionChecker;
@@ -116,11 +118,13 @@ public class ItemManager : NetworkBehaviour
         if (newValue) // if Detached == true
         {
             leftArmObject.SetActive(false);
-
+            numberOfLimbs--;
         }
         else // if Detached == False
         {
             leftArmObject.SetActive(true);
+            numberOfLimbs++;
+
         }
     }
     private void OnChangeRightArmDetachedHook(bool oldValue, bool newValue)
@@ -128,11 +132,14 @@ public class ItemManager : NetworkBehaviour
         if (newValue) // if Detached == true
         {
             rightArmObject.SetActive(false);
+            numberOfLimbs--;
+
 
         }
         else // if Detached == False
         {
             rightArmObject.SetActive(true);
+            numberOfLimbs++;
         }
     }
     private void OnChangeHeadDetachedHook(bool oldValue, bool newValue)
@@ -140,12 +147,12 @@ public class ItemManager : NetworkBehaviour
         if (newValue) // if Detached == true
         {
             headObject.SetActive(false);
-
+            numberOfLimbs--;
         }
         else // if Detached == False
         {
             headObject.SetActive(true);
-
+            numberOfLimbs++;
         }
     }
     private void OnChangeLeftLegDetachedHook(bool oldValue, bool newValue)
@@ -153,11 +160,14 @@ public class ItemManager : NetworkBehaviour
         if (newValue) // if Detached == true
         {
             leftLegObject.SetActive(false);
+            numberOfLimbs--;
+
 
         }
         else // if Detached == False
         {
             leftLegObject.SetActive(true);
+            numberOfLimbs++;
 
         }
     }
@@ -166,19 +176,57 @@ public class ItemManager : NetworkBehaviour
         if (newValue) // if Detached == true
         {
             rightLegObject.SetActive(false);
+            numberOfLimbs--;
 
         }
         else // if Detached == False
         {
             rightLegObject.SetActive(true);
-
+            numberOfLimbs++;
         }
     }
 
     #endregion
 
+    #region Spawn Functions
+
+    public void SetAmountOfLimbsToSpawn(int arms, int legs)
+    {
+        switch (arms)
+        {
+            case 0:
+                leftArmDetached = true;
+                rightArmDetached = true;
+                break;
+
+            case 1:
+                leftArmDetached = true;
+                break;
+            case 2:
+                break;
+        }
+
+        switch (legs)
+        {
+            case 0:
+                leftLegDetached = true;
+                rightLegDetached = true;
+                break;
+
+            case 1:
+                leftLegDetached = true;
+                break;
+            case 2:
+                break;
+        }
+    }
+
+
+    #endregion
+
     private void Awake()
     {
+        numberOfLimbs = 5;
         /* originalCamTransform.position = camFocus.localPosition;
          originalCamTransform.eulerAngles = camFocus.localEulerAngles;
          originalCamTransform.rotation = camFocus.localRotation;*/
@@ -191,7 +239,8 @@ public class ItemManager : NetworkBehaviour
     {
         camPoint = Camera.main.transform;
 
-
+        //Todo Add so that goal can specify how many limbs each player should have.
+       
     }
     void Update()
     {
@@ -483,6 +532,7 @@ public class ItemManager : NetworkBehaviour
     [Server]
     GameObject CmdThrowDropLimb(Limb_enum limb, Vector3 throwpoint)
     {
+        
         GameObject newSceneObject = null;
         SceneObjectItemManager SceneObjectScript = null;
         switch (limb)
@@ -496,8 +546,8 @@ public class ItemManager : NetworkBehaviour
                 headDetached = true;
                 camFocus.parent = SceneObjectScript.transform;
                 SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+                SceneObjectScript.itemManager = this;
                 break;
-
             case Limb_enum.Arm:
                 if (!leftArmDetached)
                 {
@@ -655,6 +705,7 @@ public class ItemManager : NetworkBehaviour
         SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
         NetworkServer.Spawn(newSceneObject);
         SceneObjectScript.detached = true;
+        SceneObjectScript.itemManager = this;    
     }
 
     #endregion
