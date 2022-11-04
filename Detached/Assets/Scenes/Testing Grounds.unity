@@ -2032,6 +2032,7 @@ GameObject:
   - component: {fileID: 913145086}
   - component: {fileID: 913145085}
   - component: {fileID: 913145084}
+  - component: {fileID: 913145091}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -2192,6 +2193,22 @@ Transform:
   m_Father: {fileID: 1386450904}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &913145091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913145083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f920350fcaf96f744b6376f4b5740f8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderers: []
+  blurMaterial: {fileID: 2100000, guid: ccbda6943bd3e754295306d9fe926b1e, type: 2}
+  blurIntensity: 4
+  background: {fileID: 0}
 --- !u!1 &922729442
 GameObject:
   m_ObjectHideFlags: 0
@@ -2836,7 +2853,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1211683726445485573, guid: 90750adbb4156f247a4ca66d3170296c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 90750adbb4156f247a4ca66d3170296c, type: 3}
 --- !u!4 &1133972946 stripped
 Transform:
