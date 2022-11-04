@@ -45,7 +45,7 @@ public class ItemManager : NetworkBehaviour
 
     private List<GameObject> limbs = new List<GameObject>();
     private int indexControll;
-    private bool isControllingLimb;
+    public bool IsControllingLimb { get; private set; }
 
     [Header("Throwing")]
     [SerializeField] public float throwForce;
@@ -69,7 +69,7 @@ public class ItemManager : NetworkBehaviour
     public readonly UnityEvent dropLimbEvent = new UnityEvent();
 
     private InteractionChecker interactionChecker;
-    public bool allowInteraction = true;
+    private bool allowInteraction = true;
     public bool AllowInteraction
     {
         get => allowInteraction;
@@ -275,6 +275,7 @@ public class ItemManager : NetworkBehaviour
         if (limbs.Count == 0)
         {
             gameObject.GetComponent<CharacterControl>().isBeingControlled = true;
+            allowInteraction = true;
             return;
         }
 
@@ -314,7 +315,7 @@ public class ItemManager : NetworkBehaviour
         if (objToCheck == gameObject)
         {
             gameObject.GetComponent<CharacterControl>().isBeingControlled = value;
-            isControllingLimb = !value;
+            IsControllingLimb = !value;
             AllowInteraction = value;
         }
         else

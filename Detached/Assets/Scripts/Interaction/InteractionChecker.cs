@@ -9,11 +9,10 @@ public class InteractionChecker : NetworkBehaviour
     [SerializeField] private float interactionDistance;
     [SerializeField] private GameObject player;
     [SerializeField]private int targetLayer = 15;
-    //private LayerMask targetMask;
     private bool interacting = false;
     private InteractableManager interactableManager;
 
-    private bool allowInteraction = true;
+    [SerializeField] private bool allowInteraction = true;
     public bool AllowInteraction
     {
         get => allowInteraction;
@@ -22,13 +21,17 @@ public class InteractionChecker : NetworkBehaviour
             if(value)
                 StartCoroutine(TimedAllowInteractions());
             else
+            {
                 allowInteraction = false;
+                StopAllCoroutines();
+            }
+                
         }
     }
 
     private IEnumerator TimedAllowInteractions()
     {
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.1f);
         allowInteraction = true;
     }
 
