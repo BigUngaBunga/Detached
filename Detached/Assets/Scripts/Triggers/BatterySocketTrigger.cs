@@ -48,5 +48,9 @@ public class BatterySocketTrigger : Trigger, IInteractable
         }
     }
 
-    public bool CanInteract(GameObject activatingObject) => activatingObject.GetComponent<InteractableManager>().IsCarryingTag("Battery");
+    public bool CanInteract(GameObject activatingObject)
+    {
+        var interactableManager = activatingObject.GetComponent<InteractableManager>();
+        return interactableManager.IsCarryingTag("Battery") || (!interactableManager.IsCarryingItem && IsTriggered);
+    }
 }
