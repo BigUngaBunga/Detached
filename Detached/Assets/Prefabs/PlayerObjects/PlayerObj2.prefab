@@ -279,9 +279,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  controllingPlayer: 1
+  CMFreeLook: {fileID: 0}
   rb: {fileID: 276653536263741166}
   crouchHeight: 1.7
-  active: 1
+  isBeingControlled: 1
   movementSpeed: 2
   runSpeed: 6
   crouchSpeed: 2.5
@@ -295,8 +297,12 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  playerBody: {fileID: 8377611076034264579}
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 0
+  playerBody: {fileID: 1854229958698459829, guid: fcd90ddef6cff824dba3330ae548c72a, type: 3}
   playerObjectController: {fileID: 0}
+  limbManager: {fileID: 0}
   cameraFollow: {fileID: 3149110881984287684}
   cinemaFreelook: {fileID: 0}
 --- !u!54 &276653536263741166

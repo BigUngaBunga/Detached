@@ -694,10 +694,10 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  iteractableMask:
+  interactableMask:
     serializedVersion: 2
-    m_Bits: 32768
-  playerBody: {fileID: 5403426992234688411}
+    m_Bits: 0
+  playerBody: {fileID: 0}
   playerObjectController: {fileID: 0}
   limbManager: {fileID: 2459182320428627406}
   cameraFollow: {fileID: 3995271111322003540}
@@ -815,7 +815,7 @@ MonoBehaviour:
   selectHeadKey: 122
   selectArmKey: 120
   selectLegKey: 99
-  headObject: {fileID: 3995271110759506506}
+  headObject: {fileID: 5016323429893373100, guid: afde08a2634046842bfc7b119841b043, type: 3}
   leftArmObject: {fileID: 3995271110411106457}
   rightArmObject: {fileID: 3995271110717914468}
   leftLegObject: {fileID: 3995271111075614501}
@@ -833,7 +833,7 @@ MonoBehaviour:
   camPoint: {fileID: 0}
   throwPoint: {fileID: 5504953492409216491}
   camFocus: {fileID: 3995271111322003543}
-  allowLimbInteraction: 1
+  allowInteraction: 1
   headDetached: 0
   leftArmDetached: 0
   rightArmDetached: 0

@@ -225,7 +225,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -286,7 +286,10 @@ MonoBehaviour:
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
+    ModeOverride: 0
     LensShift: {x: 0, y: 0}
+    GateFit: 2
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -516,6 +519,7 @@ GameObject:
   - component: {fileID: 887965464}
   - component: {fileID: 887965462}
   - component: {fileID: 887965463}
+  - component: {fileID: 887965468}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Player
@@ -551,11 +555,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632d8794133f9454e872845c5ce89f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   controllingPlayer: 1
   CMFreeLook: {fileID: 0}
   rb: {fileID: 887965462}
   crouchHeight: 1.7
-  active: 1
+  isBeingControlled: 1
   movementSpeed: 2
   runSpeed: 6
   crouchSpeed: 2.5
@@ -569,6 +575,14 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
+  interactableMask:
+    serializedVersion: 2
+    m_Bits: 0
+  playerBody: {fileID: 0}
+  playerObjectController: {fileID: 0}
+  limbManager: {fileID: 0}
+  cameraFollow: {fileID: 0}
+  cinemaFreelook: {fileID: 0}
 --- !u!136 &887965464
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -648,6 +662,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &887965468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887965461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3908305261
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &955688357
 GameObject:
   m_ObjectHideFlags: 0
@@ -1103,7 +1134,10 @@ MonoBehaviour:
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
+    ModeOverride: 0
     LensShift: {x: 0, y: 0}
+    GateFit: 2
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1273,7 +1307,10 @@ MonoBehaviour:
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
+    ModeOverride: 0
     LensShift: {x: 0, y: 0}
+    GateFit: 2
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1473,7 +1510,10 @@ MonoBehaviour:
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
+    ModeOverride: 0
     LensShift: {x: 0, y: 0}
+    GateFit: 2
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
