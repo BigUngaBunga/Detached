@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using System;
 using UnityEngine.Events;
+using Cinemachine;
 
 public class ItemManager : NetworkBehaviour
 {
