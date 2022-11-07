@@ -8,7 +8,7 @@ using Cinemachine;
 
 public class CharacterControl : NetworkBehaviour
 {
-   
+
     //TEMPORARY
     [Header("Temporary")]
     [SerializeField] private bool controllingPlayer = true;
@@ -29,6 +29,13 @@ public class CharacterControl : NetworkBehaviour
     float walkSpeed;
     [SerializeField] private Transform camTransform;
 
+    [Header("Step up")]
+    [SerializeField] GameObject stepRayUpper;
+    [SerializeField] GameObject stepRayLower;
+    [SerializeField] float stepHeight = 0.3f;
+    [SerializeField] float stepSmooth = 2f;
+
+
     [Header("Jump")]
     [SerializeField] private float jumpForce;
     [SerializeField] private float jumpCD;
@@ -41,7 +48,6 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] private Transform groundCheckTransform;
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask groundMask;
-    [SerializeField] private LayerMask interactableMask;
 
     [Header("NetWorking")]
     [SerializeField] private GameObject playerBody;
@@ -54,7 +60,7 @@ public class CharacterControl : NetworkBehaviour
 
 
     private bool isGrounded = false;
-    
+
 
     Vector3 moveDir;
     Vector3 input;
@@ -62,10 +68,11 @@ public class CharacterControl : NetworkBehaviour
     float horizontalInput;
     float verticalInput;
 
+    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        
+        stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepHeight, stepRayUpper.transform.position.z);
         playerCol = GetComponent<CapsuleCollider>();
         originHeight = playerCol.height;
         ResetJump();
@@ -85,14 +92,18 @@ public class CharacterControl : NetworkBehaviour
 
         //DontDestroyOnLoad(this.gameObject);
     }
+    private void Awake()
+    {
+       
+    }
 
     private void Update()
     {
         if (!isLocalPlayer) return;
-       
+
         if (SceneManager.GetActiveScene().buildIndex > 1 && controllingPlayer)
         {
-               
+
             if (isBeingControlled) //If player is being actively controlled as oppose to a limb
             {
                 GroundCheck();
@@ -101,6 +112,8 @@ public class CharacterControl : NetworkBehaviour
                 Jump();
                 Sprint();
                 Crouch();
+
+                stepClimb();
 
                 SpeedControl();
                 gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up);
@@ -121,8 +134,6 @@ public class CharacterControl : NetworkBehaviour
 
     public void SetCameraFocus(Transform transform)
     {
-        if (cinemaFreelook == null)
-            cinemaFreelook = FindObjectOfType<CinemachineFreeLook>();
         cinemaFreelook.LookAt = transform;
         cinemaFreelook.Follow = transform;
     }
@@ -169,11 +180,44 @@ public class CharacterControl : NetworkBehaviour
         //transform.position += moveDir * movementSpeed * Time.deltaTime;
     }
 
+    void stepClimb()
+    {
+        RaycastHit hitLower;
+        if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(Vector3.forward), out hitLower, 0.1f))
+        {
+            RaycastHit hitUpper;
+            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(Vector3.forward), out hitUpper, 0.2f))
+            {
+                rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
+            }
+        }
+
+        RaycastHit hitLower45;
+        if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(1.5f, 0, 1), out hitLower45, 0.1f))
+        {
+
+            RaycastHit hitUpper45;
+            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(1.5f, 0, 1), out hitUpper45, 0.2f))
+            {
+                rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
+            }
+        }
+
+        RaycastHit hitLowerMinus45;
+        if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(-1.5f, 0, 1), out hitLowerMinus45, 0.1f))
+        {
+
+            RaycastHit hitUpperMinus45;
+            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(-1.5f, 0, 1), out hitUpperMinus45, 0.2f))
+            {
+                rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
+            }
+        }
+    }
+
     private void GroundCheck()
     {
-        isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask) 
-            || Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, interactableMask);
-        
+        isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask);
     }
 
     private void Jump()
