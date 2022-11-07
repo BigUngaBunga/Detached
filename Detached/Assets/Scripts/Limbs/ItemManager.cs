@@ -54,7 +54,9 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public Transform camPoint;
     [SerializeField] public Transform throwPoint;
     [SerializeField] public Transform camFocus;
-
+    [SerializeField] public CinemachineFreeLook cinemachine;
+    [SerializeField] public Vector3 throwCamOffset;
+    [SerializeField] GameObject indicator;
 
     private bool readyToThrow;
     private Limb_enum selectedLimbToThrow = Limb_enum.Head;
