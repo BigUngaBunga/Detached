@@ -11,9 +11,9 @@ public class SpawnPoint : MonoBehaviour
     }
 
     [Range(0, 2)]
-    [SerializeField] public int numOfLegs;
+    [SerializeField] public int numOfLegs = 2;
     [Range(0, 2)]
-    [SerializeField] public int numOfArms;
+    [SerializeField] public int numOfArms = 2;
 
 
     private void Awake()
