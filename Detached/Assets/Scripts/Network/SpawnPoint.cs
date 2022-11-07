@@ -4,26 +4,13 @@ using UnityEngine;
 
 public class SpawnPoint : MonoBehaviour
 {
-    private int numOfLimbsAtSpawn;
-    public int NumOfLimbsAtSpawn
-    {
-        get { return numOfLimbsAtSpawn; }      
-    }
-
-    [Range(0, 2)]
-    [SerializeField] public int numOfLegs;
-    [Range(0, 2)]
-    [SerializeField] public int numOfArms;
-
-
     private void Awake()
     {
-        PlayerSpawnSystem.AddSpawnPoints(gameObject);
-        numOfLimbsAtSpawn = numOfArms + numOfLegs + 1; //1 = head
+        PlayerSpawnSystem.AddSpawnPoints(transform);
     }
     private void OnDestroy()
     {
-        PlayerSpawnSystem.RemoveSpawnPoints(gameObject);
+        PlayerSpawnSystem.RemoveSpawnPoints(transform);
     }
 
     private void OnDrawGizmos()

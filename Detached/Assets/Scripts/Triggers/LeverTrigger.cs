@@ -34,18 +34,15 @@ public class LeverTrigger : Trigger, IInteractable
         gameObject.SetActive(isActive);
     }
 
+    [Command(requiresAuthority = false)]
     public void Interact(GameObject activatingObject)
     {
-        if (CanInteract(activatingObject))
-            PullLever();
-    }
-
-    [Command(requiresAuthority = false)]
-    private void PullLever()
-    {
-        IsTriggered = !IsTriggered;
-        RPCSetLeverActivation(IsTriggered);
-        highlight.UpdateRenderers();
+        if (HasEnoughArms(activatingObject, requiredArms))
+        {
+            IsTriggered = !IsTriggered;
+            RPCSetLeverActivation(IsTriggered);
+            highlight.UpdateRenderers();
+        }
     }
 
     [ClientRpc]
@@ -55,18 +52,5 @@ public class LeverTrigger : Trigger, IInteractable
         SetRecursiveActivation(isTriggered, triggeredLever);
     }
 
-    public bool CanInteract(GameObject activatingObject)
-    {
-        if (activatingObject.CompareTag("Player"))
-            return HasEnoughArms(activatingObject, requiredArms);
-        else if (IsLimbOfType(activatingObject, ItemManager.Limb_enum.Arm))
-            return requiredArms < 2;
-        return false;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (isServer && !collision.gameObject.CompareTag("Player") && CanInteract(collision.gameObject))
-            PullLever();
-    }
+    public bool CanInteract(GameObject activatingObject) => HasEnoughArms(activatingObject, requiredArms);
 }
