@@ -104,8 +104,14 @@ public class PickUp : MonoBehaviour
 
                 if (heldItem.transform.gameObject.tag == "Box")
                 {
-                    dropDest = dest.transform;
-
+                    if (objectHit.transform.gameObject.tag == "Box")
+                    {
+                        dropDest = GameObject.Find(objectHit.transform.gameObject.name + "/StackDest").transform;
+                    }
+                    else
+                    {
+                        //dropDest = dest.transform;
+                    }
                 }
 
                 heldItem.transform.position = dropDest.position;

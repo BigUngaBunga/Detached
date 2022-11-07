@@ -8,8 +8,7 @@ public class InteractionChecker : NetworkBehaviour
 
     [SerializeField] private float interactionDistance;
     [SerializeField] private GameObject player;
-    [SerializeField]private int targetLayer = 15;
-    //private LayerMask targetMask;
+    private LayerMask targetMask;
     private bool interacting = false;
     private InteractableManager interactableManager;
 
@@ -40,8 +39,7 @@ public class InteractionChecker : NetworkBehaviour
 
     private void Awake()
     {
-        //targetMask = LayerMask.GetMask("Interactable");
-
+        targetMask = LayerMask.GetMask("Interactable");
     }
 
     private void Start()
@@ -63,17 +61,32 @@ public class InteractionChecker : NetworkBehaviour
         if (!allowInteraction)
             return;
         ray1Hit = ray2Hit = false;
-
-        var hits = Physics.RaycastAll(transform.position, transform.forward, interactionDistance);
-        ray1Hit = EvaluateHit(GetClosestHit(hits));
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, interactionDistance, targetMask))
+        {
+            GameObject hitObject = hit.transform.gameObject;
+            if (CanInteractWith(hitObject))
+            {
+                ray1Hit = true;
+                HighlightObject(hitObject);
+                AttemptInteraction(hitObject);
+            }
+        }
         Debug.DrawRay(transform.position, transform.forward * interactionDistance, Color.yellow);
 
-        //DEBUG
         var debugDirection = (transform.forward + transform.up * debugRayAngle).normalized;
-        hits = Physics.RaycastAll(transform.position, debugDirection, interactionDistance);
-        ray2Hit = EvaluateHit(GetClosestHit(hits));
+        if (Physics.Raycast(transform.position, debugDirection, out RaycastHit hit2, interactionDistance, targetMask))
+        {
+            GameObject hitObject = hit2.transform.gameObject;
+            if (CanInteractWith(hitObject))
+            {
+                ray2Hit = true;
+                HighlightObject(hitObject);
+                AttemptInteraction(hitObject);
+            }
+            
+        }
         Debug.DrawRay(transform.position, debugDirection * interactionDistance, Color.yellow);
-
+        
         if (!ray1Hit && !ray2Hit)
             AttemptDropItem();
     }
@@ -89,17 +102,6 @@ public class InteractionChecker : NetworkBehaviour
     }
 
     private void HighlightObject(GameObject hitObject) => hitObject.GetComponent<HighlightObject>().DurationHighlight();
-
-    private bool EvaluateHit(GameObject hitObejct)
-    {
-        if (hitObejct != null && hitObejct.layer == targetLayer && CanInteractWith(hitObejct))
-        {
-            HighlightObject(hitObejct);
-            AttemptInteraction(hitObejct);
-            return true;
-        }
-        return false;
-    }
 
     private void AttemptInteraction(GameObject hitObject)
     {
@@ -133,28 +135,5 @@ public class InteractionChecker : NetworkBehaviour
             interactableManager.AttemptDropItem();
             interacting = false;
         }           
-    }
-
-    private GameObject GetClosestHit(RaycastHit[] hits)
-    {
-        float bestDistance = float.MaxValue;
-        int bestIndex = -1;
-
-        for (int i = 0; i < hits.Length; i++)
-        {
-            if (hits[i].collider == null || hits[i].collider.isTrigger)
-                continue;
-            float distance = Vector3.Distance(player.transform.position, hits[i].transform.position);
-            if (distance < bestDistance)
-            {
-                bestDistance = distance;
-                bestIndex = i;
-            }
-        }
-
-        if (bestIndex != -1)
-            return hits[bestIndex].transform.gameObject;
-        else
-            return null;
     }
 }
