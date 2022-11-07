@@ -7,13 +7,13 @@ public class ActivatedPlatform : Activator
     [Range(0.05f, 1f)]
     [SerializeField] float inactiveAlpha = 0.33f;
     [Range(0.05f, 0.33f)]
-    [SerializeField] float minimumAlpha = 0.1f;
+    [SerializeField] protected float minimumAlpha = 0.1f;
 
     [SyncVar(hook  = nameof(UpdateMaterial))]
-    private float alpha = 0.0f;
+    protected float alpha = 0.0f;
 
     private Color color;
-    private new BoxCollider collider;
+    protected new BoxCollider collider;
     private MeshRenderer meshRenderer;
     private float PercentageActive => (float)ActiveConnections / (float)TotalConnections;
 
@@ -28,36 +28,36 @@ public class ActivatedPlatform : Activator
     {
         base.Activate();
         collider.enabled = true;
-        if (isServer)
-            UpdateAlpha();
-
+        UpdateMaterialOnServer();
     }
 
     protected override void Deactivate()
     {
         base.Deactivate();
         collider.enabled = false;
-        if (NetworkClient.isHostClient)
-            UpdateAlpha();
-
+        UpdateMaterialOnServer();
     }
 
     public override void TriggerActive()
     {
         base.TriggerActive();
-        if (NetworkClient.isHostClient)
-            UpdateAlpha();
+        UpdateMaterialOnServer();
     }
 
     public override void TriggerInactive()
     {
         base.TriggerInactive();
+        UpdateMaterialOnServer();
+    }
+
+    private void UpdateMaterialOnServer()
+    {
         if (NetworkClient.isHostClient)
             UpdateAlpha();
     }
 
     [Server]
-    private void UpdateAlpha()
+    protected virtual void UpdateAlpha()
     {
         if (isActivated)
             alpha = 1f;
@@ -70,7 +70,6 @@ public class ActivatedPlatform : Activator
 
     private void UpdateMaterial(float oldValue, float newValue)
     {
-
         color.a = newValue;
         meshRenderer.material.color = color;
     }

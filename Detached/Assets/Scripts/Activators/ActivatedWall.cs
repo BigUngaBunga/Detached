@@ -1,15 +1,31 @@
-public class ActivatedWall : Activator
+using Mirror;
+using UnityEngine;
+
+public class ActivatedWall : ActivatedPlatform
 {
-    //TODO ändra likt activated platform
+    
+    private float PercentageActive => (TotalConnections - ActiveConnections) / (float)TotalConnections;
+
     protected override void Activate()
     {
         base.Activate();
-        gameObject.SetActive(false);
+        collider.enabled = false;
     }
 
     protected override void Deactivate()
     {
         base.Deactivate();
-        gameObject.SetActive(true);
+        collider.enabled = true;
+    }
+
+    [Server]
+    protected override void UpdateAlpha()
+    {
+        if (isActivated)
+            alpha = 0f;
+        else if (activationRequirement.Equals(ActivationRequirement.All))
+            alpha = PercentageActive;
+        else
+            alpha = 1f;
     }
 }

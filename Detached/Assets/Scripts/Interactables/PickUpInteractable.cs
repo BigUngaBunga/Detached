@@ -6,18 +6,16 @@ using UnityEngine;
 public class PickUpInteractable : NetworkBehaviour, IInteractable
 {
     [Range(1, 2)]
-    [SerializeField] private int requiredArms = 1;
+    [SerializeField] protected int requiredArms = 1;
     [SerializeField] private Transform positionTarget;
     [SyncVar] private bool isHeld;
 
     public int RequiredArms { get { return requiredArms; } }
-    public void Interact(GameObject activatingObject)
+    public virtual void Interact(GameObject activatingObject)
     {
         activatingObject.GetComponent<InteractableManager>().AttemptPickUpItem(gameObject);
     }
 
-    //public void PickUp(Transform positionTarget) => this.positionTarget = positionTarget;
-    //[Command(requiresAuthority = false)]
     public void PickUp(Transform positionTarget)
     {
         Debug.Log("New position target: " + positionTarget);
@@ -25,7 +23,6 @@ public class PickUpInteractable : NetworkBehaviour, IInteractable
         isHeld = true;
     }
 
-    //[Command(requiresAuthority = false)]
     public void Drop()
     {
         positionTarget = null;
@@ -51,5 +48,5 @@ public class PickUpInteractable : NetworkBehaviour, IInteractable
         transform.rotation = positionTarget.rotation;
     }
 
-    public bool CanInteract(GameObject activatingObject) => !isHeld && activatingObject.GetComponent<InteractableManager>().CanPickUpItem(gameObject);
+    public virtual bool CanInteract(GameObject activatingObject) => !isHeld && activatingObject.GetComponent<InteractableManager>().CanPickUpItem(gameObject);
 }
