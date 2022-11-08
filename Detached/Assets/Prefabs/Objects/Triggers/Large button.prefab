@@ -51,10 +51,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632d6e155da497544ab7b4b2f4572f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   activators: []
   isTriggered: 0
   boxPosition: {fileID: 5331962926830574568}
   box: {fileID: 0}
+  attachedLimbs: []
   triggeringObjects: 0
 --- !u!33 &2139359293971582538
 MeshFilter:
@@ -162,6 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f066cc1d96f97348a5bddd68dfb08a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   isHighlighted: 0
   highlightMilliseconds: 50
   renderers: []
