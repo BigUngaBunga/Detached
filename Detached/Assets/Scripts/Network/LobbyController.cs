@@ -7,16 +7,18 @@ using Steamworks;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class LobbyController : NetworkBehaviour
 {
     public static LobbyController Instance;
 
     //UI Elements
-    public Text LobbyNameText;
+    //public Text LobbyNameText;
     public Button StartGameButton;
-    public Text ReadyButtonText;
-    public Button Invite;   
+    public TextMeshProUGUI ReadyButtonText;
+    public Button Invite;
+    public TextMeshProUGUI LobbyNameText;
 
     //PlayerData
     public GameObject PlayerListViewContent;
