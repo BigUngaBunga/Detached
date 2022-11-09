@@ -279,11 +279,19 @@ public class LobbyController : NetworkBehaviour
             CustomNetworkManager.singleton.StopHost();
 
         else if (isClient)
+        {
+            CmdPlayerDisconnected();
             CustomNetworkManager.singleton.StopClient();
-
-        
-
+        }
     }
+
+    [Command]
+    public void CmdPlayerDisconnected()
+    {
+        UpdatePlayerList();
+    }
+
+
 
     public void StopServer()
     {
