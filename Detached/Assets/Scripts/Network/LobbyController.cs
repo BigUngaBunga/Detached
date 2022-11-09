@@ -288,9 +288,14 @@ public class LobbyController : NetworkBehaviour
     [Command]
     public void CmdPlayerDisconnected()
     {
-        UpdatePlayerList();
+        RpcPlayerDisconnected();
     }
 
+    [ClientRpc]
+    public void RpcPlayerDisconnected()
+    {
+        UpdatePlayerList();
+    }
 
 
     public void StopServer()
