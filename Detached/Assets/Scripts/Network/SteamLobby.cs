@@ -15,7 +15,7 @@ public class SteamLobby : MonoBehaviour
     protected Callback<GameRichPresenceJoinRequested_t> gameRichJoinRequest;
     protected Callback<LobbyEnter_t> lobbyEntered;
     protected Callback<LobbyInvite_t> lobbyInvited;
-    protected Callback<LobbyChatUpdate_t> lobbyChatUpdate;
+    
 
     public ulong currentLobbyID;
     public const string HostAdressKey = "HostAddress";
@@ -43,7 +43,6 @@ public class SteamLobby : MonoBehaviour
         joinRequest = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequest);
         lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
         gameRichJoinRequest = Callback<GameRichPresenceJoinRequested_t>.Create(onJoinGame);
-        lobbyChatUpdate = Callback<LobbyChatUpdate_t>.Create(OnLobbyChatUpdate);
     }   
 
     public void HostLobby()
@@ -53,11 +52,6 @@ public class SteamLobby : MonoBehaviour
             Debug.Log("Hosting lobby");
         }
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, Manager.maxConnections);
-    }
-
-    private void OnLobbyChatUpdate(LobbyChatUpdate_t callback)
-    {
-        GameObject.Find("LobbyController").GetComponent<LobbyController>().UpdatePlayerList();
     }
 
     private void OnLobbyCreated(LobbyCreated_t callback)
