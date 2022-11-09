@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6653812291577220214
+--- !u!1 &9220142308127113596
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,45 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5195618277021206573}
-  - component: {fileID: 2730692679982466911}
-  - component: {fileID: 4225118703272010901}
+  - component: {fileID: 8412537430502529990}
+  - component: {fileID: 3155186755927840280}
+  - component: {fileID: 620398864554245125}
+  - component: {fileID: 2652133243872108016}
   m_Layer: 0
-  m_Name: pasted__pCylinder36
+  m_Name: Thrash Can
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5195618277021206573
+--- !u!4 &8412537430502529990
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6653812291577220214}
+  m_GameObject: {fileID: 9220142308127113596}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 25.490665, y: -33.578083, z: 64.52806}
-  m_LocalScale: {x: 4.7148848, y: 5.7212124, z: 3.128045}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5879, y: 1.9998077, z: 1.5879}
   m_Children: []
-  m_Father: {fileID: 8412537430502529990}
+  m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &2730692679982466911
+--- !u!33 &3155186755927840280
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6653812291577220214}
+  m_GameObject: {fileID: 9220142308127113596}
   m_Mesh: {fileID: 5828850623961394676, guid: 766e76f2f15117f4abcc418188427825, type: 3}
---- !u!23 &4225118703272010901
+--- !u!23 &620398864554245125
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6653812291577220214}
+  m_GameObject: {fileID: 9220142308127113596}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -59,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8368722655750445499, guid: 766e76f2f15117f4abcc418188427825, type: 3}
+  - {fileID: 2100000, guid: 84599418f274f7344958617169d53b60, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -81,34 +82,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &9220142308127113596
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8412537430502529990}
-  m_Layer: 0
-  m_Name: Thrash Can
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8412537430502529990
-Transform:
+--- !u!136 &2652133243872108016
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9220142308127113596}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18.869, y: 27.7, z: 154.94359}
-  m_LocalScale: {x: 0.77339, y: 1, z: 1}
-  m_Children:
-  - {fileID: 5195618277021206573}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.0000001
+  m_Height: 3.53
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: -0.00000017881392}

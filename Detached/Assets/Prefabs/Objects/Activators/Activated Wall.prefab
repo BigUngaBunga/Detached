@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6668375063593790966}
   - component: {fileID: 6668375063593790967}
   - component: {fileID: 681781677650056292}
+  - component: {fileID: 7499613307840520066}
   m_Layer: 0
   m_Name: Activated Wall
   m_TagString: Untagged
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3500dce637708024da2f2e45e4f71cd3, type: 2}
+  - {fileID: 2100000, guid: 0377a199337a8bb4f8d6bd70bd04b365, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,7 +109,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b035913bc0e5dd14cb2f6b4c36f7c2a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   activationRequirement: 0
   isActivated: 0
+  locked: 0
   totalConnections: 0
   activeConnections: 0
+  inactiveAlpha: 0.33
+  minimumAlpha: 0.1
+--- !u!114 &7499613307840520066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6668375063593790965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 89f9d84557956254a9bd87e3f8a9b190
+  hasSpawned: 0

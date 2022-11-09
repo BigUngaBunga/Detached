@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEditor;
+using UnityEngine.Events;
 
 public class SceneObjectItemManager : NetworkBehaviour
 {
@@ -30,7 +31,8 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SyncVar]
     public bool isBeingControlled = false;
 
-    
+    public UnityEvent pickUpLimbEvent = new UnityEvent();
+
     public bool IsBeingControlled
     {
         get { return isBeingControlled; }
@@ -159,5 +161,10 @@ public class SceneObjectItemManager : NetworkBehaviour
             }
         }
         
+    }
+
+    private void OnDestroy()
+    {
+        pickUpLimbEvent.Invoke();
     }
 }

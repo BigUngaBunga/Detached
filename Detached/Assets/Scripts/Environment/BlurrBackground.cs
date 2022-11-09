@@ -79,6 +79,7 @@ public class BlurrBackground : MonoBehaviour
         ClearCommandBuffers();
         RenderBackground();
         BlurTexture();
+
         //Graphics.Blit(backgroundTexture, source);
         Graphics.Blit(source, destination);
     }

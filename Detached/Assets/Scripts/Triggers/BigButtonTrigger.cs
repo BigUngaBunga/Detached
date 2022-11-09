@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BigButtonTrigger : Trigger, IInteractable
@@ -5,6 +6,7 @@ public class BigButtonTrigger : Trigger, IInteractable
     [Header("Box interaction")]
     [SerializeField] private Transform boxPosition;
     [SerializeField] private GameObject box;
+    [SerializeField] private List<GameObject> attachedLimbs = new List<GameObject>();
     private bool HasBox => box != null;
 
     private int TriggeringObjects { 
@@ -27,6 +29,14 @@ public class BigButtonTrigger : Trigger, IInteractable
             ++TriggeringObjects;
         if (other.gameObject.CompareTag("Box"))
             box = other.gameObject;
+        else if (other.gameObject.CompareTag("Leg"))
+        {
+            if (other.transform.parent.gameObject.TryGetComponent(out SceneObjectItemManager item))
+                item.pickUpLimbEvent.AddListener(RemoveTrigger);
+            else
+                attachedLimbs.Add(other.gameObject);
+        }
+        CheckAttachedLimbs();
     }
 
     public void OnTriggerExit(Collider other)
@@ -35,11 +45,15 @@ public class BigButtonTrigger : Trigger, IInteractable
             --TriggeringObjects;
         if (other.gameObject.Equals(box))
             box = null;
+        else if (other.gameObject.CompareTag("Leg") && other.transform.parent.gameObject.TryGetComponent(out SceneObjectItemManager item))
+            item.pickUpLimbEvent.RemoveListener(RemoveTrigger);
+        CheckAttachedLimbs();
     }
 
     public void Interact(GameObject activatingObject)
     {
         var itemManager = activatingObject.GetComponent<InteractableManager>();
+        
         if (HasBox && IsTriggered && HasEnoughArms(activatingObject, 1))
         {
             itemManager.AttemptPickUpItem(box);
@@ -61,5 +75,22 @@ public class BigButtonTrigger : Trigger, IInteractable
         bool canPlace = activatingObject.GetComponent<InteractableManager>().IsCarryingTag("Box");
         bool canPickUp = HasBox && activatingObject.GetComponent<InteractableManager>().CanPickUpItem(box);
         return canPlace || canPickUp;
+    }
+
+    private void RemoveTrigger()
+    {
+        TriggeringObjects--;
+    }
+
+    private void CheckAttachedLimbs()
+    {
+        for (int i = attachedLimbs.Count - 1; i >= 0; i--)
+        {
+            if (!attachedLimbs[i].activeSelf)
+            {
+                RemoveTrigger();
+                attachedLimbs.RemoveAt(i);
+            }
+        }
     }
 }
