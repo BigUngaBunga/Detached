@@ -280,21 +280,8 @@ public class LobbyController : NetworkBehaviour
 
         else if (isClient)
         {
-            CmdPlayerDisconnected();
             CustomNetworkManager.singleton.StopClient();
         }
-    }
-
-    [Command]
-    public void CmdPlayerDisconnected()
-    {
-        RpcPlayerDisconnected();
-    }
-
-    [ClientRpc]
-    public void RpcPlayerDisconnected()
-    {
-        UpdatePlayerList();
     }
 
 
