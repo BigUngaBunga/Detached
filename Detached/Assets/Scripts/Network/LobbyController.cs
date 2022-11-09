@@ -274,7 +274,15 @@ public class LobbyController : NetworkBehaviour
     public void BackButton()
     {
         SteamMatchmaking.LeaveLobby(new CSteamID(localPlayerController.PlayerSteamID));
-        CustomNetworkManager.singleton.StopClient();
+
+        if (isServer)
+            CustomNetworkManager.singleton.StopHost();
+
+        else if (isClient)
+            CustomNetworkManager.singleton.StopClient();
+
+        
+
     }
 
     public void StopServer()
