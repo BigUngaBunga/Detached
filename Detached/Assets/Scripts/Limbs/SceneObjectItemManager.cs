@@ -138,6 +138,7 @@ public class SceneObjectItemManager : NetworkBehaviour
         else
         {
             itemManager.CmdPickUpLimb(gameObject);
+            itemManager.ReturnControllToPlayer();
         }
     }
 

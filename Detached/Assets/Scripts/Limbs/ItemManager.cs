@@ -298,6 +298,14 @@ public class ItemManager : NetworkBehaviour
         ChangeControllingforLimbAndPlayer(limbs[indexControll], true);
         CheckIfAddClientAuthority(limbs[indexControll]);
     }
+
+    public void ReturnControllToPlayer()
+    {
+        //Expected that all handling of other limb controll removement is done
+        gameObject.GetComponent<CharacterControl>().isBeingControlled = true;
+        
+    }
+
     private bool CheckIfOtherPlayerIsControllingLimb(GameObject objToCheck)
     {
         if (objToCheck != gameObject)
@@ -703,6 +711,7 @@ public class ItemManager : NetworkBehaviour
             default:
                 return;
         }
+
         if (!keepSceneObject)
             NetworkServer.Destroy(sceneObject);
     }
