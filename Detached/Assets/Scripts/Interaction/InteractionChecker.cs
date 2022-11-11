@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class InteractionChecker : NetworkBehaviour
 {
+    public static RaycastHit latestHit;
 
     [SerializeField] private float interactionDistance;
     [SerializeField] private GameObject player;
@@ -36,6 +37,7 @@ public class InteractionChecker : NetworkBehaviour
     [Header("Debug values")]
     [Range(-1f, 0f)]
     [SerializeField] private float debugRayAngle = -0.2f;
+    [SerializeField] private bool useDebugRay = false;
 
     private void Awake()
     {
@@ -63,6 +65,7 @@ public class InteractionChecker : NetworkBehaviour
         ray1Hit = ray2Hit = false;
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, interactionDistance, targetMask))
         {
+            latestHit = hit;
             GameObject hitObject = hit.transform.gameObject;
             if (CanInteractWith(hitObject))
             {
@@ -73,19 +76,22 @@ public class InteractionChecker : NetworkBehaviour
         }
         Debug.DrawRay(transform.position, transform.forward * interactionDistance, Color.yellow);
 
-        var debugDirection = (transform.forward + transform.up * debugRayAngle).normalized;
-        if (Physics.Raycast(transform.position, debugDirection, out RaycastHit hit2, interactionDistance, targetMask))
+        if (useDebugRay)
         {
-            GameObject hitObject = hit2.transform.gameObject;
-            if (CanInteractWith(hitObject))
+            var debugDirection = (transform.forward + transform.up * debugRayAngle).normalized;
+            if (Physics.Raycast(transform.position, debugDirection, out RaycastHit hit2, interactionDistance, targetMask))
             {
-                ray2Hit = true;
-                HighlightObject(hitObject);
-                AttemptInteraction(hitObject);
+                GameObject hitObject = hit2.transform.gameObject;
+                if (CanInteractWith(hitObject))
+                {
+                    ray2Hit = true;
+                    HighlightObject(hitObject);
+                    AttemptInteraction(hitObject);
+                }
+
             }
-            
+            Debug.DrawRay(transform.position, debugDirection * interactionDistance, Color.yellow);
         }
-        Debug.DrawRay(transform.position, debugDirection * interactionDistance, Color.yellow);
         
         if (!ray1Hit && !ray2Hit)
             AttemptDropItem();

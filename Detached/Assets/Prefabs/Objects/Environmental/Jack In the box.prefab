@@ -11,7 +11,11 @@ GameObject:
   - component: {fileID: 1200248163498192490}
   - component: {fileID: 2812490052566835663}
   - component: {fileID: 63911883073131781}
-  m_Layer: 0
+  - component: {fileID: 7831519485711923439}
+  - component: {fileID: 6224469818882290327}
+  - component: {fileID: 7314497746213362986}
+  - component: {fileID: 8527436968045581117}
+  m_Layer: 6
   m_Name: Jack In the box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,8 +30,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2009718091947160784}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -128.06, y: 5.5147023, z: 61.357437}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -128.06, y: 5.5147, z: 61.357}
+  m_LocalScale: {x: 232.09651, y: 232.09651, z: 232.09651}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -83,3 +87,55 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &7831519485711923439
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009718091947160784}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.089379445, y: 0.08929406, z: 0.089294046}
+  m_Center: {x: -0.024654932, y: 0, z: -0.000000007450581}
+--- !u!65 &6224469818882290327
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009718091947160784}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.034081593, y: 0.0064611435, z: 0.007209778}
+  m_Center: {x: 0.052303858, y: 0.024588585, z: 0.000022888184}
+--- !u!65 &7314497746213362986
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009718091947160784}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0078125, y: 0.02278328, z: 0.007209778}
+  m_Center: {x: 0.039215088, y: 0.009976864, z: 0.000022888184}
+--- !u!65 &8527436968045581117
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009718091947160784}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.015411377, y: 0.005180359, z: 0.007209778}
+  m_Center: {x: 0.027740479, y: 0.0011754036, z: 0.000022888184}

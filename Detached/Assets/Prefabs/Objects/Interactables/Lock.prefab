@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6420712121833189116}
   - component: {fileID: 6420712121833189117}
   - component: {fileID: 6420712121833189114}
-  - component: {fileID: 6420712121833189115}
   - component: {fileID: 6420712121833189119}
   - component: {fileID: 2561267863909347955}
   - component: {fileID: 5057861621688793261}
@@ -31,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 6420712121833189112}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.93, y: 1.01, z: 8.49}
-  m_LocalScale: {x: 0.81535, y: 1.1515, z: 0.44042698}
+  m_LocalScale: {x: 25.211437, y: 25.21144, z: 25.21144}
   m_Children:
   - {fileID: 6420712122084457337}
   m_Father: {fileID: 0}
@@ -44,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6420712121833189112}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 5190529815572631186, guid: 34ccdd97c3b85324c850f6d227419dc0, type: 3}
 --- !u!23 &6420712121833189114
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64,7 +63,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0bec1a1746860604aa498fe4baf35195, type: 2}
+  - {fileID: 2100000, guid: d528d636a1b5c074fbbf504dde325e1b, type: 2}
+  - {fileID: -1551152243034237503, guid: aaf8613f67905984e85990f8735c887b, type: 3}
+  - {fileID: 696854114824873738, guid: 74b326a0ee23a9b4c81c7c584b13be27, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,19 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6420712121833189115
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6420712121833189112}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6420712121833189119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,6 +131,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f066cc1d96f97348a5bddd68dfb08a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   isHighlighted: 0
   highlightMilliseconds: 50
   renderers: []
