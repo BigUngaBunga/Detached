@@ -9,10 +9,11 @@ using UnityEngine;
 
 public class StackableBox : Carryable
 {
-    [SerializeField]private Transform stackingPosition;
+    [SerializeField]private Transform stackingTransform;
+    [SyncVar] private Vector3 stackingPosition;
+    [SyncVar] private Quaternion stackingRotation;
     [SyncVar] private bool hasBoxAbove;
-    private StackableBox boxBelow;
-    private new Rigidbody rigidbody;
+    [SyncVar] private StackableBox boxBelow;
     private HighlightObject highlighter;
     
     [SerializeField]
@@ -33,20 +34,19 @@ public class StackableBox : Carryable
         get { return showPlacement; }
         set
         {
-            stackingPosition.gameObject.SetActive(value);
+            stackingTransform.gameObject.SetActive(value);
             if (showPlacement != value)
                 highlighter.UpdateRenderers();
             showPlacement = value;
-            
         }
     }
 
-    private void Awake()
+    protected override void Awake()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        base.Awake();
         highlighter = GetComponent<HighlightObject>();
         ShowPlacement = false;
-        offset = stackingPosition.localPosition.z;
+        offset = stackingTransform.localPosition.z;
     }
 
     public override void Interact(GameObject activatingObject)
@@ -55,7 +55,7 @@ public class StackableBox : Carryable
         if (itemManager.IsCarryingTag("Box"))
         {
             itemManager.AttemptDropItem(out GameObject box);
-            StackBox(box.GetComponent<StackableBox>());
+            StackBox(box.GetComponent<StackableBox>(), stackingPosition, stackingRotation);
         }
         else
         {
@@ -66,24 +66,26 @@ public class StackableBox : Carryable
 
     public override bool CanInteract(GameObject activatingObject)
     {
-        bool pickUp = base.CanInteract(activatingObject) && !hasBoxAbove;
-        bool stack = !hasBoxAbove && activatingObject.GetComponent<InteractableManager>().IsCarryingTag("Box");
+        bool pickUp = base.CanInteract(activatingObject);
+        bool stack = !isHeld && activatingObject.GetComponent<InteractableManager>().IsCarryingTag("Box");
         ShowPlacement = stack;
         if (ShowPlacement)
             UpdateStackingPosition();
-        return pickUp || stack;
+        return (pickUp || stack) && !hasBoxAbove;
     }
 
-    private void StackBox(StackableBox newBox)
+    [Command(requiresAuthority = false)]
+    private void StackBox(StackableBox newBox, Vector3 position, Quaternion rotation)
     {
-        newBox.transform.position = stackingPosition.position;
-        newBox.transform.rotation = stackingPosition.rotation;
         newBox.boxBelow = this;
         newBox.IsKinematic = true;
+        newBox.RPCMoveObject(position, rotation);
+        newBox.Drop();
         hasBoxAbove = true;
         IsKinematic = true;
     }
 
+    [Command(requiresAuthority = false)]
     private void RemoveBox()
     {
         IsKinematic = false;
@@ -106,7 +108,9 @@ public class StackableBox : Carryable
         int xOffset = Mathf.Clamp((int)positionDifference.x, -1, 1);
         int zOffset = Mathf.Clamp((int)positionDifference.z, -1, 1);
 
-        Vector3 localPosition = new Vector3(offset * xOffset, stackingPosition.localPosition.y, offset * zOffset);
-        stackingPosition.localPosition = localPosition;         
+        Vector3 localPosition = new Vector3(offset * xOffset, stackingTransform.localPosition.y, offset * zOffset);
+        stackingTransform.localPosition = localPosition;
+        stackingPosition = stackingTransform.position;
+        stackingRotation = stackingTransform.rotation;
     }
 }

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 6190220187196653126}
   - component: {fileID: 4068358516693614702}
   - component: {fileID: 3560124561961863276}
+  - component: {fileID: -581078003399813399}
   m_Layer: 15
   m_Name: Box
   m_TagString: Box
@@ -72,7 +73,7 @@ MonoBehaviour:
   syncInterval: 0.1
   requiredArms: 2
   positionTarget: {fileID: 0}
-  stackingPosition: {fileID: 3015524041554073006}
+  stackingTransform: {fileID: 3015524041554073006}
   offsetFactor: 1.58
 --- !u!114 &636239613569329840
 MonoBehaviour:
@@ -203,6 +204,28 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.01085, y: 2.2116015, z: 2.0340958}
   m_Center: {x: -0.00000035762787, y: 0, z: 0.00000047683716}
+--- !u!114 &-581078003399813399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6568576326963037584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83392ae5c1b731446909f252fd494ae4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  target: {fileID: 5580891508481342793}
+  clientAuthority: 0
+  syncVelocity: 1
+  clearVelocity: 0
+  velocitySensitivity: 0.1
+  syncAngularVelocity: 1
+  clearAngularVelocity: 0
+  angularVelocitySensitivity: 0.1
 --- !u!1 &8107205120476297639
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,7 +238,7 @@ GameObject:
   - component: {fileID: 6195021580764423372}
   - component: {fileID: 5170938712429887674}
   m_Layer: 15
-  m_Name: StackingPosition
+  m_Name: StackingTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

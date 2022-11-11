@@ -28,7 +28,6 @@ public class InteractableManager : NetworkBehaviour
         if (CanPickUpItem(item))
         {
             isCarryingItem = true;
-            ToggleGravity(item);
             carriedItem = item.GetComponent<Carryable>();
             carriedItem.PickUp(holdingPosition);
         }
@@ -67,24 +66,13 @@ public class InteractableManager : NetworkBehaviour
     {
         isCarryingItem = false;
         if(carriedItem != null)
-        {
             carriedItem.Drop();
-            ToggleGravity(carriedItem.gameObject);
-        }
-        
+
     }
 
     private void DropIfCantCarry()
     {
         if (isCarryingItem && carriedItem.GetComponent<Carryable>().RequiredArms > itemManager.NumberOfArms)
             AttemptDropItem();
-    }
-
-    private void ToggleGravity(GameObject item)
-    {
-        item.TryGetComponent(out Rigidbody rigidbody);
-        rigidbody.useGravity = !rigidbody.useGravity;
-        rigidbody.velocity = Vector3.zero;
-        rigidbody.angularVelocity = Vector3.zero;
     }
 }
