@@ -714,20 +714,22 @@ MonoBehaviour:
   rb: {fileID: 3995271110296735851}
   crouchHeight: 1.7
   isBeingControlled: 1
-  movementSpeed: 3.5
-  runSpeed: 7
+  movementSpeed: 175
+  runSpeed: 255
   crouchSpeed: 2.5
   camTransform: {fileID: 0}
   stepRayUpper: {fileID: 7013890819245559801}
   stepRayLower: {fileID: 2608791196355244491}
   stepHeight: 0.3
   stepSmooth: 2
-  jumpForce: 6
+  jumpForce: 7.5
   jumpCD: 0.25
   airMultiplier: 0.01
   groundDrag: 3
+  airDrag: 0.33
+  jumpForceReduction: 0.4
   groundCheckTransform: {fileID: 3995271110789724670}
-  groundCheckRadius: 0.5
+  groundCheckRadius: 0.4
   groundMask:
     serializedVersion: 2
     m_Bits: 32832
