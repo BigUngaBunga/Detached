@@ -8,7 +8,7 @@ public class InteractableManager : NetworkBehaviour
 {
     [SyncVar][SerializeField] private bool isCarryingItem;
     [SerializeField] private Transform holdingPosition;
-    [SyncVar][SerializeField] private PickUpInteractable carriedItem;
+    [SyncVar][SerializeField] private Carryable carriedItem;
     private ItemManager itemManager;
     public bool IsCarryingItem { get { return isCarryingItem; } }
 
@@ -20,7 +20,7 @@ public class InteractableManager : NetworkBehaviour
 
     public bool IsCarryingTag(string tag) => isCarryingItem && carriedItem.CompareTag(tag);
 
-    public bool CanPickUpItem(GameObject item) => !isCarryingItem && item.GetComponent<PickUpInteractable>().RequiredArms <= itemManager.NumberOfArms;
+    public bool CanPickUpItem(GameObject item) => !isCarryingItem && item.GetComponent<Carryable>().RequiredArms <= itemManager.NumberOfArms;
 
     [Command(requiresAuthority = false)]
     public void AttemptPickUpItem(GameObject item)
@@ -29,7 +29,7 @@ public class InteractableManager : NetworkBehaviour
         {
             isCarryingItem = true;
             ToggleGravity(item);
-            carriedItem = item.GetComponent<PickUpInteractable>();
+            carriedItem = item.GetComponent<Carryable>();
             carriedItem.PickUp(holdingPosition);
         }
     }
@@ -76,7 +76,7 @@ public class InteractableManager : NetworkBehaviour
 
     private void DropIfCantCarry()
     {
-        if (isCarryingItem && carriedItem.GetComponent<PickUpInteractable>().RequiredArms > itemManager.NumberOfArms)
+        if (isCarryingItem && carriedItem.GetComponent<Carryable>().RequiredArms > itemManager.NumberOfArms)
             AttemptDropItem();
     }
 

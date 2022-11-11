@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickUpInteractable : NetworkBehaviour, IInteractable
+public class Carryable : NetworkBehaviour, IInteractable
 {
     [Range(1, 2)]
     [SerializeField] protected int requiredArms = 1;
@@ -21,12 +21,14 @@ public class PickUpInteractable : NetworkBehaviour, IInteractable
         Debug.Log("New position target: " + positionTarget);
         this.positionTarget = positionTarget;
         isHeld = true;
+        gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
     }
 
     public void Drop()
     {
         positionTarget = null;
         isHeld = false;
+        gameObject.layer = LayerMask.NameToLayer("Interactable");
     }
 
     public void Update() 
