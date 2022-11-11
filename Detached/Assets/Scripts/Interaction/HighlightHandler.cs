@@ -8,9 +8,11 @@ public class HighlightHandler : MonoBehaviour
     //Made with help from https://xroft666.blogspot.com/2015/07/glow-highlighting-in-unity.html?view=classic
     //GaussianBlur shader from https://github.com/keijiro/GaussianBlur
 
+    [Header("Highlight options")]
     [Range(1, 25)]
     [SerializeField] private int blurIntensity = 3;
     [SerializeField] private bool displayOnlyHighlights;
+    [SerializeField] private bool useSolidBorder;
 
     [Header("Materials")]
     [SerializeField] private Material drawMaterial;
@@ -70,6 +72,7 @@ public class HighlightHandler : MonoBehaviour
 
         Graphics.Blit(highlightRenderTexture, blurTexture1);
 
+        blurMaterial.SetFloat("_DisableAlpha", useSolidBorder ? 1.0f : 0f);
         for (int i = 0; i < blurIntensity; i++)
         {
             Graphics.Blit(blurTexture1, blurTexture2, blurMaterial, 1);
