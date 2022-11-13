@@ -6,6 +6,7 @@ public class BigButtonTrigger : Trigger, IInteractable
     [Header("Box interaction")]
     [SerializeField] private Transform boxPosition;
     [SerializeField] private GameObject box;
+    private Carryable boxInteratable;
     [SerializeField] private List<GameObject> attachedLimbs = new List<GameObject>();
     private bool HasBox => box != null;
 
@@ -28,7 +29,10 @@ public class BigButtonTrigger : Trigger, IInteractable
         if (IsCollisionObject(other.gameObject.tag))
             ++TriggeringObjects;
         if (other.gameObject.CompareTag("Box"))
+        {
             box = other.gameObject;
+            boxInteratable = box.GetComponent<Carryable>();
+        }
         else if (other.gameObject.CompareTag("Leg"))
         {
             if (other.transform.parent.gameObject.TryGetComponent(out SceneObjectItemManager item))
@@ -44,7 +48,10 @@ public class BigButtonTrigger : Trigger, IInteractable
         if (IsCollisionObject(other.gameObject.tag))
             --TriggeringObjects;
         if (other.gameObject.Equals(box))
+        {
             box = null;
+            boxInteratable = null;
+        }
         else if (other.gameObject.CompareTag("Leg") && other.transform.parent.gameObject.TryGetComponent(out SceneObjectItemManager item))
             item.pickUpLimbEvent.RemoveListener(RemoveTrigger);
         CheckAttachedLimbs();
@@ -73,7 +80,7 @@ public class BigButtonTrigger : Trigger, IInteractable
     public bool CanInteract(GameObject activatingObject)
     {
         bool canPlace = activatingObject.GetComponent<InteractableManager>().IsCarryingTag("Box");
-        bool canPickUp = HasBox && activatingObject.GetComponent<InteractableManager>().CanPickUpItem(box);
+        bool canPickUp = HasBox && boxInteratable.CanInteract(activatingObject);
         return canPlace || canPickUp;
     }
 

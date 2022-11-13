@@ -6,7 +6,6 @@ Shader "Custom/GaussianBlurShader"
     }
 
     CGINCLUDE
-
     #include "UnityCG.cginc"
 
     sampler2D _MainTex;

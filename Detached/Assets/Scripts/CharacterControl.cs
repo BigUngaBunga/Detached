@@ -48,6 +48,8 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] private float jumpCD;
     [SerializeField] private float airMultiplier;
     [SerializeField] private float groundDrag;
+    [SerializeField] private float airDrag;
+    [SerializeField] private float jumpForceReduction;
     bool readyToJump;
 
 
@@ -143,7 +145,7 @@ public class CharacterControl : NetworkBehaviour
                 if (isGrounded)
                     rb.drag = groundDrag;
                 else
-                    rb.drag = 0;
+                    rb.drag = airDrag;
             }
 
 
@@ -195,9 +197,9 @@ public class CharacterControl : NetworkBehaviour
 
 
         if (isGrounded)
-            rb.AddForce(moveDir.normalized * movementSpeed * 10f, ForceMode.Force);
+            rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
         else if (!isGrounded)
-            rb.AddForce(moveDir.normalized * movementSpeed * 10f * airMultiplier, ForceMode.Force);
+            rb.AddForce(moveDir.normalized * movementSpeed * 10f * airMultiplier * Time.deltaTime, ForceMode.Force);
 
         //transform.position += moveDir * movementSpeed * Time.deltaTime;
     }
@@ -239,10 +241,7 @@ public class CharacterControl : NetworkBehaviour
           }*/
     }
 
-    private void GroundCheck()
-    {
-        isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask);
-    }
+    private void GroundCheck() => isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask);
 
     private void Jump()
     {
@@ -251,6 +250,7 @@ public class CharacterControl : NetworkBehaviour
             readyToJump = false;
 
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+            rb.velocity *= jumpForceReduction;
 
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 
