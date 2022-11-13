@@ -545,6 +545,7 @@ public class ItemManager : NetworkBehaviour
 
     private void TrajectoryCal()
     {
+        #region trash code
         ////Quaternion dir = Quaternion.AngleAxis(camPoint.rotation.eulerAngles.y, Vector3.up);
         //Vector3 forceInit = Input.mousePosition - mousePressDownPos /*+ camPoint.transform.forward * throwForce + transform.up * throwUpwardForce*/; //idek what im doing anymore
         //Vector3 dir = Quaternion.AngleAxis(camPoint.rotation.eulerAngles.y, Vector3.up) * forceInit;
@@ -553,6 +554,9 @@ public class ItemManager : NetworkBehaviour
 
 
         ////dir = (Input.mousePosition - mousePressDownPos).normalized;
+        ///
+        #endregion
+
         Vector3 upForce = (Input.mousePosition - mousePressDownPos).normalized;
         throwUpwardForce = upForce.y;
         DrawTrajectory.instance.DrawProjection(camPoint.transform.forward,transform.up, throwPoint.position,throwForce,throwUpwardForce);  

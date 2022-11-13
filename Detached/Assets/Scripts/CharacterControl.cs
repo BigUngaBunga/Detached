@@ -30,8 +30,15 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] private Transform camTransform;
 
     [Header("Step up")]
-    [SerializeField] GameObject stepRayUpper;
-    [SerializeField] GameObject stepRayLower;
+    /*[SerializeField] GameObject stepRayUpperFront;
+    [SerializeField] GameObject stepRayLowerFront;
+    [SerializeField] GameObject stepRayUpperBack;
+    [SerializeField] GameObject stepRayLowerBack;
+    [SerializeField] GameObject stepRayLowerBack;
+    [SerializeField] GameObject stepRayLowerBack;
+    [SerializeField] GameObject stepRayLowerBack;
+    [SerializeField] GameObject stepRayLowerBack;*/
+    [SerializeField] GameObject[] stepRays;
     [SerializeField] float stepHeight = 0.3f;
     [SerializeField] float stepSmooth = 2f;
 
@@ -74,7 +81,6 @@ public class CharacterControl : NetworkBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepHeight, stepRayUpper.transform.position.z);
         playerCol = GetComponent<CapsuleCollider>();
         originHeight = playerCol.height;
         ResetJump();
@@ -85,6 +91,16 @@ public class CharacterControl : NetworkBehaviour
 
         playerObjectController = GetComponent<PlayerObjectController>();
 
+        /*stepRays[0].transform.localPosition = new Vector3(stepRays[0].transform.localPosition.x, stepHeight, stepRays[0].transform.localPosition.z);
+        stepRays[2].transform.localPosition = new Vector3(stepRays[2].transform.localPosition.x, stepHeight, stepRays[2].transform.localPosition.z);
+        stepRays[2].transform.localPosition = new Vector3(stepRays[2].transform.localPosition.x, stepHeight, stepRays[2].transform.localPosition.z);
+        stepRays[2].transform.localPosition = new Vector3(stepRays[2].transform.localPosition.x, stepHeight, stepRays[2].transform.localPosition.z);*/
+
+        for (int i = 0; i < stepRays.Length / 2; i++)
+        {
+
+            stepRays[i * 2].transform.localPosition = new Vector3(stepRays[i * 2].transform.localPosition.x, stepHeight, stepRays[i * 2].transform.localPosition.z); //i*2 to get 0,2,4,6 (upper rays position)
+        }
 
         if (!isLocalPlayer) return;
         camTransform = Camera.main.transform;
@@ -96,7 +112,7 @@ public class CharacterControl : NetworkBehaviour
     }
     private void Awake()
     {
-       
+
     }
 
     private void Update()
@@ -115,7 +131,12 @@ public class CharacterControl : NetworkBehaviour
                 Sprint();
                 Crouch();
 
-                stepClimb();
+                #region stepClimbbs
+                stepClimb(stepRays[1], stepRays[0], Vector3.forward);
+                stepClimb(stepRays[3], stepRays[2], Vector3.back);
+                stepClimb(stepRays[5], stepRays[4], Vector3.left);
+                stepClimb(stepRays[7], stepRays[6], Vector3.right);
+                #endregion
 
                 SpeedControl();
                 gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up);
@@ -130,6 +151,7 @@ public class CharacterControl : NetworkBehaviour
 
         }
     }
+
 
     #region Camera focus
     public void SetCameraFocusPlayer() => SetCameraFocus(cameraFollow.transform);
@@ -182,39 +204,41 @@ public class CharacterControl : NetworkBehaviour
         //transform.position += moveDir * movementSpeed * Time.deltaTime;
     }
 
-    void stepClimb()
+    void stepClimb(GameObject rayDirectioLower, GameObject rayDirectionUpper, Vector3 direction)
     {
         RaycastHit hitLower;
-        if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(Vector3.forward), out hitLower, 0.1f))
-        {
-            RaycastHit hitUpper;
-            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(Vector3.forward), out hitUpper, 0.2f))
-            {
-                rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
-            }
-        }
-
         RaycastHit hitLower45;
-        if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(1.5f, 0, 1), out hitLower45, 0.1f))
-        {
-
-            RaycastHit hitUpper45;
-            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(1.5f, 0, 1), out hitUpper45, 0.2f))
-            {
-                rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
-            }
-        }
 
         RaycastHit hitLowerMinus45;
-        if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(-1.5f, 0, 1), out hitLowerMinus45, 0.1f))
+        if (Physics.Raycast(rayDirectioLower.transform.position, transform.TransformDirection(direction), out hitLower, 0.1f))
         {
-
-            RaycastHit hitUpperMinus45;
-            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(-1.5f, 0, 1), out hitUpperMinus45, 0.2f))
+            RaycastHit hitUpper;
+            if (!Physics.Raycast(rayDirectionUpper.transform.localPosition, transform.TransformDirection(direction), out hitUpper, 0.2f))
             {
                 rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
             }
         }
+
+
+        /*  else if (Physics.Raycast(rayDirectioLower.transform.position, transform.TransformDirection(1.5f, 0, 1), out hitLower45, 0.1f))
+          {
+
+              RaycastHit hitUpper45;
+              if (!Physics.Raycast(rayDirectionUpper.transform.localPosition, transform.TransformDirection(1.5f, 0, 1), out hitUpper45, 0.2f))
+              {
+                  rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
+              }
+          }
+
+          else if (Physics.Raycast(rayDirectioLower.transform.position, transform.TransformDirection(-1.5f, 0, 1), out hitLowerMinus45, 0.1f))
+          {
+
+              RaycastHit hitUpperMinus45;
+              if (!Physics.Raycast(rayDirectionUpper.transform.localPosition, transform.TransformDirection(-1.5f, 0, 1), out hitUpperMinus45, 0.2f))
+              {
+                  rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f);
+              }
+          }*/
     }
 
     private void GroundCheck() => isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask);

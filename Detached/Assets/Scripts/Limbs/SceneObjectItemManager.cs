@@ -151,6 +151,7 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     }
 
+
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Ground")
