@@ -33,6 +33,9 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     public UnityEvent pickUpLimbEvent = new UnityEvent();
 
+    public GameObject orignalOwner;
+
+    
     public bool IsBeingControlled
     {
         get { return isBeingControlled; }
@@ -52,6 +55,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     public bool test = true;
 
     public ItemManager itemManager;
+    
 
     private void Start()
     {
@@ -91,6 +95,7 @@ public class SceneObjectItemManager : NetworkBehaviour
             {
                 NetworkClient.localPlayer.GetComponent<ItemManager>().CmdPickUpLimb(gameObject);
             }
+            
         }
 
         //Todo Needs to be changed to a more specific pickup action
@@ -118,7 +123,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     public void TryPickUp()
     {
         Debug.Log("Attempting pickup");
-        var itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
+        var itemManager = orignalOwner.GetComponent<ItemManager>();
         if (!IsBeingControlled && itemManager.CheckIfMissingLimb(thisLimb))
         {
             Debug.Log("Picking it up");
@@ -145,11 +150,10 @@ public class SceneObjectItemManager : NetworkBehaviour
     [ClientRpc]
     public void RpcUpdatePosition(Vector3 safeLocation)
     {
-        //So it dosne't cvollide with ground or other limbs
+        //So it dosne't collide with ground or other limbs
         gameObject.transform.position = safeLocation + new Vector3(0,2,0);
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-
     }
 
     public void OnCollisionEnter(Collision collision)

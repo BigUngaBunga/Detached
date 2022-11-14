@@ -493,7 +493,8 @@ public class ItemManager : NetworkBehaviour
             case Limb_enum.Head:
                 newSceneObject = Instantiate(wrapperSceneObject, throwpoint, headObject.transform.rotation);
                 SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
-                SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn               
+                SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
+                SceneObjectScript.orignalOwner = gameObject;
                 NetworkServer.Spawn(newSceneObject, connectionToClient); //Set Authority to client att spawn since no other player should be able to control it.
                 SceneObjectScript.detached = true;
                 headDetached = true;
@@ -663,6 +664,7 @@ public class ItemManager : NetworkBehaviour
     {
         SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
         SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
+        SceneObjectScript.orignalOwner = gameObject;
         NetworkServer.Spawn(newSceneObject);
         SceneObjectScript.detached = true;
     }
