@@ -123,7 +123,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     public void TryPickUp()
     {
         Debug.Log("Attempting pickup");
-        var itemManager = orignalOwner.GetComponent<ItemManager>();
+        var itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
         if (!IsBeingControlled && itemManager.CheckIfMissingLimb(thisLimb))
         {
             Debug.Log("Picking it up");
@@ -142,6 +142,7 @@ public class SceneObjectItemManager : NetworkBehaviour
         }
         else
         {
+            var itemManager = orignalOwner.GetComponent<ItemManager>();
             itemManager.CmdPickUpLimb(gameObject);
             itemManager.ReturnControllToPlayer();
         }
