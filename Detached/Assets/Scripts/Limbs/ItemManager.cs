@@ -666,9 +666,9 @@ public class ItemManager : NetworkBehaviour
     {
         SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
         SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
-        SceneObjectScript.orignalOwner = orignalOwner;
         NetworkServer.Spawn(newSceneObject);
         SceneObjectScript.detached = true;
+        SceneObjectScript.orignalOwner = orignalOwner;
     }
 
     #endregion

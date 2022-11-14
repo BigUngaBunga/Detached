@@ -33,6 +33,7 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     public UnityEvent pickUpLimbEvent = new UnityEvent();
 
+    [SyncVar]
     public GameObject orignalOwner;
 
     
