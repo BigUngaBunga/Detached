@@ -41,6 +41,10 @@ public class BigButtonTrigger : Trigger, IInteractable
                 attachedLimbs.Add(other.gameObject);
         }
         CheckAttachedLimbs();
+
+        //FMOD bigbuttonsound
+        //FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/BigButtonEntry", GetComponent<Transform>().position);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/BigButtonEntry", GetComponent<Transform>().position);
     }
 
     public void OnTriggerExit(Collider other)
