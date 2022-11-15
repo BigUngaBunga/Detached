@@ -105,6 +105,7 @@ MonoBehaviour:
   headLimb: {fileID: 5016323429893373100, guid: afde08a2634046842bfc7b119841b043, type: 3}
   armLimb: {fileID: 7288167354067205533, guid: 3b5a5e83b8ffbad46933e054df1adc5b, type: 3}
   legLimb: {fileID: 989074882197244407, guid: 7ca831ac0a1e3054a97182df0dd72a00, type: 3}
+  NumOfTimeLimbCanFallOut: 3
   groundMask:
     serializedVersion: 2
     m_Bits: 32785
@@ -112,6 +113,10 @@ MonoBehaviour:
   detached: 0
   thisLimb: 0
   isBeingControlled: 0
+  pickUpLimbEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  orignalOwner: {fileID: 0}
   test: 1
   itemManager: {fileID: 0}
 --- !u!54 &-7261762353476088667
@@ -166,6 +171,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  speed: 10
+  camTransform: {fileID: 0}
 --- !u!114 &6247909107761634463
 MonoBehaviour:
   m_ObjectHideFlags: 0
