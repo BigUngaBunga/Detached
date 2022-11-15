@@ -23,6 +23,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     private KeyCode detachKeyLeg;
 
     private HighlightObject highlight;
+    private ArmInteraction armInteractor;
 
     [SyncVar(hook = nameof(OnChangeDetached))]
     public bool detached = false;
@@ -81,7 +82,7 @@ public class SceneObjectItemManager : NetworkBehaviour
                     break;
                 case ItemManager.Limb_enum.Arm:
                     Instantiate(armLimb, transform.position, transform.rotation, transform);
-                    gameObject.AddComponent<ArmInteraction>();
+                    armInteractor = gameObject.AddComponent<ArmInteraction>();
                     break;
                 case ItemManager.Limb_enum.Leg:
                     Instantiate(legLimb, transform.position, transform.rotation, transform);
