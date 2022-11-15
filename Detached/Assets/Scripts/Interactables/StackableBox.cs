@@ -66,6 +66,8 @@ public class StackableBox : Carryable
 
     public override bool CanInteract(GameObject activatingObject)
     {
+        if (!activatingObject.CompareTag("Player"))
+            return false;
         bool pickUp = base.CanInteract(activatingObject);
         bool stack = !isHeld && activatingObject.GetComponent<InteractableManager>().IsCarryingTag("Box");
         ShowPlacement = stack;

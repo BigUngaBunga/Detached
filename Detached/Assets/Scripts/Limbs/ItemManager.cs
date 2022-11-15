@@ -198,19 +198,20 @@ public class ItemManager : NetworkBehaviour
     }
     void Update()
     {
-        if (!isLocalPlayer || !AllowInteraction) return;
-
+        if (!isLocalPlayer) return;
+        if (Input.GetKeyDown(keySwitchBetweenLimbs))
+        {
+            GetAllLimbsInScene();
+            ChangeLimbControll();
+        }
+        if (!AllowInteraction) return;
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
             CmdDropLimb(Limb_enum.Head, gameObject);
         if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
             CmdDropLimb(Limb_enum.Arm, gameObject);
         if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
             CmdDropLimb(Limb_enum.Leg, gameObject);
-        if (Input.GetKeyDown(keySwitchBetweenLimbs))
-        {
-            GetAllLimbsInScene();
-            ChangeLimbControll();
-        }
+
         if (Input.GetKeyDown(selectHeadKey))
             selectedLimbToThrow = Limb_enum.Head;
         if (Input.GetKeyDown(selectArmKey))
@@ -322,10 +323,14 @@ public class ItemManager : NetworkBehaviour
         if (objToCheck == gameObject)
         {
             gameObject.GetComponent<CharacterControl>().isBeingControlled = value;
+            isControllingLimb = !value;
+            AllowInteraction = value;
         }
         else
         {
-            objToCheck.GetComponent<SceneObjectItemManager>().IsBeingControlled = value;
+            var sceneObject = objToCheck.GetComponent<SceneObjectItemManager>();
+            sceneObject.IsBeingControlled = value;
+            sceneObject.itemManager = value ? this : null;
         }
     }
 

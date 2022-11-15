@@ -79,9 +79,13 @@ public class BigButtonTrigger : Trigger, IInteractable
 
     public bool CanInteract(GameObject activatingObject)
     {
-        bool canPlace = activatingObject.GetComponent<InteractableManager>().IsCarryingTag("Box");
-        bool canPickUp = HasBox && boxInteratable.CanInteract(activatingObject);
-        return canPlace || canPickUp;
+        if (activatingObject.CompareTag("Player"))
+        {
+            bool canPlace = activatingObject.GetComponent<InteractableManager>().IsCarryingTag("Box");
+            bool canPickUp = HasBox && boxInteratable.CanInteract(activatingObject);
+            return canPlace || canPickUp;
+        }
+        return false;
     }
 
     private void RemoveTrigger()

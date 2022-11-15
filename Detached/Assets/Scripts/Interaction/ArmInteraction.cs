@@ -41,9 +41,10 @@ public class ArmInteraction : NetworkBehaviour
     private bool IsValidInteractable(GameObject gameObject, out IInteractable interactable)
     {
         interactable = null;
-        bool isInteractableLayer = gameObject.layer == 15;
-        bool isInteractable = gameObject.TryGetComponent(out interactable);
-        return isInteractableLayer && isInteractable;
+        bool isValid = false;
+        if (gameObject.layer == 15)
+            isValid = gameObject.TryGetComponent(out interactable);
+        return isValid;
     }
 
     private IInteractable GetClosestInteractable()

@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using UnityEditor;
 using UnityEngine.Events;
+using LimbType = ItemManager.Limb_enum;
 
 public class SceneObjectItemManager : NetworkBehaviour
 {
@@ -26,7 +27,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SyncVar(hook = nameof(OnChangeDetached))]
     public bool detached = false;
     [SyncVar]
-    public ItemManager.Limb_enum thisLimb;
+    public LimbType thisLimb;
 
     [SyncVar]
     public bool isBeingControlled = false;
@@ -80,6 +81,7 @@ public class SceneObjectItemManager : NetworkBehaviour
                     break;
                 case ItemManager.Limb_enum.Arm:
                     Instantiate(armLimb, transform.position, transform.rotation, transform);
+                    gameObject.AddComponent<ArmInteraction>();
                     break;
                 case ItemManager.Limb_enum.Leg:
                     Instantiate(legLimb, transform.position, transform.rotation, transform);
@@ -89,29 +91,29 @@ public class SceneObjectItemManager : NetworkBehaviour
     }
 
     void Update()
-    {       
-        if (thisLimb == ItemManager.Limb_enum.Head && hasAuthority)
+    {
+        if (thisLimb == LimbType.Head && hasAuthority)
         {
             if (hasAuthority && Input.GetKeyDown(detachKeyHead))
             {
                 NetworkClient.localPlayer.GetComponent<ItemManager>().CmdPickUpLimb(gameObject);
             }
-            
         }
-
+        if (thisLimb == LimbType.Arm && IsBeingControlled && itemManager.isLocalPlayer)
+            armInteractor.UpdateInteractor(Input.GetKeyDown(KeyCode.E));
         //Todo Needs to be changed to a more specific pickup action
         if (Input.GetKeyDown(KeyCode.T) && !IsBeingControlled)
         {
             var itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
             switch (thisLimb)
             {
-                case ItemManager.Limb_enum.Arm:
+                case LimbType.Arm:
                     if (itemManager.rightArmDetached || itemManager.leftArmDetached)
                     {
                         itemManager.CmdPickUpLimb(gameObject);
                     }
                     break;
-                case ItemManager.Limb_enum.Leg:
+                case LimbType.Leg:
                     if (itemManager.rightLegDetached || itemManager.leftLegDetached)
                     {
                         itemManager.CmdPickUpLimb(gameObject);

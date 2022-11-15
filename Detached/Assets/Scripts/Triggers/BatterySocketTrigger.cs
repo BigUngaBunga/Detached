@@ -50,7 +50,11 @@ public class BatterySocketTrigger : Trigger, IInteractable
 
     public bool CanInteract(GameObject activatingObject)
     {
-        var interactableManager = activatingObject.GetComponent<InteractableManager>();
-        return interactableManager.IsCarryingTag("Battery") || (!interactableManager.IsCarryingItem && IsTriggered);
+        if (activatingObject.CompareTag("Player"))
+        {
+            var interactableManager = activatingObject.GetComponent<InteractableManager>();
+            return interactableManager.IsCarryingTag("Battery") || (!interactableManager.IsCarryingItem && IsTriggered);
+        }
+        return false;
     }
 }
