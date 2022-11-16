@@ -7,9 +7,14 @@ using System;
 
 public class PlayerSpawnSystem : NetworkBehaviour {
 
-    [SerializeField] private GameObject playerPrefab = null;
+    [SerializeField] private GameObject playerPrefabDeta = null;
+    [SerializeField] private GameObject playerPrefabChed = null;
+
+    private GameObject playerObjToSpawn = null;
 
     private static List<Transform> spawnPoints = new List<Transform>();
+    private  List<GameObject> playerPrefabs = new List<GameObject>();
+
 
     private int nextIndex = 0;
 
@@ -41,7 +46,8 @@ public class PlayerSpawnSystem : NetworkBehaviour {
 
     public override void OnStartServer()
     {
-        playerPrefab = Manager.gamePlayerPrefab;
+        playerPrefabs.Add(playerPrefabChed);
+        playerPrefabs.Add(playerPrefabDeta);
         CustomNetworkManager.OnServerReadied += SpawnPlayer;
     }
 
@@ -55,8 +61,9 @@ public class PlayerSpawnSystem : NetworkBehaviour {
     public void SpawnPlayer(NetworkConnectionToClient conn)
     {
         Transform spawnPoint = spawnPoints.ElementAtOrDefault(nextIndex);
+        playerObjToSpawn = playerPrefabs.ElementAtOrDefault(nextIndex);
 
-        GameObject playerInstance = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+        GameObject playerInstance = Instantiate(playerObjToSpawn, spawnPoint.position, spawnPoint.rotation);
         if(conn.identity != null)
         NetworkServer.Destroy(conn.identity.gameObject);
         NetworkServer.ReplacePlayerForConnection(conn, playerInstance);
