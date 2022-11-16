@@ -4,6 +4,7 @@ using UnityEngine;
 using Mirror;
 using UnityEditor;
 using UnityEngine.Events;
+using LimbType = ItemManager.Limb_enum;
 
 public class SceneObjectItemManager : NetworkBehaviour
 {
@@ -22,17 +23,22 @@ public class SceneObjectItemManager : NetworkBehaviour
     private KeyCode detachKeyLeg;
 
     private HighlightObject highlight;
+    private ArmInteraction armInteractor;
 
     [SyncVar(hook = nameof(OnChangeDetached))]
     public bool detached = false;
     [SyncVar]
-    public ItemManager.Limb_enum thisLimb;
+    public LimbType thisLimb;
 
     [SyncVar]
     public bool isBeingControlled = false;
 
     public UnityEvent pickUpLimbEvent = new UnityEvent();
 
+    [SyncVar]
+    public GameObject orignalOwner;
+
+    
     public bool IsBeingControlled
     {
         get { return isBeingControlled; }
@@ -52,6 +58,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     public bool test = true;
 
     public ItemManager itemManager;
+    
 
     private void Start()
     {
@@ -75,6 +82,7 @@ public class SceneObjectItemManager : NetworkBehaviour
                     break;
                 case ItemManager.Limb_enum.Arm:
                     Instantiate(armLimb, transform.position, transform.rotation, transform);
+                    armInteractor = gameObject.AddComponent<ArmInteraction>();
                     break;
                 case ItemManager.Limb_enum.Leg:
                     Instantiate(legLimb, transform.position, transform.rotation, transform);
@@ -84,28 +92,29 @@ public class SceneObjectItemManager : NetworkBehaviour
     }
 
     void Update()
-    {       
-        if (thisLimb == ItemManager.Limb_enum.Head && hasAuthority)
+    {
+        if (thisLimb == LimbType.Head && hasAuthority)
         {
             if (hasAuthority && Input.GetKeyDown(detachKeyHead))
             {
                 NetworkClient.localPlayer.GetComponent<ItemManager>().CmdPickUpLimb(gameObject);
             }
         }
-
+        if (thisLimb == LimbType.Arm && IsBeingControlled && itemManager.isLocalPlayer)
+            armInteractor.UpdateInteractor(Input.GetKeyDown(KeyCode.E));
         //Todo Needs to be changed to a more specific pickup action
         if (Input.GetKeyDown(KeyCode.T) && !IsBeingControlled)
         {
             var itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
             switch (thisLimb)
             {
-                case ItemManager.Limb_enum.Arm:
+                case LimbType.Arm:
                     if (itemManager.rightArmDetached || itemManager.leftArmDetached)
                     {
                         itemManager.CmdPickUpLimb(gameObject);
                     }
                     break;
-                case ItemManager.Limb_enum.Leg:
+                case LimbType.Leg:
                     if (itemManager.rightLegDetached || itemManager.leftLegDetached)
                     {
                         itemManager.CmdPickUpLimb(gameObject);
@@ -137,19 +146,21 @@ public class SceneObjectItemManager : NetworkBehaviour
         }
         else
         {
+            var itemManager = orignalOwner.GetComponent<ItemManager>();
             itemManager.CmdPickUpLimb(gameObject);
+            itemManager.ReturnControllToPlayer();
         }
     }
 
     [ClientRpc]
     public void RpcUpdatePosition(Vector3 safeLocation)
     {
-        //So it dosne't cvollide with ground or other limbs
+        //So it dosne't collide with ground or other limbs
         gameObject.transform.position = safeLocation + new Vector3(0,2,0);
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-
     }
+
 
     public void OnCollisionEnter(Collision collision)
     {

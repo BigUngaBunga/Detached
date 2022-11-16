@@ -54,6 +54,13 @@ public class SteamLobby : MonoBehaviour
         SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, Manager.maxConnections);
     }
 
+
+    private void OnLobbyChatUpdate(LobbyChatUpdate_t callback)
+    {
+        Debug.Log("LobbyChatUpdate");
+        //GameObject.Find("LobbyController").GetComponent<LobbyController>().UpdatePlayerList();
+    }
+
     private void OnLobbyCreated(LobbyCreated_t callback)
     {
         if (callback.m_eResult != EResult.k_EResultOK) { return; }

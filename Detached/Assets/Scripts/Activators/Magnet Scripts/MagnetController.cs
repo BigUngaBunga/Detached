@@ -76,6 +76,11 @@ public class MagnetController : NetworkBehaviour, IInteractable
         isPlayerPresent = false;
         controllingPlayer = null;
     }
-    
-    public bool CanInteract(GameObject activatingObject) => activatingObject.GetComponent<ItemManager>().NumberOfArms >= 1 && !isPlayerPresent;
+
+    public bool CanInteract(GameObject activatingObject)
+    {
+        if (activatingObject.CompareTag("Player"))
+            return activatingObject.GetComponent<ItemManager>().NumberOfArms >= 1 && !isPlayerPresent;
+        return false;
+    }
 }

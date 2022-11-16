@@ -64,5 +64,12 @@ public class Unlock : NetworkBehaviour, IInteractable
             UnlockObject(key);
     }
 
-    public bool CanInteract(GameObject activatingObject) => activatingObject.GetComponent<InteractableManager>().IsCarryingTag("Key");
+    public bool CanInteract(GameObject activatingObject)
+    {
+        if (activatingObject.CompareTag("Player"))
+        {
+            return activatingObject.GetComponent<InteractableManager>().IsCarryingTag("Key");
+        }
+        return false;
+    }
 }

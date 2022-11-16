@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 3590499212644541857}
   - component: {fileID: 467212830055098884}
   - component: {fileID: 2422700058964172494}
-  m_Layer: 0
+  - component: {fileID: 5527700873798457092}
+  m_Layer: 6
   m_Name: Wood Triangle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,11 +28,11 @@ Transform:
   m_GameObject: {fileID: 4224328820046380827}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -110.240944, y: 1.392, z: 65.97}
-  m_LocalScale: {x: 119.30672, y: 38.67434, z: 42.04991}
+  m_LocalScale: {x: 1504.9452, y: 614.79407, z: 341.92044}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &467212830055098884
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -81,3 +82,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5527700873798457092
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4224328820046380827}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -590516967010013818, guid: c7477e48f4fdca541907eac1d3c9801a, type: 3}

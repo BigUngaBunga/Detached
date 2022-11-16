@@ -1,7 +1,7 @@
 ﻿using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
-
+using LimbType = ItemManager.Limb_enum;
 
 public abstract class Trigger : NetworkBehaviour
 {
@@ -43,9 +43,14 @@ public abstract class Trigger : NetworkBehaviour
             activator.TriggerInactive();
     }
 
+    protected bool IsLimbOfType(GameObject limb, LimbType type) => limb.CompareTag("Limb") && limb.GetComponent<SceneObjectItemManager>().thisLimb == type;
 
-
-    protected bool HasEnoughArms(GameObject player, int requiredArms) => player.GetComponent<ItemManager>().NumberOfArms >= requiredArms;
+    protected bool HasEnoughArms(GameObject activatingObject, int requiredArms)
+    {
+        if (activatingObject.TryGetComponent(out ItemManager manager))
+            return manager.NumberOfArms >= requiredArms;
+        return IsLimbOfType(activatingObject, LimbType.Arm) && requiredArms < 2;
+    }
 
     public void Awake()
     {

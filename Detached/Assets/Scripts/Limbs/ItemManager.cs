@@ -198,19 +198,20 @@ public class ItemManager : NetworkBehaviour
     }
     void Update()
     {
-        if (!isLocalPlayer || !AllowInteraction) return;
-
-        if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
-            CmdDropLimb(Limb_enum.Head);
-        if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
-            CmdDropLimb(Limb_enum.Arm);
-        if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
-            CmdDropLimb(Limb_enum.Leg);
+        if (!isLocalPlayer) return;
         if (Input.GetKeyDown(keySwitchBetweenLimbs))
         {
             GetAllLimbsInScene();
             ChangeLimbControll();
         }
+        if (!AllowInteraction) return;
+        if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
+            CmdDropLimb(Limb_enum.Head, gameObject);
+        if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
+            CmdDropLimb(Limb_enum.Arm, gameObject);
+        if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
+            CmdDropLimb(Limb_enum.Leg, gameObject);
+
         if (Input.GetKeyDown(selectHeadKey))
             selectedLimbToThrow = Limb_enum.Head;
         if (Input.GetKeyDown(selectArmKey))
@@ -298,6 +299,14 @@ public class ItemManager : NetworkBehaviour
         ChangeControllingforLimbAndPlayer(limbs[indexControll], true);
         CheckIfAddClientAuthority(limbs[indexControll]);
     }
+
+    public void ReturnControllToPlayer()
+    {
+        //Expected that all handling of other limb controll removement is done
+        gameObject.GetComponent<CharacterControl>().isBeingControlled = true;
+        
+    }
+
     private bool CheckIfOtherPlayerIsControllingLimb(GameObject objToCheck)
     {
         if (objToCheck != gameObject)
@@ -314,10 +323,14 @@ public class ItemManager : NetworkBehaviour
         if (objToCheck == gameObject)
         {
             gameObject.GetComponent<CharacterControl>().isBeingControlled = value;
+            isControllingLimb = !value;
+            AllowInteraction = value;
         }
         else
         {
-            objToCheck.GetComponent<SceneObjectItemManager>().IsBeingControlled = value;
+            var sceneObject = objToCheck.GetComponent<SceneObjectItemManager>();
+            sceneObject.IsBeingControlled = value;
+            sceneObject.itemManager = value ? this : null;
         }
     }
 
@@ -377,17 +390,17 @@ public class ItemManager : NetworkBehaviour
     #endregion
 
     [Command]
-    void CmdDropLimb(Limb_enum limb)
+    void CmdDropLimb(Limb_enum limb, GameObject orginalOwner)
     {
-        DropLimb(limb);
+        DropLimb(limb, orginalOwner);
     }
     [Command]
-    void CmdThrowLimb(Limb_enum limb, Vector3 force, Vector3 throwPoint)
+    void CmdThrowLimb(Limb_enum limb, Vector3 force, Vector3 throwPoint, GameObject orignalOwner)
     {
         //sceneObject.GetComponent<Rigidbody>().useGravity = true;
         //sceneObject.GetComponent<SceneObjectItemManager>().IsBeingControlled = false;
 
-        ThrowLimb(force, CmdThrowDropLimb(limb, throwPoint));
+        ThrowLimb(force, CmdThrowDropLimb(limb, throwPoint, orignalOwner));
     }
 
 
@@ -416,7 +429,7 @@ public class ItemManager : NetworkBehaviour
     }
 
     [Server]
-    GameObject DropLimb(Limb_enum limb)
+    GameObject DropLimb(Limb_enum limb, GameObject orginalOwner)
     {
         GameObject newSceneObject = null;
         SceneObjectItemManager SceneObjectScript = null;
@@ -435,13 +448,13 @@ public class ItemManager : NetworkBehaviour
                 if (!leftArmDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, leftArmParent.transform.position, leftArmParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, orginalOwner);
                     leftArmDetached = true;
                 }
                 else if (!rightArmDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, rightArmParent.transform.position, rightArmParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, orginalOwner);
                     rightArmDetached = true;
                 }
                 else
@@ -453,13 +466,13 @@ public class ItemManager : NetworkBehaviour
                 if (!leftLegDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, leftLegParent.transform.position, leftLegParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, orginalOwner);
                     leftLegDetached = true;
                 }
                 else if (!rightLegDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, rightArmParent.transform.position, rightArmParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, orginalOwner);
                     rightLegDetached = true;
                 }
                 else
@@ -476,7 +489,7 @@ public class ItemManager : NetworkBehaviour
     }
 
     [Server]
-    GameObject CmdThrowDropLimb(Limb_enum limb, Vector3 throwpoint)
+    GameObject CmdThrowDropLimb(Limb_enum limb, Vector3 throwpoint, GameObject originalOwner)
     {
         GameObject newSceneObject = null;
         SceneObjectItemManager SceneObjectScript = null;
@@ -485,7 +498,8 @@ public class ItemManager : NetworkBehaviour
             case Limb_enum.Head:
                 newSceneObject = Instantiate(wrapperSceneObject, throwpoint, headObject.transform.rotation);
                 SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
-                SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn               
+                SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
+                SceneObjectScript.orignalOwner = originalOwner;
                 NetworkServer.Spawn(newSceneObject, connectionToClient); //Set Authority to client att spawn since no other player should be able to control it.
                 SceneObjectScript.detached = true;
                 headDetached = true;
@@ -497,7 +511,7 @@ public class ItemManager : NetworkBehaviour
                 if (!leftArmDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, throwpoint, leftArmParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, originalOwner);
                     leftArmDetached = true;
                 }
                 else
@@ -509,13 +523,13 @@ public class ItemManager : NetworkBehaviour
                 if (!leftLegDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, throwpoint, leftLegParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb , originalOwner);
                     leftLegDetached = true;
                 }
                 else if (!rightLegDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, throwpoint, rightArmParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, originalOwner);
                     rightLegDetached = true;
                 }
                 else
@@ -545,6 +559,7 @@ public class ItemManager : NetworkBehaviour
 
     private void TrajectoryCal()
     {
+        #region trash code
         ////Quaternion dir = Quaternion.AngleAxis(camPoint.rotation.eulerAngles.y, Vector3.up);
         //Vector3 forceInit = Input.mousePosition - mousePressDownPos /*+ camPoint.transform.forward * throwForce + transform.up * throwUpwardForce*/; //idek what im doing anymore
         //Vector3 dir = Quaternion.AngleAxis(camPoint.rotation.eulerAngles.y, Vector3.up) * forceInit;
@@ -553,6 +568,9 @@ public class ItemManager : NetworkBehaviour
 
 
         ////dir = (Input.mousePosition - mousePressDownPos).normalized;
+        ///
+        #endregion
+
         Vector3 upForce = (Input.mousePosition - mousePressDownPos).normalized;
         throwUpwardForce = upForce.y;
         DrawTrajectory.instance.DrawProjection(camPoint.transform.forward,transform.up, throwPoint.position,throwForce,throwUpwardForce);  
@@ -621,7 +639,7 @@ public class ItemManager : NetworkBehaviour
             //ending point - starting point + cam movement
             // dir = (Input.mousePosition - mousePressDownPos).normalized;
             // CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position);
-            CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position);
+            CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position, gameObject);
 
 
         }
@@ -650,13 +668,16 @@ public class ItemManager : NetworkBehaviour
         readyToThrow = true;
     }
 
+    
+
     [Server]
-    private void DropGenericLimb(GameObject newSceneObject, SceneObjectItemManager SceneObjectScript, Limb_enum limb)
+    private void DropGenericLimb(GameObject newSceneObject, SceneObjectItemManager SceneObjectScript, Limb_enum limb, GameObject orignalOwner)
     {
         SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
         SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
         NetworkServer.Spawn(newSceneObject);
         SceneObjectScript.detached = true;
+        SceneObjectScript.orignalOwner = orignalOwner;
     }
 
     #endregion
@@ -703,6 +724,7 @@ public class ItemManager : NetworkBehaviour
             default:
                 return;
         }
+
         if (!keepSceneObject)
             NetworkServer.Destroy(sceneObject);
     }

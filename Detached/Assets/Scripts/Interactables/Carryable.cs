@@ -86,5 +86,10 @@ public class Carryable : NetworkBehaviour, IInteractable
         rigidbody.angularVelocity = Vector3.zero;
     }
 
-    public virtual bool CanInteract(GameObject activatingObject) => !isHeld && activatingObject.GetComponent<InteractableManager>().CanPickUpItem(gameObject);
+    public virtual bool CanInteract(GameObject activatingObject)
+    {
+        if (activatingObject.CompareTag("Player"))
+            return !isHeld && activatingObject.GetComponent<InteractableManager>().CanPickUpItem(gameObject);
+        return false;
+    }
 }
