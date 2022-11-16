@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class Animation : MonoBehaviour
+public class Animation : NetworkBehaviour
 {
     public Animator animator;
+    private NetworkAnimator networkAnimator;
     bool isCarrying = false;
     bool moving = true;
     public Detach detach;
@@ -13,11 +15,13 @@ public class Animation : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         detach = GetComponent<Detach>();
+        networkAnimator = GetComponent<NetworkAnimator>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isLocalPlayer) return;
         // Animation
         if (animator != null)
         {
@@ -26,6 +30,7 @@ public class Animation : MonoBehaviour
                 if (Input.GetKey(KeyCode.W))
                 {
                     animator.SetTrigger("CarryWalk");
+                    networkAnimator.SetTrigger("CarryWalk");
                 }
                 else if (Input.GetKey(KeyCode.S))
                 {

@@ -5472,6 +5472,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60d4a34ed054ad948868912897b7e3b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   animator: {fileID: 4584058045261913879}
   detach: {fileID: 7995944500636038892}
 --- !u!114 &7995944500636038892
@@ -5741,7 +5743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clientAuthority: 0
+  clientAuthority: 1
   animator: {fileID: 4584058045261913879}
 --- !u!1 &7200559197792005935
 GameObject:
