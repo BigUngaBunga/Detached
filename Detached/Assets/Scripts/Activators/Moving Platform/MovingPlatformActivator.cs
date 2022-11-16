@@ -6,10 +6,12 @@ using UnityEngine;
 
 public class MovingPlatformActivator : Activator
 {
-    [Header("Moving platform fields")]
-    [SerializeField] private GameObject platform;
+    [Header("Moving platform variables")]
+    [SerializeField] private float stopWaitTime;
     [SerializeField] private float platformSpeed;
     [SerializeField] private float targetDistance;
+    [Header("Moving platform information")]
+    [SerializeField] private GameObject platform;
     [SerializeField] private bool goingBackwards;
     [SerializeField] private TrackNode targetNode;
 
@@ -70,7 +72,7 @@ public class MovingPlatformActivator : Activator
             }
         }
         else if (isActivated)
-            Invoke(nameof(PickNextStop), 0.1f);
+            Invoke(nameof(PickNextStop), stopWaitTime);
     }
 
     private IEnumerator MoveToNextStop()
