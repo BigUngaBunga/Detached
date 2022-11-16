@@ -523,6 +523,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4617030237609394947}
   - component: {fileID: 2528113410105496435}
+  - component: {fileID: 1136732420}
   m_Layer: 0
   m_Name: ChedRightArm
   m_TagString: Untagged
@@ -606,6 +607,19 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.6162405, y: -0.009645224, z: -1.0199859}
     m_Extent: {x: 0.20770705, y: 0.29373735, z: 0.75142205}
   m_DirtyAABB: 0
+--- !u!65 &1136732420
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828043718582809933}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4919624, y: 0.38838196, z: 0.6082012}
+  m_Center: {x: 2.3006272, y: 1.1230783, z: 0.51907367}
 --- !u!1 &897359289473156687
 GameObject:
   m_ObjectHideFlags: 0
@@ -3459,6 +3473,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4029093978085234783}
   - component: {fileID: 4827675547229063356}
+  - component: {fileID: 773399601}
   m_Layer: 0
   m_Name: ChedHead
   m_TagString: Untagged
@@ -3542,6 +3557,19 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.82201195, y: 0.13325752, z: 0.0059556067}
     m_Extent: {x: 0.46362185, y: 0.32548982, z: 0.40494063}
   m_DirtyAABB: 0
+--- !u!65 &773399601
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4509201223903598031}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.82655454, y: 1.0022467, z: 0.74204934}
+  m_Center: {x: 1.2916934, y: 1.8224602, z: 0.5903313}
 --- !u!1 &4533627259004429643
 GameObject:
   m_ObjectHideFlags: 0
@@ -4122,6 +4150,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4709398497608643133}
   - component: {fileID: 8519346809273249267}
+  - component: {fileID: 1303665115}
   m_Layer: 0
   m_Name: ChedLeftArm
   m_TagString: Untagged
@@ -4205,6 +4234,19 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.59651273, y: -0.000592947, z: 1.0276263}
     m_Extent: {x: 0.18200658, y: 0.2847342, z: 0.7638686}
   m_DirtyAABB: 0
+--- !u!65 &1303665115
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4852505243593736258}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5524517, y: 0.38642168, z: 0.73803}
+  m_Center: {x: 0.25044, y: 1.1293416, z: 0.6535056}
 --- !u!1 &4945893133577187947
 GameObject:
   m_ObjectHideFlags: 0
@@ -4673,6 +4715,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8926847477503848827}
   - component: {fileID: 928898981006546497}
+  - component: {fileID: 28401887}
   m_Layer: 0
   m_Name: ChedRightLeg
   m_TagString: Untagged
@@ -4754,6 +4797,19 @@ SkinnedMeshRenderer:
     m_Center: {x: 1.0779319, y: 0.35437083, z: -0.24892546}
     m_Extent: {x: 1.0896707, y: 0.51646745, z: 0.24572502}
   m_DirtyAABB: 0
+--- !u!65 &28401887
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5872359655522262497}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5426898, y: 2.2497995, z: 1.1659186}
+  m_Center: {x: 1.5675688, y: -1.1429334, z: 0.8321243}
 --- !u!1 &6092629106015054758
 GameObject:
   m_ObjectHideFlags: 0
@@ -4764,6 +4820,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2177882094184726495}
   - component: {fileID: 4314928542174889778}
+  - component: {fileID: 1085090102}
   m_Layer: 0
   m_Name: ChedLeftLeg
   m_TagString: Untagged
@@ -4779,8 +4836,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6092629106015054758}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.2849523, y: 1.9562153, z: -0.6176432}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.021, y: 0.302, z: -0.005}
+  m_LocalScale: {x: 1, y: 0.88491, z: 0.8737}
   m_Children: []
   m_Father: {fileID: 2360596673068432499}
   m_RootOrder: 3
@@ -4845,6 +4902,19 @@ SkinnedMeshRenderer:
     m_Center: {x: 1.067183, y: 0.32793915, z: 0.36499465}
     m_Extent: {x: 1.0928943, y: 0.5720356, z: 0.2789445}
   m_DirtyAABB: 0
+--- !u!65 &1085090102
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6092629106015054758}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.60926265, y: 2.2646482, z: 1.2773377}
+  m_Center: {x: -0.3313865, y: 0.8112037, z: 0.18787035}
 --- !u!1 &6105657971683191085
 GameObject:
   m_ObjectHideFlags: 0
@@ -5102,6 +5172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1731322336892723169}
   - component: {fileID: 2015022324957670931}
+  - component: {fileID: 401743125}
   m_Layer: 0
   m_Name: ChedBody
   m_TagString: Untagged
@@ -5190,6 +5261,19 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.6843026, y: -0.0479317, z: -0.026047796}
     m_Extent: {x: 0.8857294, y: 0.37925032, z: 0.41989124}
   m_DirtyAABB: 0
+--- !u!65 &401743125
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6475681561653359537}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.88131064, y: 1.8341255, z: 0.8673909}
+  m_Center: {x: 1.3032101, y: 0.6349899, z: 0.5388026}
 --- !u!1 &6571757909940443678
 GameObject:
   m_ObjectHideFlags: 0

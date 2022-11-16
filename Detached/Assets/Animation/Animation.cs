@@ -154,6 +154,7 @@ public class Animation : NetworkBehaviour
 
             if (Input.GetKeyDown(KeyCode.Z))
             {
+
                 animator.SetTrigger("Facepalm");
             }
             else if (Input.GetKeyDown(KeyCode.X))
@@ -166,6 +167,8 @@ public class Animation : NetworkBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.V))
             {
+                networkAnimator.SetTrigger("Laugh");
+
                 animator.SetTrigger("Laugh");
             }
         }
