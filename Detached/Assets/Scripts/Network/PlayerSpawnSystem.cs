@@ -7,8 +7,9 @@ using System;
 
 public class PlayerSpawnSystem : NetworkBehaviour {
 
-    [SerializeField] private GameObject playerPrefabDeta = null;
     [SerializeField] private GameObject playerPrefabChed = null;
+    [SerializeField] private GameObject playerPrefabDeta = null;
+    
 
     private GameObject playerObjToSpawn = null;
 
@@ -46,8 +47,8 @@ public class PlayerSpawnSystem : NetworkBehaviour {
 
     public override void OnStartServer()
     {
-        playerPrefabs.Add(playerPrefabChed);
         playerPrefabs.Add(playerPrefabDeta);
+        playerPrefabs.Add(playerPrefabChed);       
         CustomNetworkManager.OnServerReadied += SpawnPlayer;
     }
 
