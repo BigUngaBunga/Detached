@@ -56,7 +56,7 @@ public class BigButtonTrigger : Trigger, IInteractable
         if (IsCollisionObject(other.gameObject.tag))
         {
             --TriggeringObjects;
-            objectsOnButton.Add(other.gameObject);
+            objectsOnButton.Remove(other.gameObject);
         }
         if (other.gameObject.Equals(box))
         {
