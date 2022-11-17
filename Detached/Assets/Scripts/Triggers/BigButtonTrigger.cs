@@ -73,7 +73,7 @@ public class BigButtonTrigger : Trigger, IInteractable
             itemManager.AttemptPickUpItem(box);
         }
         else if (itemManager.IsCarryingTag("Box"))
-            itemManager.AttemptDropItemAt(boxPosition, out GameObject box);
+            itemManager.AttemptDropItemTo(boxPosition, out GameObject box);
     }
 
     public bool CanInteract(GameObject activatingObject)

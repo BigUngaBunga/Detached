@@ -17,7 +17,7 @@ public class ActivatedWall : ActivatedPlatform
     }
 
     [Server]
-    protected override void UpdateCollider(bool isActive) => collider.enabled = !isActive;
+    protected override void RPCUpdateCollider(bool isActive) => collider.enabled = !isActive;
 
     [Server]
     protected override void UpdateAlpha()

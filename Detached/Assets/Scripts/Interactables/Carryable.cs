@@ -50,11 +50,10 @@ public class Carryable : NetworkBehaviour, IInteractable
         gameObject.layer = LayerMask.NameToLayer("Interactable");
     }
 
-    public void DropTo(Transform target)
+    public void DropTo(Vector3 position, Quaternion rotation)
     {
-        positionTarget = target;
-        MoveObject();
         Drop();
+        MoveTo(position, rotation);
     }
 
     public void Update() 
@@ -82,7 +81,7 @@ public class Carryable : NetworkBehaviour, IInteractable
     private void MoveObject() => RPCMoveObject(positionTarget.position, positionTarget.rotation);
 
     [Command(requiresAuthority = false)]
-    public void MoveTo(Vector3 position, Quaternion rotation) => RPCMoveObject(position, rotation);
+    private void MoveTo(Vector3 position, Quaternion rotation) => RPCMoveObject(position, rotation);
 
     [ClientRpc]
     protected void RPCMoveObject(Vector3 position, Quaternion rotation)
