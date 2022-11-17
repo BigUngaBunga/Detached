@@ -45,6 +45,12 @@ public class InteractableManager : NetworkBehaviour
         return false;
     }
 
+    public bool AttemptDropItemAt(Transform targetPosition, out GameObject item)
+    {
+        carriedItem.DropTo(targetPosition);
+        return AttemptDropItem(out item); ;
+    }
+
     public bool AttemptDropItem()
     {
         if (isCarryingItem)

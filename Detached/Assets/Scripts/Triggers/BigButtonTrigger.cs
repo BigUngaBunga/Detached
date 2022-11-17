@@ -41,7 +41,10 @@ public class BigButtonTrigger : Trigger, IInteractable
                 attachedLimbs.Add(other.gameObject);
         }
         CheckAttachedLimbs();
+    }
 
+    protected override void PlaySoundOnTrigger()
+    {
         //FMOD bigbuttonsound
         //FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/BigButtonEntry", GetComponent<Transform>().position);
         FMODUnity.RuntimeManager.PlayOneShot("event:/BigButtonEntry", GetComponent<Transform>().position);
@@ -64,21 +67,13 @@ public class BigButtonTrigger : Trigger, IInteractable
     public void Interact(GameObject activatingObject)
     {
         var itemManager = activatingObject.GetComponent<InteractableManager>();
-        
+
         if (HasBox && IsTriggered && HasEnoughArms(activatingObject, 1))
         {
             itemManager.AttemptPickUpItem(box);
         }
-        else if (itemManager.IsCarryingTag("Box") && itemManager.AttemptDropItem(out GameObject box))
-        {
-            MoveToBoxPosition(box);
-        }
-    }
-
-    private void MoveToBoxPosition(GameObject box)
-    {
-        box.transform.position = boxPosition.position;
-        box.transform.rotation = boxPosition.rotation;
+        else if (itemManager.IsCarryingTag("Box"))
+            itemManager.AttemptDropItemAt(boxPosition, out GameObject box);
     }
 
     public bool CanInteract(GameObject activatingObject)

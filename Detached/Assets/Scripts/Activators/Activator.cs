@@ -43,12 +43,7 @@ public class Activator : NetworkBehaviour
     private void SetActivation(bool value)
     {
         active = value;
-        if (locked)
-        {
-            isActivated = false;
-            return;
-        }
-        isActivated = active;
+        isActivated = active && !locked;
         if (isActivated)
             Activate();
         else

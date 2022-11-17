@@ -34,6 +34,7 @@ public abstract class Trigger : NetworkBehaviour
         data.Activations++;
         foreach (var activator in activators)
             activator.TriggerActive();
+        PlaySoundOnTrigger();
     }
     [Command(requiresAuthority = false)]
     private void StopTrigger()
@@ -41,7 +42,11 @@ public abstract class Trigger : NetworkBehaviour
         isTriggered = false;
         foreach (var activator in activators)
             activator.TriggerInactive();
+        PlaySoundOnStopTrigger();
     }
+
+    protected virtual void PlaySoundOnTrigger(){}
+    protected virtual void PlaySoundOnStopTrigger(){}
 
     protected bool IsLimbOfType(GameObject limb, LimbType type) => limb.CompareTag("Limb") && limb.GetComponent<SceneObjectItemManager>().thisLimb == type;
 

@@ -82,6 +82,7 @@ public class CharacterControl : NetworkBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerCol = GetComponent<CapsuleCollider>();
+        limbManager = GetComponent<ItemManager>();
         originHeight = playerCol.height;
         ResetJump();
         walkSpeed = movementSpeed;

@@ -27,7 +27,7 @@ public class Carryable : NetworkBehaviour, IInteractable
     public void PickUp(Transform positionTarget)
     {
         Debug.Log("New position target: " + positionTarget);
-        RPCSetCollision(false);
+        StartCoroutine(DelayedRPCSetCollision(false, 0.05f));
         RPCSetGravity(false);
         this.positionTarget = positionTarget;
         isHeld = true;
@@ -50,11 +50,23 @@ public class Carryable : NetworkBehaviour, IInteractable
         gameObject.layer = LayerMask.NameToLayer("Interactable");
     }
 
+    public void DropTo(Transform target)
+    {
+        positionTarget = target;
+        MoveObject();
+        Drop();
+    }
+
     public void Update() 
     {
         if (isHeld && positionTarget != null)
             MoveObject();
 
+    }
+    private IEnumerator DelayedRPCSetCollision(bool canCollide, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        RPCSetCollision(canCollide);
     }
 
     [ClientRpc]
@@ -68,6 +80,9 @@ public class Carryable : NetworkBehaviour, IInteractable
 
     [Command(requiresAuthority = false)]
     private void MoveObject() => RPCMoveObject(positionTarget.position, positionTarget.rotation);
+
+    [Command(requiresAuthority = false)]
+    public void MoveTo(Vector3 position, Quaternion rotation) => RPCMoveObject(position, rotation);
 
     [ClientRpc]
     protected void RPCMoveObject(Vector3 position, Quaternion rotation)
