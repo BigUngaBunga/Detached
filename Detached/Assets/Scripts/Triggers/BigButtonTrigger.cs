@@ -6,8 +6,8 @@ public class BigButtonTrigger : Trigger, IInteractable
     [Header("Box interaction")]
     [SerializeField] private Transform boxPosition;
     [SerializeField] private GameObject box;
-    private Carryable boxInteratable;
-    [SerializeField] private List<GameObject> attachedLimbs = new List<GameObject>();
+    private Carryable boxInteractable;
+    [SerializeField] private List<GameObject> objectsOnButton = new List<GameObject>();
     private bool HasBox => box != null;
 
     private int TriggeringObjects { 
@@ -27,20 +27,21 @@ public class BigButtonTrigger : Trigger, IInteractable
     public void OnTriggerEnter(Collider other)
     {
         if (IsCollisionObject(other.gameObject.tag))
+        {
             ++TriggeringObjects;
+            objectsOnButton.Add(other.gameObject);
+        }
         if (other.gameObject.CompareTag("Box"))
         {
             box = other.gameObject;
-            boxInteratable = box.GetComponent<Carryable>();
+            boxInteractable = box.GetComponent<Carryable>();
         }
         else if (other.gameObject.CompareTag("Leg"))
         {
             if (other.transform.parent.gameObject.TryGetComponent(out SceneObjectItemManager item))
                 item.pickUpLimbEvent.AddListener(RemoveTrigger);
-            else
-                attachedLimbs.Add(other.gameObject);
         }
-        CheckAttachedLimbs();
+        CheckObjectsOnButton();
     }
 
     protected override void PlaySoundOnTrigger()
@@ -53,15 +54,19 @@ public class BigButtonTrigger : Trigger, IInteractable
     public void OnTriggerExit(Collider other)
     {
         if (IsCollisionObject(other.gameObject.tag))
+        {
             --TriggeringObjects;
+            objectsOnButton.Add(other.gameObject);
+        }
         if (other.gameObject.Equals(box))
         {
             box = null;
-            boxInteratable = null;
+            boxInteractable = null;
         }
         else if (other.gameObject.CompareTag("Leg") && other.transform.parent.gameObject.TryGetComponent(out SceneObjectItemManager item))
-            item.pickUpLimbEvent.RemoveListener(RemoveTrigger);
-        CheckAttachedLimbs();
+                item.pickUpLimbEvent.RemoveListener(RemoveTrigger);
+
+        CheckObjectsOnButton();
     }
 
     public void Interact(GameObject activatingObject)
@@ -81,7 +86,7 @@ public class BigButtonTrigger : Trigger, IInteractable
         if (activatingObject.CompareTag("Player"))
         {
             bool canPlace = activatingObject.GetComponent<InteractableManager>().IsCarryingTag("Box");
-            bool canPickUp = HasBox && boxInteratable.CanInteract(activatingObject);
+            bool canPickUp = HasBox && boxInteractable.CanInteract(activatingObject);
             return canPlace || canPickUp;
         }
         return false;
@@ -92,14 +97,14 @@ public class BigButtonTrigger : Trigger, IInteractable
         TriggeringObjects--;
     }
 
-    private void CheckAttachedLimbs()
+    private void CheckObjectsOnButton()
     {
-        for (int i = attachedLimbs.Count - 1; i >= 0; i--)
+        for (int i = objectsOnButton.Count - 1; i >= 0; i--)
         {
-            if (!attachedLimbs[i].activeSelf)
+            if (objectsOnButton[i] == null || !objectsOnButton[i].activeSelf)
             {
                 RemoveTrigger();
-                attachedLimbs.RemoveAt(i);
+                objectsOnButton.RemoveAt(i);
             }
         }
     }
