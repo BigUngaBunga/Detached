@@ -61,11 +61,7 @@ public class InteractionChecker : NetworkBehaviour
             return;
         ray1Hit = ray2Hit = false;
         var hits = Physics.RaycastAll(sourceTransform.position, transform.forward, interactionDistance);
-        var hit = GetClosestHit(hits);
-        if (hit != null)
-            Debug.Log("Closest hit was " + hit.name);
-            
-        ray1Hit = EvaluateHit(hit);
+        ray1Hit = EvaluateHit(GetClosestHit(hits));
         Debug.DrawRay(sourceTransform.position, transform.forward * interactionDistance, Color.yellow);
 
         //DEBUG
@@ -146,7 +142,7 @@ public class InteractionChecker : NetworkBehaviour
         {
             if (hits[i].collider == null || hits[i].collider.isTrigger)
                 continue;
-            float distance = Vector3.Distance(sourceTransform.position, hits[i].transform.position);
+            float distance = Vector3.Distance(sourceTransform.position, hits[i].point);
             if (distance < bestDistance)
             {
                 bestDistance = distance;
