@@ -107,8 +107,8 @@ public class StackableBox : Carryable
         Vector3 positionDifference = transform.position - lookingAt;
         positionDifference *= offsetFactor;
 
-        int xOffset = Mathf.Clamp((int)positionDifference.x, -1, 1);
-        int zOffset = Mathf.Clamp((int)positionDifference.z, -1, 1);
+        int xOffset = Mathf.Clamp((int)(positionDifference.x), -1, 1);
+        int zOffset = Mathf.Clamp((int)(positionDifference.z), -1, 1);
 
         Vector3 localPosition = new Vector3(offset * xOffset, stackingTransform.localPosition.y, offset * zOffset);
         stackingTransform.localPosition = localPosition;

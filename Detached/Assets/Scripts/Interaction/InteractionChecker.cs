@@ -61,7 +61,8 @@ public class InteractionChecker : NetworkBehaviour
             return;
         ray1Hit = ray2Hit = false;
         var hits = Physics.RaycastAll(sourceTransform.position, transform.forward, interactionDistance);
-        ray1Hit = EvaluateHit(GetClosestHit(hits));
+        GameObject closestHit = GetClosestHit(hits);
+        ray1Hit = EvaluateHit(closestHit);
         Debug.DrawRay(sourceTransform.position, transform.forward * interactionDistance, Color.yellow);
 
         //DEBUG
@@ -150,7 +151,10 @@ public class InteractionChecker : NetworkBehaviour
             }
         }
         if (bestIndex != -1)
+        {
+            latestHit = hits[bestIndex];
             return hits[bestIndex].transform.gameObject;
+        }
         else
             return null;
     }
