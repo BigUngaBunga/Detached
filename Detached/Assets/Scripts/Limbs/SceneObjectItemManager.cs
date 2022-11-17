@@ -80,14 +80,14 @@ public class SceneObjectItemManager : NetworkBehaviour
         {
             switch (thisLimb)
             {
-                case ItemManager.Limb_enum.Head:
+                case LimbType.Head:
                     Instantiate(headLimb, transform.position, transform.rotation, transform);
                     break;
-                case ItemManager.Limb_enum.Arm:
+                case LimbType.Arm:
                     Instantiate(armLimb, transform.position, transform.rotation, transform);
                     armInteractor = gameObject.AddComponent<ArmInteraction>();
                     break;
-                case ItemManager.Limb_enum.Leg:
+                case LimbType.Leg:
                     Instantiate(legLimb, transform.position, transform.rotation, transform);
                     break;
             }
