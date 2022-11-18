@@ -14,6 +14,10 @@ public class InteractionChecker : NetworkBehaviour
     private bool interacting = false;
     private InteractableManager interactableManager;
 
+    private GameObject previousObject;
+    private IInteractable objectInteractable;
+    private HighlightObject objectHighlighter;
+
     private bool allowInteraction = true;
     public bool AllowInteraction
     {
@@ -63,6 +67,7 @@ public class InteractionChecker : NetworkBehaviour
         var hits = Physics.RaycastAll(sourceTransform.position, transform.forward, interactionDistance);
         GameObject closestHit = GetClosestHit(hits);
         ray1Hit = EvaluateHit(closestHit);
+        previousObject = closestHit;
         Debug.DrawRay(sourceTransform.position, transform.forward * interactionDistance, Color.yellow);
 
         //DEBUG
@@ -82,13 +87,29 @@ public class InteractionChecker : NetworkBehaviour
     {
         if (hitObject.CompareTag("Limb"))
             return true;
-        else if (hitObject.TryGetComponent(out IInteractable interactable))
-            return interactable.CanInteract(player);
-        else
-            return hitObject.GetComponentInChildren<IInteractable>().CanInteract(player);
+
+        if (hitObject != previousObject)
+        {
+            if (hitObject.TryGetComponent(out IInteractable interactable))
+                objectInteractable = interactable;
+            else
+                objectInteractable = hitObject.GetComponentInParent<IInteractable>();
+        }
+        return objectInteractable.CanInteract(player);
     }
 
-    private void HighlightObject(GameObject hitObject) => hitObject.GetComponent<HighlightObject>().DurationHighlight();
+    private void HighlightObject(GameObject hitObject)
+    {
+        if (hitObject != previousObject)
+        {
+            if (hitObject.TryGetComponent(out HighlightObject highlighter))
+                objectHighlighter = highlighter;
+            else
+                objectHighlighter = hitObject.GetComponentInParent<HighlightObject>();
+        }
+            
+        objectHighlighter.DurationHighlight();
+    }
 
     private void AttemptInteraction(GameObject hitObject)
     {
@@ -102,14 +123,8 @@ public class InteractionChecker : NetworkBehaviour
                 Debug.Log("Hit limb");
                 hitObject.GetComponent<SceneObjectItemManager>().TryPickUp();
             }
-            else if (hitObject.TryGetComponent(out IInteractable interactable))
-            {
-                interactable.Interact(player);
-            }
             else
-            {
-                hitObject.GetComponentInChildren<IInteractable>().Interact(player);
-            }
+                objectInteractable.Interact(player);
                 
             interacting = false;
         }
