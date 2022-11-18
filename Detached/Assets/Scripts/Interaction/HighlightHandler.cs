@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -12,7 +11,6 @@ public class HighlightHandler : MonoBehaviour
     [Range(1, 25)]
     [SerializeField] private int blurIntensity = 3;
     [SerializeField] private bool displayOnlyHighlights;
-    [SerializeField] private bool useSolidBorder;
 
     [Header("Materials")]
     [SerializeField] private Material drawMaterial;
@@ -23,7 +21,6 @@ public class HighlightHandler : MonoBehaviour
     private RenderTexture highlightRenderTexture;
     private RenderTargetIdentifier renderTargetIdentifier;
     private CommandBuffer commandBuffer;
-    private int sortingType;
 
     [SerializeField] private List<HighlightObject> highlights;
 
@@ -55,7 +52,7 @@ public class HighlightHandler : MonoBehaviour
             foreach (var renderer in highlight.Renderers)
                 if (renderer != null && renderer.gameObject.activeSelf)
                     for (int i = 0; i < renderer.materials.Length; i++)
-                        commandBuffer.DrawRenderer(renderer, drawMaterial, i, sortingType);
+                        commandBuffer.DrawRenderer(renderer, drawMaterial, i, 0);
 
 
         RenderTexture.active = highlightRenderTexture;
@@ -63,18 +60,18 @@ public class HighlightHandler : MonoBehaviour
         RenderTexture.active = null;
     }
 
-    //TODO refactor och skriv kommentarer
+    private RenderTexture GetTemporary() => RenderTexture.GetTemporary(Screen.width, Screen.height, 0);
+
+    //Renders objects to texture, applies gaussian blurr ther removes the objects from texture, leaving only a blurr.
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         ClearCommandBuffers();
         RenderHighlights();
-        RenderTexture blurTexture1 = RenderTexture.GetTemporary(Screen.width, Screen.height, 0);
-        RenderTexture blurTexture2 = RenderTexture.GetTemporary(Screen.width, Screen.height, 0);
-        RenderTexture renderTextureTarget = RenderTexture.GetTemporary(Screen.width, Screen.height, 0);
+        RenderTexture blurTexture1 = GetTemporary();
+        RenderTexture blurTexture2 = GetTemporary();
+        RenderTexture renderTextureTarget = GetTemporary();
 
         Graphics.Blit(highlightRenderTexture, blurTexture1);
-
-        blurMaterial.SetFloat("_DisableAlpha", useSolidBorder ? 1.0f : 0f);
         for (int i = 0; i < blurIntensity; i++)
         {
             Graphics.Blit(blurTexture1, blurTexture2, blurMaterial, 1);
