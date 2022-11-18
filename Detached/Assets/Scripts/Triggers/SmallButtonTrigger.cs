@@ -12,11 +12,11 @@ public class SmallButtonTrigger : Trigger, IInteractable
     private int requiredArms = 1;
     private Vector3 heightDifference => new Vector3(0, pushedHeight, 0);
 
-    public bool CanInteract(GameObject activatingObject) => HasEnoughArms(activatingObject, requiredArms);
+    public bool CanInteract(GameObject activatingObject) => !IsTriggered && HasEnoughArms(activatingObject, requiredArms);
     
     public void Interact(GameObject activatingObject)
     {
-        if (!IsTriggered && HasEnoughArms(activatingObject, requiredArms))
+        if (!IsTriggered)
             StartCoroutine(PushButton());
     }
 
@@ -28,5 +28,11 @@ public class SmallButtonTrigger : Trigger, IInteractable
         IsTriggered = false;
         smallButton.transform.position += heightDifference;
         yield return null;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (isServer && CanInteract(collision.gameObject))
+            StartCoroutine(PushButton());
     }
 }

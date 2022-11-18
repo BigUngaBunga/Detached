@@ -46,7 +46,7 @@ public class HighlightHandler : MonoBehaviour
         RenderTexture.active = null;
     }
 
-    //Renders all active renderers to a static monochrome texture
+    //Renders all subheshes of active renderers to a monochrome texture
     private void RenderHighlights()
     {
         commandBuffer.SetRenderTarget(renderTargetIdentifier);
@@ -54,7 +54,9 @@ public class HighlightHandler : MonoBehaviour
         foreach (var highlight in highlights)
             foreach (var renderer in highlight.Renderers)
                 if (renderer != null && renderer.gameObject.activeSelf)
-                    commandBuffer.DrawRenderer(renderer, drawMaterial, 0, sortingType);
+                    for (int i = 0; i < renderer.materials.Length; i++)
+                        commandBuffer.DrawRenderer(renderer, drawMaterial, i, sortingType);
+
 
         RenderTexture.active = highlightRenderTexture;
         Graphics.ExecuteCommandBuffer(commandBuffer);
