@@ -168,7 +168,7 @@ public class Animation : NetworkBehaviour
                 }
                 animator.SetTrigger("Carry");
                 networkAnimator.SetTrigger("Carry");
-                animator.SetBool("isCarrying", true);
+                animator.SetBool("isCarrying", true);               
             }
             else if (!Input.anyKey)
             {

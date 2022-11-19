@@ -9,9 +9,14 @@ public class InteractionChecker : NetworkBehaviour
 
     [SerializeField] private float interactionDistance;
     [SerializeField] private GameObject player;
-    private LayerMask targetMask;
+    [SerializeField] private int targetLayer = 15;
+    [SerializeField] private Transform sourceTransform;
     private bool interacting = false;
     private InteractableManager interactableManager;
+
+    private GameObject previousObject;
+    private IInteractable objectInteractable;
+    private HighlightObject objectHighlighter;
 
     private bool allowInteraction = true;
     public bool AllowInteraction
@@ -39,15 +44,11 @@ public class InteractionChecker : NetworkBehaviour
     [SerializeField] private float debugRayAngle = -0.2f;
     [SerializeField] private bool useDebugRay = false;
 
-    private void Awake()
-    {
-        targetMask = LayerMask.GetMask("Interactable");
-    }
-
     private void Start()
     {
         NetworkClient.localPlayer.TryGetComponent(out interactableManager); //TODO kolla så att det faktiskt fungerar
         player = interactableManager.gameObject;
+        sourceTransform = transform;
     }
 
     private void Update()
@@ -63,36 +64,21 @@ public class InteractionChecker : NetworkBehaviour
         if (!allowInteraction)
             return;
         ray1Hit = ray2Hit = false;
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, interactionDistance, targetMask))
-        {
-            latestHit = hit;
-            GameObject hitObject = hit.transform.gameObject;
-            if (CanInteractWith(hitObject))
-            {
-                ray1Hit = true;
-                HighlightObject(hitObject);
-                AttemptInteraction(hitObject);
-            }
-        }
-        Debug.DrawRay(transform.position, transform.forward * interactionDistance, Color.yellow);
+        var hits = Physics.RaycastAll(sourceTransform.position, transform.forward, interactionDistance);
+        GameObject closestHit = GetClosestHit(hits);
+        ray1Hit = EvaluateHit(closestHit);
+        previousObject = closestHit;
+        Debug.DrawRay(sourceTransform.position, transform.forward * interactionDistance, Color.yellow);
 
+        //DEBUG
         if (useDebugRay)
         {
-            var debugDirection = (transform.forward + transform.up * debugRayAngle).normalized;
-            if (Physics.Raycast(transform.position, debugDirection, out RaycastHit hit2, interactionDistance, targetMask))
-            {
-                GameObject hitObject = hit2.transform.gameObject;
-                if (CanInteractWith(hitObject))
-                {
-                    ray2Hit = true;
-                    HighlightObject(hitObject);
-                    AttemptInteraction(hitObject);
-                }
-
-            }
+            Vector3 debugDirection = (transform.forward + transform.up * debugRayAngle).normalized;
+            hits = Physics.RaycastAll(transform.position, debugDirection, interactionDistance);
+            ray2Hit = EvaluateHit(GetClosestHit(hits));
             Debug.DrawRay(transform.position, debugDirection * interactionDistance, Color.yellow);
         }
-        
+
         if (!ray1Hit && !ray2Hit)
             AttemptDropItem();
     }
@@ -101,13 +87,29 @@ public class InteractionChecker : NetworkBehaviour
     {
         if (hitObject.CompareTag("Limb"))
             return true;
-        else if (hitObject.TryGetComponent(out IInteractable interactable))
-            return interactable.CanInteract(player);
-        else
-            return hitObject.GetComponentInChildren<IInteractable>().CanInteract(player);
+
+        if (hitObject != previousObject)
+        {
+            if (hitObject.TryGetComponent(out IInteractable interactable))
+                objectInteractable = interactable;
+            else
+                objectInteractable = hitObject.GetComponentInParent<IInteractable>();
+        }
+        return objectInteractable.CanInteract(player);
     }
 
-    private void HighlightObject(GameObject hitObject) => hitObject.GetComponent<HighlightObject>().DurationHighlight();
+    private void HighlightObject(GameObject hitObject)
+    {
+        if (hitObject != previousObject)
+        {
+            if (hitObject.TryGetComponent(out HighlightObject highlighter))
+                objectHighlighter = highlighter;
+            else
+                objectHighlighter = hitObject.GetComponentInParent<HighlightObject>();
+        }
+            
+        objectHighlighter.DurationHighlight();
+    }
 
     private void AttemptInteraction(GameObject hitObject)
     {
@@ -121,14 +123,8 @@ public class InteractionChecker : NetworkBehaviour
                 Debug.Log("Hit limb");
                 hitObject.GetComponent<SceneObjectItemManager>().TryPickUp();
             }
-            else if (hitObject.TryGetComponent(out IInteractable interactable))
-            {
-                interactable.Interact(player);
-            }
             else
-            {
-                hitObject.GetComponentInChildren<IInteractable>().Interact(player);
-            }
+                objectInteractable.Interact(player);
                 
             interacting = false;
         }
@@ -141,5 +137,40 @@ public class InteractionChecker : NetworkBehaviour
             interactableManager.AttemptDropItem();
             interacting = false;
         }           
+    }
+
+    private bool EvaluateHit(GameObject hitObejct)
+    {
+        if (hitObejct != null && hitObejct.layer == targetLayer && CanInteractWith(hitObejct))
+        {
+            HighlightObject(hitObejct);
+            AttemptInteraction(hitObejct);
+            return true;
+        }
+        return false;
+    }
+
+    private GameObject GetClosestHit(RaycastHit[] hits)
+    {
+        float bestDistance = float.MaxValue;
+        int bestIndex = -1;
+        for (int i = 0; i < hits.Length; i++)
+        {
+            if (hits[i].collider == null || hits[i].collider.isTrigger)
+                continue;
+            float distance = Vector3.Distance(sourceTransform.position, hits[i].point);
+            if (distance < bestDistance)
+            {
+                bestDistance = distance;
+                bestIndex = i;
+            }
+        }
+        if (bestIndex != -1)
+        {
+            latestHit = hits[bestIndex];
+            return hits[bestIndex].transform.gameObject;
+        }
+        else
+            return null;
     }
 }

@@ -1,7 +1,7 @@
 using Mirror;
 using UnityEngine;
 
-public class Unlock : NetworkBehaviour, IInteractable
+public class LockInteractable : NetworkBehaviour, IInteractable
 {
     enum LockType { Door, Activator}
 

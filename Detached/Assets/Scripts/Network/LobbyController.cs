@@ -55,6 +55,11 @@ public class LobbyController : NetworkBehaviour
         if (Instance == null) { Instance = this; }
     }
 
+    public void Start()
+    {
+        InvokeRepeating("GetFriendsPlaying", 1, 1); //Updates the invite friendslist
+    }
+
     public void UpdateLobbyName()
     {
         CurrentLobbyId = Manager.GetComponent<SteamLobby>().currentLobbyID;
