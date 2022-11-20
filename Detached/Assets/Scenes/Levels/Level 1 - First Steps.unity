@@ -166,8 +166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29139067ca59a7541ba6a4628b225782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numOfLegs: 1
-  numOfArms: 0
+  numOfLegs: 2
+  numOfArms: 1
 --- !u!1001 &16153340
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1455,7 +1455,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blurIntensity: 3
   displayOnlyHighlights: 0
-  useSolidBorder: 0
   drawMaterial: {fileID: 2100000, guid: 34648dc252ebbf04a9d20cff0892d2fa, type: 2}
   blurMaterial: {fileID: 2100000, guid: ccbda6943bd3e754295306d9fe926b1e, type: 2}
   highlightMaterial: {fileID: 2100000, guid: f80b0fb5d2166844f82ceff8528377ce, type: 2}
@@ -1476,6 +1475,8 @@ MonoBehaviour:
   syncInterval: 0.1
   interactionDistance: 16.11
   player: {fileID: 0}
+  targetLayer: 15
+  sourceTransform: {fileID: 0}
   debugRayAngle: -0.2
   useDebugRay: 0
 --- !u!114 &918350344
@@ -2791,8 +2792,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29139067ca59a7541ba6a4628b225782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numOfLegs: 1
-  numOfArms: 0
+  numOfLegs: 2
+  numOfArms: 1
 --- !u!1001 &1927919403
 PrefabInstance:
   m_ObjectHideFlags: 0

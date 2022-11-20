@@ -19,6 +19,7 @@ public class SpawnPoint : MonoBehaviour
     private void Awake()
     {
         PlayerSpawnSystem.AddSpawnPoints(gameObject);
+        numOfLimbsAtSpawn += numOfArms + numOfLegs + 1; // 1 for head
     }
     private void OnDestroy()
     {
