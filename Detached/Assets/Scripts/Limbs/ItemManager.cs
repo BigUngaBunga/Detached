@@ -604,7 +604,7 @@ public class ItemManager : NetworkBehaviour
         #endregion
 
         Vector3 upForce = (Input.mousePosition - mousePressDownPos).normalized;
-        throwUpwardForce = upForce.y;
+        throwUpwardForce = upForce.y*4;
         DrawTrajectory.instance.DrawProjection(camPoint.transform.forward,transform.up, throwPoint.position,throwForce,throwUpwardForce);  
     }
 
@@ -639,11 +639,13 @@ public class ItemManager : NetworkBehaviour
             indicator.SetActive(true);
             sceneObjectHoldingToThrow = GetGameObjectLimbFromSelect();
             sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
-            /*cinemachine.m_YAxis.Value=0.4f;
+            /*cinemachine.m_YAxis.Value = 0.4f;
             cinemachine.m_YAxis.m_InputAxisName = "";*/
-
+            cinemachine.m_YAxis.m_MaxSpeed = 2;
             //cam when aiming
             camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
+            //camFocus.localRotation = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
+            
         }
         else if (Input.GetMouseButtonUp(1))
         {
@@ -652,6 +654,7 @@ public class ItemManager : NetworkBehaviour
             DrawTrajectory.instance.HideLine();
             indicator.SetActive(false);
             camFocus.localPosition = Vector3.zero;
+            cinemachine.m_YAxis.m_MaxSpeed = 10;
             if (sceneObjectHoldingToThrow != null)
             {
                 sceneObjectHoldingToThrow.transform.localPosition = Vector3.zero;
@@ -667,6 +670,7 @@ public class ItemManager : NetworkBehaviour
             mouseReleasePos = Input.mousePosition;
             sceneObjectHoldingToThrow.transform.localPosition = Vector3.zero;
             sceneObjectHoldingToThrow = null;
+            cinemachine.m_YAxis.m_MaxSpeed = 10;
 
             //ending point - starting point + cam movement
             // dir = (Input.mousePosition - mousePressDownPos).normalized;

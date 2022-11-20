@@ -200,30 +200,34 @@ public class CharacterControl : NetworkBehaviour
 
     void StepClimb(GameObject rayDirectioLowerMid, GameObject rayDirectioLowerLeft, GameObject rayDirectioLowerRight) //lower check
     {
-
+        float rayLengthMid = 0.5f;
+        float rayLengthSides = 1f;
         RaycastHit hitLower;
 
         Vector3 rbDirection = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-        if (Physics.Raycast(rayDirectioLowerMid.transform.position, rbDirection.normalized, out hitLower, 0.4f))
-        {
-            Debug.Log("mid");
-            StepClimbUpperCheck(rbDirection, stepRays[3]);
+       // Debug.DrawRay(rayDirectioLowerMid.transform.position, rbDirection.normalized, Color.green);
+        Debug.DrawRay(rayDirectioLowerLeft.transform.position, rbDirection.normalized, Color.red);
+        Debug.DrawRay(rayDirectioLowerRight.transform.position, rbDirection.normalized, Color.blue);
+        /* if (Physics.Raycast(rayDirectioLowerMid.transform.position, rbDirection.normalized, out hitLower, rayLengthMid))
+         {
+             Debug.Log("mid");
+             StepClimbUpperCheck(rbDirection, stepRays[3]);
 
-        }
-        else if (Physics.Raycast(rayDirectioLowerLeft.transform.position, rbDirection.normalized, out hitLower, 0.4f))
+         }*/
+        if (Physics.Raycast(rayDirectioLowerLeft.transform.position, rbDirection.normalized, out hitLower, rayLengthSides))
         {
             Debug.Log("Left");
             StepClimbUpperCheck(rbDirection, stepRays[4]);
+            return;
         }
-        else if (Physics.Raycast(rayDirectioLowerRight.transform.position, rbDirection.normalized, out hitLower, 0.4f))
+
+        if (Physics.Raycast(rayDirectioLowerRight.transform.position, rbDirection.normalized, out hitLower, rayLengthSides))
         {
             Debug.Log("Right");
             StepClimbUpperCheck(rbDirection, stepRays[5]);
         }
 
-        Debug.DrawRay(rayDirectioLowerMid.transform.position, rbDirection.normalized, Color.green);
-        Debug.DrawRay(rayDirectioLowerLeft.transform.position, rbDirection.normalized, Color.red);
-        Debug.DrawRay(rayDirectioLowerRight.transform.position, rbDirection.normalized, Color.blue);
+       
 
         //Debug.DrawRay(stepRays[3].transform.position, rbDirection.normalized, Color.green);
         //Debug.DrawRay(stepRays[4].transform.position, rbDirection.normalized, Color.red);
