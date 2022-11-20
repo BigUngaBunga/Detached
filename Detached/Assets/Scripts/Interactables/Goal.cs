@@ -4,7 +4,6 @@ using Mirror;
 
 public class Goal : NetworkBehaviour
 {
-    [SyncVar]
     [SerializeField] private int playerNumber;
     [SerializeField] private int NextMapIndex;
     [SerializeField] private bool sameNumLimbInAsOut = true;
