@@ -7,6 +7,7 @@ public class MusicManager : MonoBehaviour
     List<FMOD.Studio.EventInstance> songs = new List<FMOD.Studio.EventInstance>();
     FMOD.Studio.EventInstance currentSound;
     int currentIndex = 0;
+    float time;
     void Start()
     {
         songs.Add(FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_MAIN_MENU"));
@@ -19,6 +20,7 @@ public class MusicManager : MonoBehaviour
 
         currentSound = FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_MAIN_MENU");
         currentSound.start();
+        currentSound.setVolume(0.3f);
         FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Intensity", 10f);
         DontDestroyOnLoad(this);
     }
@@ -48,12 +50,19 @@ public class MusicManager : MonoBehaviour
                 currentIndex = 1;
                 currentSound = songs[currentIndex];
                 currentSound.start();
+                currentSound.setVolume(0.3f);
             }
             else
             {
                 currentSound = songs[currentIndex];
                 currentSound.start();
+                currentSound.setVolume(0.3f);
             }
+        }
+        currentSound.getVolume(out float volume);
+        if (volume < 0.1f)
+        {
+
         }
     }
 }
