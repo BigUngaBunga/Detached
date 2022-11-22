@@ -69,6 +69,7 @@ public class ItemManager : NetworkBehaviour
     private GameObject sceneObjectHoldingToThrow;
     private Vector3 orignalPosition = Vector3.zero;
     public int numberOfLimbs;
+    public bool isDeta;
 
     public readonly UnityEvent dropLimbEvent = new UnityEvent();
 
@@ -544,6 +545,7 @@ public class ItemManager : NetworkBehaviour
                 SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
                 SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
                 SceneObjectScript.orignalOwner = originalOwner;
+                SceneObjectScript.isDeta = isDeta;
                 NetworkServer.Spawn(newSceneObject, connectionToClient); //Set Authority to client att spawn since no other player should be able to control it.
                 SceneObjectScript.detached = true;
                 headDetached = true;
@@ -721,6 +723,7 @@ public class ItemManager : NetworkBehaviour
         SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
         NetworkServer.Spawn(newSceneObject);
         SceneObjectScript.detached = true;
+        SceneObjectScript.isDeta = isDeta;
         SceneObjectScript.orignalOwner = orignalOwner;
     }
 
