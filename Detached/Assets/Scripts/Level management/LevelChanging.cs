@@ -26,6 +26,6 @@ public class LevelChanging : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void cmdServerChangeScene()
     {
-         Manager.ServerChangeScene(GlobalLevelIndex.levelNames[NextMapIndex]);
+         Manager.ServerChangeScene(GlobalLevelIndex.GetLevelZeroIndex(NextMapIndex));
     }
 }

@@ -55,6 +55,11 @@ public class LobbyController : NetworkBehaviour
         if (Instance == null) { Instance = this; }
     }
 
+    public void Start()
+    {
+        InvokeRepeating("GetFriendsPlaying", 1, 1); //Updates the invite friendslist
+    }
+
     public void UpdateLobbyName()
     {
         CurrentLobbyId = Manager.GetComponent<SteamLobby>().currentLobbyID;
@@ -168,7 +173,7 @@ public class LobbyController : NetworkBehaviour
         localPlayerController.canStartGame(SceneName);
     }
 
-    public void StartGame(int levelNumber) => StartGame(GlobalLevelIndex.levelNames[levelNumber - 1]);
+    public void StartGame(int levelNumber) => StartGame(GlobalLevelIndex.GetLevel(levelNumber));
 
     public void ReadyPlayer()
     {

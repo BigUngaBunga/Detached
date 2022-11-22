@@ -20,28 +20,37 @@ public abstract class Trigger : NetworkBehaviour
         get => isTriggered;
         set
         {
-            if (!value && IsTriggered)
-                StopTrigger();
-            else if (value && !IsTriggered)
+            if (value)
                 StartTrigger();
+            else
+                StopTrigger();
         }
     }
 
     [Command(requiresAuthority = false)]
     private void StartTrigger()
     {
+        if (IsTriggered)
+            return;
         isTriggered = true;
         data.Activations++;
         foreach (var activator in activators)
             activator.TriggerActive();
+        PlaySoundOnTrigger();
     }
     [Command(requiresAuthority = false)]
     private void StopTrigger()
     {
+        if (!IsTriggered)
+            return;
         isTriggered = false;
         foreach (var activator in activators)
             activator.TriggerInactive();
+        PlaySoundOnStopTrigger();
     }
+
+    protected virtual void PlaySoundOnTrigger(){}
+    protected virtual void PlaySoundOnStopTrigger(){}
 
     protected bool IsLimbOfType(GameObject limb, LimbType type) => limb.CompareTag("Limb") && limb.GetComponent<SceneObjectItemManager>().thisLimb == type;
 
