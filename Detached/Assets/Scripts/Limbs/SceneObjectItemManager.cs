@@ -11,6 +11,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SerializeField] private GameObject headLimb;
     [SerializeField] private GameObject armLimb;
     [SerializeField] private GameObject legLimb;
+    [SerializeField] private int NumOfTimeLimbCanFallOut;
 
     //Ground Checks
     private Vector3 safeLocation;
@@ -37,6 +38,8 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     [SyncVar]
     public GameObject orignalOwner;
+
+    private int numOfFallOutOfWorld = 0;
 
     
     public bool IsBeingControlled
@@ -77,14 +80,14 @@ public class SceneObjectItemManager : NetworkBehaviour
         {
             switch (thisLimb)
             {
-                case ItemManager.Limb_enum.Head:
+                case LimbType.Head:
                     Instantiate(headLimb, transform.position, transform.rotation, transform);
                     break;
-                case ItemManager.Limb_enum.Arm:
+                case LimbType.Arm:
                     Instantiate(armLimb, transform.position, transform.rotation, transform);
                     armInteractor = gameObject.AddComponent<ArmInteraction>();
                     break;
-                case ItemManager.Limb_enum.Leg:
+                case LimbType.Leg:
                     Instantiate(legLimb, transform.position, transform.rotation, transform);
                     break;
             }
@@ -137,10 +140,11 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     public void HandleFallOutOfWorld()
     {
-        if (safeLocation != null && safeLocation != Vector3.zero)
+        if (safeLocation != null && safeLocation != Vector3.zero && NumOfTimeLimbCanFallOut >= numOfFallOutOfWorld)
         {
             if (isServer)
             {
+                numOfFallOutOfWorld++;
                 RpcUpdatePosition(safeLocation);
             }            
         }
@@ -152,11 +156,12 @@ public class SceneObjectItemManager : NetworkBehaviour
         }
     }
 
+    
+
     [ClientRpc]
     public void RpcUpdatePosition(Vector3 safeLocation)
-    {
-        //So it dosne't collide with ground or other limbs
-        gameObject.transform.position = safeLocation + new Vector3(0,2,0);
+    {       
+        gameObject.transform.position = safeLocation + new Vector3(0,2,0); //So it dosne't collide with ground or other limbs
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
     }

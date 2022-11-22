@@ -193,8 +193,6 @@ public class ItemManager : NetworkBehaviour
     private void Start()
     {
         camPoint = Camera.main.transform;
-
-
     }
     void Update()
     {
@@ -265,6 +263,40 @@ public class ItemManager : NetworkBehaviour
             Limb_enum.Head => headDetached,
             _ => false,
         };
+    }
+
+    #endregion
+
+    #region Spawn Functions
+    public void SetAmountOfLimbsToSpawn(int arms, int legs)
+    {
+        switch (arms)
+        {
+            case 0:
+                leftArmDetached = true;
+                rightArmDetached = true;
+                break;
+
+            case 1:
+                leftArmDetached = true;
+                break;
+            case 2:
+                break;
+        }
+
+        switch (legs)
+        {
+            case 0:
+                leftLegDetached = true;
+                rightLegDetached = true;
+                break;
+
+            case 1:
+                leftLegDetached = true;
+                break;
+            case 2:
+                break;
+        }
     }
 
     #endregion
