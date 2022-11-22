@@ -21,10 +21,15 @@ public class bodypartSelected : MonoBehaviour
     {
         Time.timeScale = 1;
     }
+    void activate()
+    {
+        gameUI.SetActive(true);
+    }
 
     // Update is called once per frame
     void Update()
     {
+      
         if (Input.GetKeyDown("1"))
         {
             // Head 
