@@ -155,7 +155,7 @@ public class Animation : NetworkBehaviour
                 animator.SetTrigger("Walking");
                 networkAnimator.SetTrigger("Walking");
             }
-            else if (Input.GetKey(KeyCode.Space))
+            else if (Input.GetKeyDown(KeyCode.Space))
             {
                 animator.SetTrigger("Jump");
                 networkAnimator.SetTrigger("Jump");
