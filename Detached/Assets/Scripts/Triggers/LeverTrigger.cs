@@ -37,12 +37,12 @@ public class LeverTrigger : Trigger, IInteractable
     [Command(requiresAuthority = false)]
     public void Interact(GameObject activatingObject)
     {
-        //if (CanInteract(activatingObject))
-        //{
-        //}
-        IsTriggered = !IsTriggered;
-        RPCSetLeverActivation(IsTriggered);
-        highlight.UpdateRenderers();
+        if (HasEnoughArms(activatingObject, requiredArms))
+        {
+            IsTriggered = !IsTriggered;
+            RPCSetLeverActivation(IsTriggered);
+            highlight.UpdateRenderers();
+        }
     }
 
     [ClientRpc]
@@ -50,12 +50,6 @@ public class LeverTrigger : Trigger, IInteractable
     {
         SetRecursiveActivation(!isTriggered, normalLever);
         SetRecursiveActivation(isTriggered, triggeredLever);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (isServer && !collision.gameObject.CompareTag("Player") && CanInteract(collision.gameObject))
-            Interact(collision.gameObject);
     }
 
     public bool CanInteract(GameObject activatingObject) => HasEnoughArms(activatingObject, requiredArms);

@@ -18,11 +18,11 @@ public class SpawnPoint : MonoBehaviour
 
     private void Awake()
     {
-        PlayerSpawnSystem.AddSpawnPoints(gameObject);
+        PlayerSpawnSystem.AddSpawnPoints(transform);
     }
     private void OnDestroy()
     {
-        PlayerSpawnSystem.RemoveSpawnPoints(gameObject);
+        PlayerSpawnSystem.RemoveSpawnPoints(transform);
     }
 
     private void OnDrawGizmos()

@@ -22,8 +22,9 @@ public class BatterySocketTrigger : Trigger, IInteractable
             itemManager.AttemptPickUpItem(battery);
             IsTriggered = false;
         }
-        else if(itemManager.IsCarryingTag("Battery") && itemManager.AttemptDropItemTo(batteryPosition, out _))//Om spelare håller ett batteri
+        else if(itemManager.IsCarryingTag("Battery") && itemManager.AttemptDropItem(out GameObject battery))//Om spelare håller ett batteri
         {
+            MoveToBatteryPosition(battery);
             IsTriggered = true;
         }
     }

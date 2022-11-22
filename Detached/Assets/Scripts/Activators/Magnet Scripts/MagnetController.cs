@@ -13,15 +13,16 @@ public class MagnetController : NetworkBehaviour, IInteractable
     [Range(0, 180)]
     [SerializeField] private float rotationLimit; 
 
-    private Transform MagnetHead => magnetHead.transform;
+    private Transform Transform => magnetHead.transform;
     private Vector3 initialRotation = new Vector3(90, 180);
+    private Vector3 rotation = Vector3.zero;
 
     [Command (requiresAuthority = false)]
     private void HookIsPlayerPresent(bool oldValue, bool newValue) => isPlayerPresent = newValue;
     [Command(requiresAuthority = false)]
     private void HookControllingPLayer(GameObject oldValue, GameObject newValue) => controllingPlayer = newValue;
     [Command(requiresAuthority = false)]
-    private void SetMagnetRotation(Vector3 angles) => MagnetHead.eulerAngles = angles;
+    private void SetMagnetRotation(Vector3 angles) => Transform.eulerAngles = angles;
 
     public void Update()
     {
@@ -36,13 +37,11 @@ public class MagnetController : NetworkBehaviour, IInteractable
 
     private void Rotate()
     {
+        rotation.x = Mathf.Clamp(rotation.x + Input.GetAxis("Mouse Y"), -rotationLimit, rotationLimit);
         Vector3 camera = Camera.main.transform.eulerAngles;
-        Vector3 eulerAngles =  camera;
-        if (camera.x > 180f)
-            eulerAngles.x = camera.x - 360f;
-
-        eulerAngles.x = Mathf.Clamp(-eulerAngles.x, -rotationLimit, rotationLimit);
-        SetMagnetRotation(eulerAngles + initialRotation);
+        Vector3 eulerAngles =  camera + rotation + initialRotation;
+        eulerAngles.x = Mathf.Clamp(eulerAngles.x, initialRotation.x-rotationLimit, initialRotation.x + rotationLimit);
+        SetMagnetRotation(eulerAngles);
     }
 
     public void Interact(GameObject activatingObject)
@@ -81,7 +80,7 @@ public class MagnetController : NetworkBehaviour, IInteractable
     public bool CanInteract(GameObject activatingObject)
     {
         if (activatingObject.CompareTag("Player"))
-            return !isPlayerPresent && activatingObject.GetComponent<ItemManager>().NumberOfArms >= 1;
+            return activatingObject.GetComponent<ItemManager>().NumberOfArms >= 1 && !isPlayerPresent;
         return false;
     }
 }

@@ -27,14 +27,14 @@ public class ActivatedPlatform : Activator
     protected override void Activate()
     {
         base.Activate();
-        UpdateCollider(true);
+        collider.enabled = true;
         UpdateMaterialOnServer();
     }
 
     protected override void Deactivate()
     {
         base.Deactivate();
-        UpdateCollider(false);
+        collider.enabled = false;
         UpdateMaterialOnServer();
     }
 
@@ -49,15 +49,6 @@ public class ActivatedPlatform : Activator
         base.TriggerInactive();
         UpdateMaterialOnServer();
     }
-
-    protected void UpdateCollider(bool isActive)
-    {
-        if (NetworkClient.isHostClient)
-            RPCUpdateCollider(isActive);
-    }
-
-    [ClientRpc]
-    protected virtual void RPCUpdateCollider(bool isActive) => collider.enabled = isActive;
 
     private void UpdateMaterialOnServer()
     {
