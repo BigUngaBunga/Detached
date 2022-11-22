@@ -1,4 +1,3 @@
-using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -7,23 +6,20 @@ using UnityEngine;
 
 public class MovingPlatformActivator : Activator
 {
-    [Header("Moving platform variables")]
-    [SerializeField] private float stopWaitTime;
+    [Header("Moving platform fields")]
+    [SerializeField] private GameObject platform;
     [SerializeField] private float platformSpeed;
     [SerializeField] private float targetDistance;
-    [Header("Moving platform information")]
-    [SerializeField] private GameObject platform;
     [SerializeField] private bool goingBackwards;
     [SerializeField] private TrackNode targetNode;
-    [SyncVar][SerializeField] private List<GameObject> connectedObjects = new List<GameObject>();
 
     private TrackActivator track;
     private Transform Transform => platform.transform;
 
     private float Speed => platformSpeed * Time.deltaTime;
-    [SyncVar] private bool isMoving;
+    private bool isMoving;
     //private readonly List<GameObject> connectedObjects = new List<GameObject>();
-    //[SyncVar] private readonly Dictionary<GameObject, int> connectedObjects = new Dictionary<GameObject, int>();
+    private readonly Dictionary<GameObject, int> connectedObjects = new Dictionary<GameObject, int>();
 
     protected override void Start()
     {
@@ -38,20 +34,17 @@ public class MovingPlatformActivator : Activator
     protected override void Activate()
     {
         base.Activate();
-        RPCPickNextStop();
+        PickNextStop();
     }
-
 
     private void PickNextStop()
     {
         if (isMoving)
             return;
+        //StartCoroutine(MoveToNextStop());
         isMoving = true;
         targetNode = track.GetNextNode(ref goingBackwards);
     }
-
-    [ClientRpc]
-    private void RPCPickNextStop() => PickNextStop();
 
     //TODO gör att den återvänder vid krock med vägg||platform
 
@@ -66,49 +59,70 @@ public class MovingPlatformActivator : Activator
                 else
                     targetNode = track.GetNextNode(ref goingBackwards);
             }
-
-            Vector3 direction = GetDirectionTo(targetNode.Position);
-            Debug.DrawRay(Transform.position, direction * 10f, Color.red);
             
-            foreach (var gameObject in connectedObjects)
+            Vector3 direction = GetDirectionTo(targetNode.Position);
+
+            Transform.position += direction * Speed;
+            foreach (var gameObject in connectedObjects.Keys)
             {
                 if (gameObject != null)
                     gameObject.transform.position += direction * Speed;//TODO använd krafter istället
             }
-            Transform.position += direction * Speed;
         }
         else if (isActivated)
-            Invoke(nameof(PickNextStop), stopWaitTime);
+            Invoke(nameof(PickNextStop), 0.1f);
     }
 
-    [Server]
+    private IEnumerator MoveToNextStop()
+    {
+        isMoving = true;
+
+        do
+        {
+            targetNode = track.GetNextNode(ref goingBackwards);
+            Vector3 direction = GetDirectionTo(targetNode.Position);
+            while (!IsCloseToTarget(targetNode.Position))
+            {
+                Transform.position += direction * Speed;
+                foreach (var gameObject in connectedObjects.Keys)
+                {
+                    if (gameObject != null)
+                        gameObject.transform.position += direction * Speed;//TODO använd krafter istället
+                }
+                    
+
+                yield return new WaitForFixedUpdate();
+            }
+            yield return null;
+        } while (!targetNode.IsStop);
+
+        isMoving = false;
+        if (isActivated)
+            Invoke(nameof(PickNextStop), 0.1f);
+
+        yield return null;
+    }
+
     public void Attach(GameObject connectingObject)
     {
-        if (connectedObjects.Contains(connectingObject))
-            return;
-        else
+        if (connectedObjects.ContainsKey(connectingObject))
         {
-            EditConnectedObjects(connectingObject, true);
             Debug.Log("Attached " + connectingObject.name);
+            connectedObjects[connectingObject]++;
         }
-
+        else
+            connectedObjects.Add(connectingObject, 1);
+            
     }
-
-    [Server]
     public void Detach(GameObject connectingObject)
     {
-        if (!connectedObjects.Contains(connectingObject))
+        if (!connectedObjects.ContainsKey(connectingObject))
             return;
-        EditConnectedObjects(connectingObject, false);
-        Debug.Log("Detached " + connectingObject.name);
-    }
 
-    [ClientRpc]
-    private void EditConnectedObjects(GameObject gameObject, bool add)
-    {
-        if (add)
-            connectedObjects.Add(gameObject);
+        if (connectedObjects[connectingObject] == 1)
+            connectedObjects.Remove(connectingObject);
         else
-            connectedObjects.Remove(gameObject);
+            connectedObjects[connectingObject]--;
+
     }
 }

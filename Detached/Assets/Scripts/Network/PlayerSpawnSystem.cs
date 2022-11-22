@@ -7,16 +7,9 @@ using System;
 
 public class PlayerSpawnSystem : NetworkBehaviour {
 
-    [SerializeField] private GameObject playerPrefabChed = null;
-    [SerializeField] private GameObject playerPrefabDeta = null;
-    
-
-    private GameObject playerObjToSpawn = null;
+    [SerializeField] private GameObject playerPrefab = null;
 
     private static List<Transform> spawnPoints = new List<Transform>();
-    private static List<GameObject> spawnPointsObj = new List<GameObject>();
-    private List<GameObject> playerPrefabs = new List<GameObject>();
-
 
     private int nextIndex = 0;
 
@@ -34,24 +27,21 @@ public class PlayerSpawnSystem : NetworkBehaviour {
         }
     }
 
-    public static void AddSpawnPoints(GameObject spawnObj)
+    public static void AddSpawnPoints(Transform transform)
     {
-        spawnPoints.Add(spawnObj.transform);
-        spawnPointsObj.Add(spawnObj);
+        spawnPoints.Add(transform);
 
         spawnPoints = spawnPoints.OrderBy(x => x.GetSiblingIndex()).ToList();
     }
 
-    public static void RemoveSpawnPoints(GameObject spawnObj)
+    public static void RemoveSpawnPoints(Transform transform)
     {
-        spawnPoints.Remove(spawnObj.transform);
-        spawnPointsObj.Remove(spawnObj);
+        spawnPoints.Remove(transform);
     }
 
     public override void OnStartServer()
     {
-        playerPrefabs.Add(playerPrefabDeta);
-        playerPrefabs.Add(playerPrefabChed);       
+        playerPrefab = Manager.gamePlayerPrefab;
         CustomNetworkManager.OnServerReadied += SpawnPlayer;
     }
 
@@ -65,13 +55,9 @@ public class PlayerSpawnSystem : NetworkBehaviour {
     public void SpawnPlayer(NetworkConnectionToClient conn)
     {
         Transform spawnPoint = spawnPoints.ElementAtOrDefault(nextIndex);
-        playerObjToSpawn = playerPrefabs.ElementAtOrDefault(nextIndex);
-        SpawnPoint spawnPointScript = spawnPointsObj.ElementAtOrDefault(nextIndex).GetComponent<SpawnPoint>();
 
-        GameObject playerInstance = Instantiate(playerObjToSpawn, spawnPoint.position, spawnPoint.rotation);
-        playerInstance.GetComponent<ItemManager>().SetAmountOfLimbsToSpawn(spawnPointScript.numOfArms, spawnPointScript.numOfLegs);
-
-        if (conn.identity != null)
+        GameObject playerInstance = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+        if(conn.identity != null)
         NetworkServer.Destroy(conn.identity.gameObject);
         NetworkServer.ReplacePlayerForConnection(conn, playerInstance);
 

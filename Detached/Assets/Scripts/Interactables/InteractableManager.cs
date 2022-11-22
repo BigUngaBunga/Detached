@@ -44,6 +44,7 @@ public class InteractableManager : NetworkBehaviour
         item = null;
         return false;
     }
+
     public bool AttemptDropItem()
     {
         if (isCarryingItem)
@@ -54,15 +55,11 @@ public class InteractableManager : NetworkBehaviour
         return false;
     }
 
-    public bool AttemptDropItemTo(Transform targetPosition, out GameObject item)
-    {
-        DropItemTo(targetPosition.position, targetPosition.rotation);
-        return AttemptDropItem(out item);
-    }
-
-
     [Command(requiresAuthority = false)]
-    private void DropItem() => RPCDropItem();
+    private void DropItem()
+    {
+        RPCDropItem();
+    }
 
     [ClientRpc]
     private void RPCDropItem() 
@@ -71,17 +68,6 @@ public class InteractableManager : NetworkBehaviour
         if(carriedItem != null)
             carriedItem.Drop();
 
-    }
-
-    [Command(requiresAuthority = false)]
-    private void DropItemTo(Vector3 position, Quaternion rotation) => RPCDropItemTo(position, rotation);
-    
-    [ClientRpc]
-    private void RPCDropItemTo(Vector3 position, Quaternion rotation)
-    {
-        isCarryingItem = false;
-        if (carriedItem != null)
-            carriedItem.DropTo(position, rotation);
     }
 
     private void DropIfCantCarry()

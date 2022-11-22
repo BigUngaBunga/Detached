@@ -9,15 +9,14 @@ public class ActivatedWall : ActivatedPlatform
     protected override void Activate()
     {
         base.Activate();
+        collider.enabled = false;
     }
 
     protected override void Deactivate()
     {
         base.Deactivate();
+        collider.enabled = true;
     }
-
-    [Server]
-    protected override void RPCUpdateCollider(bool isActive) => collider.enabled = !isActive;
 
     [Server]
     protected override void UpdateAlpha()
