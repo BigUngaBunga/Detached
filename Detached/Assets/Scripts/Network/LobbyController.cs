@@ -168,7 +168,7 @@ public class LobbyController : NetworkBehaviour
         localPlayerController.canStartGame(SceneName);
     }
 
-    public void StartGame(int levelNumber) => StartGame(GlobalLevelIndex.GetLevel(levelNumber));
+    public void StartGame(int levelNumber) => StartGame(GlobalLevelIndex.levelNames[levelNumber - 1]);
 
     public void ReadyPlayer()
     {

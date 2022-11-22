@@ -40,18 +40,7 @@ public class BigButtonTrigger : Trigger, IInteractable
             else
                 attachedLimbs.Add(other.gameObject);
         }
-
-        //CheckAttachedLimbs();
-
-        CheckObjectsOnButton();
-    }
-
-    protected override void PlaySoundOnTrigger()
-    {
-        //FMOD bigbuttonsound
-        //FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/BigButtonEntry", GetComponent<Transform>().position);
-        //FMODUnity.RuntimeManager.PlayOneShot("event:/BigButtonEntry", GetComponent<Transform>().position);
-
+        CheckAttachedLimbs();
     }
 
     public void OnTriggerExit(Collider other)

@@ -1,15 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
-using UnityEngine.UIElements;
 
 public class Goal : NetworkBehaviour
 {
-    public bool isLocked;
     [SerializeField] private int playerNumber;
-    [Header("Override variables")]
-    [SerializeField] private bool overrideNextMap;
-    [SerializeField] private int overrideMapIndex;
+    [SerializeField] private int NextMapIndex;
+    public bool isLocked;
 
     //Manager
     private CustomNetworkManager manager;
@@ -24,6 +21,11 @@ public class Goal : NetworkBehaviour
             }
             return manager = CustomNetworkManager.singleton as CustomNetworkManager;
         }
+    }
+
+    private void Start()
+    {
+        Debug.Log("Number of levels: " + GlobalLevelIndex.levelNames.Length);
     }
 
     [Server]
@@ -61,11 +63,6 @@ public class Goal : NetworkBehaviour
     public void EvaluateVictory()
     {
         if (CheckVictoryStatus())
-        {
-            string nextScene = GlobalLevelIndex.GetNextLevel();
-            if (overrideNextMap)
-                nextScene = GlobalLevelIndex.GetLevel(overrideMapIndex);
-            ServerChangeScene(nextScene);
-        }
+            ServerChangeScene(GlobalLevelIndex.levelNames[NextMapIndex]);
     }
 }
