@@ -11,7 +11,6 @@ public class Goal : NetworkBehaviour
     [SerializeField] private bool sameNumLimbInAsOut = true;
     private int numOfLimbsRequired = 0;
     public bool isLocked;
-    [SerializeField] private int playerNumber;
     [Header("Override variables")]
     [SerializeField] private bool overrideNextMap;
     [SerializeField] private int overrideMapIndex;
@@ -46,7 +45,7 @@ public class Goal : NetworkBehaviour
             }
         }
 
-        Debug.Log("Number of levels: " + GlobalLevelIndex.levelNames.Length);
+        //Debug.Log("Number of levels: " + GlobalLevelIndex.levelNames.Length);
     }
 
     [Server]
