@@ -69,7 +69,9 @@ public class PlayerSpawnSystem : NetworkBehaviour {
         SpawnPoint spawnPointScript = spawnPointsObj.ElementAtOrDefault(nextIndex).GetComponent<SpawnPoint>();
 
         GameObject playerInstance = Instantiate(playerObjToSpawn, spawnPoint.position, spawnPoint.rotation);
-        playerInstance.GetComponent<ItemManager>().SetAmountOfLimbsToSpawn(spawnPointScript.numOfArms, spawnPointScript.numOfLegs);
+        ItemManager playerItemManager = playerInstance.GetComponent<ItemManager>();
+        playerItemManager.SetAmountOfLimbsToSpawn(spawnPointScript.numOfArms, spawnPointScript.numOfLegs);
+        playerItemManager.isDeta = Convert.ToBoolean((nextIndex) % 2); // 1 = true = deta, 0 = false = ched
 
         if (conn.identity != null)
         NetworkServer.Destroy(conn.identity.gameObject);

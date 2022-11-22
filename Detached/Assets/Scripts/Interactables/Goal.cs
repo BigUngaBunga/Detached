@@ -1,12 +1,19 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
+using UnityEngine.UIElements;
 
 public class Goal : NetworkBehaviour
 {
+
     [SerializeField] private int playerNumber;
     [SerializeField] private int NextMapIndex;
+    [SerializeField] private bool sameNumLimbInAsOut = true;
+    private int numOfLimbsRequired = 0;
     public bool isLocked;
+    [Header("Override variables")]
+    [SerializeField] private bool overrideNextMap;
+    [SerializeField] private int overrideMapIndex;
 
     //Manager
     private CustomNetworkManager manager;
@@ -23,9 +30,22 @@ public class Goal : NetworkBehaviour
         }
     }
 
+
     private void Start()
     {
-        Debug.Log("Number of levels: " + GlobalLevelIndex.levelNames.Length);
+        if (sameNumLimbInAsOut)
+        {
+            GameObject[] spawnLocations = GameObject.FindGameObjectsWithTag("SpawnLocation");
+
+            if (spawnLocations.Length != 2) Debug.Log("Missing one or more spawnLocations, possible missing tag.");
+
+            foreach (GameObject spawnLocation in spawnLocations)
+            {
+                numOfLimbsRequired += spawnLocation.GetComponent<SpawnPoint>().NumOfLimbsAtSpawn;
+            }
+        }
+
+        //Debug.Log("Number of levels: " + GlobalLevelIndex.levelNames.Length);
     }
 
     [Server]
@@ -52,7 +72,7 @@ public class Goal : NetworkBehaviour
 
     private bool CheckVictoryStatus()
     {
-        if (!isLocked && playerNumber >= 2)
+        if (!isLocked && playerNumber >= 2 && EvaluateLimbsOnPlayers())
         {
             Debug.Log("The players won");
             return true;
@@ -60,9 +80,26 @@ public class Goal : NetworkBehaviour
         return false;
     }
 
+    private bool EvaluateLimbsOnPlayers()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        int limbs = 0;
+        foreach (GameObject player in players)
+        {
+            limbs += player.GetComponent<ItemManager>().numberOfLimbs;
+        }
+
+        return limbs == numOfLimbsRequired;
+    }
+
     public void EvaluateVictory()
     {
         if (CheckVictoryStatus())
-            ServerChangeScene(GlobalLevelIndex.levelNames[NextMapIndex]);
+        {
+            string nextScene = GlobalLevelIndex.GetNextLevel();
+            if (overrideNextMap)
+                nextScene = GlobalLevelIndex.GetLevel(overrideMapIndex);
+            ServerChangeScene(nextScene);
+        }
     }
 }
