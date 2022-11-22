@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: -2203193906638550545}
   - component: {fileID: 8063657005060212180}
   - component: {fileID: 6247909107761634463}
+  - component: {fileID: 1372651902799275363}
   m_Layer: 15
   m_Name: SceneObject
   m_TagString: Limb
@@ -117,6 +118,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   orignalOwner: {fileID: 0}
+  isDeta: 0
   test: 1
   itemManager: {fileID: 0}
 --- !u!54 &-7261762353476088667
@@ -190,3 +192,19 @@ MonoBehaviour:
   isHighlighted: 0
   highlightMilliseconds: 50
   renderers: []
+--- !u!114 &1372651902799275363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5517544673482374389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 959108eeaccfce44096d49e68499bee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detaBlue: {r: 0.20784315, g: 0.3529412, b: 0.56078434, a: 0}
+  detaWhite: {r: 0.53333336, g: 0.53333336, b: 0.5372549, a: 0}
+  chedBlack: {r: 0.13725491, g: 0.13333334, b: 0.1254902, a: 0}
+  chedGold: {r: 0.3254902, g: 0.3254902, b: 0.12941177, a: 0}

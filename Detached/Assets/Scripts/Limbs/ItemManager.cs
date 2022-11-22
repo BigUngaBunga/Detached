@@ -18,6 +18,8 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public KeyCode selectHeadKey;
     [SerializeField] public KeyCode selectArmKey;
     [SerializeField] public KeyCode selectLegKey;
+    [SerializeField] public KeyCode changeSelectionMode;
+     
 
     [Header("LimbsPrefabs")]
     [SerializeField] public GameObject headObject;
@@ -68,6 +70,11 @@ public class ItemManager : NetworkBehaviour
     private Vector3 mouseReleasePos;
     private GameObject sceneObjectHoldingToThrow;
     private Vector3 orignalPosition = Vector3.zero;
+    public int numberOfLimbs;
+    public bool isDeta;
+    private int selectionMode; //0 == limbSelection mode, 1 == out on map limb selection mode
+
+    
 
     public readonly UnityEvent dropLimbEvent = new UnityEvent();
 
@@ -119,11 +126,13 @@ public class ItemManager : NetworkBehaviour
         if (newValue) // if Detached == true
         {
             leftArmObject.SetActive(false);
+            numberOfLimbs--;
 
         }
         else // if Detached == False
         {
             leftArmObject.SetActive(true);
+            numberOfLimbs++;
         }
     }
     private void OnChangeRightArmDetachedHook(bool oldValue, bool newValue)
@@ -131,11 +140,13 @@ public class ItemManager : NetworkBehaviour
         if (newValue) // if Detached == true
         {
             rightArmObject.SetActive(false);
+            numberOfLimbs--;
 
         }
         else // if Detached == False
         {
             rightArmObject.SetActive(true);
+            numberOfLimbs++;
         }
     }
     private void OnChangeHeadDetachedHook(bool oldValue, bool newValue)
@@ -143,11 +154,13 @@ public class ItemManager : NetworkBehaviour
         if (newValue) // if Detached == true
         {
             headObject.SetActive(false);
+            numberOfLimbs--;
 
         }
         else // if Detached == False
         {
             headObject.SetActive(true);
+            numberOfLimbs++;
 
         }
     }
@@ -156,11 +169,13 @@ public class ItemManager : NetworkBehaviour
         if (newValue) // if Detached == true
         {
             leftLegObject.SetActive(false);
+            numberOfLimbs--;
 
         }
         else // if Detached == False
         {
             leftLegObject.SetActive(true);
+            numberOfLimbs++;
 
         }
     }
@@ -169,11 +184,13 @@ public class ItemManager : NetworkBehaviour
         if (newValue) // if Detached == true
         {
             rightLegObject.SetActive(false);
+            numberOfLimbs--;
 
         }
         else // if Detached == False
         {
             rightLegObject.SetActive(true);
+            numberOfLimbs++;
 
         }
     }
@@ -182,13 +199,14 @@ public class ItemManager : NetworkBehaviour
 
     private void Awake()
     {
+        numberOfLimbs = 5;
+        selectionMode = 0;
         /* originalCamTransform.position = camFocus.localPosition;
          originalCamTransform.eulerAngles = camFocus.localEulerAngles;
          originalCamTransform.rotation = camFocus.localRotation;*/
     }
     /* All drop/throw updates happens below.
-     * All pickup checks happen on each object in script: SceneObjectManager
-     * 
+     * All pickup checks happen on each object in script: SceneObjectManager  
      */
     private void Start()
     {
@@ -197,31 +215,63 @@ public class ItemManager : NetworkBehaviour
     void Update()
     {
         if (!isLocalPlayer) return;
-        if (Input.GetKeyDown(keySwitchBetweenLimbs))
-        {
-            GetAllLimbsInScene();
-            ChangeLimbControll();
-        }
+        
+        HandleSelectionModeChange(); 
+        HandleScrollWheelInput();
+
         if (!AllowInteraction) return;
+
+        //Below not needed anymore, only  used for testing purposes
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
             CmdDropLimb(Limb_enum.Head, gameObject);
         if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
             CmdDropLimb(Limb_enum.Arm, gameObject);
         if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
             CmdDropLimb(Limb_enum.Leg, gameObject);
-
-        if (Input.GetKeyDown(selectHeadKey))
-            selectedLimbToThrow = Limb_enum.Head;
-        if (Input.GetKeyDown(selectArmKey))
-            selectedLimbToThrow = Limb_enum.Arm;
-        if (Input.GetKeyDown(selectLegKey))
-            selectedLimbToThrow = Limb_enum.Leg;
-
+ 
         UpdateThrowButton();
 
         if (dragging)
             TrajectoryCal();
+    }
 
+    private void HandleScrollWheelInput()
+    {        
+        if (Input.mouseScrollDelta.y < 0 || Input.mouseScrollDelta.y > 0)
+        {
+            if(selectionMode == 0)
+            {
+                ChangeSelectedLimbToThrow(Input.mouseScrollDelta.y);
+            }
+            else if (selectionMode == 1)
+            {
+                GetAllLimbsInScene();
+                ChangeLimbControll(Input.mouseScrollDelta.y); //Change this to handle the scroll up and down
+            }
+        }
+    }
+
+    private void ChangeSelectedLimbToThrow(float y)
+    {
+        int change = y > 0 ? 1 : -1;
+        int currentlySelected = (int)selectedLimbToThrow;
+        int allEnums = Enum.GetNames(typeof(Limb_enum)).Length;
+        selectedLimbToThrow = (Limb_enum)((currentlySelected + change) % allEnums);
+    }
+
+    /// <summary>
+    /// Changes Selection mode for player, 0 == limbs on player, 1 == limbs on ground.
+    /// if player isn't controlling the "main" body then he cant switch to limb selection
+    /// </summary>
+    private void HandleSelectionModeChange()
+    {
+        if (Input.GetKeyDown(changeSelectionMode))
+        {
+            if (gameObject.GetComponent<CharacterControl>().isBeingControlled == true) //0 == limbSelection mode, 1 == out on map limb selection mode
+            {
+                selectionMode = (selectionMode + 1) % 2;
+            }
+        }        
     }
 
     #region Check status of players limbs
@@ -298,12 +348,10 @@ public class ItemManager : NetworkBehaviour
                 break;
         }
     }
-
     #endregion
 
     #region LimbControll
-
-    void ChangeLimbControll()
+    void ChangeLimbControll(float scrollDelta)
     {
         //If no limbs is out, this is failsafe to return control over body.
         if (limbs.Count == 0)
@@ -314,8 +362,10 @@ public class ItemManager : NetworkBehaviour
 
         ChangeControllingforLimbAndPlayer(limbs[indexControll], false);
         CheckIfRemoveClientAuthority(limbs[indexControll]);
-        indexControll++;
+
+        indexControll += scrollDelta > 0 ? 1 : -1;        
         indexControll %= limbs.Count;
+        indexControll =  Math.Abs(indexControll);
 
         if (limbs[indexControll] != gameObject)
         {
@@ -532,6 +582,7 @@ public class ItemManager : NetworkBehaviour
                 SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
                 SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
                 SceneObjectScript.orignalOwner = originalOwner;
+                SceneObjectScript.isDeta = isDeta;
                 NetworkServer.Spawn(newSceneObject, connectionToClient); //Set Authority to client att spawn since no other player should be able to control it.
                 SceneObjectScript.detached = true;
                 headDetached = true;
@@ -709,6 +760,7 @@ public class ItemManager : NetworkBehaviour
         SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
         NetworkServer.Spawn(newSceneObject);
         SceneObjectScript.detached = true;
+        SceneObjectScript.isDeta = isDeta;
         SceneObjectScript.orignalOwner = orignalOwner;
     }
 

@@ -41,6 +41,7 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     private int numOfFallOutOfWorld = 0;
 
+    public bool isDeta;
     
     public bool IsBeingControlled
     {
@@ -48,7 +49,9 @@ public class SceneObjectItemManager : NetworkBehaviour
         set { 
             SetControlledStatus(value);
             if (value)
+            {
                 highlight.ForceHighlight();
+            }
             else
                 highlight.ForceStopHighlight();
         }
@@ -70,7 +73,7 @@ public class SceneObjectItemManager : NetworkBehaviour
         detachKeyHead = itemManager.detachKeyHead;
         detachKeyArm = itemManager.detachKeyArm;
         detachKeyLeg = itemManager.detachKeyLeg;
-
+        GetComponent<TextureManager>().UpdateColor();
     }
 
     //Instantiates the limb as a child on the SceneObject 

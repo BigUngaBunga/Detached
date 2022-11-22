@@ -1905,11 +1905,11 @@ CapsuleCollider:
   m_GameObject: {fileID: 4536832242395614807}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 2.170281
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 2.6994817, z: 0}
 --- !u!95 &3618494084772148749
 Animator:
   serializedVersion: 3
@@ -2017,6 +2017,7 @@ MonoBehaviour:
   selectHeadKey: 122
   selectArmKey: 120
   selectLegKey: 99
+  changeSelectionMode: 9
   headObject: {fileID: 4509201223903598031}
   leftArmObject: {fileID: 4852505243593736258}
   rightArmObject: {fileID: 828043718582809933}
@@ -2038,6 +2039,8 @@ MonoBehaviour:
   cinemachine: {fileID: 0}
   throwCamOffset: {x: 0, y: -2, z: -6}
   indicator: {fileID: 3618494084844451030}
+  numberOfLimbs: 0
+  isDeta: 0
   allowInteraction: 1
   headDetached: 0
   leftArmDetached: 0
@@ -2839,7 +2842,7 @@ GameObject:
   - component: {fileID: 401743126}
   m_Layer: 2
   m_Name: ChedBody
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2934,7 +2937,7 @@ BoxCollider:
   m_GameObject: {fileID: 6475681561653359537}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.88131064, y: 1.8341255, z: 0.8673909}
   m_Center: {x: 1.3032101, y: 0.6349899, z: 0.5388026}
