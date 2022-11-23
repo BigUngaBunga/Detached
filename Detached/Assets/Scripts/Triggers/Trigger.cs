@@ -36,6 +36,7 @@ public abstract class Trigger : NetworkBehaviour
         data.Activations++;
         foreach (var activator in activators)
             activator.TriggerActive();
+
         PlaySoundOnTrigger();
     }
     [Command(requiresAuthority = false)]
