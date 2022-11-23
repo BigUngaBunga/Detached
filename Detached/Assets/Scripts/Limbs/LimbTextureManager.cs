@@ -20,28 +20,43 @@ public class LimbTextureManager : MonoBehaviour
         CheckLimb();
     }
 
-    public void ChangeColorOfLimb(ItemManager.Limb_enum limb, GameObject objectToChange)
+    public void ChangeColorOfLimb(ItemManager.Limb_enum limb, GameObject objectToChange, bool isdeta)
     {
-        switch (limb) // Deta colors, based on the actual order on the prefabs
+        if (isdeta)
         {
-            case ItemManager.Limb_enum.Arm:
-                materials[1].color = detaBlue;
-                materials[2].color = detaWhite;
-                break;
-            case ItemManager.Limb_enum.Leg:
-                materials[0].color = detaWhite;
-                materials[1].color = detaBlue;
-                break;
+            switch (limb) // Deta colors, based on the actual order on the prefabs
+            {
+                case ItemManager.Limb_enum.Arm:
+                    materials[1].color = detaBlue;
+                    materials[2].color = detaWhite;
+                    break;
+                case ItemManager.Limb_enum.Leg:
+                    materials[0].color = detaWhite;
+                    materials[1].color = detaBlue;
+                    break;
 
-                /*Ändra bool på när limbs tas upp.
-Vid hooken på detached så ändra smaitidgt färgen på benet.
-Ändra dropp färgen.
-Lägg till Texture manager
-                 * 
-                 * 
-                 * 
-                 */
+                    /*Ändra bool på när limbs tas upp.
+                     Vid hooken på detached så ändra smaitidgt färgen på benet.
+                     Ändra dropp färgen.
+                     Lägg till Texture manager */
+            }
+
         }
+        else
+        {
+            switch (limb)
+            {
+                case ItemManager.Limb_enum.Arm:
+                    materials[1].color = chedGold;
+                    materials[2].color = chedBlack;
+                    break;
+                case ItemManager.Limb_enum.Leg:
+                    materials[0].color = chedBlack;
+                    materials[1].color = chedGold;
+                    break;                  
+            }
+        }
+
     }
 
     public void CheckLimb()

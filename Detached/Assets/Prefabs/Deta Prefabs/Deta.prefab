@@ -2964,6 +2964,7 @@ GameObject:
   - component: {fileID: 7995944500636038889}
   - component: {fileID: 8598928672944970834}
   - component: {fileID: -5581231451597419478}
+  - component: {fileID: 8562232768347387229}
   m_Layer: 0
   m_Name: Deta
   m_TagString: Player
@@ -3049,6 +3050,7 @@ MonoBehaviour:
   RightArm: {fileID: 7279189613691595049}
   LeftLeg: {fileID: 7992929799463199651}
   RightLeg: {fileID: 6579807104763498528}
+  detachSound: {fileID: 0}
 --- !u!54 &7995944500636038882
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3130,6 +3132,7 @@ MonoBehaviour:
   limbManager: {fileID: 7995944500636038891}
   cameraFollow: {fileID: 7303500596127914752}
   cinemaFreelook: {fileID: 0}
+  jumpSound: {fileID: 0}
 --- !u!114 &7995944500636038895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3228,11 +3231,11 @@ MonoBehaviour:
   selectArmKey: 120
   selectLegKey: 99
   changeSelectionMode: 0
-  headObject: {fileID: 6834676900259916983}
-  leftArmObject: {fileID: 276154432667095460}
-  rightArmObject: {fileID: 7279189613691595049}
-  leftLegObject: {fileID: 7992929799463199651}
-  rightLegObject: {fileID: 6579807104763498528}
+  headPrefab: {fileID: 6834676900259916983}
+  leftArmPrefab: {fileID: 276154432667095460}
+  rightArmPrefab: {fileID: 7279189613691595049}
+  leftLegPrefab: {fileID: 7992929799463199651}
+  rightLegPrefab: {fileID: 6579807104763498528}
   wrapperSceneObject: {fileID: 5517544673482374389, guid: f39eca308c527d546a9d80f3ff369181, type: 3}
   headParent: {fileID: 5613751659345665245}
   leftArmParent: {fileID: 9058389186595814266}
@@ -3240,6 +3243,10 @@ MonoBehaviour:
   leftLegParent: {fileID: 3953509863404597016}
   rightLegParent: {fileID: 838188358159146865}
   camFocusOrigin: {fileID: 7346236150098069966}
+  leftArmObject: {fileID: 276154432667095460}
+  rightArmObject: {fileID: 7279189613691595049}
+  leftLegObject: {fileID: 7992929799463199651}
+  rightLegObject: {fileID: 6579807104763498528}
   throwForce: 17.5
   throwUpwardForce: 0
   throwCD: 0.1
@@ -3304,6 +3311,22 @@ MonoBehaviour:
   syncInterval: 0.1
   clientAuthority: 1
   animator: {fileID: 4584058045261913879}
+--- !u!114 &8562232768347387229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7076884516967948247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29abcfc4eeebab742837c547c9f1b2ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detaBlue: {r: 0, g: 0, b: 0, a: 0}
+  detaWhite: {r: 0, g: 0, b: 0, a: 0}
+  chedBlack: {r: 0, g: 0, b: 0, a: 0}
+  chedGold: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &7200559197792005935
 GameObject:
   m_ObjectHideFlags: 0

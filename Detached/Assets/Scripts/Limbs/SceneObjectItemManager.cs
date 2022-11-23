@@ -41,6 +41,7 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     private int numOfFallOutOfWorld = 0;
 
+    [SyncVar]
     public bool isDeta;
     
     public bool IsBeingControlled
