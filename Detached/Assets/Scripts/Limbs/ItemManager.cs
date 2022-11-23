@@ -794,12 +794,14 @@ public class ItemManager : NetworkBehaviour
                     keepSceneObject = rightArmDetached = false;
                 else if (leftArmDetached)
                     keepSceneObject = leftArmDetached = false;
+                    //Change bool of syncvars. When hook 
                 else
                     Debug.Log("No Spots to attach arm to");
                 break;
             case Limb_enum.Leg:
                 if (rightLegDetached)
                     keepSceneObject = rightLegDetached = false;
+                    //change 
                 else if (leftLegDetached)
                     keepSceneObject = leftLegDetached = false;
                 else
