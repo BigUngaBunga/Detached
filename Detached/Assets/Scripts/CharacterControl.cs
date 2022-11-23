@@ -68,9 +68,7 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] private CinemachineFreeLook cinemaFreelook;
 
     [Header("Audio")]
-    [SerializeField] private AudioSource walkSound;
     [SerializeField] private AudioSource jumpSound;
-    private int counter;
 
     private bool isGrounded = false;
 
@@ -191,17 +189,9 @@ public class CharacterControl : NetworkBehaviour
 
         input = new Vector3(horizontalInput, 0, verticalInput);
         moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
-        counter++;
 
         if (isGrounded)
-        {
             rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
-            if(counter >= 200)
-            {
-                walkSound.Play();
-                counter = 0;
-            }
-        }
         else if (!isGrounded)
             rb.AddForce(moveDir.normalized * movementSpeed * 10f * airMultiplier * Time.deltaTime, ForceMode.Force);
 
