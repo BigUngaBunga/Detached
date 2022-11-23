@@ -67,6 +67,8 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] private GameObject cameraFollow;
     [SerializeField] private CinemachineFreeLook cinemaFreelook;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource test;
 
     private bool isGrounded = false;
 
@@ -250,7 +252,7 @@ public class CharacterControl : NetworkBehaviour
         if (isGrounded && Input.GetButton("Jump") && readyToJump && limbManager.HasBothLegs())
         {
             readyToJump = false;
-
+            test.Play();
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
             rb.velocity *= jumpForceReduction;
 
