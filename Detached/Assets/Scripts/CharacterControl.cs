@@ -69,6 +69,7 @@ public class CharacterControl : NetworkBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioSource walkSound;
+    [SerializeField] private AudioSource jumpSound;
     private int counter;
 
     private bool isGrounded = false;
@@ -264,7 +265,7 @@ public class CharacterControl : NetworkBehaviour
             rb.velocity *= jumpForceReduction;
 
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-
+            jumpSound.Play();
             Invoke(nameof(ResetJump), jumpCD); //Hold jump
         }
     }
