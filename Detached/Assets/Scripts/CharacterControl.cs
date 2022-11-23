@@ -67,6 +67,8 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] private GameObject cameraFollow;
     [SerializeField] private CinemachineFreeLook cinemaFreelook;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource jumpSound;
 
     private bool isGrounded = false;
 
@@ -188,7 +190,6 @@ public class CharacterControl : NetworkBehaviour
         input = new Vector3(horizontalInput, 0, verticalInput);
         moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
 
-
         if (isGrounded)
             rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
         else if (!isGrounded)
@@ -250,12 +251,11 @@ public class CharacterControl : NetworkBehaviour
         if (isGrounded && Input.GetButton("Jump") && readyToJump && limbManager.HasBothLegs())
         {
             readyToJump = false;
-
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
             rb.velocity *= jumpForceReduction;
 
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-
+            jumpSound.Play();
             Invoke(nameof(ResetJump), jumpCD); //Hold jump
         }
     }
