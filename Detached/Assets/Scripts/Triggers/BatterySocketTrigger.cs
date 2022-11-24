@@ -8,6 +8,16 @@ public class BatterySocketTrigger : Trigger, IInteractable
     [SerializeField] Transform batteryPosition;
     [SerializeField] GameObject battery;
 
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource triggerSound;
+
+
+    protected override void PlaySoundOnTrigger()
+    {
+        triggerSound.Play();
+    }
+
     private void MoveToBatteryPosition(GameObject battery)
     {
         battery.transform.position = batteryPosition.position;
