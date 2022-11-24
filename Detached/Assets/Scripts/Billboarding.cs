@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Billboarding : MonoBehaviour
 {
+    [SerializeField] bool PreSpawn;
     public string prompt;
     public GameObject floatingText;
     public Camera camera;
@@ -16,7 +17,14 @@ public class Billboarding : MonoBehaviour
 
     void Start()
     {
-        
+        if (PreSpawn)
+        {
+            text = Instantiate(floatingText, transform.position, Quaternion.identity, transform).GetComponentInChildren<TextMeshPro>();
+            text.GetComponent<TextMeshPro>().SetText(prompt);
+            text.GetComponent<TextMeshPro>().fontSize = 16;
+            int multiplier = 2 + prompt.Length / 40;
+            text.GetComponent<TextMeshPro>().gameObject.transform.position += Vector3.up * multiplier;
+        }
     }
 
     void Update()
@@ -33,6 +41,7 @@ public class Billboarding : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (text != null) { return; }
         if (other.gameObject.name == "ChedBody" || other.gameObject.name == "DetaBody")
         {
             text = Instantiate(floatingText, transform.position, Quaternion.identity, transform).GetComponentInChildren<TextMeshPro>();
