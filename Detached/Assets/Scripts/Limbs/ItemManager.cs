@@ -61,6 +61,11 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public Vector3 throwCamOffset;
     [SerializeField] GameObject indicator;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource detachSound;
+    [SerializeField] private AudioSource attachSound;
+    [SerializeField] private AudioSource throwSound;
+
     private bool readyToThrow;
     private Limb_enum selectedLimbToThrow = Limb_enum.Head;
     private GameObject headObj;
@@ -223,11 +228,21 @@ public class ItemManager : NetworkBehaviour
 
         //Below not needed anymore, only  used for testing purposes
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
+        {
             CmdDropLimb(Limb_enum.Head, gameObject);
+            detachSound.Play();
+        } 
         if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
+        {
             CmdDropLimb(Limb_enum.Arm, gameObject);
+            detachSound.Play();
+        }
         if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
+        {
             CmdDropLimb(Limb_enum.Leg, gameObject);
+            detachSound.Play();
+        }
+            
  
         UpdateThrowButton();
 
@@ -692,7 +707,7 @@ public class ItemManager : NetworkBehaviour
             sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
             /*cinemachine.m_YAxis.Value=0.4f;
             cinemachine.m_YAxis.m_InputAxisName = "";*/
-
+            detachSound.Play();
             //cam when aiming
             camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
         }
@@ -723,7 +738,7 @@ public class ItemManager : NetworkBehaviour
             // dir = (Input.mousePosition - mousePressDownPos).normalized;
             // CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position);
             CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position, gameObject);
-
+            throwSound.Play();
 
         }
     }
@@ -792,6 +807,7 @@ public class ItemManager : NetworkBehaviour
             case Limb_enum.Arm:
                 if (rightArmDetached)
                     keepSceneObject = rightArmDetached = false;
+                
                 else if (leftArmDetached)
                     keepSceneObject = leftArmDetached = false;
                 else
