@@ -8,6 +8,8 @@ public class MusicManager : MonoBehaviour
     FMOD.Studio.EventInstance currentSound;
     int currentIndex = 0;
     float time;
+    float globalVolume = 0.3f;
+    float timeBetweenSongs = 40.0f; //seconds
     void Start()
     {
         songs.Add(FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_MAIN_MENU"));
@@ -20,7 +22,7 @@ public class MusicManager : MonoBehaviour
 
         currentSound = FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_MAIN_MENU");
         currentSound.start();
-        currentSound.setVolume(0.3f);
+        currentSound.setVolume(globalVolume);
         FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Intensity", 10f);
         DontDestroyOnLoad(this);
     }
@@ -41,8 +43,9 @@ public class MusicManager : MonoBehaviour
             FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Intensity", newVal);
             Debug.Log(newVal);
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow) && value > 0f)
+        if (Input.GetKeyDown(KeyCode.RightArrow) || time >= timeBetweenSongs)
         {
+            time = 0;
             currentSound.setParameterByName("EndSong", 1f);
             currentIndex++;
             if (currentIndex >= songs.Count)
@@ -50,13 +53,13 @@ public class MusicManager : MonoBehaviour
                 currentIndex = 1;
                 currentSound = songs[currentIndex];
                 currentSound.start();
-                currentSound.setVolume(0.3f);
+                currentSound.setVolume(globalVolume);
             }
             else
             {
                 currentSound = songs[currentIndex];
                 currentSound.start();
-                currentSound.setVolume(0.3f);
+                currentSound.setVolume(globalVolume);
             }
         }
         currentSound.getVolume(out float volume);
@@ -64,5 +67,6 @@ public class MusicManager : MonoBehaviour
         {
 
         }
+        time += Time.deltaTime;
     }
 }

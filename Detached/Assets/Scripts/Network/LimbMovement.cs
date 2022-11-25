@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using LimbType = ItemManager.Limb_enum;
 
 public class LimbMovement : NetworkBehaviour
 {
@@ -28,27 +29,8 @@ public class LimbMovement : NetworkBehaviour
     {
         if (!hasAuthority && !isClient) return;
 
-        if (!sceneObjectItemManagerScript.IsBeingControlled) return;
+        if (!sceneObjectItemManagerScript.IsBeingControlled || sceneObjectItemManagerScript.thisLimb== LimbType.Head) return;
 
-        //Vector3 move = new Vector3();
-
-
-        //if (Input.GetKeyDown(KeyCode.W))
-        //{
-        //    move += new Vector3(0, 0, movementSpeed);
-        //}
-        //if (Input.GetKeyDown(KeyCode.S))
-        //{
-        //    move += new Vector3(0, 0, -movementSpeed);
-        //}
-        //if (Input.GetKeyDown(KeyCode.A))
-        //{
-        //    move += new Vector3(-movementSpeed, 0, 0);
-        //}
-        //if (Input.GetKeyDown(KeyCode.D))
-        //{
-        //    move += new Vector3(movementSpeed, 0, 0);
-        //}
         MyInput();
         Movement();
 

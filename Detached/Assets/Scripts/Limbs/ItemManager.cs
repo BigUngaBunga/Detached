@@ -209,6 +209,7 @@ public class ItemManager : NetworkBehaviour
         /* originalCamTransform.position = camFocus.localPosition;
          originalCamTransform.eulerAngles = camFocus.localEulerAngles;
          originalCamTransform.rotation = camFocus.localRotation;*/
+        cinemachine = FindObjectOfType<CinemachineFreeLook>();
     }
     /* All drop/throw updates happens below.
      * All pickup checks happen on each object in script: SceneObjectManager  
@@ -401,7 +402,7 @@ public class ItemManager : NetworkBehaviour
     {
         //Expected that all handling of other limb controll removement is done
         gameObject.GetComponent<CharacterControl>().isBeingControlled = true;
-        
+
     }
 
     private bool CheckIfOtherPlayerIsControllingLimb(GameObject objToCheck)
@@ -621,7 +622,7 @@ public class ItemManager : NetworkBehaviour
                 if (!leftLegDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, throwpoint, leftLegParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb , originalOwner);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, originalOwner);
                     leftLegDetached = true;
                 }
                 else if (!rightLegDetached)
@@ -669,9 +670,9 @@ public class ItemManager : NetworkBehaviour
         ///
         #endregion
 
-        Vector3 upForce = (Input.mousePosition - mousePressDownPos).normalized;
-        throwUpwardForce = upForce.y;
-        DrawTrajectory.instance.DrawProjection(camPoint.transform.forward,transform.up, throwPoint.position,throwForce,throwUpwardForce);  
+       /* Vector3 upForce = (Input.mousePosition - mousePressDownPos).normalized;
+        throwUpwardForce = upForce.y * 4;*/
+        DrawTrajectory.instance.DrawProjection(camPoint.transform.forward, transform.up, throwPoint.position, throwForce, throwUpwardForce);
     }
 
     private GameObject GetGameObjectLimbFromSelect()
@@ -705,11 +706,22 @@ public class ItemManager : NetworkBehaviour
             indicator.SetActive(true);
             sceneObjectHoldingToThrow = GetGameObjectLimbFromSelect();
             sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
-            /*cinemachine.m_YAxis.Value=0.4f;
+            /*cinemachine.m_YAxis.Value = 0.4f;
             cinemachine.m_YAxis.m_InputAxisName = "";*/
             detachSound.Play();
+            /* cinemachine.m_YAxis.m_MinValue = 0.13f;*/
+            // Debug.Log("less");
+
             //cam when aiming
             camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
+            float chargeUpSpeed = 3f;
+            cinemachine.m_YAxis.m_MaxSpeed = chargeUpSpeed;
+            //if (cinemachine.m_YAxis.m_MaxValue <= 0.35f)
+
+            float maxThrowHeight = 0.28f; //from cam perspective
+            cinemachine.m_YAxis.m_MinValue = maxThrowHeight;
+            //camFocus.localRotation = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
+
         }
         else if (Input.GetMouseButtonUp(1))
         {
@@ -718,6 +730,8 @@ public class ItemManager : NetworkBehaviour
             DrawTrajectory.instance.HideLine();
             indicator.SetActive(false);
             camFocus.localPosition = Vector3.zero;
+            cinemachine.m_YAxis.m_MaxSpeed = 10;
+            cinemachine.m_YAxis.m_MinValue = 0;
             if (sceneObjectHoldingToThrow != null)
             {
                 sceneObjectHoldingToThrow.transform.localPosition = Vector3.zero;
@@ -733,6 +747,8 @@ public class ItemManager : NetworkBehaviour
             mouseReleasePos = Input.mousePosition;
             sceneObjectHoldingToThrow.transform.localPosition = Vector3.zero;
             sceneObjectHoldingToThrow = null;
+            cinemachine.m_YAxis.m_MaxSpeed = 10;
+            cinemachine.m_YAxis.m_MinValue = 0;
 
             //ending point - starting point + cam movement
             // dir = (Input.mousePosition - mousePressDownPos).normalized;
@@ -753,9 +769,9 @@ public class ItemManager : NetworkBehaviour
 
         objectRb = sceneObject.GetComponent<Rigidbody>();
 
-      /*  Vector3 forceToAdd = new Vector3(force.x, force.y, z: force.z);*/
+        /*  Vector3 forceToAdd = new Vector3(force.x, force.y, z: force.z);*/
         //Vector3 dir = Quaternion.AngleAxis(camPoint.rotation.eulerAngles.y, Vector3.up).normalized * forceToAdd;
-        objectRb.AddForce(force,ForceMode.Impulse);
+        objectRb.AddForce(force, ForceMode.Impulse);
 
         Invoke(nameof(ResetThrow), throwCD);
     }
@@ -766,7 +782,7 @@ public class ItemManager : NetworkBehaviour
         readyToThrow = true;
     }
 
-    
+
 
     [Server]
     private void DropGenericLimb(GameObject newSceneObject, SceneObjectItemManager SceneObjectScript, Limb_enum limb, GameObject orignalOwner)
@@ -810,12 +826,14 @@ public class ItemManager : NetworkBehaviour
                 
                 else if (leftArmDetached)
                     keepSceneObject = leftArmDetached = false;
+                    //Change bool of syncvars. When hook 
                 else
                     Debug.Log("No Spots to attach arm to");
                 break;
             case Limb_enum.Leg:
                 if (rightLegDetached)
                     keepSceneObject = rightLegDetached = false;
+                    //change 
                 else if (leftLegDetached)
                     keepSceneObject = leftLegDetached = false;
                 else
