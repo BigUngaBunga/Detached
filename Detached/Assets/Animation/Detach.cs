@@ -8,8 +8,7 @@ public class Detach : MonoBehaviour
     // Start is called before the first frame update
 
 
-    [SerializeField] private AudioSource detachSound;
-
+    
     void Start()
     {
         
@@ -21,14 +20,13 @@ public class Detach : MonoBehaviour
         if (Input.GetKeyDown("1"))
         {
             // Head 
-            if(Head.active == false)
+            if (Head.active == false)
             {
                 Head.SetActive(true);
             }
             else if(Head.active == true)
             {
                 Head.SetActive(false);
-                detachSound.Play();
             }
         }
         else if (Input.GetKeyDown("2"))
@@ -41,7 +39,6 @@ public class Detach : MonoBehaviour
             else if (LeftArm.active == true)
             {
                 LeftArm.SetActive(false);
-                detachSound.Play();
             }
         }
         else if (Input.GetKeyDown("3"))
@@ -54,7 +51,6 @@ public class Detach : MonoBehaviour
             else if (RightArm.active == true)
             {
                 RightArm.SetActive(false);
-                detachSound.Play();
             }
         }
         else if (Input.GetKeyDown("4"))
@@ -67,7 +63,6 @@ public class Detach : MonoBehaviour
             else if (LeftLeg.active == true)
             {
                 LeftLeg.SetActive(false);
-                detachSound.Play();
             }
         }
         else if (Input.GetKeyDown("5"))
@@ -80,7 +75,6 @@ public class Detach : MonoBehaviour
             else if (RightLeg.active == true)
             {
                 RightLeg.SetActive(false);
-                detachSound.Play();
             }
         }
     }
