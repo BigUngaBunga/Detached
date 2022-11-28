@@ -8,12 +8,12 @@ public class TextureManager : MonoBehaviour
     [SerializeField] Color detaWhite;
     [SerializeField] Color chedBlack;
     [SerializeField] Color chedGold;
-    private MeshRenderer rend;
+    public MeshRenderer rend;
     private Material[] materials;
 
     public void UpdateColor()
-    {
-        rend = GetComponentInChildren<MeshRenderer>();
+    {      
+        rend = gameObject.GetComponentInChildren<MeshRenderer>();
         materials = rend.materials;
         CheckLimb();
     }
@@ -36,7 +36,6 @@ public class TextureManager : MonoBehaviour
                     materials[2].color = detaWhite;
                     materials[3].color = detaBlue;
                     break;
-
             }
         }
         else 
