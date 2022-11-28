@@ -61,11 +61,6 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public Vector3 throwCamOffset;
     [SerializeField] GameObject indicator;
 
-    [Header("Audio")]
-    [SerializeField] private AudioSource detachSound;
-    [SerializeField] private AudioSource attachSound;
-    [SerializeField] private AudioSource throwSound;
-
     private bool readyToThrow;
     private Limb_enum selectedLimbToThrow = Limb_enum.Head;
     private GameObject headObj;
@@ -231,17 +226,17 @@ public class ItemManager : NetworkBehaviour
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
         {
             CmdDropLimb(Limb_enum.Head, gameObject);
-            detachSound.Play();
+            Sounds.detachSound.start();
         } 
         if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
         {
             CmdDropLimb(Limb_enum.Arm, gameObject);
-            detachSound.Play();
+            Sounds.detachSound.start();
         }
         if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
         {
             CmdDropLimb(Limb_enum.Leg, gameObject);
-            detachSound.Play();
+            Sounds.detachSound.start();
         }
             
  
@@ -708,7 +703,7 @@ public class ItemManager : NetworkBehaviour
             sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
             /*cinemachine.m_YAxis.Value = 0.4f;
             cinemachine.m_YAxis.m_InputAxisName = "";*/
-            detachSound.Play();
+            Sounds.detachSound.start();
             /* cinemachine.m_YAxis.m_MinValue = 0.13f;*/
             // Debug.Log("less");
 
@@ -754,7 +749,7 @@ public class ItemManager : NetworkBehaviour
             // dir = (Input.mousePosition - mousePressDownPos).normalized;
             // CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position);
             CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position, gameObject);
-            throwSound.Play();
+            Sounds.throwSound.start();
 
         }
     }

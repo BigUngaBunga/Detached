@@ -13,13 +13,9 @@ public class LeverTrigger : Trigger, IInteractable
     [SerializeField] private GameObject normalLever;
     private HighlightObject highlight;
 
-    [Header("Audio")]
-    [SerializeField] private AudioSource triggerSound;
-
-
     protected override void PlaySoundOnTrigger()
     {
-        triggerSound.Play();
+        Sounds.pullLeverSound.start();
     }
 
     protected override void Start()

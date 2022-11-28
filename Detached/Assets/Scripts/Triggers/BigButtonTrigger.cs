@@ -10,9 +10,6 @@ public class BigButtonTrigger : Trigger, IInteractable
     [SerializeField] private List<GameObject> objectsOnButton = new List<GameObject>();
     private bool HasBox => box != null;
 
-    [Header("Audio")]
-    [SerializeField] private AudioSource triggerSound;
-
     private int TriggeringObjects { 
         get => triggeringObjects; 
         set {
@@ -49,11 +46,7 @@ public class BigButtonTrigger : Trigger, IInteractable
 
     protected override void PlaySoundOnTrigger()
     {
-
-        triggerSound.Play();
-        //FMOD bigbuttonsound
-        //FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/BigButtonEntry", GetComponent<Transform>().position);
-        //FMODUnity.RuntimeManager.PlayOneShot("event:/BigButtonEntry", GetComponent<Transform>().position);
+        Sounds.pushButtonSound.start();
     }
 
     public void OnTriggerExit(Collider other)

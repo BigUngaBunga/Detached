@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
+using FMOD.Studio;
 
-public class Sounds : MonoBehaviour
+public static class Sounds
 {
-
-    [Header("Audio")]
-    [SerializeField] private AudioSource walkSound;
-    // Start is called before the first frame update
-   public void OnTriggerEnter(Collider col)
-    {
-        if(col.tag == "Leg")
-        {
-            walkSound.Play();
-        }
-    }
+    public static EventInstance walkSound = RuntimeManager.CreateInstance("event:/SFX/Walking");
+    public static EventInstance attachSound = RuntimeManager.CreateInstance("event:/SFX/Attach");
+    public static EventInstance detachSound = RuntimeManager.CreateInstance("event:/SFX/Detach");
+    public static EventInstance jumpSound = RuntimeManager.CreateInstance("event:/SFX/Jump");
+    public static EventInstance pullLeverSound = RuntimeManager.CreateInstance("event:/SFX/PullLever");
+    public static EventInstance pushButtonSound = RuntimeManager.CreateInstance("event:/SFX/PushButton");
+    public static EventInstance throwSound = RuntimeManager.CreateInstance("event:/SFX/Throw");
 }

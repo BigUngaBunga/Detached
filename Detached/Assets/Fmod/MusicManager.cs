@@ -16,10 +16,18 @@ public class MusicManager : MonoBehaviour
 
     private int currentIndex = 0;
     private float time;
-    private float globalVolume = 0.1f;
+    private float globalVolume = 0.02f;
     private float timeBetweenSongs = 40.0f; //seconds
     void Start()
     {
+        Sounds.walkSound.setVolume(globalVolume);
+        Sounds.attachSound.setVolume(globalVolume);
+        Sounds.detachSound.setVolume(globalVolume);
+        Sounds.jumpSound.setVolume(globalVolume);
+        Sounds.pullLeverSound.setVolume(globalVolume);
+        Sounds.pushButtonSound.setVolume(globalVolume);
+        Sounds.throwSound.setVolume(globalVolume);
+
         songCallback = new FMOD.Studio.EVENT_CALLBACK(SongEventCallback);
 
         songs.Add(RuntimeManager.CreateInstance("event:/SoundTrack/ST_MAIN_MENU"));
