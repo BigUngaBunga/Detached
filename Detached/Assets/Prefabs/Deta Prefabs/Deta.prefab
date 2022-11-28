@@ -3153,6 +3153,7 @@ GameObject:
   - component: {fileID: 5271540035172486584}
   - component: {fileID: 7872258490079583520}
   - component: {fileID: 5211977982469642862}
+  - component: {fileID: 9186375334813024562}
   m_Layer: 0
   m_Name: Deta
   m_TagString: Player
@@ -3418,12 +3419,12 @@ MonoBehaviour:
   selectHeadKey: 122
   selectArmKey: 120
   selectLegKey: 99
-  changeSelectionMode: 0
-  headObject: {fileID: 6834676900259916983}
-  leftArmObject: {fileID: 276154432667095460}
-  rightArmObject: {fileID: 7279189613691595049}
-  leftLegObject: {fileID: 7992929799463199651}
-  rightLegObject: {fileID: 6579807104763498528}
+  changeSelectionMode: 9
+  headPrefab: {fileID: 6834676900259916983}
+  leftArmPrefab: {fileID: 276154432667095460}
+  rightArmPrefab: {fileID: 7279189613691595049}
+  leftLegPrefab: {fileID: 7992929799463199651}
+  rightLegPrefab: {fileID: 6579807104763498528}
   wrapperSceneObject: {fileID: 5517544673482374389, guid: f39eca308c527d546a9d80f3ff369181, type: 3}
   headParent: {fileID: 5613751659345665245}
   leftArmParent: {fileID: 9058389186595814266}
@@ -3786,6 +3787,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &9186375334813024562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7076884516967948247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29abcfc4eeebab742837c547c9f1b2ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detaBlue: {r: 0.2784314, g: 0.49803925, b: 0.8000001, a: 0}
+  detaWhite: {r: 0.8000001, g: 0.8000001, b: 0.8000001, a: 0}
+  chedBlack: {r: 0, g: 0, b: 0, a: 0}
+  chedGold: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &7200559197792005935
 GameObject:
   m_ObjectHideFlags: 0
