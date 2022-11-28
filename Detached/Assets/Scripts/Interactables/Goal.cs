@@ -31,7 +31,7 @@ public class Goal : NetworkBehaviour
     }
 
 
-    private void Start()
+    protected virtual void Start()
     {
         if (sameNumLimbInAsOut)
         {
@@ -70,7 +70,7 @@ public class Goal : NetworkBehaviour
             playerNumber--;
     }
 
-    private bool CheckVictoryStatus()
+    protected bool CheckVictoryStatus()
     {
         if (!isLocked && playerNumber >= 2 && EvaluateLimbsOnPlayers())
         {
@@ -92,7 +92,7 @@ public class Goal : NetworkBehaviour
         return limbs == numOfLimbsRequired;
     }
 
-    public void EvaluateVictory()
+    public virtual void EvaluateVictory()
     {
         if (CheckVictoryStatus())
         {

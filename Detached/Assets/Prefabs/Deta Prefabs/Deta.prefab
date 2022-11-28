@@ -3153,6 +3153,7 @@ GameObject:
   - component: {fileID: 5271540035172486584}
   - component: {fileID: 7872258490079583520}
   - component: {fileID: 5211977982469642862}
+  - component: {fileID: 9186375334813024562}
   m_Layer: 0
   m_Name: Deta
   m_TagString: Player
@@ -3239,7 +3240,6 @@ MonoBehaviour:
   RightArm: {fileID: 7279189613691595049}
   LeftLeg: {fileID: 7992929799463199651}
   RightLeg: {fileID: 6579807104763498528}
-  detachSound: {fileID: 0}
 --- !u!54 &7995944500636038882
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3419,12 +3419,12 @@ MonoBehaviour:
   selectHeadKey: 122
   selectArmKey: 120
   selectLegKey: 99
-  changeSelectionMode: 0
-  headObject: {fileID: 6834676900259916983}
-  leftArmObject: {fileID: 276154432667095460}
-  rightArmObject: {fileID: 7279189613691595049}
-  leftLegObject: {fileID: 7992929799463199651}
-  rightLegObject: {fileID: 6579807104763498528}
+  changeSelectionMode: 9
+  headPrefab: {fileID: 6834676900259916983}
+  leftArmPrefab: {fileID: 276154432667095460}
+  rightArmPrefab: {fileID: 7279189613691595049}
+  leftLegPrefab: {fileID: 7992929799463199651}
+  rightLegPrefab: {fileID: 6579807104763498528}
   wrapperSceneObject: {fileID: 5517544673482374389, guid: f39eca308c527d546a9d80f3ff369181, type: 3}
   headParent: {fileID: 5613751659345665245}
   leftArmParent: {fileID: 9058389186595814266}
@@ -3433,7 +3433,7 @@ MonoBehaviour:
   rightLegParent: {fileID: 838188358159146865}
   camFocusOrigin: {fileID: 7346236150098069966}
   throwForce: 15
-  throwUpwardForce: 5
+  throwUpwardForce: 8
   throwCD: 0.1
   camPoint: {fileID: 0}
   throwPoint: {fileID: 7995944501814591378}
@@ -3787,6 +3787,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &9186375334813024562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7076884516967948247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29abcfc4eeebab742837c547c9f1b2ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detaBlue: {r: 0.2784314, g: 0.49803925, b: 0.8000001, a: 0}
+  detaWhite: {r: 0.8000001, g: 0.8000001, b: 0.8000001, a: 0}
+  chedBlack: {r: 0, g: 0, b: 0, a: 0}
+  chedGold: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &7200559197792005935
 GameObject:
   m_ObjectHideFlags: 0
@@ -4312,7 +4328,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7995944500616204132}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.36, y: 1.613, z: -0.06}
+  m_LocalPosition: {x: 0.396, y: 2.87, z: 1.417}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7601500395149870445}
@@ -4552,7 +4568,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7995944501814591377}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.01, y: 1.71, z: -0.18}
+  m_LocalPosition: {x: 0.046000004, y: 2.9299998, z: 1.362}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7601500395149870445}

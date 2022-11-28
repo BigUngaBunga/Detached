@@ -1243,11 +1243,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3618494084020866666}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.37, y: 2.42, z: -0.26}
+  m_LocalPosition: {x: 0.22, y: 2.97, z: 1.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3872462703351551213}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3618494084844451030
 GameObject:
@@ -1279,7 +1279,7 @@ Transform:
   m_LocalScale: {x: 1.06743, y: 1.06743, z: 1.06743}
   m_Children: []
   m_Father: {fileID: 3872462703351551213}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3618494084844451035
 MeshFilter:
@@ -1613,11 +1613,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3618494085464057120}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.2, y: 2.03, z: -0.25}
+  m_LocalPosition: {x: 1.24, y: 2.72, z: -0.10764319}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3872462703351551213}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3618494085552494201
 GameObject:
@@ -2002,6 +2002,7 @@ GameObject:
   - component: {fileID: 3409997964746216048}
   - component: {fileID: 5814121909641589077}
   - component: {fileID: 3000783395029977930}
+  - component: {fileID: 8978797140055249330}
   m_Layer: 0
   m_Name: Ched
   m_TagString: Player
@@ -2025,9 +2026,9 @@ Transform:
   - {fileID: 5617121615382190459}
   - {fileID: 3618494084896012016}
   - {fileID: 3618494085096027931}
+  - {fileID: 3618494085464057127}
   - {fileID: 3618494084844451029}
   - {fileID: 3618494084020866665}
-  - {fileID: 3618494085464057127}
   - {fileID: 3618494085122639176}
   - {fileID: 3618494083954888923}
   - {fileID: 9170584936149719434}
@@ -2173,11 +2174,11 @@ MonoBehaviour:
   selectArmKey: 120
   selectLegKey: 99
   changeSelectionMode: 9
-  headObject: {fileID: 4509201223903598031}
-  leftArmObject: {fileID: 4852505243593736258}
-  rightArmObject: {fileID: 828043718582809933}
-  leftLegObject: {fileID: 6092629106015054758}
-  rightLegObject: {fileID: 5872359655522262497}
+  headPrefab: {fileID: 4509201223903598031}
+  leftArmPrefab: {fileID: 4852505243593736258}
+  rightArmPrefab: {fileID: 828043718582809933}
+  leftLegPrefab: {fileID: 6092629106015054758}
+  rightLegPrefab: {fileID: 5872359655522262497}
   wrapperSceneObject: {fileID: 5517544673482374389, guid: f39eca308c527d546a9d80f3ff369181, type: 3}
   headParent: {fileID: 4029093978085234783}
   leftArmParent: {fileID: 4709398497608643133}
@@ -2195,6 +2196,7 @@ MonoBehaviour:
   throwCamOffset: {x: 0, y: -0.2, z: 4}
   indicator: {fileID: 3618494084844451030}
   detachSound: {fileID: 3409997964746216048}
+  attachSound: {fileID: 0}
   throwSound: {fileID: 3000783395029977930}
   numberOfLimbs: 0
   isDeta: 0
@@ -2633,6 +2635,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8978797140055249330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4536832242395614807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29abcfc4eeebab742837c547c9f1b2ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detaBlue: {r: 0.2784314, g: 0.49803925, b: 0.8000001, a: 0}
+  detaWhite: {r: 0.8000001, g: 0.8000001, b: 0.8000001, a: 0}
+  chedBlack: {r: 0.058823533, g: 0.058823533, b: 0.058823533, a: 0}
+  chedGold: {r: 0.28235295, g: 0.28235295, b: 0, a: 0}
 --- !u!1 &4751261324914809682
 GameObject:
   m_ObjectHideFlags: 0
