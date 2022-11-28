@@ -23,26 +23,26 @@ public class LimbMovement : NetworkBehaviour
     {
         sceneObjectItemManagerScript = gameObject.GetComponent<SceneObjectItemManager>();
         camTransform = Camera.main.transform;
-        
-    }
 
-  /*  private void Awake()
-    {
-       
-    }*/
+    }
 
     void Update()
     {
         if (!hasAuthority && !isClient) return;
 
-        gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up);
-        if (!sceneObjectItemManagerScript.IsBeingControlled || sceneObjectItemManagerScript.thisLimb== LimbType.Head) return;
-            
-        MyInput();
-        Movement();
-      
 
-        CmdMoveObject(moveDir);
+        if (!sceneObjectItemManagerScript.IsBeingControlled) return;
+
+        if (sceneObjectItemManagerScript.thisLimb != LimbType.Head)
+        {
+
+            MyInput();
+            Movement();
+
+            CmdMoveObject(moveDir);
+        }
+
+        gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up);
     }
 
     private void Movement()
