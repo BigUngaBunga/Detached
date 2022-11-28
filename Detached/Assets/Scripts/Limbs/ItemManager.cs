@@ -19,7 +19,7 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public KeyCode selectArmKey;
     [SerializeField] public KeyCode selectLegKey;
     [SerializeField] public KeyCode changeSelectionMode;
-     
+
 
     [Header("LimbsPrefabs")]
     [SerializeField] public GameObject headObject;
@@ -61,6 +61,8 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public Vector3 throwCamOffset;
     [SerializeField] GameObject indicator;
 
+    float maxCamHeight;
+
     [Header("Audio")]
     [SerializeField] private AudioSource detachSound;
     [SerializeField] private AudioSource attachSound;
@@ -79,7 +81,7 @@ public class ItemManager : NetworkBehaviour
     public bool isDeta;
     private int selectionMode; //0 == limbSelection mode, 1 == out on map limb selection mode
 
-    
+
 
     public readonly UnityEvent dropLimbEvent = new UnityEvent();
 
@@ -206,10 +208,13 @@ public class ItemManager : NetworkBehaviour
     {
         numberOfLimbs = 5;
         selectionMode = 0;
+
         /* originalCamTransform.position = camFocus.localPosition;
          originalCamTransform.eulerAngles = camFocus.localEulerAngles;
          originalCamTransform.rotation = camFocus.localRotation;*/
         cinemachine = FindObjectOfType<CinemachineFreeLook>();
+        maxCamHeight = 0.2f;
+        //cinemachine.m_YAxis.m_MinValue = maxCamHeight;
     }
     /* All drop/throw updates happens below.
      * All pickup checks happen on each object in script: SceneObjectManager  
@@ -221,8 +226,8 @@ public class ItemManager : NetworkBehaviour
     void Update()
     {
         if (!isLocalPlayer) return;
-        
-        HandleSelectionModeChange(); 
+
+        HandleSelectionModeChange();
         HandleScrollWheelInput();
 
         if (!AllowInteraction) return;
@@ -232,7 +237,7 @@ public class ItemManager : NetworkBehaviour
         {
             CmdDropLimb(Limb_enum.Head, gameObject);
             detachSound.Play();
-        } 
+        }
         if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
         {
             CmdDropLimb(Limb_enum.Arm, gameObject);
@@ -243,8 +248,8 @@ public class ItemManager : NetworkBehaviour
             CmdDropLimb(Limb_enum.Leg, gameObject);
             detachSound.Play();
         }
-            
- 
+
+
         UpdateThrowButton();
 
         if (dragging)
@@ -252,10 +257,10 @@ public class ItemManager : NetworkBehaviour
     }
 
     private void HandleScrollWheelInput()
-    {        
+    {
         if (Input.mouseScrollDelta.y < 0 || Input.mouseScrollDelta.y > 0)
         {
-            if(selectionMode == 0)
+            if (selectionMode == 0)
             {
                 ChangeSelectedLimbToThrow(Input.mouseScrollDelta.y);
             }
@@ -283,11 +288,16 @@ public class ItemManager : NetworkBehaviour
     {
         if (Input.GetKeyDown(changeSelectionMode))
         {
-            if (gameObject.GetComponent<CharacterControl>().isBeingControlled == true) //0 == limbSelection mode, 1 == out on map limb selection mode
+            if (gameObject.GetComponent<CharacterControl>().isBeingControlled == true) //0 == limbSelection mode(onbody selection), 1 == out on map limb selection mode(offbody selection)
             {
                 selectionMode = (selectionMode + 1) % 2;
             }
-        }        
+
+            if (selectionMode == 0)
+            {
+                CamPositionReset();
+            }
+        }
     }
 
     #region Check status of players limbs
@@ -379,9 +389,9 @@ public class ItemManager : NetworkBehaviour
         ChangeControllingforLimbAndPlayer(limbs[indexControll], false);
         CheckIfRemoveClientAuthority(limbs[indexControll]);
 
-        indexControll += scrollDelta > 0 ? 1 : -1;        
+        indexControll += scrollDelta > 0 ? 1 : -1;
         indexControll %= limbs.Count;
-        indexControll =  Math.Abs(indexControll);
+        indexControll = Math.Abs(indexControll);
 
         if (limbs[indexControll] != gameObject)
         {
@@ -395,6 +405,16 @@ public class ItemManager : NetworkBehaviour
             indexControll %= limbs.Count;
         }
         ChangeControllingforLimbAndPlayer(limbs[indexControll], true);
+        camFocus.parent = limbs[indexControll].transform; //bug
+
+        //if (limbs[indexControll] == (rightArmObject || leftArmObject || headObj))
+        //    cinemachine.m_YAxis.m_MinValue = 0.25f;
+        //else
+            cinemachine.m_YAxis.m_MinValue = maxCamHeight;
+
+        camFocus.localPosition = Vector3.zero;
+        camFocus.localEulerAngles = Vector3.zero;
+        camFocus.localScale = Vector3.one;
         CheckIfAddClientAuthority(limbs[indexControll]);
     }
 
@@ -603,6 +623,7 @@ public class ItemManager : NetworkBehaviour
                 SceneObjectScript.detached = true;
                 headDetached = true;
                 camFocus.parent = SceneObjectScript.transform;
+                selectionMode = 1;
                 SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 break;
 
@@ -610,8 +631,12 @@ public class ItemManager : NetworkBehaviour
                 if (!leftArmDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, throwpoint, leftArmParent.transform.rotation);
+
                     DropGenericLimb(newSceneObject, SceneObjectScript, limb, originalOwner);
                     leftArmDetached = true;
+
+                    // camFocus.parent = SceneObjectScript.transform;
+                    /*  SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;*/
                 }
                 else
                 {
@@ -670,8 +695,8 @@ public class ItemManager : NetworkBehaviour
         ///
         #endregion
 
-       /* Vector3 upForce = (Input.mousePosition - mousePressDownPos).normalized;
-        throwUpwardForce = upForce.y * 4;*/
+        /* Vector3 upForce = (Input.mousePosition - mousePressDownPos).normalized;
+         throwUpwardForce = upForce.y * 4;*/
         DrawTrajectory.instance.DrawProjection(camPoint.transform.forward, transform.up, throwPoint.position, throwForce, throwUpwardForce);
     }
 
@@ -706,11 +731,7 @@ public class ItemManager : NetworkBehaviour
             indicator.SetActive(true);
             sceneObjectHoldingToThrow = GetGameObjectLimbFromSelect();
             sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
-            /*cinemachine.m_YAxis.Value = 0.4f;
-            cinemachine.m_YAxis.m_InputAxisName = "";*/
             detachSound.Play();
-            /* cinemachine.m_YAxis.m_MinValue = 0.13f;*/
-            // Debug.Log("less");
 
             //cam when aiming
             camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
@@ -747,6 +768,7 @@ public class ItemManager : NetworkBehaviour
             mouseReleasePos = Input.mousePosition;
             sceneObjectHoldingToThrow.transform.localPosition = Vector3.zero;
             sceneObjectHoldingToThrow = null;
+
             cinemachine.m_YAxis.m_MaxSpeed = 10;
             cinemachine.m_YAxis.m_MinValue = 0;
 
@@ -811,29 +833,29 @@ public class ItemManager : NetworkBehaviour
                 if (headDetached)
                     keepSceneObject = headDetached = false;
 
-                camFocus.parent = camFocusOrigin;
+                //camFocus.parent = camFocusOrigin;
 
-                camFocus.localPosition = Vector3.zero;
-                camFocus.localEulerAngles = Vector3.zero;
-                camFocus.localScale = Vector3.one;
-
+                //camFocus.localPosition = Vector3.zero;
+                //camFocus.localEulerAngles = Vector3.zero;
+                //camFocus.localScale = Vector3.one;
+                CamPositionReset();
                 /*  camFocus = originalCamTransform;
                   Debug.Log(originalCamTransform);*/
                 break;
             case Limb_enum.Arm:
                 if (rightArmDetached)
                     keepSceneObject = rightArmDetached = false;
-                
+
                 else if (leftArmDetached)
                     keepSceneObject = leftArmDetached = false;
-                    //Change bool of syncvars. When hook 
+                //Change bool of syncvars. When hook 
                 else
                     Debug.Log("No Spots to attach arm to");
                 break;
             case Limb_enum.Leg:
                 if (rightLegDetached)
                     keepSceneObject = rightLegDetached = false;
-                    //change 
+                //change 
                 else if (leftLegDetached)
                     keepSceneObject = leftLegDetached = false;
                 else
@@ -847,5 +869,16 @@ public class ItemManager : NetworkBehaviour
             NetworkServer.Destroy(sceneObject);
     }
 
+
+    void CamPositionReset()
+    {
+        camFocus.parent = camFocusOrigin;
+
+        camFocus.localPosition = Vector3.zero;
+        camFocus.localEulerAngles = Vector3.zero;
+        camFocus.localScale = Vector3.one;
+    }
     #endregion
+
+
 }
