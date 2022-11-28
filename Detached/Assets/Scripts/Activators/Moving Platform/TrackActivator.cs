@@ -27,7 +27,10 @@ public class TrackActivator : Activator
 
     private void OnDrawGizmos()
     {
-        if (drawConnections) 
+        if (drawConnections)
+        {
             startNode.DrawNodeConnections(Color.red);
+            startNode.ClearDraw();
+        }
     }
 }

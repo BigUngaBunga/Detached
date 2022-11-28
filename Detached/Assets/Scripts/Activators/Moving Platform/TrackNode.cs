@@ -9,6 +9,7 @@ public class TrackNode : MonoBehaviour
     [SerializeField] private TrackNode nextNode, nextActiveNode;
     [SerializeField] private TrackNode previousNode, previousActiveNode;
     [SerializeField] private bool isActivated;
+    private bool hasBeenDrawn;
 
     public bool IsStop => type.Equals(NodeType.Stop);
     public Vector3 Position { get { return transform.position; } }
@@ -51,6 +52,9 @@ public class TrackNode : MonoBehaviour
 
     public void DrawNodeConnections(Color colour)
     {
+        if (hasBeenDrawn)
+            return;
+        hasBeenDrawn = true;
         if (nextActiveNode != null)
         {
             Debug.DrawLine(Position, nextActiveNode.Position, GetActiveColour());
@@ -74,5 +78,16 @@ public class TrackNode : MonoBehaviour
                 return Color.white;
             return colour;
         }
+    }
+
+    public void ClearDraw()
+    {
+        if (!hasBeenDrawn)
+            return;
+        hasBeenDrawn = false;
+        if (nextActiveNode != null)
+            nextActiveNode.ClearDraw();
+        if (nextNode != null)
+            nextNode.ClearDraw();
     }
 }
