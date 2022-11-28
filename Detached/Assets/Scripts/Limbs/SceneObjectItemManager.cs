@@ -43,6 +43,9 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     [SyncVar]
     public bool isDeta;
+
+    [SyncVar]
+    private GameObject thisGameObject; 
     
     public bool IsBeingControlled
     {
@@ -65,7 +68,13 @@ public class SceneObjectItemManager : NetworkBehaviour
     public bool test = true;
 
     public ItemManager itemManager;
-    
+
+    private TextureManager textureManager;
+
+    private void Awake()
+    {
+        textureManager = GetComponent<TextureManager>();
+    }
 
     private void Start()
     {
@@ -74,7 +83,8 @@ public class SceneObjectItemManager : NetworkBehaviour
         detachKeyHead = itemManager.detachKeyHead;
         detachKeyArm = itemManager.detachKeyArm;
         detachKeyLeg = itemManager.detachKeyLeg;
-        GetComponent<TextureManager>().UpdateColor();
+        
+       
     }
 
     //Instantiates the limb as a child on the SceneObject 
@@ -86,13 +96,16 @@ public class SceneObjectItemManager : NetworkBehaviour
             {
                 case LimbType.Head:
                     Instantiate(headLimb, transform.position, transform.rotation, transform);
+                    textureManager.UpdateColor();
                     break;
                 case LimbType.Arm:
                     Instantiate(armLimb, transform.position, transform.rotation, transform);
+                    textureManager.UpdateColor();
                     armInteractor = gameObject.AddComponent<ArmInteraction>();
                     break;
                 case LimbType.Leg:
                     Instantiate(legLimb, transform.position, transform.rotation, transform);
+                    textureManager.UpdateColor();
                     break;
             }
         }

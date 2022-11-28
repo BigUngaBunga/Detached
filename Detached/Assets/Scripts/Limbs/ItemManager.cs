@@ -81,6 +81,8 @@ public class ItemManager : NetworkBehaviour
     private GameObject sceneObjectHoldingToThrow;
     private Vector3 orignalPosition = Vector3.zero;
     public int numberOfLimbs;
+
+    [SyncVar]
     public bool isDeta;
     private int selectionMode; //0 == limbSelection mode, 1 == out on map limb selection mode
     private LimbTextureManager limbTextureManager;
@@ -144,7 +146,7 @@ public class ItemManager : NetworkBehaviour
         {
             leftArmPrefab.SetActive(true);
             numberOfLimbs++;
-            limbTextureManager.ChangeColorOfLimb(Limb_enum.Arm, leftArmPrefab, isDeta);
+            limbTextureManager.ChangeColorOfLimb(Limb_enum.Arm, leftArmPrefab, leftArmIsDeta);
 
         }
     }
@@ -160,7 +162,7 @@ public class ItemManager : NetworkBehaviour
         {
             rightArmPrefab.SetActive(true);
             numberOfLimbs++;
-            limbTextureManager.ChangeColorOfLimb(Limb_enum.Arm, rightArmPrefab, isDeta);
+            limbTextureManager.ChangeColorOfLimb(Limb_enum.Arm, rightArmPrefab, rightArmIsDeta);
 
         }
     }
@@ -192,7 +194,7 @@ public class ItemManager : NetworkBehaviour
         {
             leftLegPrefab.SetActive(true);
             numberOfLimbs++;
-            limbTextureManager.ChangeColorOfLimb(Limb_enum.Leg, leftLegPrefab, isDeta);
+            limbTextureManager.ChangeColorOfLimb(Limb_enum.Leg, leftLegPrefab, leftLegIsDeta);
         }
     }
     private void OnChangeRightLegDetachedHook(bool oldValue, bool newValue)
@@ -207,7 +209,7 @@ public class ItemManager : NetworkBehaviour
         {
             rightLegPrefab.SetActive(true);
             numberOfLimbs++;
-            limbTextureManager.ChangeColorOfLimb(Limb_enum.Leg, rightLegPrefab, isDeta);
+            limbTextureManager.ChangeColorOfLimb(Limb_enum.Leg, rightLegPrefab, rightLegIsDeta);
         }
     }
 
@@ -218,10 +220,7 @@ public class ItemManager : NetworkBehaviour
         limbTextureManager = gameObject.GetComponent<LimbTextureManager>();
         numberOfLimbs = 5;
         selectionMode = 0;
-        rightLegIsDeta = isDeta;
-        leftLegIsDeta = isDeta;
-        rightArmIsDeta = isDeta;
-        leftArmIsDeta = isDeta;
+        
     /* originalCamTransform.position = camFocus.localPosition;
      originalCamTransform.eulerAngles = camFocus.localEulerAngles;
      originalCamTransform.rotation = camFocus.localRotation;*/
@@ -232,6 +231,10 @@ public class ItemManager : NetworkBehaviour
     private void Start()
     {
         camPoint = Camera.main.transform;
+        rightLegIsDeta = isDeta;
+        leftLegIsDeta = isDeta;
+        rightArmIsDeta = isDeta;
+        leftArmIsDeta = isDeta;
     }
     void Update()
     {
@@ -296,7 +299,7 @@ public class ItemManager : NetworkBehaviour
                 ChangeControllingforLimbAndPlayer(limbs[indexControll], false);
                 ChangeControllingforLimbAndPlayer(gameObject, true);
             }
-            else if (selectionMode == 1)
+            else if (selectionMode == 1) 
             {
                 selectionMode = 0;
 
@@ -560,13 +563,13 @@ public class ItemManager : NetworkBehaviour
                 if (!leftArmDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, leftArmParent.transform.position, leftArmParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, orginalOwner);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, orginalOwner, leftArmIsDeta);
                     leftArmDetached = true;
                 }
                 else if (!rightArmDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, rightArmParent.transform.position, rightArmParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, orginalOwner);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, orginalOwner, rightArmIsDeta);
                     rightArmDetached = true;
                 }
                 else
@@ -578,13 +581,13 @@ public class ItemManager : NetworkBehaviour
                 if (!leftLegDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, leftLegParent.transform.position, leftLegParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, orginalOwner);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, orginalOwner, leftLegIsDeta);
                     leftLegDetached = true;
                 }
                 else if (!rightLegDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, rightArmParent.transform.position, rightArmParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, orginalOwner);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, orginalOwner, rightLegIsDeta);
                     rightLegDetached = true;
                 }
                 else
@@ -624,7 +627,7 @@ public class ItemManager : NetworkBehaviour
                 if (!leftArmDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, throwpoint, leftArmParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, originalOwner);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, originalOwner, leftArmIsDeta);
                     leftArmDetached = true;
                 }
                 else
@@ -636,13 +639,13 @@ public class ItemManager : NetworkBehaviour
                 if (!leftLegDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, throwpoint, leftLegParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb , originalOwner);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb , originalOwner, leftLegIsDeta);
                     leftLegDetached = true;
                 }
                 else if (!rightLegDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, throwpoint, rightArmParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, originalOwner);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, originalOwner, rightLegIsDeta);
                     rightLegDetached = true;
                 }
                 else
@@ -784,13 +787,13 @@ public class ItemManager : NetworkBehaviour
     
 
     [Server]
-    private void DropGenericLimb(GameObject newSceneObject, SceneObjectItemManager SceneObjectScript, Limb_enum limb, GameObject orignalOwner)
+    private void DropGenericLimb(GameObject newSceneObject, SceneObjectItemManager SceneObjectScript, Limb_enum limb, GameObject orignalOwner, bool limbIsDeta)
     {
         SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
         SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
-        NetworkServer.Spawn(newSceneObject);
+        SceneObjectScript.isDeta = limbIsDeta;
+        NetworkServer.Spawn(newSceneObject);      
         SceneObjectScript.detached = true;
-        SceneObjectScript.isDeta = isDeta;
         SceneObjectScript.orignalOwner = orignalOwner;
     }
 
