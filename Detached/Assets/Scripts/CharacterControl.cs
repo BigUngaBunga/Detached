@@ -258,7 +258,7 @@ public class CharacterControl : NetworkBehaviour
             rb.velocity *= jumpForceReduction;
 
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-            Sounds.jumpSound.start();
+            RuntimeManager.PlayOneShot(Sounds.jumpSound, transform.position);
             Invoke(nameof(ResetJump), jumpCD); //Hold jump
         }
     }

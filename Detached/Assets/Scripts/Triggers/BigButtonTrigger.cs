@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -46,7 +47,7 @@ public class BigButtonTrigger : Trigger, IInteractable
 
     protected override void PlaySoundOnTrigger()
     {
-        Sounds.pushButtonSound.start();
+        RuntimeManager.PlayOneShot(Sounds.pushButtonSound, transform.position);
     }
 
     public void OnTriggerExit(Collider other)

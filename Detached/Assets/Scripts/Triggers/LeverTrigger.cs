@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEditor;
+using FMODUnity;
 
 public class LeverTrigger : Trigger, IInteractable
 {
@@ -15,7 +16,7 @@ public class LeverTrigger : Trigger, IInteractable
 
     protected override void PlaySoundOnTrigger()
     {
-        Sounds.pullLeverSound.start();
+        RuntimeManager.PlayOneShot(Sounds.pullLeverSound, transform.position);
     }
 
     protected override void Start()

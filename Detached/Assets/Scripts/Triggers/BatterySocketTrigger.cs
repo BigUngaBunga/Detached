@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,7 @@ public class BatterySocketTrigger : Trigger, IInteractable
 
     protected override void PlaySoundOnTrigger()
     {
-        Sounds.attachSound.start ();
+        RuntimeManager.PlayOneShot(Sounds.attachSound, transform.position);
     }
 
     private void MoveToBatteryPosition(GameObject battery)

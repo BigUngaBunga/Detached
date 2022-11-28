@@ -1906,6 +1906,26 @@ PrefabInstance:
       propertyPath: playAtStartDelay
       value: 0.33
       objectReference: {fileID: 0}
+    - target: {fileID: 3537619903375763677, guid: 92ca2fe91321cb54f82239c3c257b702, type: 3}
+      propertyPath: audioChain.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3537619903375763677, guid: 92ca2fe91321cb54f82239c3c257b702, type: 3}
+      propertyPath: audioChain.Array.data[0].path
+      value: event:/Dialogue/L3.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3537619903375763677, guid: 92ca2fe91321cb54f82239c3c257b702, type: 3}
+      propertyPath: audioChain.Array.data[1].path
+      value: event:/Dialogue/L3.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3537619903375763677, guid: 92ca2fe91321cb54f82239c3c257b702, type: 3}
+      propertyPath: audioChain.Array.data[2].path
+      value: event:/Dialogue/L3.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3537619903375763677, guid: 92ca2fe91321cb54f82239c3c257b702, type: 3}
+      propertyPath: audioChain.Array.data[1].sayingLine
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3609100386871277443, guid: 92ca2fe91321cb54f82239c3c257b702, type: 3}
       propertyPath: m_Name
       value: Conditional Audio Player

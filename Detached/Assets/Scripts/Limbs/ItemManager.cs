@@ -5,6 +5,7 @@ using Mirror;
 using System;
 using UnityEngine.Events;
 using Cinemachine;
+using FMODUnity;
 
 public class ItemManager : NetworkBehaviour
 {
@@ -226,17 +227,17 @@ public class ItemManager : NetworkBehaviour
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
         {
             CmdDropLimb(Limb_enum.Head, gameObject);
-            Sounds.detachSound.start();
+            RuntimeManager.PlayOneShot(Sounds.throwSound, transform.position);
         } 
         if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
         {
             CmdDropLimb(Limb_enum.Arm, gameObject);
-            Sounds.detachSound.start();
+            RuntimeManager.PlayOneShot(Sounds.throwSound, transform.position);
         }
         if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
         {
             CmdDropLimb(Limb_enum.Leg, gameObject);
-            Sounds.detachSound.start();
+            RuntimeManager.PlayOneShot(Sounds.throwSound, transform.position);
         }
             
  
@@ -703,7 +704,7 @@ public class ItemManager : NetworkBehaviour
             sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
             /*cinemachine.m_YAxis.Value = 0.4f;
             cinemachine.m_YAxis.m_InputAxisName = "";*/
-            Sounds.detachSound.start();
+            RuntimeManager.PlayOneShot(Sounds.detachSound, transform.position);
             /* cinemachine.m_YAxis.m_MinValue = 0.13f;*/
             // Debug.Log("less");
 
@@ -749,7 +750,8 @@ public class ItemManager : NetworkBehaviour
             // dir = (Input.mousePosition - mousePressDownPos).normalized;
             // CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position);
             CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position, gameObject);
-            Sounds.throwSound.start();
+
+            RuntimeManager.PlayOneShot(Sounds.throwSound, transform.position);
 
         }
     }
