@@ -38,12 +38,6 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public Transform rightLegParent;
     [SerializeField] public Transform camFocusOrigin;
 
-    [Header("LimbsGameObject")]
-    [SerializeField] public GameObject leftArmObject;
-    [SerializeField] public GameObject rightArmObject;
-    [SerializeField] public GameObject leftLegObject;
-    [SerializeField] public GameObject rightLegObject;
-
     //OrginalPositions
     private Vector3 orginalHeadPosition;
     private Vector3 orginalLeftArmPosition;
@@ -221,7 +215,7 @@ public class ItemManager : NetworkBehaviour
 
     private void Awake()
     {
-        limbTextureManager = GetComponent<LimbTextureManager>();
+        limbTextureManager = gameObject.GetComponent<LimbTextureManager>();
         numberOfLimbs = 5;
         selectionMode = 0;
         rightLegIsDeta = isDeta;
@@ -294,9 +288,18 @@ public class ItemManager : NetworkBehaviour
     {
         if (Input.GetKeyDown(changeSelectionMode))
         {
-            if (gameObject.GetComponent<CharacterControl>().isBeingControlled == true) //0 == limbSelection mode, 1 == out on map limb selection mode
+            if (selectionMode == 0) selectionMode = 1;
+
+            else if (gameObject.GetComponent<CharacterControl>().isBeingControlled == false && selectionMode == 1) //0 == limbSelection mode, 1 == out on map limb selection mode
             {
-                selectionMode = (selectionMode + 1) % 2;
+                selectionMode = 0;
+                ChangeControllingforLimbAndPlayer(limbs[indexControll], false);
+                ChangeControllingforLimbAndPlayer(gameObject, true);
+            }
+            else if (selectionMode == 1)
+            {
+                selectionMode = 0;
+
             }
         }        
     }

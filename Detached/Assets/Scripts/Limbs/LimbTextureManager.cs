@@ -8,20 +8,12 @@ public class LimbTextureManager : MonoBehaviour
     [SerializeField] Color detaWhite;
     [SerializeField] Color chedBlack;
     [SerializeField] Color chedGold;
-    private MeshRenderer rend;
+    private SkinnedMeshRenderer rend;
     private Material[] materials;
-
-    [SerializeField] 
-
-    public void UpdateColor()
-    {
-        
-        materials = rend.materials;
-        CheckLimb();
-    }
-
+  
     public void ChangeColorOfLimb(ItemManager.Limb_enum limb, GameObject objectToChange, bool isdeta)
     {
+        UpdateMaterials(objectToChange);
         if (isdeta)
         {
             switch (limb) // Deta colors, based on the actual order on the prefabs
@@ -40,7 +32,6 @@ public class LimbTextureManager : MonoBehaviour
                      Ändra dropp färgen.
                      Lägg till Texture manager */
             }
-
         }
         else
         {
@@ -59,45 +50,9 @@ public class LimbTextureManager : MonoBehaviour
 
     }
 
-    public void CheckLimb()
+    private void UpdateMaterials(GameObject obj)
     {
-        if (GetComponentInParent<SceneObjectItemManager>().isDeta)
-        {
-            switch (gameObject.transform.GetChild(0).gameObject.tag) // Deta colors, based on the actual order on the prefabs
-            {
-                case "Arm":
-                    materials[1].color = detaBlue;
-                    materials[2].color = detaWhite;
-                    break;
-                case "Leg":
-                    materials[0].color = detaWhite;
-                    materials[1].color = detaBlue;
-                    break;
-                case "Head":
-                    materials[2].color = detaWhite;
-                    materials[3].color = detaBlue;
-                    break;
-
-            }
-        }
-        else
-        {
-            switch (gameObject.transform.GetChild(0).gameObject.tag) // ched colors, based on the actual order on the prefabs
-            {
-                case "Arm":
-                    materials[1].color = chedGold;
-                    materials[2].color = chedBlack;
-                    break;
-                case "Leg":
-                    materials[0].color = chedBlack;
-                    materials[1].color = chedGold;
-                    break;
-                case "Head":
-                    materials[2].color = chedBlack;
-                    materials[3].color = chedGold;
-                    break;
-
-            }
-        }
-    }
+        rend = obj.GetComponent<SkinnedMeshRenderer>();
+        materials = rend.materials;
+    }  
 }

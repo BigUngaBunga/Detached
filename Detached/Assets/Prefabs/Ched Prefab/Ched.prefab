@@ -1851,6 +1851,7 @@ GameObject:
   - component: {fileID: 3618494084772148758}
   - component: {fileID: 3409997964746216048}
   - component: {fileID: 5814121909641589077}
+  - component: {fileID: 3115996631191894446}
   m_Layer: 0
   m_Name: Ched
   m_TagString: Player
@@ -2034,10 +2035,6 @@ MonoBehaviour:
   leftLegParent: {fileID: 2177882094184726495}
   rightLegParent: {fileID: 8926847477503848827}
   camFocusOrigin: {fileID: 3618494083954888923}
-  leftArmObject: {fileID: 4852505243593736258}
-  rightArmObject: {fileID: 828043718582809933}
-  leftLegObject: {fileID: 6092629106015054758}
-  rightLegObject: {fileID: 5872359655522262497}
   throwForce: 17.5
   throwUpwardForce: 0
   throwCD: 0.1
@@ -2388,6 +2385,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3115996631191894446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4536832242395614807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29abcfc4eeebab742837c547c9f1b2ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detaBlue: {r: 0.2784314, g: 0.49803925, b: 0.8000001, a: 0}
+  detaWhite: {r: 0.8000001, g: 0.8000001, b: 0.8000001, a: 0}
+  chedBlack: {r: 0.058823533, g: 0.058823533, b: 0.058823533, a: 1}
+  chedGold: {r: 0.28235295, g: 0.28235295, b: 0, a: 1}
 --- !u!1 &4751261324914809682
 GameObject:
   m_ObjectHideFlags: 0
