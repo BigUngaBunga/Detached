@@ -30,7 +30,6 @@ public class TrackActivator : Activator
         if (drawConnections)
         {
             startNode.DrawNodeConnections(Color.red);
-            startNode.ClearDraw();
         }
     }
 }
