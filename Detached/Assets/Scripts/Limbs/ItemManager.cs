@@ -241,7 +241,9 @@ public class ItemManager : NetworkBehaviour
          originalCamTransform.eulerAngles = camFocus.localEulerAngles;
          originalCamTransform.rotation = camFocus.localRotation;*/
         cinemachine = FindObjectOfType<CinemachineFreeLook>();
-        maxCamHeight = 0.2f;
+        ///TODO
+        ///Check what maxCamHeight is?
+        //maxCamHeight = 0.2f;
         //cinemachine.m_YAxis.m_MinValue = maxCamHeight;
     }
     /* All drop/throw updates happens below.
@@ -459,7 +461,9 @@ public class ItemManager : NetworkBehaviour
         //if (limbs[indexControll] == (rightArmObject || leftArmObject || headObj))
         //    cinemachine.m_YAxis.m_MinValue = 0.25f;
         //else
-            cinemachine.m_YAxis.m_MinValue = maxCamHeight;
+        ///TODO
+        ///Check what maxCamHeight is?
+            //cinemachine.m_YAxis.m_MinValue = maxCamHeight;
 
         camFocus.localPosition = Vector3.zero;
         camFocus.localEulerAngles = Vector3.zero;
