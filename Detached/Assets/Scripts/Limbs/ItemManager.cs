@@ -5,6 +5,7 @@ using Mirror;
 using System;
 using UnityEngine.Events;
 using Cinemachine;
+using FMODUnity;
 
 public class ItemManager : NetworkBehaviour
 {
@@ -61,13 +62,6 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public CinemachineFreeLook cinemachine;
     [SerializeField] public Vector3 throwCamOffset;
     [SerializeField] GameObject indicator;
-
-    float maxCamHeight;
-
-    [Header("Audio")]
-    [SerializeField] private AudioSource detachSound;
-    [SerializeField] private AudioSource attachSound;
-    [SerializeField] private AudioSource throwSound;
 
     private bool readyToThrow;
     private Limb_enum selectedLimbToThrow = Limb_enum.Head;
@@ -274,17 +268,17 @@ public class ItemManager : NetworkBehaviour
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
         {
             CmdDropLimb(Limb_enum.Head, gameObject);
-            detachSound.Play();
-        }
+            RuntimeManager.PlayOneShot(Sounds.throwSound, transform.position);
+        } 
         if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
         {
             CmdDropLimb(Limb_enum.Arm, gameObject);
-            detachSound.Play();
+            RuntimeManager.PlayOneShot(Sounds.throwSound, transform.position);
         }
         if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
         {
             CmdDropLimb(Limb_enum.Leg, gameObject);
-            detachSound.Play();
+            RuntimeManager.PlayOneShot(Sounds.throwSound, transform.position);
         }
 
 
@@ -786,7 +780,8 @@ public class ItemManager : NetworkBehaviour
             indicator.SetActive(true);
             sceneObjectHoldingToThrow = GetGameObjectLimbFromSelect();
             sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
-            detachSound.Play();
+
+            RuntimeManager.PlayOneShot(Sounds.detachSound, transform.position);
 
             //cam when aiming
             camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
@@ -831,7 +826,8 @@ public class ItemManager : NetworkBehaviour
             // dir = (Input.mousePosition - mousePressDownPos).normalized;
             // CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position);
             CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position, gameObject);
-            throwSound.Play();
+
+            RuntimeManager.PlayOneShot(Sounds.throwSound, transform.position);
 
         }
     }

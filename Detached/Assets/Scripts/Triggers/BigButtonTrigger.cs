@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,9 +10,6 @@ public class BigButtonTrigger : Trigger, IInteractable
     private Carryable boxInteractable;
     [SerializeField] private List<GameObject> objectsOnButton = new List<GameObject>();
     private bool HasBox => box != null;
-
-    [Header("Audio")]
-    [SerializeField] private AudioSource triggerSound;
 
     private int TriggeringObjects { 
         get => triggeringObjects; 
@@ -47,6 +45,12 @@ public class BigButtonTrigger : Trigger, IInteractable
         }
         CheckObjectsOnButton();
     }
+
+    protected override void PlaySoundOnTrigger()
+    {
+        RuntimeManager.PlayOneShot(Sounds.pushButtonSound, transform.position);
+    }
+
     public void OnTriggerExit(Collider other)
     {
         if (IsCollisionObject(other.gameObject.tag))
@@ -87,14 +91,6 @@ public class BigButtonTrigger : Trigger, IInteractable
             return canPlace || canPickUp;
         }
         return false;
-    }
-    protected override void PlaySoundOnTrigger()
-    {
-
-        triggerSound.Play();
-        //FMOD bigbuttonsound
-        //FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/BigButtonEntry", GetComponent<Transform>().position);
-        //FMODUnity.RuntimeManager.PlayOneShot("event:/BigButtonEntry", GetComponent<Transform>().position);
     }
 
     private void RemoveTrigger()

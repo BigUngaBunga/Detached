@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,13 +10,9 @@ public class BatterySocketTrigger : Trigger, IInteractable
     [SerializeField] GameObject battery;
 
 
-    [Header("Audio")]
-    [SerializeField] private AudioSource triggerSound;
-
-
     protected override void PlaySoundOnTrigger()
     {
-        triggerSound.Play();
+        RuntimeManager.PlayOneShot(Sounds.attachSound, transform.position);
     }
 
     public void Interact(GameObject activatingObject)
