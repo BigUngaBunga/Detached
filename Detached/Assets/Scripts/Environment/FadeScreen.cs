@@ -7,9 +7,12 @@ public class FadeScreen : MonoBehaviour
 {
     enum FadeType { FadeIn, FadeOut }
     [SerializeField] private FadeType fadeType;
-    [SerializeField] float fadeSpeed;
+    [SerializeField] float fadeTime;
+    [SerializeField] bool fadeAtStart;
+    float fadeIncrement;
     private Image image;
     private Color color;
+
 
     private void Start()
     {
@@ -18,21 +21,27 @@ public class FadeScreen : MonoBehaviour
             color.a = 0;
         image = GetComponent<Image>();
         image.color = color;
+
+        if (fadeAtStart)
+            StartFade();
     }
 
     public void StartFade()
     {
         float alphaTarget = 0;
+        fadeIncrement = 1 / fadeTime;
         if (fadeType == FadeType.FadeOut)
             alphaTarget = 1;
+        else
+            fadeIncrement *= -1;
         StartCoroutine(Fade(alphaTarget));
     }
 
     private IEnumerator Fade(float alphaTarget)
     {
-        while (image.color.a != alphaTarget)
+        while (!IsCloseToTarget(alphaTarget, image.color.a))
         {
-            color.a = Mathf.Lerp(color.a, alphaTarget, fadeSpeed);
+            color.a += fadeIncrement * Time.deltaTime;
             image.color = color;
             yield return null;
         }
