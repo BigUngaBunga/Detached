@@ -1,164 +1,182 @@
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using UnityEngine;
-using FMODUnity;
-using FMOD.Studio;
+using UnityEngine.SceneManagement;
 
 public class MusicManager : MonoBehaviour
 {
-    List<EventInstance> songs = new List<EventInstance>();
-    EventInstance currentSound;
-    private FMOD.Studio.EVENT_CALLBACK songCallback;
+    private string SceneName;
+    private int currentIndex = 5, lastIndex = 4;
+    private bool hasChangedSong = true;
+    private float globalVolume = 0.3f;
 
-    private FMODUnity.EventReference EventName;
+    class TimelineInfo
+    {
+        public int currentMusicBar = 0;
+        public FMOD.StringWrapper lastMarker = new FMOD.StringWrapper();
+    }
 
-    private int currentIndex = 0;
-    private float time;
-    private float globalVolume = 0.02f;
-    private float timeBetweenSongs = 40.0f; //seconds
+    [FMODUnity.EventRef]
+    public string eventName = "event:/SoundTrack/ST_MAIN_MENU";
+
+    FMOD.Studio.EVENT_CALLBACK beatCallback;
+
+    private FMOD.Studio.EventInstance[] musicInstances = new FMOD.Studio.EventInstance[6]
+    {
+        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_MAIN_MENU"),
+        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG2"),
+        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG3"),
+        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG4"),
+        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG6"),
+        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG7"),
+    };
+    private TimelineInfo[] timelineInfoArray = new TimelineInfo[6]
+    {
+        new TimelineInfo(),
+        new TimelineInfo(),
+        new TimelineInfo(),
+        new TimelineInfo(),
+        new TimelineInfo(),
+        new TimelineInfo()
+    };
+    private GCHandle[] timelineHandleArray;
+
     void Start()
     {
-        songCallback = new FMOD.Studio.EVENT_CALLBACK(SongEventCallback);
+        // Explicitly create the delegate object and assign it to a member so it doesn't get freed
+        // by the garbage collected while it's being used
+        beatCallback = new FMOD.Studio.EVENT_CALLBACK(BeatEventCallback);
 
-        songs.Add(RuntimeManager.CreateInstance("event:/SoundTrack/ST_MAIN_MENU"));
-        songs.Add(RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG2"));
-        songs.Add(RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG3"));
-        songs.Add(RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG4"));
-        songs.Add(RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG6"));
-        songs.Add(RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG7"));
-        
+        // Pin the classes that will store the data modified during the callback 
+        timelineHandleArray = new GCHandle[6]
+        {
+            GCHandle.Alloc(timelineInfoArray[0]),
+            GCHandle.Alloc(timelineInfoArray[1]),
+            GCHandle.Alloc(timelineInfoArray[2]),
+            GCHandle.Alloc(timelineInfoArray[3]),
+            GCHandle.Alloc(timelineInfoArray[4]),
+            GCHandle.Alloc(timelineInfoArray[5])
 
-        currentSound = RuntimeManager.CreateInstance("event:/SoundTrack/ST_MAIN_MENU");
-        currentSound.start();
-        currentSound.setVolume(globalVolume);
-        RuntimeManager.StudioSystem.setParameterByName("Intensity", 10f);
+        };
+
+
+        for (int i = 0; i < musicInstances.Length; i++)
+        {
+            IntializeMusicInstance(i);
+        }
+        musicInstances[currentIndex].start();
+        FMODUnity.RuntimeManager.StudioSystem.setParameterByName("Intensity", 100f);
+        SceneName = SceneManager.GetActiveScene().name;
         DontDestroyOnLoad(this);
     }
 
-    void PlayDialogue(string key)
+    private void IntializeMusicInstance(int index)
     {
-        var dialogueInstance = RuntimeManager.CreateInstance(EventName);
+        // Pass the object through the userdata of the instance
+        musicInstances[index].setUserData(GCHandle.ToIntPtr(timelineHandleArray[index]));
 
-        // Pin the key string in memory and pass a pointer through the user data
-        GCHandle stringHandle = GCHandle.Alloc(key);
-        dialogueInstance.setUserData(GCHandle.ToIntPtr(stringHandle));
-
-        dialogueInstance.setCallback(SongEventCallback);
-        dialogueInstance.start();
-        dialogueInstance.release();
+        musicInstances[index].setCallback(beatCallback, FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_BEAT | FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER);
+        musicInstances[index].setVolume(globalVolume);
     }
 
-    [AOT.MonoPInvokeCallback(typeof(FMOD.Studio.EVENT_CALLBACK_TYPE))]
-    static FMOD.RESULT SongEventCallback(FMOD.Studio.EVENT_CALLBACK_TYPE type, IntPtr instancePtr, IntPtr parameterPtr)
+    void OnDestroy()
     {
-        FMOD.Studio.EventInstance instance = new FMOD.Studio.EventInstance();
-        // Retrieve the user data
-        IntPtr stringPtr;
-        instance.getUserData(out stringPtr);
-
-        // Get the string object
-        GCHandle stringHandle = GCHandle.FromIntPtr(stringPtr);
-        String key = stringHandle.Target as String;
-
-        switch (type)
+        foreach (FMOD.Studio.EventInstance song in musicInstances)
         {
-            case FMOD.Studio.EVENT_CALLBACK_TYPE.CREATE_PROGRAMMER_SOUND:
-                {
-                    FMOD.MODE soundMode = FMOD.MODE.LOOP_NORMAL | FMOD.MODE.CREATECOMPRESSEDSAMPLE | FMOD.MODE.NONBLOCKING;
-                    var parameter = (FMOD.Studio.PROGRAMMER_SOUND_PROPERTIES)Marshal.PtrToStructure(parameterPtr, typeof(FMOD.Studio.PROGRAMMER_SOUND_PROPERTIES));
-
-                    if (key.Contains("."))
-                    {
-                        FMOD.Sound dialogueSound;
-                        var soundResult = FMODUnity.RuntimeManager.CoreSystem.createSound(Application.streamingAssetsPath + "/" + key, soundMode, out dialogueSound);
-                        if (soundResult == FMOD.RESULT.OK)
-                        {
-                            parameter.sound = dialogueSound.handle;
-                            parameter.subsoundIndex = -1;
-                            Marshal.StructureToPtr(parameter, parameterPtr, false);
-                        }
-                    }
-                    else
-                    {
-                        SOUND_INFO dialogueSoundInfo;
-                        var keyResult = FMODUnity.RuntimeManager.StudioSystem.getSoundInfo(key, out dialogueSoundInfo);
-                        if (keyResult != FMOD.RESULT.OK)
-                        {
-                            break;
-                        }
-                        FMOD.Sound dialogueSound;
-                        var soundResult = FMODUnity.RuntimeManager.CoreSystem.createSound(dialogueSoundInfo.name_or_data, soundMode | dialogueSoundInfo.mode, ref dialogueSoundInfo.exinfo, out dialogueSound);
-                        if (soundResult == FMOD.RESULT.OK)
-                        {
-                            parameter.sound = dialogueSound.handle;
-                            parameter.subsoundIndex = dialogueSoundInfo.subsoundindex;
-                            Marshal.StructureToPtr(parameter, parameterPtr, false);
-                        }
-                    }
-                    break;
-                }
-            case FMOD.Studio.EVENT_CALLBACK_TYPE.DESTROY_PROGRAMMER_SOUND:
-                {
-                    var parameter = (FMOD.Studio.PROGRAMMER_SOUND_PROPERTIES)Marshal.PtrToStructure(parameterPtr, typeof(FMOD.Studio.PROGRAMMER_SOUND_PROPERTIES));
-                    var sound = new FMOD.Sound(parameter.sound);
-                    sound.release();
-
-                    break;
-                }
-            case FMOD.Studio.EVENT_CALLBACK_TYPE.DESTROYED:
-                {
-                    // Now the event has been destroyed, unpin the string memory so it can be garbage collected
-                    stringHandle.Free();
-
-                    break;
-                }
+            song.setUserData(IntPtr.Zero);
+            song.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            song.release();
+        }
+        foreach (GCHandle timelineHandle in timelineHandleArray)
+        {
+            timelineHandle.Free();
         }
 
-        return FMOD.RESULT.OK;
     }
 
-    void Update()
+    private void Update()
     {
-        float newVal = 0;
-        RuntimeManager.StudioSystem.getParameterByName("Intensity", out float value);
-        if (Input.GetKeyDown(KeyCode.UpArrow) && value < 100f )
+        if (musicInstances.Length == 0) return;
+
+        // Check too see if the last song has reached its endpoint if it has stop it
+        musicInstances[lastIndex].getPlaybackState(out FMOD.Studio.PLAYBACK_STATE state);
+        if (state == FMOD.Studio.PLAYBACK_STATE.STOPPED && !hasChangedSong)
         {
-            newVal = value + 10f;
-            RuntimeManager.StudioSystem.setParameterByName("Intensity", newVal);
-            Debug.Log(newVal);
+            hasChangedSong = true;
+            musicInstances[lastIndex].stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow) && value > 0f)
+
+        // Change song whenever the scenes switch
+        if (SceneName != SceneManager.GetActiveScene().name)
         {
-            newVal = value - 10f;
-            RuntimeManager.StudioSystem.setParameterByName("Intensity", newVal);
-            Debug.Log(newVal);
+            SceneName = SceneManager.GetActiveScene().name;
+            musicInstances[currentIndex].setParameterByName("EndSong", 100);
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow) || time >= timeBetweenSongs)
+
+        // If the song has reached the end of the looping region then start the next song in queue.
+        if ((string)timelineInfoArray[currentIndex].lastMarker == "End" && hasChangedSong == true)
         {
-            time = 0;
-            currentSound.setParameterByName("EndSong", 1f);
-            currentIndex++;
-            if (currentIndex >= songs.Count)
+            hasChangedSong = false;
+            if (currentIndex >= musicInstances.Length-1)
             {
+                lastIndex = currentIndex;
                 currentIndex = 1;
-                currentSound = songs[currentIndex];
-                currentSound.start();
-                currentSound.setVolume(globalVolume);
+                musicInstances[currentIndex].start();
             }
             else
             {
-                currentSound = songs[currentIndex];
-                currentSound.start();
-                currentSound.setVolume(globalVolume);
+                lastIndex = currentIndex;
+                currentIndex++;
+                musicInstances[currentIndex].start();
+            }
+            
+        }
+    }
+
+    void OnGUI()
+    {
+        //GUILayout.Box(String.Format("Current Bar = {0}, Last Marker = {1}, Song index {2}, Last index {3}",
+            //timelineInfoArray[currentIndex].currentMusicBar, (string)timelineInfoArray[currentIndex].lastMarker, currentIndex, lastIndex));
+    }
+
+    [AOT.MonoPInvokeCallback(typeof(FMOD.Studio.EVENT_CALLBACK))]
+    static FMOD.RESULT BeatEventCallback(FMOD.Studio.EVENT_CALLBACK_TYPE type, IntPtr instancePtr, IntPtr parameterPtr)
+    {
+        FMOD.Studio.EventInstance instance = new FMOD.Studio.EventInstance(instancePtr);
+
+        // Retrieve the user data
+        IntPtr timelineInfoPtr;
+        FMOD.RESULT result = instance.getUserData(out timelineInfoPtr);
+        if (result != FMOD.RESULT.OK)
+        {
+            Debug.LogError("Timeline Callback error: " + result);
+        }
+        else if (timelineInfoPtr != IntPtr.Zero)
+        {
+            // Get the object to store beat and marker details
+            GCHandle timelineHandle = GCHandle.FromIntPtr(timelineInfoPtr);
+            TimelineInfo timelineInfo = (TimelineInfo)timelineHandle.Target;
+
+            switch (type)
+            {
+                case FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_BEAT:
+                    {
+                        var parameter = (FMOD.Studio.TIMELINE_BEAT_PROPERTIES)Marshal.PtrToStructure(parameterPtr, typeof(FMOD.Studio.TIMELINE_BEAT_PROPERTIES));
+                        timelineInfo.currentMusicBar = parameter.bar;
+                    }
+                    break;
+                case FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER:
+                    {
+                        var parameter = (FMOD.Studio.TIMELINE_MARKER_PROPERTIES)Marshal.PtrToStructure(parameterPtr, typeof(FMOD.Studio.TIMELINE_MARKER_PROPERTIES));
+                        timelineInfo.lastMarker = parameter.name;
+                    }
+                    break;
             }
         }
-        currentSound.getVolume(out float volume);
-        if (volume < 0.1f)
-        {
-
-        }
-        time += Time.deltaTime;
+        return FMOD.RESULT.OK;
     }
 }
