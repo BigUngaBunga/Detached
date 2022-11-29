@@ -12,7 +12,7 @@ public class MusicManager : MonoBehaviour
     private string SceneName;
     private int currentIndex = 5, lastIndex = 4;
     private bool hasChangedSong = true;
-    private float globalVolume = 0.3f;
+    private float globalVolume = 0.1f;
 
     class TimelineInfo
     {
