@@ -8,7 +8,6 @@ using Cinemachine;
 
 public class ItemManager : NetworkBehaviour
 {
-    //Todo, Make ui manager that handles input from player instead of hardcoded keybindings
     [Header("Keybindings")]
     [SerializeField] public KeyCode detachKeyHead;
     [SerializeField] public KeyCode detachKeyArm;
@@ -46,15 +45,7 @@ public class ItemManager : NetworkBehaviour
     private Vector3 orginalRightLegPosition;
 
     //BooleanForColorOnLimbs
-    [SyncVar]
-    private bool rightLegIsDeta;
-    [SyncVar]
-    private bool leftLegIsDeta;
-    [SyncVar]
-    private bool rightArmIsDeta;
-    [SyncVar]
-    private bool leftArmIsDeta;
-    [SyncVar]
+    
 
     private List<GameObject> limbs = new List<GameObject>();
     private int indexControll;
@@ -89,13 +80,23 @@ public class ItemManager : NetworkBehaviour
     private Vector3 orignalPosition = Vector3.zero;
     public int numberOfLimbs;
 
+    //Color and selectionMode
     [SyncVar]
     public bool isDeta;
+    [SyncVar]
+    private bool rightLegIsDeta;
+    [SyncVar]
+    private bool leftLegIsDeta;
+    [SyncVar]
+    private bool rightArmIsDeta;
+    [SyncVar]
+    private bool leftArmIsDeta;
+    [SyncVar]
     private int selectionMode; //0 == limbSelection mode, 1 == out on map limb selection mode
     private LimbTextureManager limbTextureManager;
 
-
-
+    public readonly UnityEvent pickupLimbEvent = new UnityEvent();
+    public readonly UnityEvent changeSelectedLimbEvent = new UnityEvent();
     public readonly UnityEvent dropLimbEvent = new UnityEvent();
 
     private InteractionChecker interactionChecker;
@@ -110,6 +111,19 @@ public class ItemManager : NetworkBehaviour
                 interactionChecker = FindObjectOfType<Camera>().GetComponent<InteractionChecker>();
             interactionChecker.AllowInteraction = value;
         }
+    }
+
+    /// <summary>
+    /// 0 == limbSelection mode, 1 == out on map limb selection mode
+    /// </summary>
+    public int SelectionMode
+    {
+        get => selectionMode;
+    }
+
+    public Limb_enum SelectedLimbToThrow
+    {
+        get => selectedLimbToThrow;
     }
 
     #region Syncvars with hooks
@@ -284,6 +298,7 @@ public class ItemManager : NetworkBehaviour
     {
         if (Input.mouseScrollDelta.y < 0 || Input.mouseScrollDelta.y > 0)
         {
+            
             if (selectionMode == 0)
             {
                 ChangeSelectedLimbToThrow(Input.mouseScrollDelta.y);
@@ -293,6 +308,7 @@ public class ItemManager : NetworkBehaviour
                 GetAllLimbsInScene();
                 ChangeLimbControll(Input.mouseScrollDelta.y); //Change this to handle the scroll up and down
             }
+            changeSelectedLimbEvent.Invoke();
         }
     }
 
@@ -339,6 +355,11 @@ public class ItemManager : NetworkBehaviour
     public bool HasBothLegs() => NumberOfLegs > 1;
 
     public bool HasBothArms() => NumberOfArms > 1;
+
+    public bool HasHead()
+    {
+        return headDetached;
+    } 
 
     public int NumberOfLegs
     {
@@ -703,6 +724,7 @@ public class ItemManager : NetworkBehaviour
         //SceneObjectScript.IsBeingControlled = true;
         //newSceneObject.GetComponent<Rigidbody>().useGravity = false;
         //TargetRpcGetThrowingGameObject(identity, newSceneObject);
+        dropLimbEvent.Invoke();
         return newSceneObject;
     }
 
@@ -916,6 +938,7 @@ public class ItemManager : NetworkBehaviour
 
         if (!keepSceneObject)
             NetworkServer.Destroy(sceneObject);
+        pickupLimbEvent.Invoke();
     }
 
 
