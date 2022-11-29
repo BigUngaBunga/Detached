@@ -29,6 +29,7 @@ public class InteractableManager : NetworkBehaviour
         {
             isCarryingItem = true;
             carriedItem = item.GetComponent<Carryable>();
+            carriedItem.destroyEvent.AddListener(DropItem);
             carriedItem.PickUp(holdingPosition);
         }
     }
@@ -38,6 +39,7 @@ public class InteractableManager : NetworkBehaviour
         if (isCarryingItem)
         {
             item = carriedItem.gameObject;
+            carriedItem.destroyEvent.RemoveListener(DropItem);
             DropItem();
             return true;
         }

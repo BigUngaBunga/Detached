@@ -12,8 +12,10 @@ public class StackableBox : Carryable
     [SerializeField]private Transform stackingTransform;
     [SyncVar] private Vector3 stackingPosition;
     [SyncVar] private Quaternion stackingRotation;
-    [SyncVar] private bool hasBoxAbove;
+    [SyncVar] private StackableBox boxAbove;
     [SyncVar] private StackableBox boxBelow;
+    private bool HasBoxBelow => boxBelow != null;
+    private bool HasBoxAbove => boxAbove != null;
     private HighlightObject highlighter;
     
     [SerializeField]
@@ -44,6 +46,7 @@ public class StackableBox : Carryable
     protected override void Awake()
     {
         base.Awake();
+        destroyEvent.AddListener(HandleRemoval);
         highlighter = GetComponent<HighlightObject>();
         ShowPlacement = false;
         offset = stackingTransform.localPosition.z;
@@ -73,7 +76,7 @@ public class StackableBox : Carryable
         ShowPlacement = stack;
         if (ShowPlacement)
             UpdateStackingPosition();
-        return (pickUp || stack) && !hasBoxAbove;
+        return (pickUp || stack) && !HasBoxAbove;
     }
 
     [Command(requiresAuthority = false)]
@@ -83,20 +86,26 @@ public class StackableBox : Carryable
         newBox.IsKinematic = true;
         newBox.RPCMoveObject(position, rotation);
         newBox.Drop();
-        hasBoxAbove = true;
+        boxAbove = newBox;
         IsKinematic = true;
     }
 
     [Command(requiresAuthority = false)]
     private void RemoveBox()
     {
+        HandleRemoval();
+    }
+
+    private void HandleRemoval()
+    {
         IsKinematic = false;
-        if (boxBelow != null)
+        if (HasBoxAbove)
+            boxAbove.HandleRemoval();
+        if (HasBoxBelow)
         {
-            if (hasBoxAbove)
-                return;
-            boxBelow.RemoveBox();
-            boxBelow.hasBoxAbove = false;
+            if (!boxBelow.HasBoxBelow)
+                boxBelow.IsKinematic = false;
+            boxBelow.boxAbove = null;
             boxBelow = null;
         }
     }

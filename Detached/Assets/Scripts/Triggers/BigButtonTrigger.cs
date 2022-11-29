@@ -38,6 +38,7 @@ public class BigButtonTrigger : Trigger, IInteractable
         {
             box = other.gameObject;
             boxInteractable = box.GetComponent<Carryable>();
+            boxInteractable.destroyEvent.AddListener(HandleDestroyBox);
         }
         else if (other.gameObject.CompareTag("Leg"))
         {
@@ -46,16 +47,6 @@ public class BigButtonTrigger : Trigger, IInteractable
         }
         CheckObjectsOnButton();
     }
-
-    protected override void PlaySoundOnTrigger()
-    {
-
-        triggerSound.Play();
-        //FMOD bigbuttonsound
-        //FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/BigButtonEntry", GetComponent<Transform>().position);
-        //FMODUnity.RuntimeManager.PlayOneShot("event:/BigButtonEntry", GetComponent<Transform>().position);
-    }
-
     public void OnTriggerExit(Collider other)
     {
         if (IsCollisionObject(other.gameObject.tag))
@@ -65,6 +56,7 @@ public class BigButtonTrigger : Trigger, IInteractable
         }
         if (other.gameObject.Equals(box))
         {
+            boxInteractable.destroyEvent.RemoveListener(HandleDestroyBox);
             box = null;
             boxInteractable = null;
         }
@@ -96,6 +88,14 @@ public class BigButtonTrigger : Trigger, IInteractable
         }
         return false;
     }
+    protected override void PlaySoundOnTrigger()
+    {
+
+        triggerSound.Play();
+        //FMOD bigbuttonsound
+        //FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/BigButtonEntry", GetComponent<Transform>().position);
+        //FMODUnity.RuntimeManager.PlayOneShot("event:/BigButtonEntry", GetComponent<Transform>().position);
+    }
 
     private void RemoveTrigger()
     {
@@ -112,5 +112,10 @@ public class BigButtonTrigger : Trigger, IInteractable
                 objectsOnButton.RemoveAt(i);
             }
         }
+    }
+
+    private void HandleDestroyBox()
+    {
+        Invoke(nameof(CheckObjectsOnButton), 0.1f);
     }
 }

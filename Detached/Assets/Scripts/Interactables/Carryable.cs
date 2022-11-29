@@ -2,6 +2,7 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Carryable : NetworkBehaviour, IInteractable
 {
@@ -11,6 +12,7 @@ public class Carryable : NetworkBehaviour, IInteractable
     [SyncVar] protected bool isHeld;
     private Collider[] colliders;
     protected new Rigidbody rigidbody;
+    public UnityEvent destroyEvent = new UnityEvent();
 
     public int RequiredArms { get { return requiredArms; } }
     public virtual void Interact(GameObject activatingObject)
@@ -33,7 +35,6 @@ public class Carryable : NetworkBehaviour, IInteractable
         isHeld = true;
         gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
     }
-
     public void Drop()
     {
         isHeld = false;
@@ -49,19 +50,29 @@ public class Carryable : NetworkBehaviour, IInteractable
         }
         gameObject.layer = LayerMask.NameToLayer("Interactable");
     }
-
     public void DropTo(Vector3 position, Quaternion rotation)
     {
         Drop();
         MoveTo(position, rotation);
     }
-
+    public virtual bool CanInteract(GameObject activatingObject)
+    {
+        if (activatingObject.CompareTag("Player"))
+            return !isHeld && activatingObject.GetComponent<InteractableManager>().CanPickUpItem(gameObject);
+        return false;
+    }
     public void Update() 
     {
         if (isHeld && positionTarget != null)
             MoveObject();
 
     }
+
+    public void OnDestroy()
+    {
+        destroyEvent.Invoke();
+    }
+
     private IEnumerator DelayedRPCSetCollision(bool canCollide, float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -100,10 +111,4 @@ public class Carryable : NetworkBehaviour, IInteractable
         rigidbody.angularVelocity = Vector3.zero;
     }
 
-    public virtual bool CanInteract(GameObject activatingObject)
-    {
-        if (activatingObject.CompareTag("Player"))
-            return !isHeld && activatingObject.GetComponent<InteractableManager>().CanPickUpItem(gameObject);
-        return false;
-    }
 }
