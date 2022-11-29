@@ -5,32 +5,30 @@ using UnityEngine;
 
 public class FinalGoal : Goal
 {
-    [SerializeField] float fadeDuration;
-    private FadeToBlack fadeToBlack;
-    private GameObject camera;
+    private FadeScreen fadeToBlack;
     private bool startedFade;
 
     protected override void Start()
     {
         base.Start();
-        fadeToBlack = GameObject.Find("Screen fader").GetComponentInChildren<FadeToBlack>();
-        camera = GameObject.Find("Camera");
-        //DEBUG
-        FadeToBlack();
+        fadeToBlack = GameObject.Find("Screen fader").GetComponentInChildren<FadeScreen>();
     }
 
     public override void EvaluateVictory()
     {
         if (CheckVictoryStatus() && !startedFade)
-        {
-            camera.GetComponent<InteractionChecker>().AllowInteraction = false;
             FadeToBlack();
-        }
     }
 
     private void FadeToBlack()
     {
         startedFade = true;
-        fadeToBlack.StartFade(fadeDuration);
+        fadeToBlack.StartFade();
+    }
+
+    private void InactivateInteraction()
+    {
+        GameObject camera = GameObject.Find("Camera");
+        camera.GetComponent<InteractionChecker>().AllowInteraction = false;
     }
 }
