@@ -3335,7 +3335,6 @@ MonoBehaviour:
   limbManager: {fileID: 7995944500636038891}
   cameraFollow: {fileID: 7303500596127914752}
   cinemaFreelook: {fileID: 0}
-  jumpSound: {fileID: 7872258490079583520}
 --- !u!114 &7995944500636038895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3455,9 +3454,6 @@ MonoBehaviour:
   cinemachine: {fileID: 0}
   throwCamOffset: {x: 0, y: -0.2, z: 4}
   indicator: {fileID: 7995944500794332146}
-  detachSound: {fileID: 5271540035172486584}
-  attachSound: {fileID: 5271540035172486584}
-  throwSound: {fileID: 5211977982469642862}
   numberOfLimbs: 0
   isDeta: 0
   allowInteraction: 1
@@ -5043,11 +5039,11 @@ PrefabInstance:
     - target: {fileID: 3360536426286589369, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
       propertyPath: leftLeg
       value: 
-      objectReference: {fileID: 7793491430031417528}
+      objectReference: {fileID: 2717292984878384159}
     - target: {fileID: 3360536426286589369, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
       propertyPath: rightLeg
       value: 
-      objectReference: {fileID: 7793491429562468624}
+      objectReference: {fileID: 3150445680774221156}
     - target: {fileID: 3360536426286589371, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
       propertyPath: m_Name
       value: DetaGameUI
@@ -5143,13 +5139,13 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3360536426286589373, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
   m_PrefabInstance: {fileID: 4794940773303484536}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7793491429562468624 stripped
+--- !u!1 &2717292984878384159 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 3360536427180181864, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7439610856177714279, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
   m_PrefabInstance: {fileID: 4794940773303484536}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7793491430031417528 stripped
+--- !u!1 &3150445680774221156 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 3360536427515896000, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7580592388666330396, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
   m_PrefabInstance: {fileID: 4794940773303484536}
   m_PrefabAsset: {fileID: 0}
