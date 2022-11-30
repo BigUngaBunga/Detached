@@ -925,7 +925,7 @@ public class ItemManager : NetworkBehaviour
 
                     //TODO implement better fix for preventing getting stuck
                     float moveHeight = 2f;
-                    transform.position += transform.up * moveHeight;
+                    MovePlayer(transform.up * moveHeight);
                 }
 
                 else if (leftLegDetached)
@@ -945,6 +945,8 @@ public class ItemManager : NetworkBehaviour
         pickupLimbEvent.Invoke();
     }
 
+    [Command(requiresAuthority = false)]
+    private void MovePlayer(Vector3 displacement) => transform.position += displacement;
 
     void CamPositionReset()
     {
