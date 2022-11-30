@@ -22,8 +22,10 @@ public class ActivatedWall : ActivatedPlatform
         base.Deactivate();
     }
 
-    [Server]
+    [ClientRpc]
     protected override void RPCUpdateCollider(bool isActive) => collider.enabled = !isActive;
+
+
 
     [Server]
     protected override void UpdateAlpha()
