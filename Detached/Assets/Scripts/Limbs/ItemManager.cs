@@ -782,7 +782,7 @@ public class ItemManager : NetworkBehaviour
             readyToThrow = true;
             dragging = true;
             indicator.SetActive(true);
-            sceneObjectHoldingToThrow = GetGameObjectLimbFromSelect();
+            sceneObjectHoldingToThrow = Instantiate(GetGameObjectLimbFromSelect());
             sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
 
             RuntimeManager.PlayOneShot(Sounds.detachSound, transform.position);
@@ -809,8 +809,7 @@ public class ItemManager : NetworkBehaviour
             cinemachine.m_YAxis.m_MinValue = 0;
             if (sceneObjectHoldingToThrow != null)
             {
-                sceneObjectHoldingToThrow.transform.localPosition = Vector3.zero;
-                sceneObjectHoldingToThrow = null;
+                Destroy(sceneObjectHoldingToThrow);
             }
 
         }
@@ -820,8 +819,7 @@ public class ItemManager : NetworkBehaviour
             DrawTrajectory.instance.HideLine();
             indicator.SetActive(false);
             mouseReleasePos = Input.mousePosition;
-            sceneObjectHoldingToThrow.transform.localPosition = Vector3.zero;
-            sceneObjectHoldingToThrow = null;
+            Destroy(sceneObjectHoldingToThrow);
 
             cinemachine.m_YAxis.m_MaxSpeed = 10;
             cinemachine.m_YAxis.m_MinValue = 0;
