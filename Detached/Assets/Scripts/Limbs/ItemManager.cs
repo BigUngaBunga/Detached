@@ -642,7 +642,7 @@ public class ItemManager : NetworkBehaviour
                 }
                 else if (!rightLegDetached)
                 {
-                    newSceneObject = Instantiate(wrapperSceneObject, rightArmParent.transform.position, rightArmParent.transform.rotation);
+                    newSceneObject = Instantiate(wrapperSceneObject, rightLegParent.transform.position, rightLegParent.transform.rotation);
                     DropGenericLimb(newSceneObject, SceneObjectScript, limb, orginalOwner, rightLegIsDeta);
                     rightLegDetached = true;
                 }
@@ -946,7 +946,10 @@ public class ItemManager : NetworkBehaviour
     }
 
     [Command(requiresAuthority = false)]
-    private void MovePlayer(Vector3 displacement) => transform.position += displacement;
+    private void MovePlayer(Vector3 displacement) => RPCMovePlayer(displacement);
+
+    [ClientRpc]
+    private void RPCMovePlayer(Vector3 displacement) => transform.position += displacement;
 
     void CamPositionReset()
     {
