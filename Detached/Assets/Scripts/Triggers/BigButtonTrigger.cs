@@ -15,10 +15,12 @@ public class BigButtonTrigger : Trigger, IInteractable
         get => triggeringObjects; 
         set {
             triggeringObjects = value;
-            if (triggeringObjects == 1)
+            if (triggeringObjects >= 1)
                 IsTriggered = true;
-            else if (triggeringObjects == 0)
+            else if (triggeringObjects <= 0)
                 IsTriggered = false;
+            if (triggeringObjects < 0)
+                triggeringObjects = 0;
         } 
     }
     [SerializeField] private int triggeringObjects;
@@ -96,8 +98,6 @@ public class BigButtonTrigger : Trigger, IInteractable
     private void RemoveTrigger()
     {
         TriggeringObjects--;
-        if (TriggeringObjects < 0)
-            TriggeringObjects = 0;
     }
 
     private void CheckObjectsOnButton()
