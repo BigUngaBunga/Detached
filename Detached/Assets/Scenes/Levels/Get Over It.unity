@@ -1843,7 +1843,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blurIntensity: 3
   displayOnlyHighlights: 0
-  useSolidBorder: 0
   drawMaterial: {fileID: 2100000, guid: abd2e57c8f465a747a74054d379ae7ec, type: 2}
   blurMaterial: {fileID: 2100000, guid: b06e24451d307814a891d4d2b93a9cd8, type: 2}
   highlightMaterial: {fileID: 2100000, guid: bca85ac624238764b84d4e8d1692fa08, type: 2}
@@ -1864,6 +1863,8 @@ MonoBehaviour:
   syncInterval: 0.1
   interactionDistance: 16.11
   player: {fileID: 0}
+  targetLayer: 15
+  sourceTransform: {fileID: 0}
   debugRayAngle: -0.2
   useDebugRay: 0
 --- !u!114 &912751718
@@ -2310,7 +2311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1347820729085724061, guid: 30d97b331a6dbcb43a90be0424afaa12, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.485454
+      value: 0.23
       objectReference: {fileID: 0}
     - target: {fileID: 1347820729085724061, guid: 30d97b331a6dbcb43a90be0424afaa12, type: 3}
       propertyPath: m_LocalPosition.z
