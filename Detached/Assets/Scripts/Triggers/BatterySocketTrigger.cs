@@ -1,3 +1,4 @@
+using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,19 +10,9 @@ public class BatterySocketTrigger : Trigger, IInteractable
     [SerializeField] GameObject battery;
 
 
-    [Header("Audio")]
-    [SerializeField] private AudioSource triggerSound;
-
-
     protected override void PlaySoundOnTrigger()
     {
-        triggerSound.Play();
-    }
-
-    private void MoveToBatteryPosition(GameObject battery)
-    {
-        battery.transform.position = batteryPosition.position;
-        battery.transform.rotation = batteryPosition.rotation;
+        RuntimeManager.PlayOneShot(Sounds.attachSound, transform.position);
     }
 
     public void Interact(GameObject activatingObject)
@@ -45,6 +36,7 @@ public class BatterySocketTrigger : Trigger, IInteractable
             Debug.Log("Attached battery");
             battery = other.gameObject;
             IsTriggered = true;
+            battery.GetComponent<Carryable>().destroyEvent.AddListener(HandleDestroyBattery);
         }
     }
 
@@ -54,6 +46,7 @@ public class BatterySocketTrigger : Trigger, IInteractable
         {
             Debug.Log("Removed battery");
             IsTriggered = false;
+            battery.GetComponent<Carryable>().destroyEvent.RemoveListener(HandleDestroyBattery);
         }
     }
 
@@ -66,4 +59,6 @@ public class BatterySocketTrigger : Trigger, IInteractable
         }
         return false;
     }
+
+    private void HandleDestroyBattery() => IsTriggered = false;
 }

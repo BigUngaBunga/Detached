@@ -1243,7 +1243,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3618494084020866666}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.22, y: 2.97, z: 1.34}
+  m_LocalPosition: {x: -0.081, y: 2.97, z: 1.736}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3872462703351551213}
@@ -1613,7 +1613,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3618494085464057120}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.24, y: 2.72, z: -0.10764319}
+  m_LocalPosition: {x: 0.069, y: 2.72, z: 1.425}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3872462703351551213}
@@ -2195,9 +2195,6 @@ MonoBehaviour:
   cinemachine: {fileID: 0}
   throwCamOffset: {x: 0, y: -0.2, z: 4}
   indicator: {fileID: 3618494084844451030}
-  detachSound: {fileID: 3409997964746216048}
-  attachSound: {fileID: 0}
-  throwSound: {fileID: 3000783395029977930}
   numberOfLimbs: 0
   isDeta: 0
   allowInteraction: 1
@@ -2329,7 +2326,6 @@ MonoBehaviour:
   limbManager: {fileID: 0}
   cameraFollow: {fileID: 3618494085555675857}
   cinemaFreelook: {fileID: 0}
-  jumpSound: {fileID: 5814121909641589077}
 --- !u!114 &3618494084772148758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2975,6 +2971,7 @@ GameObject:
   - component: {fileID: 8926847477503848827}
   - component: {fileID: 928898981006546497}
   - component: {fileID: 28401888}
+  - component: {fileID: 5077217441448766852}
   m_Layer: 2
   m_Name: ChedRightLeg
   m_TagString: Leg
@@ -3067,8 +3064,21 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5426898, y: 2.2497995, z: 1.1659186}
-  m_Center: {x: 1.5675688, y: -1.1429334, z: 0.8321243}
+  m_Size: {x: 0.50306964, y: 2.2497995, z: 0.3777951}
+  m_Center: {x: 1.5477587, y: -1.1429334, z: 0.52460986}
+--- !u!65 &5077217441448766852
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5872359655522262497}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5080688, y: 0.23035608, z: 0.49818158}
+  m_Center: {x: 1.5502583, y: -2.1595867, z: 0.942417}
 --- !u!1 &6092629106015054758
 GameObject:
   m_ObjectHideFlags: 0
@@ -3080,6 +3090,7 @@ GameObject:
   - component: {fileID: 2177882094184726495}
   - component: {fileID: 4314928542174889778}
   - component: {fileID: 1085090103}
+  - component: {fileID: 9193961158969094644}
   m_Layer: 2
   m_Name: ChedLeftLeg
   m_TagString: Leg
@@ -3172,8 +3183,21 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.60926265, y: 2.2646482, z: 1.2773377}
-  m_Center: {x: -0.3313865, y: 0.8112037, z: 0.18787035}
+  m_Size: {x: 0.4595251, y: 2.1707513, z: 0.42964122}
+  m_Center: {x: -0.3400066, y: 0.76425546, z: -0.13729964}
+--- !u!65 &9193961158969094644
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6092629106015054758}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.46193224, y: 0.16938953, z: 0.57942647}
+  m_Center: {x: -0.33841953, y: -0.25148773, z: 0.3665536}
 --- !u!1 &6105657971683191085
 GameObject:
   m_ObjectHideFlags: 0
@@ -4352,6 +4376,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2156556275694709877, guid: e64a76f6906e88b46b8e15a1c478f200, type: 3}
+      propertyPath: LeftLeg
+      value: 
+      objectReference: {fileID: 9170584934753656055}
+    - target: {fileID: 2156556275694709877, guid: e64a76f6906e88b46b8e15a1c478f200, type: 3}
+      propertyPath: leftLeg
+      value: 
+      objectReference: {fileID: 9170584934753656055}
+    - target: {fileID: 2156556275694709877, guid: e64a76f6906e88b46b8e15a1c478f200, type: 3}
+      propertyPath: RightLeg
+      value: 
+      objectReference: {fileID: 9170584935223260511}
+    - target: {fileID: 2156556275694709877, guid: e64a76f6906e88b46b8e15a1c478f200, type: 3}
+      propertyPath: rightLeg
+      value: 
+      objectReference: {fileID: 9170584935223260511}
     - target: {fileID: 2156556275694709879, guid: e64a76f6906e88b46b8e15a1c478f200, type: 3}
       propertyPath: m_Name
       value: 'ChedGameUI '
@@ -4361,5 +4401,15 @@ PrefabInstance:
 --- !u!224 &9170584936149719434 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2156556275694709873, guid: e64a76f6906e88b46b8e15a1c478f200, type: 3}
+  m_PrefabInstance: {fileID: 7109449782513153531}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9170584934753656055 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2156556276411590924, guid: e64a76f6906e88b46b8e15a1c478f200, type: 3}
+  m_PrefabInstance: {fileID: 7109449782513153531}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &9170584935223260511 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2156556275807895716, guid: e64a76f6906e88b46b8e15a1c478f200, type: 3}
   m_PrefabInstance: {fileID: 7109449782513153531}
   m_PrefabAsset: {fileID: 0}

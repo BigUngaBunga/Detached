@@ -7,6 +7,7 @@ using System;
 using FMOD.Studio;
 using FMOD;
 using System.Reflection;
+using UnityEngine.Events;
 
 public class ConditionalAudioPlayer : NetworkBehaviour
 {
@@ -20,6 +21,7 @@ public class ConditionalAudioPlayer : NetworkBehaviour
     [SerializeField] private float replyDelay;
     [SerializeField] private bool wasPlayed;
     [SerializeField] private int playerNumber;
+
     private int PlayerNumber 
     { get { return playerNumber; } 
       set { playerNumber = value; EvaluateIfPlaySound(); } 

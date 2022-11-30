@@ -5,6 +5,8 @@ using Mirror;
 using Steamworks;
 using UnityEngine.SceneManagement;
 using Cinemachine;
+using FMODUnity;
+using FMOD.Studio;
 
 public class CharacterControl : NetworkBehaviour
 {
@@ -66,9 +68,6 @@ public class CharacterControl : NetworkBehaviour
     [Header("Camera")]
     [SerializeField] private GameObject cameraFollow;
     [SerializeField] private CinemachineFreeLook cinemaFreelook;
-
-    [Header("Audio")]
-    [SerializeField] private AudioSource jumpSound;
 
     private bool isGrounded = false;
 
@@ -259,7 +258,7 @@ public class CharacterControl : NetworkBehaviour
             rb.velocity *= jumpForceReduction;
 
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-            jumpSound.Play();
+            RuntimeManager.PlayOneShot(Sounds.jumpSound, transform.position);
             Invoke(nameof(ResetJump), jumpCD); //Hold jump
         }
     }
