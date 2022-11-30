@@ -8,8 +8,7 @@ public class BigButtonTrigger : Trigger, IInteractable
     [SerializeField] private Transform boxPosition;
     [SerializeField] private GameObject box;
     private Carryable boxInteractable;
-    [SerializeField] private HashSet<GameObject> objectsOnButton = new HashSet<GameObject>();
-    private List<GameObject> objectsToRemove = new List<GameObject>();
+    [SerializeField] private List<GameObject> objectsOnButton = new List<GameObject>();
     private bool HasBox => box != null;
 
     private int TriggeringObjects { 
@@ -97,24 +96,20 @@ public class BigButtonTrigger : Trigger, IInteractable
     private void RemoveTrigger()
     {
         TriggeringObjects--;
+        if (TriggeringObjects < 0)
+            TriggeringObjects = 0;
     }
 
     private void CheckObjectsOnButton()
     {
-        foreach (var item in objectsOnButton)
+        for (int i = objectsOnButton.Count - 1; i >= 0; i--)
         {
-            if (item != null || !item.activeSelf)
+            if (objectsOnButton[i] == null || !objectsOnButton[i].activeSelf)
             {
                 RemoveTrigger();
-                objectsToRemove.Add(item);
+                objectsOnButton.RemoveAt(i);
             }
         }
-
-        for (int i = 0; i < objectsToRemove.Count; ++i)
-        {
-            objectsOnButton.Remove(objectsToRemove[i]);
-        }
-        objectsToRemove.Clear();
     }
 
     private void HandleDestroyBox()
