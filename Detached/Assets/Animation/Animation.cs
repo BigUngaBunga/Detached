@@ -118,11 +118,11 @@ public class Animation : NetworkBehaviour
                 animator.SetTrigger("Crawling");
                 networkAnimator.SetTrigger("Crawling");
             }
-            else
-            {
-                animator.SetTrigger("Crawling Idle");
-                networkAnimator.SetTrigger("Crawling Idle");
-            }
+            //else
+            //{
+            //    animator.SetTrigger("Crawling Idle");
+            //    networkAnimator.SetTrigger("Crawling Idle");
+            //}
         }
         else if (!HasLeftLeg)
         {
