@@ -2843,6 +2843,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5617121615382190459}
+  - component: {fileID: 4309339731962156446}
   m_Layer: 0
   m_Name: QuickRigCharacter_Reference
   m_TagString: Untagged
@@ -2865,6 +2866,21 @@ Transform:
   m_Father: {fileID: 3872462703351551213}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4309339731962156446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5406308087083096826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61c39ba0f47702f469b230befd11058e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crawlingTransform: {fileID: 4113286084969680104}
+  initialTransform: {fileID: 8106763168444996223}
+  crawlDisplacement: {x: 0, y: -0.64, z: -0.84}
 --- !u!1 &5466912070240549259
 GameObject:
   m_ObjectHideFlags: 0

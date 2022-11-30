@@ -44,7 +44,7 @@ public class SmallButtonTrigger : Trigger, IInteractable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (isServer && CanInteract(collision.gameObject))
+        if (isServer && !collision.gameObject.CompareTag("Player") && CanInteract(collision.gameObject))
             StartCoroutine(PushButton());
     }
 }

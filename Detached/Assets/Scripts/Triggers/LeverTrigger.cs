@@ -43,9 +43,6 @@ public class LeverTrigger : Trigger, IInteractable
     [Command(requiresAuthority = false)]
     public void Interact(GameObject activatingObject)
     {
-        //if (CanInteract(activatingObject))
-        //{
-        //}
         IsTriggered = !IsTriggered;
         RPCSetLeverActivation(IsTriggered);
         highlight.UpdateRenderers();

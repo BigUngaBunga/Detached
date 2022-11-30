@@ -922,6 +922,10 @@ public class ItemManager : NetworkBehaviour
                 {
                     rightLegIsDeta = sceneObjectItemManager.isDeta;
                     keepSceneObject = rightLegDetached = false;
+
+                    //TODO implement better fix for preventing getting stuck
+                    float moveHeight = 2f;
+                    transform.position += transform.up * moveHeight;
                 }
 
                 else if (leftLegDetached)
