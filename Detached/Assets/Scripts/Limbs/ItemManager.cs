@@ -924,7 +924,7 @@ public class ItemManager : NetworkBehaviour
                     keepSceneObject = rightLegDetached = false;
 
                     //TODO implement better fix for preventing getting stuck
-                    float moveHeight = 2f;
+                    float moveHeight = 5f;
                     MovePlayer(transform.up * moveHeight);
                 }
 
