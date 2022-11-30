@@ -6,6 +6,12 @@ public class ActivatedWall : ActivatedPlatform
     
     private float PercentageActive => (TotalConnections - ActiveConnections) / (float)TotalConnections;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        //Debug
+    }
+
     protected override void Activate()
     {
         base.Activate();
