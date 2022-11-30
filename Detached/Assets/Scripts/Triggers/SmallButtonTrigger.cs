@@ -12,15 +12,6 @@ public class SmallButtonTrigger : Trigger, IInteractable
     private int requiredArms = 1;
     private Vector3 heightDifference => new Vector3(0, pushedHeight, 0);
 
-    [Header("Audio")]
-    [SerializeField] private AudioSource triggerSound;
-
-
-    protected override void PlaySoundOnTrigger()
-    {
-        triggerSound.Play();
-    }
-
 
     public bool CanInteract(GameObject activatingObject) => !IsTriggered && HasEnoughArms(activatingObject, requiredArms);
     
