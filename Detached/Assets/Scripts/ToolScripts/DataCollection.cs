@@ -65,6 +65,9 @@ public class DataCollection : MonoBehaviour
     }
     void Update()
     {
+        ///TODO
+        /// Change this from checking the players position to just checking the camera position since the camera will now be 
+        /// attached to limbs and in turn will better represent where the player is actually getting stuck.
         time += Time.deltaTime;
         player = conn.identity.gameObject;
         playerPosition = player.transform.position;
@@ -77,10 +80,12 @@ public class DataCollection : MonoBehaviour
             triggerStructArray[i].z = triggers[i].gameObject.GetComponent<Data>().position.z;
         }
         WriteString();
+
     }
 
     void WriteString()
     {
+        Debug.Log("Writing to: " + filePath);
         StreamWriter writer = new StreamWriter(filePath, true);
         string output = "";
         string triggerValues = "";

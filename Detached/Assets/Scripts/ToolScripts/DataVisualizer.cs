@@ -146,7 +146,7 @@ public class DataVisualizer : MonoBehaviour
                 {
                     if (count < 255) // skipping last loop to not overflow and reset array.
                     {
-                        float weight = (weightArray[i, j] / max) * 15.0f;
+                        float weight = (weightArray[i, j] / max) * 8.0f;
                         //Debug.Log("Hit Texture coordinates" + hit.textureCoord.x + "," + hit.textureCoord.y + "," + weight);
                         Target.AddHitPoint(hit.textureCoord.x * 4 - 2, hit.textureCoord.y * 4 - 2, weight);
                     }
@@ -186,9 +186,10 @@ public class DataVisualizer : MonoBehaviour
         }
     }
 
-    public void ChangeScene(string sceneName)
+    public void ChangeScene()
     {
-        ServerChangeScene(sceneName);
+        if (dataList.Count == 0) return;
+        ServerChangeScene(dataList[0].level);
     }
 
     [Server]
