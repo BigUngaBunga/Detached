@@ -8,6 +8,9 @@ public class CrawlManager : MonoBehaviour
     [SerializeField] private GameObject colliders, quickRig;
     [SerializeField] private Vector3 ofset;
     [SerializeField] private float stepUpRayLenght = 2;
+    [Range(0, 2f)]
+    [SerializeField] private List<Transform> transformsToMove = new List<Transform>();
+    private List<Vector3> initialTransforms = new List<Vector3>();
     private float initialRayLength;
     private CharacterControl characterControl;
     private Vector3 initialColliderPosition;
@@ -25,6 +28,8 @@ public class CrawlManager : MonoBehaviour
         initialColliderPosition = colliders.transform.localPosition;
         initialColliderRotation = colliders.transform.localRotation;
         initialQuickRigPosition = quickRig.transform.localPosition;
+        for (int i = 0; i < transformsToMove.Count; i++)
+            initialTransforms.Add(transformsToMove[i].localPosition);
     }
 
     public void SetCrawl(bool isCrawling)
@@ -36,6 +41,8 @@ public class CrawlManager : MonoBehaviour
             quickRig.transform.localPosition = Position;
             colliders.transform.localRotation = Quaternion.Euler(initialColliderRotation.eulerAngles + rotation);
             characterControl.stepRayLength = stepUpRayLenght;
+            for (int i = 0; i < transformsToMove.Count; i++)
+                transformsToMove[i].localPosition = initialTransforms[i] + Position * ofsetFactor;
         }
         else
         {
@@ -43,6 +50,8 @@ public class CrawlManager : MonoBehaviour
             quickRig.transform.localPosition = initialQuickRigPosition;
             colliders.transform.localRotation = initialColliderRotation;
             characterControl.stepRayLength = initialRayLength;
+            for (int i = 0; i < transformsToMove.Count; i++)
+                transformsToMove[i].localPosition = initialTransforms[i];
         }
     }
 }

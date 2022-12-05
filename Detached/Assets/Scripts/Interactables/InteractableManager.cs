@@ -20,7 +20,7 @@ public class InteractableManager : NetworkBehaviour
 
     public bool IsCarryingTag(string tag) => isCarryingItem && carriedItem.CompareTag(tag);
 
-    public bool CanPickUpItem(GameObject item) => !isCarryingItem && item.GetComponent<Carryable>().RequiredArms <= itemManager.NumberOfArms;
+    public bool CanPickUpItem(GameObject item) => item != null && !isCarryingItem && item.GetComponent<Carryable>().RequiredArms <= itemManager.NumberOfArms;
 
     public bool AttemptPickUpItem(GameObject item)
     {
