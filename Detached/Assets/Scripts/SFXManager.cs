@@ -47,7 +47,7 @@ public static class SFXManager
         instance.set3DAttributes(RuntimeUtils.To3DAttributes(position));
         instance.start();
         Debug.Log($"transform position: X: {position.x} Y: {position.y} Z: {position.z}");
-        //instance.release();
+        instance.release();
     }
 
     public static void PlayOneShotAttached(EventReference eventReference, float volume, GameObject gameObject)
@@ -84,6 +84,6 @@ public static class SFXManager
         RuntimeManager.AttachInstanceToGameObject(instance, gameObject.transform);
 #endif
         instance.start();
-        //instance.release();
+        instance.release();
     }
 }
