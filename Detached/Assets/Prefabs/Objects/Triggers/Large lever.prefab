@@ -80,7 +80,6 @@ GameObject:
   - component: {fileID: 5569106309925532686}
   - component: {fileID: 1991375109614507660}
   - component: {fileID: 1833049296719801273}
-  - component: {fileID: 5374969351131509962}
   m_Layer: 15
   m_Name: Large lever
   m_TagString: Untagged
@@ -172,7 +171,6 @@ MonoBehaviour:
   requiredArms: 2
   triggeredLever: {fileID: 2059702968490562333}
   normalLever: {fileID: 501652060003951927}
-  sfx: {fileID: 5374969351131509962}
 --- !u!64 &3047170389002406878
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -236,18 +234,6 @@ MonoBehaviour:
   Name: 
   Activations: 0
   position: {x: 0, y: 0, z: 0}
---- !u!114 &5374969351131509962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2207945746576856986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2703977011473de4780454320d502efa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3436855835173457833
 GameObject:
   m_ObjectHideFlags: 0
