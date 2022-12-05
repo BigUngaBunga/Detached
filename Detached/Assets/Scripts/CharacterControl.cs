@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using Cinemachine;
 using FMODUnity;
 using FMOD.Studio;
+using System;
 
 public class CharacterControl : NetworkBehaviour
 {
@@ -71,9 +72,6 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] private CinemachineFreeLook cinemaFreelook;
 
     private bool isGrounded = false;
-
-    [Header("Audio")]
-    public SFXManager sfx;
 
     Vector3 moveDir;
     Vector3 input;
@@ -265,7 +263,9 @@ public class CharacterControl : NetworkBehaviour
             rb.velocity *= jumpForceReduction;
 
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-            sfx.PlayOneShot(sfx.jumpSound, transform.position);
+
+            Transform body = transform.Find("group1");
+            SFXManager.PlayOneShotAttached(SFXManager.JumpSound, SFXManager.SFXVolume, body.gameObject);
             Invoke(nameof(ResetJump), jumpCD); //Hold jump
         }
     }

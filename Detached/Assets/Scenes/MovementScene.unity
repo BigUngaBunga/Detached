@@ -133,8 +133,8 @@ GameObject:
   m_Component:
   - component: {fileID: 47612335}
   - component: {fileID: 47612338}
-  - component: {fileID: 47612337}
   - component: {fileID: 47612336}
+  - component: {fileID: 47612337}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -190,14 +190,19 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!81 &47612337
-AudioListener:
+--- !u!114 &47612337
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 47612334}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
 --- !u!20 &47612338
 Camera:
   m_ObjectHideFlags: 0
@@ -286,10 +291,7 @@ MonoBehaviour:
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
-    ModeOverride: 0
     LensShift: {x: 0, y: 0}
-    GateFit: 2
-    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -566,18 +568,21 @@ MonoBehaviour:
   runSpeed: 6
   crouchSpeed: 2.5
   camTransform: {fileID: 47612335}
+  stepRays: []
+  stepHeight: 0.3
+  stepSmooth: 2
   jumpForce: 6
   jumpCD: 0.25
   airMultiplier: 0.01
   groundDrag: 3
+  airDrag: 0
+  jumpForceReduction: 0
   groundCheckTransform: {fileID: 1385906852}
+  secondaryGroundCheck: {fileID: 0}
   groundCheckRadius: 0.5
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  interactableMask:
-    serializedVersion: 2
-    m_Bits: 0
   playerBody: {fileID: 0}
   playerObjectController: {fileID: 0}
   limbManager: {fileID: 0}
@@ -1134,10 +1139,7 @@ MonoBehaviour:
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
-    ModeOverride: 0
     LensShift: {x: 0, y: 0}
-    GateFit: 2
-    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1307,10 +1309,7 @@ MonoBehaviour:
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
-    ModeOverride: 0
     LensShift: {x: 0, y: 0}
-    GateFit: 2
-    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1510,10 +1509,7 @@ MonoBehaviour:
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
-    ModeOverride: 0
     LensShift: {x: 0, y: 0}
-    GateFit: 2
-    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

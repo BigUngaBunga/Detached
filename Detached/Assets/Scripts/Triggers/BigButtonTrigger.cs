@@ -25,10 +25,6 @@ public class BigButtonTrigger : Trigger, IInteractable
     }
     [SerializeField] private int triggeringObjects;
 
-
-    [Header("Audio")]
-    public SFXManager sfx;
-
     private bool IsCollisionObject(string tag) => tag.Equals("Box") || tag.Equals("Leg") || tag.Equals("Player");
 
     public void OnTriggerEnter(Collider other)
@@ -54,7 +50,7 @@ public class BigButtonTrigger : Trigger, IInteractable
 
     protected override void PlaySoundOnTrigger()
     {
-        RuntimeManager.PlayOneShot(sfx.pushButtonSound, transform.position);
+        SFXManager.PlayOneShot(SFXManager.PushButtonSound, SFXManager.SFXVolume, transform.position);
     }
 
     public void OnTriggerExit(Collider other)

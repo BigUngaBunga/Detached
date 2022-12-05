@@ -1008,11 +1008,11 @@ GameObject:
   m_Component:
   - component: {fileID: 311752517}
   - component: {fileID: 311752516}
-  - component: {fileID: 311752515}
   - component: {fileID: 311752514}
   - component: {fileID: 311752513}
   - component: {fileID: 311752512}
   - component: {fileID: 311752511}
+  - component: {fileID: 311752515}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -1051,7 +1051,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blurIntensity: 3
   displayOnlyHighlights: 0
-  useSolidBorder: 0
   drawMaterial: {fileID: 2100000, guid: 34648dc252ebbf04a9d20cff0892d2fa, type: 2}
   blurMaterial: {fileID: 2100000, guid: ccbda6943bd3e754295306d9fe926b1e, type: 2}
   highlightMaterial: {fileID: 2100000, guid: f80b0fb5d2166844f82ceff8528377ce, type: 2}
@@ -1110,14 +1109,19 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!81 &311752515
-AudioListener:
+--- !u!114 &311752515
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 311752510}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
 --- !u!20 &311752516
 Camera:
   m_ObjectHideFlags: 0
@@ -1168,7 +1172,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 311752510}
-  m_LocalRotation: {x: -0.035635825, y: -0.02407859, z: 0.00085885514, w: -0.9990744}
+  m_LocalRotation: {x: -0.017457282, y: -0.024090214, z: 0.0004207359, w: -0.9995573}
   m_LocalPosition: {x: 17.02, y: 6.11, z: -14.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []

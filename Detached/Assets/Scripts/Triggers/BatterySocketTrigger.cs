@@ -8,13 +8,9 @@ public class BatterySocketTrigger : Trigger, IInteractable
     [Header("Battery Socket Fields")]
     [SerializeField] Transform batteryPosition;
     [SerializeField] GameObject battery;
-
-    [Header("Audio")]
-    public SFXManager sfx;
-
     protected override void PlaySoundOnTrigger()
     {
-        RuntimeManager.PlayOneShot(sfx.attachSound, transform.position);
+        SFXManager.PlayOneShot(SFXManager.AttachSound, 0.3f, transform.position);
     }
 
     public void Interact(GameObject activatingObject)
