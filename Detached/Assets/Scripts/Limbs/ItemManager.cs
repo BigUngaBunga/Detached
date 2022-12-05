@@ -46,7 +46,7 @@ public class ItemManager : NetworkBehaviour
     private Vector3 orginalRightLegPosition;
 
     //BooleanForColorOnLimbs
-    
+
 
     private List<GameObject> limbs = new List<GameObject>();
     private int indexControll;
@@ -75,18 +75,12 @@ public class ItemManager : NetworkBehaviour
     public int numberOfLimbs;
 
     //Color and selectionMode
-    [SyncVar]
-    public bool isDeta;
-    [SyncVar]
-    private bool rightLegIsDeta;
-    [SyncVar]
-    private bool leftLegIsDeta;
-    [SyncVar]
-    private bool rightArmIsDeta;
-    [SyncVar]
-    private bool leftArmIsDeta;
-    [SyncVar]
-    private int selectionMode; //0 == limbSelection mode, 1 == out on map limb selection mode
+    [SyncVar] public bool isDeta;
+    [SyncVar] private bool rightLegIsDeta;
+    [SyncVar] private bool leftLegIsDeta;
+    [SyncVar] private bool rightArmIsDeta;
+    [SyncVar] private bool leftArmIsDeta;
+    [SyncVar] private int selectionMode; //0 == limbSelection mode, 1 == out on map limb selection mode
     private LimbTextureManager limbTextureManager;
 
     public readonly UnityEvent pickupLimbEvent = new UnityEvent();
@@ -273,7 +267,7 @@ public class ItemManager : NetworkBehaviour
             CmdDropLimb(Limb_enum.Head, gameObject);
             Transform body = transform.Find("group1");
             SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, SFXManager.SFXVolume, body.gameObject);
-        } 
+        }
         if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
         {
             CmdDropLimb(Limb_enum.Arm, gameObject);
@@ -298,14 +292,14 @@ public class ItemManager : NetworkBehaviour
     {
         if (Input.mouseScrollDelta.y < 0 || Input.mouseScrollDelta.y > 0)
         {
-            
+
             if (selectionMode == 0)
             {
                 ChangeSelectedLimbToThrow(Input.mouseScrollDelta.y);
             }
             else if (selectionMode == 1)
             {
-                GetAllLimbsInScene();
+                GetAllPlayerLimbsInScene();
                 ChangeLimbControll(Input.mouseScrollDelta.y); //Change this to handle the scroll up and down
             }
             changeSelectedLimbEvent.Invoke();
@@ -337,7 +331,7 @@ public class ItemManager : NetworkBehaviour
                 ChangeControllingforLimbAndPlayer(limbs[indexControll], false);
                 ChangeControllingforLimbAndPlayer(gameObject, true);
             }
-            else if (selectionMode == 1) 
+            else if (selectionMode == 1)
             {
                 selectionMode = 0;
 
@@ -359,7 +353,7 @@ public class ItemManager : NetworkBehaviour
     public bool HasHead()
     {
         return headDetached;
-    } 
+    }
 
     public int NumberOfLegs
     {
@@ -530,16 +524,25 @@ public class ItemManager : NetworkBehaviour
         }
     }
 
-    void GetAllLimbsInScene()
+    private void GetAllPlayerLimbsInScene()
     {
         try
         {
             limbs.Clear();
-            limbs.AddRange(GameObject.FindGameObjectsWithTag("Limb"));
+            GameObject[] limbsInScene = GameObject.FindGameObjectsWithTag("Limb");
+            //limbs.AddRange(GameObject.FindGameObjectsWithTag("Limb"));
+            foreach (GameObject limb in limbsInScene)
+            {
+                if (limb.GetComponent<SceneObjectItemManager>().orignalOwner == gameObject)
+                {
+                    limbs.Add(limb);
+                }
+            }
             if (limbs.Count == 0)
             {
                 return;
             }
+
             limbs.Add(gameObject);
         }
         catch (Exception e)
@@ -703,7 +706,7 @@ public class ItemManager : NetworkBehaviour
                 if (!leftLegDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, throwpoint, leftLegParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb , originalOwner, leftLegIsDeta);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, originalOwner, leftLegIsDeta);
                     leftLegDetached = true;
                 }
                 else if (!rightLegDetached)
@@ -870,7 +873,7 @@ public class ItemManager : NetworkBehaviour
         SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
         SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
         SceneObjectScript.isDeta = limbIsDeta;
-        NetworkServer.Spawn(newSceneObject);      
+        NetworkServer.Spawn(newSceneObject);
         SceneObjectScript.detached = true;
         SceneObjectScript.orignalOwner = orignalOwner;
     }

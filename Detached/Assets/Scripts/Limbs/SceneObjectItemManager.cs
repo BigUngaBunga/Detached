@@ -18,7 +18,6 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SerializeField] public LayerMask groundMask;
     [SerializeField] float groundCheckRadius;
 
-
     private KeyCode detachKeyHead;
     private KeyCode detachKeyArm;
     private KeyCode detachKeyLeg;
@@ -26,27 +25,16 @@ public class SceneObjectItemManager : NetworkBehaviour
     private HighlightObject highlight;
     private ArmInteraction armInteractor;
 
-    [SyncVar(hook = nameof(OnChangeDetached))]
-    public bool detached = false;
-    [SyncVar]
-    public LimbType thisLimb;
-
-    [SyncVar]
-    public bool isBeingControlled = false;
+    [SyncVar(hook = nameof(OnChangeDetached))] public bool detached = false;
+    [SyncVar] public LimbType thisLimb;
+    [SyncVar] public bool isBeingControlled = false;
+    [SyncVar] public GameObject orignalOwner;
+    [SyncVar] public bool isDeta;
+    [SyncVar] private GameObject thisGameObject; 
 
     public UnityEvent pickUpLimbEvent = new UnityEvent();
-
-    [SyncVar]
-    public GameObject orignalOwner;
-
     private int numOfFallOutOfWorld = 0;
-
-    [SyncVar]
-    public bool isDeta;
-
-    [SyncVar]
-    private GameObject thisGameObject; 
-    
+  
     public bool IsBeingControlled
     {
         get { return isBeingControlled; }
@@ -64,11 +52,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void SetControlledStatus(bool value) => isBeingControlled = value;
 
-
-    public bool test = true;
-
     public ItemManager itemManager;
-
     private TextureManager textureManager;
 
     private void Awake()
@@ -82,9 +66,7 @@ public class SceneObjectItemManager : NetworkBehaviour
         highlight = GetComponent<HighlightObject>();
         detachKeyHead = itemManager.detachKeyHead;
         detachKeyArm = itemManager.detachKeyArm;
-        detachKeyLeg = itemManager.detachKeyLeg;
-        
-       
+        detachKeyLeg = itemManager.detachKeyLeg;   
     }
 
     //Instantiates the limb as a child on the SceneObject 
