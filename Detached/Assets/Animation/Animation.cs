@@ -133,7 +133,10 @@ public class Animation : NetworkBehaviour
                     networkAnimator.SetTrigger("Left Jump");
                 }
             }
-
+            else
+            {
+                animator.SetBool("No Leg", false);
+            }
 
             if (Input.GetKey(KeyCode.W) && detach.LeftLeg.active == true && detach.RightLeg.active == true)
             {
@@ -160,7 +163,7 @@ public class Animation : NetworkBehaviour
                 animator.SetTrigger("Jump");
                 networkAnimator.SetTrigger("Jump");
             }
-            else if (Input.GetKeyDown(KeyCode.E))
+            else if (Input.GetKeyDown(KeyCode.F))
             {
                 if(animator.GetBool("isCarrying") == true)
                 {

@@ -27,8 +27,8 @@ public class LimbTextureManager : MonoBehaviour
                     materials[1].color = detaBlue;
                     break;
 
-                    /*Ändra bool på när limbs tas upp.
-                     Vid hooken på detached så ändra smaitidgt färgen på benet.
+                    /*Ändra bool pEnär limbs tas upp.
+                     Vid hooken pEdetached sEändra smaitidgt färgen pEbenet.
                      Ändra dropp färgen.
                      Lägg till Texture manager */
             }
