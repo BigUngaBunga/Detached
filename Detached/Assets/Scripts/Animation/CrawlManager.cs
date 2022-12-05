@@ -11,6 +11,7 @@ public class CrawlManager : MonoBehaviour
     private float initialRayLength;
     private CharacterControl characterControl;
     private Vector3 initialColliderPosition;
+    private Quaternion initialColliderRotation;
     private Vector3 initialQuickRigPosition;
     private Vector3 rotation = new Vector3(90, 0, 0);
 
@@ -22,6 +23,7 @@ public class CrawlManager : MonoBehaviour
         characterControl = GetComponentInParent<CharacterControl>();
         initialRayLength = characterControl.stepRayLength;
         initialColliderPosition = colliders.transform.localPosition;
+        initialColliderRotation = colliders.transform.localRotation;
         initialQuickRigPosition = quickRig.transform.localPosition;
     }
 
@@ -32,14 +34,14 @@ public class CrawlManager : MonoBehaviour
         {
             colliders.transform.localPosition = AdjustedPosition;
             quickRig.transform.localPosition = Position;
-            colliders.transform.Rotate(rotation);
+            colliders.transform.localRotation = Quaternion.Euler(initialColliderRotation.eulerAngles + rotation);
             characterControl.stepRayLength = stepUpRayLenght;
         }
         else
         {
             colliders.transform.localPosition = initialColliderPosition;
             quickRig.transform.localPosition = initialQuickRigPosition;
-            colliders.transform.Rotate(-rotation);
+            colliders.transform.localRotation = initialColliderRotation;
             characterControl.stepRayLength = initialRayLength;
         }
     }
