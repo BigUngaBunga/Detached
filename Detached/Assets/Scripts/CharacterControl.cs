@@ -43,6 +43,7 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] GameObject[] stepRays;
     [SerializeField] float stepHeight = 0.3f;
     [SerializeField] float stepSmooth = 2f;
+    public float stepRayLength = 1f;
 
 
     [Header("Jump")]
@@ -207,22 +208,22 @@ public class CharacterControl : NetworkBehaviour
 
         Vector3 rbDirection = new Vector3(rb.velocity.x, 0, rb.velocity.z);
        // Debug.DrawRay(rayDirectioLowerMid.transform.position, rbDirection.normalized, Color.green);
-        Debug.DrawRay(rayDirectioLowerLeft.transform.position, rbDirection.normalized, Color.red);
-        Debug.DrawRay(rayDirectioLowerRight.transform.position, rbDirection.normalized, Color.blue);
+        Debug.DrawRay(rayDirectioLowerLeft.transform.position, rbDirection.normalized * stepRayLength, Color.red);
+        Debug.DrawRay(rayDirectioLowerRight.transform.position, rbDirection.normalized * stepRayLength, Color.blue);
         /* if (Physics.Raycast(rayDirectioLowerMid.transform.position, rbDirection.normalized, out hitLower, rayLengthMid))
          {
              Debug.Log("mid");
              StepClimbUpperCheck(rbDirection, stepRays[3]);
 
          }*/
-        if (Physics.Raycast(rayDirectioLowerLeft.transform.position, rbDirection.normalized, out hitLower, rayLengthSides))
+        if (Physics.Raycast(rayDirectioLowerLeft.transform.position, rbDirection.normalized, out hitLower, stepRayLength))
         {
             Debug.Log("Left");
             StepClimbUpperCheck(rbDirection, stepRays[4]);
             return;
         }
 
-        if (Physics.Raycast(rayDirectioLowerRight.transform.position, rbDirection.normalized, out hitLower, rayLengthSides))
+        if (Physics.Raycast(rayDirectioLowerRight.transform.position, rbDirection.normalized, out hitLower, stepRayLength))
         {
             Debug.Log("Right");
             StepClimbUpperCheck(rbDirection, stepRays[5]);
