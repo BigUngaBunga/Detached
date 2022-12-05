@@ -307,12 +307,14 @@ public class ItemManager : NetworkBehaviour
         }
     }
 
-    private void ChangeSelectedLimbToThrow(float y)
+    private void ChangeSelectedLimbToThrow(float scrollDelta)
     {
-        int change = y > 0 ? 1 : -1;
+        int change = (int)scrollDelta;
         int currentlySelected = (int)selectedLimbToThrow;
         int allEnums = Enum.GetNames(typeof(Limb_enum)).Length;
-        selectedLimbToThrow = (Limb_enum)((currentlySelected + change) % allEnums);
+        int goingToSelect = (currentlySelected + -change) % allEnums;
+        if (goingToSelect < 0) goingToSelect = allEnums - 1; //Modulo in c# is remainder not modulo...
+        selectedLimbToThrow = (Limb_enum)goingToSelect;
     }
 
     /// <summary>
