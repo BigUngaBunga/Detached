@@ -25,7 +25,7 @@ public class BigButtonTrigger : Trigger, IInteractable
     }
     [SerializeField] private int triggeringObjects;
 
-    private bool IsCollisionObject(string tag) => tag.Equals("Box") || tag.Equals("Leg") || tag.Equals("Player");
+    private bool IsCollisionObject(string tag) => tag.Equals("Box") || tag.Equals("Leg") || tag.Equals("Player") || tag.Equals("Torso");
 
     public void OnTriggerEnter(Collider other)
     {
