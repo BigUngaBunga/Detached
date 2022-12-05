@@ -537,10 +537,14 @@ public class ItemManager : NetworkBehaviour
         try
         {
             limbs.Clear();
-            limbs.AddRange(GameObject.FindGameObjectsWithTag("Limb"));
-            foreach (GameObject limb in limbs) 
+            GameObject[] limbsInScene = GameObject.FindGameObjectsWithTag("Limb");
+            //limbs.AddRange(GameObject.FindGameObjectsWithTag("Limb"));
+            foreach (GameObject limb in limbsInScene) 
             { 
-                if (limb.GetComponent<SceneObjectItemManager>().orignalOwner != gameObject) limbs.Remove(limb);
+                if (limb.GetComponent<SceneObjectItemManager>().orignalOwner == gameObject) 
+                {
+                    limbs.Add(limb);
+                }
             }
             if (limbs.Count == 0)
             {
