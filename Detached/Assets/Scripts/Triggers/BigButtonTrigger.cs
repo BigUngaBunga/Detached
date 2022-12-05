@@ -76,12 +76,9 @@ public class BigButtonTrigger : Trigger, IInteractable
     {
         var itemManager = activatingObject.GetComponent<InteractableManager>();
 
-        if (HasBox && IsTriggered && HasEnoughArms(activatingObject, 1))
-        {
-            itemManager.AttemptPickUpItem(box);
-        }
+        if (HasBox && IsTriggered && itemManager.AttemptPickUpItem(box)) { }
         else if (itemManager.IsCarryingTag("Box"))
-            itemManager.AttemptDropItemTo(boxPosition, out GameObject box);
+            itemManager.AttemptDropItemTo(boxPosition, out _);
     }
 
     public bool CanInteract(GameObject activatingObject)
