@@ -10,8 +10,7 @@ public class Animation : NetworkBehaviour
     bool isCarrying = false;
     bool moving = true;
     public Detach detach;
-
-    private QuickRigMover[] rigMovers;
+    private CrawlManager crawlManager;
 
     private bool HasRightArm => detach.RightArm.activeSelf;
     private bool HasLeftArm => detach.LeftArm.activeSelf;
@@ -24,7 +23,7 @@ public class Animation : NetworkBehaviour
         animator = GetComponent<Animator>();
         detach = GetComponent<Detach>();
         networkAnimator = GetComponent<NetworkAnimator>();
-        rigMovers = GetComponentsInChildren<QuickRigMover>();
+        crawlManager = GetComponentInChildren<CrawlManager>();
     }
 
     // Update is called once per frame
@@ -150,10 +149,17 @@ public class Animation : NetworkBehaviour
         return false;
     }
 
+    [Command]
     private void SetCrawl(bool isCrawling)
     {
-        for (int i = 0; i < rigMovers.Length; i++)
-            rigMovers[i].SetPosition(isCrawling);
+        if (animator.GetBool("No Leg") != isCrawling)
+            RPCSetCrawl(isCrawling);
+    }
+
+    [ClientRpc]
+    private void RPCSetCrawl(bool isCrawling)
+    {
+        crawlManager.SetCrawl(isCrawling);
         animator.SetBool("No Leg", isCrawling);
     }
 }

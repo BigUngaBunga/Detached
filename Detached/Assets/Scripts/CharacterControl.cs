@@ -44,6 +44,7 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] GameObject[] stepRays;
     [SerializeField] float stepHeight = 0.3f;
     [SerializeField] float stepSmooth = 2f;
+    public float stepRayLength = 1f;
 
 
     [Header("Jump")]
@@ -207,22 +208,22 @@ public class CharacterControl : NetworkBehaviour
 
         Vector3 rbDirection = new Vector3(rb.velocity.x, 0, rb.velocity.z);
        // Debug.DrawRay(rayDirectioLowerMid.transform.position, rbDirection.normalized, Color.green);
-        Debug.DrawRay(rayDirectioLowerLeft.transform.position, rbDirection.normalized, Color.red);
-        Debug.DrawRay(rayDirectioLowerRight.transform.position, rbDirection.normalized, Color.blue);
+        Debug.DrawRay(rayDirectioLowerLeft.transform.position, rbDirection.normalized * stepRayLength, Color.red);
+        Debug.DrawRay(rayDirectioLowerRight.transform.position, rbDirection.normalized * stepRayLength, Color.blue);
         /* if (Physics.Raycast(rayDirectioLowerMid.transform.position, rbDirection.normalized, out hitLower, rayLengthMid))
          {
              Debug.Log("mid");
              StepClimbUpperCheck(rbDirection, stepRays[3]);
 
          }*/
-        if (Physics.Raycast(rayDirectioLowerLeft.transform.position, rbDirection.normalized, out hitLower, rayLengthSides))
+        if (Physics.Raycast(rayDirectioLowerLeft.transform.position, rbDirection.normalized, out hitLower, stepRayLength))
         {
             Debug.Log("Left");
             StepClimbUpperCheck(rbDirection, stepRays[4]);
             return;
         }
 
-        if (Physics.Raycast(rayDirectioLowerRight.transform.position, rbDirection.normalized, out hitLower, rayLengthSides))
+        if (Physics.Raycast(rayDirectioLowerRight.transform.position, rbDirection.normalized, out hitLower, stepRayLength))
         {
             Debug.Log("Right");
             StepClimbUpperCheck(rbDirection, stepRays[5]);
@@ -241,7 +242,7 @@ public class CharacterControl : NetworkBehaviour
         RaycastHit hitUpper;
         if (!Physics.Raycast(rayDirectionUpper.transform.position, rbDirection.normalized, out hitUpper, 0.4f)) //upper check
         {
-            if (input != Vector3.zero)
+            if (input != Vector3.zero && isGrounded)
                 rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f); //the actual stepClimb
         }
     }
@@ -251,7 +252,7 @@ public class CharacterControl : NetworkBehaviour
     private void GroundCheck()
     {
         isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask);
-        isGrounded = isGrounded || Physics.CheckSphere(secondaryGroundCheck.position, groundCheckRadius, groundMask);
+        isGrounded = isGrounded || (secondaryGroundCheck.gameObject.activeSelf && Physics.CheckSphere(secondaryGroundCheck.position, groundCheckRadius, groundMask));
     }
 
     private void Jump()

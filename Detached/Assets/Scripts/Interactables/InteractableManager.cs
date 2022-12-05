@@ -22,16 +22,23 @@ public class InteractableManager : NetworkBehaviour
 
     public bool CanPickUpItem(GameObject item) => !isCarryingItem && item.GetComponent<Carryable>().RequiredArms <= itemManager.NumberOfArms;
 
-    [Command(requiresAuthority = false)]
-    public void AttemptPickUpItem(GameObject item)
+    public bool AttemptPickUpItem(GameObject item)
     {
         if (CanPickUpItem(item))
         {
-            isCarryingItem = true;
-            carriedItem = item.GetComponent<Carryable>();
-            carriedItem.destroyEvent.AddListener(DropItem);
-            carriedItem.PickUp(holdingPosition);
+            PickUpItem(item);
+            return true;
         }
+        return false;
+    }
+
+    [Command(requiresAuthority = false)]
+    private void PickUpItem(GameObject item)
+    {
+        isCarryingItem = true;
+        carriedItem = item.GetComponent<Carryable>();
+        carriedItem.destroyEvent.AddListener(DropItem);
+        carriedItem.PickUp(holdingPosition);
     }
 
     public bool AttemptDropItem(out GameObject item)
@@ -39,7 +46,6 @@ public class InteractableManager : NetworkBehaviour
         if (isCarryingItem)
         {
             item = carriedItem.gameObject;
-            carriedItem.destroyEvent.RemoveListener(DropItem);
             DropItem();
             return true;
         }
@@ -69,6 +75,7 @@ public class InteractableManager : NetworkBehaviour
     [ClientRpc]
     private void RPCDropItem() 
     {
+        carriedItem.destroyEvent.RemoveListener(DropItem);
         isCarryingItem = false;
         if(carriedItem != null)
             carriedItem.Drop();

@@ -25,7 +25,7 @@ public class BigButtonTrigger : Trigger, IInteractable
     }
     [SerializeField] private int triggeringObjects;
 
-    private bool IsCollisionObject(string tag) => tag.Equals("Box") || tag.Equals("Leg") || tag.Equals("Player");
+    private bool IsCollisionObject(string tag) => tag.Equals("Box") || tag.Equals("Leg") || tag.Equals("Player") || tag.Equals("Torso");
 
     public void OnTriggerEnter(Collider other)
     {
@@ -76,12 +76,9 @@ public class BigButtonTrigger : Trigger, IInteractable
     {
         var itemManager = activatingObject.GetComponent<InteractableManager>();
 
-        if (HasBox && IsTriggered && HasEnoughArms(activatingObject, 1))
-        {
-            itemManager.AttemptPickUpItem(box);
-        }
+        if (HasBox && IsTriggered && itemManager.AttemptPickUpItem(box)) { }
         else if (itemManager.IsCarryingTag("Box"))
-            itemManager.AttemptDropItemTo(boxPosition, out GameObject box);
+            itemManager.AttemptDropItemTo(boxPosition, out _);
     }
 
     public bool CanInteract(GameObject activatingObject)
