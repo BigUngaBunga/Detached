@@ -57,6 +57,7 @@ public class CharacterControl : NetworkBehaviour
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheckTransform;
+    [SerializeField] private Transform secondaryGroundCheck;
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask groundMask;
 
@@ -247,7 +248,11 @@ public class CharacterControl : NetworkBehaviour
 
 
 
-    private void GroundCheck() => isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask);
+    private void GroundCheck()
+    {
+        isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask);
+        isGrounded = isGrounded || Physics.CheckSphere(secondaryGroundCheck.position, groundCheckRadius, groundMask);
+    }
 
     private void Jump()
     {
@@ -297,5 +302,6 @@ public class CharacterControl : NetworkBehaviour
     {
         Gizmos.color = Color.magenta;
         Gizmos.DrawSphere(groundCheckTransform.position, groundCheckRadius);
+        Gizmos.DrawSphere(secondaryGroundCheck.position, groundCheckRadius);
     }
 }

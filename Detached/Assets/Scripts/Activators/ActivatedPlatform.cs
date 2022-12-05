@@ -17,7 +17,7 @@ public class ActivatedPlatform : Activator
     private MeshRenderer meshRenderer;
     private float PercentageActive => (float)ActiveConnections / (float)TotalConnections;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
         color = meshRenderer.material.color;

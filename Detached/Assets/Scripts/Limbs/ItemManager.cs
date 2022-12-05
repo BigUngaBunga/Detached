@@ -642,7 +642,7 @@ public class ItemManager : NetworkBehaviour
                 }
                 else if (!rightLegDetached)
                 {
-                    newSceneObject = Instantiate(wrapperSceneObject, rightArmParent.transform.position, rightArmParent.transform.rotation);
+                    newSceneObject = Instantiate(wrapperSceneObject, rightLegParent.transform.position, rightLegParent.transform.rotation);
                     DropGenericLimb(newSceneObject, SceneObjectScript, limb, orginalOwner, rightLegIsDeta);
                     rightLegDetached = true;
                 }
@@ -704,7 +704,7 @@ public class ItemManager : NetworkBehaviour
                 }
                 else if (!rightLegDetached)
                 {
-                    newSceneObject = Instantiate(wrapperSceneObject, throwpoint, rightArmParent.transform.rotation);
+                    newSceneObject = Instantiate(wrapperSceneObject, throwpoint, rightLegParent.transform.rotation);
                     DropGenericLimb(newSceneObject, SceneObjectScript, limb, originalOwner, rightLegIsDeta);
                     rightLegDetached = true;
                 }
@@ -782,7 +782,7 @@ public class ItemManager : NetworkBehaviour
             readyToThrow = true;
             dragging = true;
             indicator.SetActive(true);
-            sceneObjectHoldingToThrow = GetGameObjectLimbFromSelect();
+            sceneObjectHoldingToThrow = Instantiate(GetGameObjectLimbFromSelect());
             sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
 
             RuntimeManager.PlayOneShot(Sounds.detachSound, transform.position);
@@ -809,8 +809,7 @@ public class ItemManager : NetworkBehaviour
             cinemachine.m_YAxis.m_MinValue = 0;
             if (sceneObjectHoldingToThrow != null)
             {
-                sceneObjectHoldingToThrow.transform.localPosition = Vector3.zero;
-                sceneObjectHoldingToThrow = null;
+                Destroy(sceneObjectHoldingToThrow);
             }
 
         }
@@ -820,8 +819,7 @@ public class ItemManager : NetworkBehaviour
             DrawTrajectory.instance.HideLine();
             indicator.SetActive(false);
             mouseReleasePos = Input.mousePosition;
-            sceneObjectHoldingToThrow.transform.localPosition = Vector3.zero;
-            sceneObjectHoldingToThrow = null;
+            Destroy(sceneObjectHoldingToThrow);
 
             cinemachine.m_YAxis.m_MaxSpeed = 10;
             cinemachine.m_YAxis.m_MinValue = 0;
@@ -922,6 +920,10 @@ public class ItemManager : NetworkBehaviour
                 {
                     rightLegIsDeta = sceneObjectItemManager.isDeta;
                     keepSceneObject = rightLegDetached = false;
+
+                    //TODO implement better fix for preventing getting stuck
+                    float moveHeight = 5f;
+                    MovePlayer(transform.up * moveHeight);
                 }
 
                 else if (leftLegDetached)
@@ -941,6 +943,11 @@ public class ItemManager : NetworkBehaviour
         pickupLimbEvent.Invoke();
     }
 
+    [Command(requiresAuthority = false)]
+    private void MovePlayer(Vector3 displacement) => RPCMovePlayer(displacement);
+
+    [ClientRpc]
+    private void RPCMovePlayer(Vector3 displacement) => transform.position += displacement;
 
     void CamPositionReset()
     {

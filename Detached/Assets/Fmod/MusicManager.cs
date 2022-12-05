@@ -118,7 +118,7 @@ public class MusicManager : MonoBehaviour
         }
 
         // If the song has reached the end of the looping region then start the next song in queue.
-        if ((string)timelineInfoArray[currentIndex].lastMarker == "End" && hasChangedSong == true)
+        if ((string)timelineInfoArray[currentIndex].lastMarker == "End" && hasChangedSong )
         {
             hasChangedSong = false;
             if (currentIndex >= musicInstances.Length-1)

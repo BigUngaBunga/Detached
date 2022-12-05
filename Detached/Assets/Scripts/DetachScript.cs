@@ -52,7 +52,7 @@ public class DetachScript : MonoBehaviour
             detached = true;
             DrawTrajectory.instance.HideLine();
         }
-        else if (Input.GetKeyDown(attachKey) && detached == true)
+        else if (Input.GetKeyDown(attachKey) && detached )
         {
 
             if (partName == "Leg")
