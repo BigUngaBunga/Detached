@@ -75,23 +75,18 @@ public class ItemManager : NetworkBehaviour
     public int numberOfLimbs;
 
     //Color and selectionMode
-    [SyncVar]
-    public bool isDeta;
-    [SyncVar]
-    private bool rightLegIsDeta;
-    [SyncVar]
-    private bool leftLegIsDeta;
-    [SyncVar]
-    private bool rightArmIsDeta;
-    [SyncVar]
-    private bool leftArmIsDeta;
-    [SyncVar]
-    private int selectionMode; //0 == limbSelection mode, 1 == out on map limb selection mode
+    [SyncVar] public bool isDeta;
+    [SyncVar] private bool rightLegIsDeta;
+    [SyncVar] private bool leftLegIsDeta;
+    [SyncVar] private bool rightArmIsDeta;
+    [SyncVar] private bool leftArmIsDeta;
+    [SyncVar] private int selectionMode; //0 == limbSelection mode, 1 == out on map limb selection mode
     private LimbTextureManager limbTextureManager;
 
     public readonly UnityEvent pickupLimbEvent = new UnityEvent();
     public readonly UnityEvent changeSelectedLimbEvent = new UnityEvent();
     public readonly UnityEvent dropLimbEvent = new UnityEvent();
+    public bool testControlOwnLimb = true;
 
     private InteractionChecker interactionChecker;
     public bool allowInteraction = true;
@@ -305,7 +300,14 @@ public class ItemManager : NetworkBehaviour
             }
             else if (selectionMode == 1)
             {
-                GetAllLimbsInScene();
+                if (testControlOwnLimb) //for testing new limb controlsystem
+                {
+                    GetAllPlayerLimbsInScene();
+                }
+                else
+                {
+                    GetAllLimbsInScene();
+                }
                 ChangeLimbControll(Input.mouseScrollDelta.y); //Change this to handle the scroll up and down
             }
             changeSelectedLimbEvent.Invoke();
@@ -530,7 +532,31 @@ public class ItemManager : NetworkBehaviour
         }
     }
 
-    void GetAllLimbsInScene()
+    private void GetAllPlayerLimbsInScene()
+    {
+        try
+        {
+            limbs.Clear();
+            limbs.AddRange(GameObject.FindGameObjectsWithTag("Limb"));
+            foreach (GameObject limb in limbs) 
+            { 
+                if (limb.GetComponent<SceneObjectItemManager>().orignalOwner != this) limbs.Remove(limb);
+            }
+            if (limbs.Count == 0)
+            {
+                return;
+            }
+            
+            limbs.Add(gameObject);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Tag dosen't exist, Have you forgotten to add \"limb\" to your tags?");
+            Debug.Log(e.Message);
+        }
+    }
+
+    private void GetAllLimbsInScene()
     {
         try
         {
