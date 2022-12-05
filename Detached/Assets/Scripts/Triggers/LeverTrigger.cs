@@ -16,7 +16,7 @@ public class LeverTrigger : Trigger, IInteractable
 
     protected override void PlaySoundOnTrigger()
     {
-        RuntimeManager.PlayOneShot(Sounds.pullLeverSound, transform.position);
+        SFXManager.PlayOneShot(SFXManager.ThrowSound, SFXManager.SFXVolume, transform.position);
     }
 
     protected override void Start()

@@ -8,11 +8,9 @@ public class BatterySocketTrigger : Trigger, IInteractable
     [Header("Battery Socket Fields")]
     [SerializeField] Transform batteryPosition;
     [SerializeField] GameObject battery;
-
-
     protected override void PlaySoundOnTrigger()
     {
-        RuntimeManager.PlayOneShot(Sounds.attachSound, transform.position);
+        SFXManager.PlayOneShot(SFXManager.AttachSound, 0.3f, transform.position);
     }
 
     public void Interact(GameObject activatingObject)
@@ -37,6 +35,7 @@ public class BatterySocketTrigger : Trigger, IInteractable
             battery = other.gameObject;
             IsTriggered = true;
             battery.GetComponent<Carryable>().destroyEvent.AddListener(HandleDestroyBattery);
+            PlaySoundOnTrigger();
         }
     }
 
