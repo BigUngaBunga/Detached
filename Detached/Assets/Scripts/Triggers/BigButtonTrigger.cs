@@ -50,7 +50,7 @@ public class BigButtonTrigger : Trigger, IInteractable
 
     protected override void PlaySoundOnTrigger()
     {
-        RuntimeManager.PlayOneShot(Sounds.pushButtonSound, transform.position);
+        RuntimeManager.PlayOneShot(SFXManager.pushButtonSound, transform.position);
     }
 
     public void OnTriggerExit(Collider other)

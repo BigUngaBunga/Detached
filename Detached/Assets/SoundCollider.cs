@@ -11,23 +11,23 @@ public class SoundCollider : MonoBehaviour
     {
         if(other.tag == "Leg")
         {
-            RuntimeManager.PlayOneShot(Sounds.walkSound, transform.position);
+            RuntimeManager.PlayOneShot(SFXManager.walkSound, transform.position);
         }
         else if (other.tag == "Head")
         {
-            RuntimeManager.PlayOneShot(Sounds.walkSound, transform.position);
+            RuntimeManager.PlayOneShot(SFXManager.walkSound, transform.position);
         }
         else if (other.tag == "Arm")
         {
-            RuntimeManager.PlayOneShot(Sounds.walkSound, transform.position);
+            RuntimeManager.PlayOneShot(SFXManager.walkSound, transform.position);
         }
         else if (other.tag == "Battery")
         {
-            RuntimeManager.PlayOneShot(Sounds.walkSound, transform.position);
+            RuntimeManager.PlayOneShot(SFXManager.walkSound, transform.position);
         }
         else if (other.tag == "Box")
         {
-            RuntimeManager.PlayOneShot(Sounds.walkSound, transform.position);
+            RuntimeManager.PlayOneShot(SFXManager.walkSound, transform.position);
         }
     }
 

@@ -107,6 +107,10 @@ public class ItemManager : NetworkBehaviour
         }
     }
 
+    [Header("Audio")]
+    public SFXManager sfx;
+
+
     /// <summary>
     /// 0 == limbSelection mode, 1 == out on map limb selection mode
     /// </summary>
@@ -270,17 +274,17 @@ public class ItemManager : NetworkBehaviour
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
         {
             CmdDropLimb(Limb_enum.Head, gameObject);
-            RuntimeManager.PlayOneShot(Sounds.throwSound, transform.position);
+            RuntimeManager.PlayOneShot(SFXManager.throwSound, transform.position);
         } 
         if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
         {
             CmdDropLimb(Limb_enum.Arm, gameObject);
-            RuntimeManager.PlayOneShot(Sounds.throwSound, transform.position);
+            RuntimeManager.PlayOneShot(SFXManager.throwSound, transform.position);
         }
         if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
         {
             CmdDropLimb(Limb_enum.Leg, gameObject);
-            RuntimeManager.PlayOneShot(Sounds.throwSound, transform.position);
+            sfx.PlayOneShot(sfx.ThrowSound, transform.position);
         }
 
 
@@ -785,7 +789,7 @@ public class ItemManager : NetworkBehaviour
             sceneObjectHoldingToThrow = Instantiate(GetGameObjectLimbFromSelect());
             sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
 
-            RuntimeManager.PlayOneShot(Sounds.detachSound, transform.position);
+            RuntimeManager.PlayOneShot(SFXManager.detachSound, transform.position);
 
             //cam when aiming
             camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
@@ -829,7 +833,7 @@ public class ItemManager : NetworkBehaviour
             // CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position);
             CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position, gameObject);
 
-            RuntimeManager.PlayOneShot(Sounds.throwSound, transform.position);
+            RuntimeManager.PlayOneShot(SFXManager.throwSound, transform.position);
 
         }
     }

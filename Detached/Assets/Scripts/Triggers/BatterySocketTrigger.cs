@@ -12,7 +12,7 @@ public class BatterySocketTrigger : Trigger, IInteractable
 
     protected override void PlaySoundOnTrigger()
     {
-        RuntimeManager.PlayOneShot(Sounds.attachSound, transform.position);
+        RuntimeManager.PlayOneShot(SFXManager.attachSound, transform.position);
     }
 
     public void Interact(GameObject activatingObject)
