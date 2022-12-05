@@ -52,11 +52,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     [Command(requiresAuthority = false)]
     private void SetControlledStatus(bool value) => isBeingControlled = value;
 
-
-    public bool test = true;
-
     public ItemManager itemManager;
-
     private TextureManager textureManager;
 
     private void Awake()
@@ -70,9 +66,7 @@ public class SceneObjectItemManager : NetworkBehaviour
         highlight = GetComponent<HighlightObject>();
         detachKeyHead = itemManager.detachKeyHead;
         detachKeyArm = itemManager.detachKeyArm;
-        detachKeyLeg = itemManager.detachKeyLeg;
-        
-       
+        detachKeyLeg = itemManager.detachKeyLeg;   
     }
 
     //Instantiates the limb as a child on the SceneObject 
