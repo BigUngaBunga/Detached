@@ -6,6 +6,12 @@ public class ActivatedWall : ActivatedPlatform
     
     private float PercentageActive => (TotalConnections - ActiveConnections) / (float)TotalConnections;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        //Debug
+    }
+
     protected override void Activate()
     {
         base.Activate();
@@ -16,8 +22,10 @@ public class ActivatedWall : ActivatedPlatform
         base.Deactivate();
     }
 
-    [Server]
+    [ClientRpc]
     protected override void RPCUpdateCollider(bool isActive) => collider.enabled = !isActive;
+
+
 
     [Server]
     protected override void UpdateAlpha()

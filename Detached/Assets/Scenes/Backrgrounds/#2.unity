@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.24647538, g: 0.28234535, b: 0.3457032, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1086,7 +1086,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1756315498}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999106
+  m_Size: 0.99998224
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1147,14 +1147,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &646045289
-AudioListener:
+--- !u!114 &646045289
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 646045288}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
 --- !u!20 &646045290
 Camera:
   m_ObjectHideFlags: 0
@@ -1499,7 +1504,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1025218905
 PrefabInstance:
@@ -1996,7 +2001,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00045919942}
+  m_AnchoredPosition: {x: 0, y: 0.00036467813}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1343112447
@@ -2219,7 +2224,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1763614663}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.99999976
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2785,9 +2790,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   StartGameButton: {fileID: 1881070959}
-  ReadyButtonText: {fileID: 356594808}
+  ReadyButtonText: {fileID: 0}
   Invite: {fileID: 0}
-  LobbyNameText: {fileID: 1804305925}
+  LobbyNameText: {fileID: 0}
   PlayerListViewContent: {fileID: 1834423917}
   PlayerListItemPrefab: {fileID: 4558458270866186790, guid: 4d150ba7d52c7894d80fe09e59c5ccff, type: 3}
   LocalPlayerObject: {fileID: 0}
@@ -2809,7 +2814,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1793974308
 MonoBehaviour:

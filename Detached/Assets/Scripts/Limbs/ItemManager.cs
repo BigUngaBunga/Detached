@@ -46,7 +46,7 @@ public class ItemManager : NetworkBehaviour
     private Vector3 orginalRightLegPosition;
 
     //BooleanForColorOnLimbs
-    
+
 
     private List<GameObject> limbs = new List<GameObject>();
     private int indexControll;
@@ -75,18 +75,12 @@ public class ItemManager : NetworkBehaviour
     public int numberOfLimbs;
 
     //Color and selectionMode
-    [SyncVar]
-    public bool isDeta;
-    [SyncVar]
-    private bool rightLegIsDeta;
-    [SyncVar]
-    private bool leftLegIsDeta;
-    [SyncVar]
-    private bool rightArmIsDeta;
-    [SyncVar]
-    private bool leftArmIsDeta;
-    [SyncVar]
-    private int selectionMode; //0 == limbSelection mode, 1 == out on map limb selection mode
+    [SyncVar] public bool isDeta;
+    [SyncVar] private bool rightLegIsDeta;
+    [SyncVar] private bool leftLegIsDeta;
+    [SyncVar] private bool rightArmIsDeta;
+    [SyncVar] private bool leftArmIsDeta;
+    [SyncVar] private int selectionMode; //0 == limbSelection mode, 1 == out on map limb selection mode
     private LimbTextureManager limbTextureManager;
 
     public readonly UnityEvent pickupLimbEvent = new UnityEvent();
@@ -106,6 +100,7 @@ public class ItemManager : NetworkBehaviour
             interactionChecker.AllowInteraction = value;
         }
     }
+
 
     /// <summary>
     /// 0 == limbSelection mode, 1 == out on map limb selection mode
@@ -270,17 +265,20 @@ public class ItemManager : NetworkBehaviour
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
         {
             CmdDropLimb(Limb_enum.Head, gameObject);
-            RuntimeManager.PlayOneShot(Sounds.throwSound, transform.position);
-        } 
+            Transform body = transform.Find("group1");
+            SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, SFXManager.SFXVolume, body.gameObject);
+        }
         if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
         {
             CmdDropLimb(Limb_enum.Arm, gameObject);
-            RuntimeManager.PlayOneShot(Sounds.throwSound, transform.position);
+            Transform body = transform.Find("group1");
+            SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, SFXManager.SFXVolume, body.gameObject);
         }
         if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
         {
             CmdDropLimb(Limb_enum.Leg, gameObject);
-            RuntimeManager.PlayOneShot(Sounds.throwSound, transform.position);
+            Transform body = transform.Find("group1");
+            SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, SFXManager.SFXVolume, body.gameObject);
         }
 
 
@@ -294,14 +292,14 @@ public class ItemManager : NetworkBehaviour
     {
         if (Input.mouseScrollDelta.y < 0 || Input.mouseScrollDelta.y > 0)
         {
-            
+
             if (selectionMode == 0)
             {
                 ChangeSelectedLimbToThrow(Input.mouseScrollDelta.y);
             }
             else if (selectionMode == 1)
             {
-                GetAllLimbsInScene();
+                GetAllPlayerLimbsInScene();
                 ChangeLimbControll(Input.mouseScrollDelta.y); //Change this to handle the scroll up and down
             }
             changeSelectedLimbEvent.Invoke();
@@ -333,7 +331,7 @@ public class ItemManager : NetworkBehaviour
                 ChangeControllingforLimbAndPlayer(limbs[indexControll], false);
                 ChangeControllingforLimbAndPlayer(gameObject, true);
             }
-            else if (selectionMode == 1) 
+            else if (selectionMode == 1)
             {
                 selectionMode = 0;
 
@@ -355,7 +353,7 @@ public class ItemManager : NetworkBehaviour
     public bool HasHead()
     {
         return headDetached;
-    } 
+    }
 
     public int NumberOfLegs
     {
@@ -526,16 +524,25 @@ public class ItemManager : NetworkBehaviour
         }
     }
 
-    void GetAllLimbsInScene()
+    private void GetAllPlayerLimbsInScene()
     {
         try
         {
             limbs.Clear();
-            limbs.AddRange(GameObject.FindGameObjectsWithTag("Limb"));
+            GameObject[] limbsInScene = GameObject.FindGameObjectsWithTag("Limb");
+            //limbs.AddRange(GameObject.FindGameObjectsWithTag("Limb"));
+            foreach (GameObject limb in limbsInScene)
+            {
+                if (limb.GetComponent<SceneObjectItemManager>().orignalOwner == gameObject)
+                {
+                    limbs.Add(limb);
+                }
+            }
             if (limbs.Count == 0)
             {
                 return;
             }
+
             limbs.Add(gameObject);
         }
         catch (Exception e)
@@ -642,7 +649,7 @@ public class ItemManager : NetworkBehaviour
                 }
                 else if (!rightLegDetached)
                 {
-                    newSceneObject = Instantiate(wrapperSceneObject, rightArmParent.transform.position, rightArmParent.transform.rotation);
+                    newSceneObject = Instantiate(wrapperSceneObject, rightLegParent.transform.position, rightLegParent.transform.rotation);
                     DropGenericLimb(newSceneObject, SceneObjectScript, limb, orginalOwner, rightLegIsDeta);
                     rightLegDetached = true;
                 }
@@ -699,12 +706,12 @@ public class ItemManager : NetworkBehaviour
                 if (!leftLegDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, throwpoint, leftLegParent.transform.rotation);
-                    DropGenericLimb(newSceneObject, SceneObjectScript, limb , originalOwner, leftLegIsDeta);
+                    DropGenericLimb(newSceneObject, SceneObjectScript, limb, originalOwner, leftLegIsDeta);
                     leftLegDetached = true;
                 }
                 else if (!rightLegDetached)
                 {
-                    newSceneObject = Instantiate(wrapperSceneObject, throwpoint, rightArmParent.transform.rotation);
+                    newSceneObject = Instantiate(wrapperSceneObject, throwpoint, rightLegParent.transform.rotation);
                     DropGenericLimb(newSceneObject, SceneObjectScript, limb, originalOwner, rightLegIsDeta);
                     rightLegDetached = true;
                 }
@@ -782,10 +789,10 @@ public class ItemManager : NetworkBehaviour
             readyToThrow = true;
             dragging = true;
             indicator.SetActive(true);
-            sceneObjectHoldingToThrow = GetGameObjectLimbFromSelect();
+            sceneObjectHoldingToThrow = Instantiate(GetGameObjectLimbFromSelect());
             sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
 
-            RuntimeManager.PlayOneShot(Sounds.detachSound, transform.position);
+            SFXManager.PlayOneShotAttached(SFXManager.DetachSound, SFXManager.SFXVolume, transform.gameObject);
 
             //cam when aiming
             camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
@@ -809,8 +816,7 @@ public class ItemManager : NetworkBehaviour
             cinemachine.m_YAxis.m_MinValue = 0;
             if (sceneObjectHoldingToThrow != null)
             {
-                sceneObjectHoldingToThrow.transform.localPosition = Vector3.zero;
-                sceneObjectHoldingToThrow = null;
+                Destroy(sceneObjectHoldingToThrow);
             }
 
         }
@@ -820,8 +826,7 @@ public class ItemManager : NetworkBehaviour
             DrawTrajectory.instance.HideLine();
             indicator.SetActive(false);
             mouseReleasePos = Input.mousePosition;
-            sceneObjectHoldingToThrow.transform.localPosition = Vector3.zero;
-            sceneObjectHoldingToThrow = null;
+            Destroy(sceneObjectHoldingToThrow);
 
             cinemachine.m_YAxis.m_MaxSpeed = 10;
             cinemachine.m_YAxis.m_MinValue = 0;
@@ -831,7 +836,8 @@ public class ItemManager : NetworkBehaviour
             // CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position);
             CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position, gameObject);
 
-            RuntimeManager.PlayOneShot(Sounds.throwSound, transform.position);
+            Transform body = transform.Find("group1");
+            SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, SFXManager.SFXVolume, body.gameObject);
 
         }
     }
@@ -867,7 +873,7 @@ public class ItemManager : NetworkBehaviour
         SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
         SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
         SceneObjectScript.isDeta = limbIsDeta;
-        NetworkServer.Spawn(newSceneObject);      
+        NetworkServer.Spawn(newSceneObject);
         SceneObjectScript.detached = true;
         SceneObjectScript.orignalOwner = orignalOwner;
     }
@@ -922,6 +928,10 @@ public class ItemManager : NetworkBehaviour
                 {
                     rightLegIsDeta = sceneObjectItemManager.isDeta;
                     keepSceneObject = rightLegDetached = false;
+
+                    //TODO implement better fix for preventing getting stuck
+                    float moveHeight = 5f;
+                    MovePlayer(transform.up * moveHeight);
                 }
 
                 else if (leftLegDetached)
@@ -941,6 +951,11 @@ public class ItemManager : NetworkBehaviour
         pickupLimbEvent.Invoke();
     }
 
+    [Command(requiresAuthority = false)]
+    private void MovePlayer(Vector3 displacement) => RPCMovePlayer(displacement);
+
+    [ClientRpc]
+    private void RPCMovePlayer(Vector3 displacement) => transform.position += displacement;
 
     void CamPositionReset()
     {

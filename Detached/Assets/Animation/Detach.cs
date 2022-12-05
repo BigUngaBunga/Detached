@@ -24,7 +24,7 @@ public class Detach : MonoBehaviour
             {
                 Head.SetActive(true);
             }
-            else if(Head.active == true)
+            else if(Head.active )
             {
                 Head.SetActive(false);
             }
@@ -36,7 +36,7 @@ public class Detach : MonoBehaviour
             {
                 LeftArm.SetActive(true);
             }
-            else if (LeftArm.active == true)
+            else if (LeftArm.active )
             {
                 LeftArm.SetActive(false);
             }
@@ -48,7 +48,7 @@ public class Detach : MonoBehaviour
             {
                 RightArm.SetActive(true);
             }
-            else if (RightArm.active == true)
+            else if (RightArm.active )
             {
                 RightArm.SetActive(false);
             }
@@ -60,7 +60,7 @@ public class Detach : MonoBehaviour
             {
                 LeftLeg.SetActive(true);
             }
-            else if (LeftLeg.active == true)
+            else if (LeftLeg.active )
             {
                 LeftLeg.SetActive(false);
             }
@@ -72,7 +72,7 @@ public class Detach : MonoBehaviour
             {
                 RightLeg.SetActive(true);
             }
-            else if (RightLeg.active == true)
+            else if (RightLeg.active )
             {
                 RightLeg.SetActive(false);
             }

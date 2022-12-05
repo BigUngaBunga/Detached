@@ -16,7 +16,7 @@ public class LeverTrigger : Trigger, IInteractable
 
     protected override void PlaySoundOnTrigger()
     {
-        RuntimeManager.PlayOneShot(Sounds.pullLeverSound, transform.position);
+        SFXManager.PlayOneShot(SFXManager.ThrowSound, SFXManager.SFXVolume, transform.position);
     }
 
     protected override void Start()
@@ -43,9 +43,6 @@ public class LeverTrigger : Trigger, IInteractable
     [Command(requiresAuthority = false)]
     public void Interact(GameObject activatingObject)
     {
-        //if (CanInteract(activatingObject))
-        //{
-        //}
         IsTriggered = !IsTriggered;
         RPCSetLeverActivation(IsTriggered);
         highlight.UpdateRenderers();

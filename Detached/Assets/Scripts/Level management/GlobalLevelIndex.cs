@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class GlobalLevelIndex : MonoBehaviour
     void Start()
     {
         levelNames = Maps;
+        Debug.Log("Number of levels in levelNames: " + levelNames.Length);
     }
 
     public static string GetLevel(int levelNumber) => levelNames[levelNumber - 1];

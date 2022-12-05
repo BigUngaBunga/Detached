@@ -7,7 +7,7 @@ public class MagnetActivator : Activator
 {
     [Header("Magnet fields")]
     [SerializeField] private float attractionSpeed;
-    [Range(0, 1f)]
+    [Range(0.5f, 2f)]
     [SerializeField] private float centralizationStrength;
     [SerializeField] private Transform attractionPosition;
     [SerializeField] private GameObject magnetizationField;

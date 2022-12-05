@@ -8,25 +8,18 @@ public class BatterySocketTrigger : Trigger, IInteractable
     [Header("Battery Socket Fields")]
     [SerializeField] Transform batteryPosition;
     [SerializeField] GameObject battery;
-
-
     protected override void PlaySoundOnTrigger()
     {
-        RuntimeManager.PlayOneShot(Sounds.attachSound, transform.position);
+        SFXManager.PlayOneShot(SFXManager.AttachSound, 0.3f, transform.position);
     }
 
     public void Interact(GameObject activatingObject)
     {
         var itemManager = activatingObject.GetComponent<InteractableManager>();
-        if (IsTriggered && HasEnoughArms(activatingObject, 1))
-        {
-            itemManager.AttemptPickUpItem(battery);
+        if (IsTriggered && itemManager.AttemptPickUpItem(battery))
             IsTriggered = false;
-        }
-        else if(itemManager.IsCarryingTag("Battery") && itemManager.AttemptDropItemTo(batteryPosition, out _))//Om spelare håller ett batteri
-        {
+        else if(itemManager.IsCarryingTag("Battery") && itemManager.AttemptDropItemTo(batteryPosition, out _))
             IsTriggered = true;
-        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -37,6 +30,7 @@ public class BatterySocketTrigger : Trigger, IInteractable
             battery = other.gameObject;
             IsTriggered = true;
             battery.GetComponent<Carryable>().destroyEvent.AddListener(HandleDestroyBattery);
+            PlaySoundOnTrigger();
         }
     }
 
@@ -55,7 +49,9 @@ public class BatterySocketTrigger : Trigger, IInteractable
         if (activatingObject.CompareTag("Player"))
         {
             var interactableManager = activatingObject.GetComponent<InteractableManager>();
-            return interactableManager.IsCarryingTag("Battery") || (!interactableManager.IsCarryingItem && IsTriggered);
+            bool canPlaceBattery = !IsTriggered && interactableManager.IsCarryingTag("Battery");
+            bool canPickUpBattery = IsTriggered && interactableManager.CanPickUpItem(battery);
+            return canPlaceBattery || canPickUpBattery;
         }
         return false;
     }

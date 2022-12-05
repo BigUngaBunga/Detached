@@ -7,13 +7,13 @@ public class Goal : NetworkBehaviour
 {
 
     [SerializeField] private int playerNumber;
-    [SerializeField] private int NextMapIndex;
     [SerializeField] private bool sameNumLimbInAsOut = true;
     private int numOfLimbsRequired = 0;
     public bool isLocked;
     [Header("Override variables")]
     [SerializeField] private bool overrideNextMap;
     [SerializeField] private int overrideMapIndex;
+    [SerializeField] private bool debugDoor;
 
     //Manager
     private CustomNetworkManager manager;
@@ -72,7 +72,7 @@ public class Goal : NetworkBehaviour
 
     protected bool CheckVictoryStatus()
     {
-        if (!isLocked && playerNumber >= 2 && EvaluateLimbsOnPlayers())
+        if (debugDoor || !isLocked && playerNumber >= 2 && EvaluateLimbsOnPlayers())
         {
             Debug.Log("The players won");
             return true;

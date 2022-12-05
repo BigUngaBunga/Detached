@@ -154,9 +154,9 @@ Transform:
   - {fileID: 1378575424}
   - {fileID: 347924300}
   - {fileID: 928409530}
+  - {fileID: 79301140}
   - {fileID: 1749505518}
   - {fileID: 1848577363}
-  - {fileID: 79301140}
   m_Father: {fileID: 473255366}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -173,7 +173,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681601, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -54.06
+      value: -54.65
       objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681601, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_LocalPosition.y
@@ -181,7 +181,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681601, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.87
+      value: 3.89
       objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681601, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_LocalRotation.w
@@ -219,6 +219,10 @@ PrefabInstance:
       propertyPath: prompt
       value: 'To throw limbs. Cycle between limbs with scrollwheel. Hold right click
         to aim. Press left click to throw. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 7752841846949681605, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
+      propertyPath: PreSpawn
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681606, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_Name
@@ -283,7 +287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8975534476755930397, guid: 9701833ac6750eb4486680cae4b40bd4, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8975534476755930397, guid: 9701833ac6750eb4486680cae4b40bd4, type: 3}
       propertyPath: m_LocalScale.x
@@ -348,6 +352,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8975534476755930397, guid: 9701833ac6750eb4486680cae4b40bd4, type: 3}
   m_PrefabInstance: {fileID: 79301139}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &79301141 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8975534476755930385, guid: 9701833ac6750eb4486680cae4b40bd4, type: 3}
+  m_PrefabInstance: {fileID: 79301139}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 781fefec940aa5a4b8351225aea7e9c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &107440598
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1527,12 +1542,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4656548740524412207, guid: 30d97b331a6dbcb43a90be0424afaa12, type: 3}
       propertyPath: activators.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4656548740524412207, guid: 30d97b331a6dbcb43a90be0424afaa12, type: 3}
       propertyPath: activators.Array.data[0]
       value: 
       objectReference: {fileID: 928409526}
+    - target: {fileID: 4656548740524412207, guid: 30d97b331a6dbcb43a90be0424afaa12, type: 3}
+      propertyPath: activators.Array.data[1]
+      value: 
+      objectReference: {fileID: 79301141}
     - target: {fileID: 4863158210707445866, guid: 30d97b331a6dbcb43a90be0424afaa12, type: 3}
       propertyPath: Name
       value: RedButton
@@ -2771,7 +2790,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1008914808}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 48.5, y: 123.109055, z: -106.9}
+  m_LocalPosition: {x: 48.5, y: 99.8, z: -106.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 164791644}
@@ -3415,8 +3434,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1372717348}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.14, y: 5.32, z: 3.01}
-  m_LocalScale: {x: 1, y: 10.998674, z: 13.160053}
+  m_LocalPosition: {x: -0.14, y: 5.32, z: 3.2091}
+  m_LocalScale: {x: 1, y: 10.998674, z: 13.558804}
   m_Children: []
   m_Father: {fileID: 1582117074}
   m_RootOrder: 0
@@ -4253,7 +4272,7 @@ Transform:
   m_LocalScale: {x: 4.9019785, y: 0.34390643, z: 12.843124}
   m_Children: []
   m_Father: {fileID: 3359142}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1749505519
 MonoBehaviour:
@@ -4462,7 +4481,7 @@ Transform:
   m_LocalScale: {x: 4.204917, y: 0.37935466, z: 13.574221}
   m_Children: []
   m_Father: {fileID: 3359142}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1848577364
 MonoBehaviour:
@@ -4491,11 +4510,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1893991248}
   - component: {fileID: 1893991251}
-  - component: {fileID: 1893991250}
   - component: {fileID: 1893991249}
   - component: {fileID: 1893991252}
   - component: {fileID: 1893991253}
   - component: {fileID: 1893991254}
+  - component: {fileID: 1893991250}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -4551,14 +4570,19 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
---- !u!81 &1893991250
-AudioListener:
+--- !u!114 &1893991250
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1893991247}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
 --- !u!20 &1893991251
 Camera:
   m_ObjectHideFlags: 0
@@ -4716,6 +4740,10 @@ PrefabInstance:
       propertyPath: prompt
       value: 'To throw limbs. Cycle between limbs with scrollwheel. Hold right click
         to aim. Press left click to throw. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 7752841846949681605, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
+      propertyPath: PreSpawn
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681606, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_Name
@@ -5113,8 +5141,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2121950214}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.95, y: 5.32, z: 3.01}
-  m_LocalScale: {x: 1, y: 10.998674, z: 13.160053}
+  m_LocalPosition: {x: 14.95, y: 5.32, z: 3.2679}
+  m_LocalScale: {x: 1, y: 10.998674, z: 13.675926}
   m_Children: []
   m_Father: {fileID: 1582117074}
   m_RootOrder: 2

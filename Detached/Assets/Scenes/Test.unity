@@ -237,14 +237,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &386288914
-AudioListener:
+--- !u!114 &386288914
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 386288913}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
 --- !u!20 &386288915
 Camera:
   m_ObjectHideFlags: 0
@@ -662,5 +667,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3a18df546e67f942ae8193eced1db67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineRend: {fileID: 1562264828}
-  lineSegmentCount: 20
+  LineRenderer: {fileID: 0}
+  collidable:
+    serializedVersion: 2
+    m_Bits: 0
+  LinePoints: 25
+  TimeBetweenPoints: 0.1
+  indicator: {fileID: 0}

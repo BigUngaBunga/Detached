@@ -15,15 +15,17 @@ public class BigButtonTrigger : Trigger, IInteractable
         get => triggeringObjects; 
         set {
             triggeringObjects = value;
-            if (triggeringObjects == 1)
+            if (triggeringObjects >= 1)
                 IsTriggered = true;
-            else if (triggeringObjects == 0)
+            else if (triggeringObjects <= 0)
                 IsTriggered = false;
+            if (triggeringObjects < 0)
+                triggeringObjects = 0;
         } 
     }
     [SerializeField] private int triggeringObjects;
 
-    private bool IsCollisionObject(string tag) => tag.Equals("Box") || tag.Equals("Leg") || tag.Equals("Player");
+    private bool IsCollisionObject(string tag) => tag.Equals("Box") || tag.Equals("Leg") || tag.Equals("Player") || tag.Equals("Torso");
 
     public void OnTriggerEnter(Collider other)
     {
@@ -48,7 +50,7 @@ public class BigButtonTrigger : Trigger, IInteractable
 
     protected override void PlaySoundOnTrigger()
     {
-        RuntimeManager.PlayOneShot(Sounds.pushButtonSound, transform.position);
+        SFXManager.PlayOneShot(SFXManager.PushButtonSound, SFXManager.SFXVolume, transform.position);
     }
 
     public void OnTriggerExit(Collider other)
@@ -74,12 +76,9 @@ public class BigButtonTrigger : Trigger, IInteractable
     {
         var itemManager = activatingObject.GetComponent<InteractableManager>();
 
-        if (HasBox && IsTriggered && HasEnoughArms(activatingObject, 1))
-        {
-            itemManager.AttemptPickUpItem(box);
-        }
+        if (HasBox && IsTriggered && itemManager.AttemptPickUpItem(box)) { }
         else if (itemManager.IsCarryingTag("Box"))
-            itemManager.AttemptDropItemTo(boxPosition, out GameObject box);
+            itemManager.AttemptDropItemTo(boxPosition, out _);
     }
 
     public bool CanInteract(GameObject activatingObject)
