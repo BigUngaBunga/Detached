@@ -7,27 +7,30 @@ using FMOD.Studio;
 public class SoundCollider : MonoBehaviour
 {
 
+    [Header("Audio")]
+    public SFXManager sfx;
+
     void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Leg")
         {
-            RuntimeManager.PlayOneShot(SFXManager.walkSound, transform.position);
+            RuntimeManager.PlayOneShot(sfx.walkSound, transform.position);
         }
         else if (other.tag == "Head")
         {
-            RuntimeManager.PlayOneShot(SFXManager.walkSound, transform.position);
+            RuntimeManager.PlayOneShot(sfx.walkSound, transform.position);
         }
         else if (other.tag == "Arm")
         {
-            RuntimeManager.PlayOneShot(SFXManager.walkSound, transform.position);
+            RuntimeManager.PlayOneShot(sfx.walkSound, transform.position);
         }
         else if (other.tag == "Battery")
         {
-            RuntimeManager.PlayOneShot(SFXManager.walkSound, transform.position);
+            RuntimeManager.PlayOneShot(sfx.walkSound, transform.position);
         }
         else if (other.tag == "Box")
         {
-            RuntimeManager.PlayOneShot(SFXManager.walkSound, transform.position);
+            RuntimeManager.PlayOneShot(sfx.walkSound, transform.position);
         }
     }
 

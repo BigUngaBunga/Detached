@@ -274,17 +274,17 @@ public class ItemManager : NetworkBehaviour
         if (Input.GetKeyDown(detachKeyHead) && headDetached == false)
         {
             CmdDropLimb(Limb_enum.Head, gameObject);
-            RuntimeManager.PlayOneShot(SFXManager.throwSound, transform.position);
+            RuntimeManager.PlayOneShot(sfx.throwSound, transform.position);
         } 
         if (Input.GetKeyDown(detachKeyArm) && (leftArmDetached == false || rightArmDetached == false))
         {
             CmdDropLimb(Limb_enum.Arm, gameObject);
-            RuntimeManager.PlayOneShot(SFXManager.throwSound, transform.position);
+            RuntimeManager.PlayOneShot(sfx.throwSound, transform.position);
         }
         if (Input.GetKeyDown(detachKeyLeg) && (leftLegDetached == false || rightLegDetached == false))
         {
             CmdDropLimb(Limb_enum.Leg, gameObject);
-            sfx.PlayOneShot(sfx.ThrowSound, transform.position);
+            sfx.PlayOneShot(sfx.throwSound, transform.position);
         }
 
 
@@ -789,7 +789,7 @@ public class ItemManager : NetworkBehaviour
             sceneObjectHoldingToThrow = Instantiate(GetGameObjectLimbFromSelect());
             sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
 
-            RuntimeManager.PlayOneShot(SFXManager.detachSound, transform.position);
+            RuntimeManager.PlayOneShot(sfx.detachSound, transform.position);
 
             //cam when aiming
             camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
@@ -833,7 +833,7 @@ public class ItemManager : NetworkBehaviour
             // CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position);
             CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position, gameObject);
 
-            RuntimeManager.PlayOneShot(SFXManager.throwSound, transform.position);
+            RuntimeManager.PlayOneShot(sfx.throwSound, transform.position);
 
         }
     }

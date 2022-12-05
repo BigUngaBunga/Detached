@@ -72,6 +72,8 @@ public class CharacterControl : NetworkBehaviour
 
     private bool isGrounded = false;
 
+    [Header("Audio")]
+    public SFXManager sfx;
 
     Vector3 moveDir;
     Vector3 input;
@@ -263,7 +265,7 @@ public class CharacterControl : NetworkBehaviour
             rb.velocity *= jumpForceReduction;
 
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-            RuntimeManager.PlayOneShot(SFXManager.jumpSound, transform.position);
+            sfx.PlayOneShot(sfx.jumpSound, transform.position);
             Invoke(nameof(ResetJump), jumpCD); //Hold jump
         }
     }

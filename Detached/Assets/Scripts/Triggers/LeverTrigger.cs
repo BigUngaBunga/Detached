@@ -14,9 +14,12 @@ public class LeverTrigger : Trigger, IInteractable
     [SerializeField] private GameObject normalLever;
     private HighlightObject highlight;
 
+    [Header("Audio")]
+    public SFXManager sfx;
+
     protected override void PlaySoundOnTrigger()
     {
-        RuntimeManager.PlayOneShot(SFXManager.pullLeverSound, transform.position);
+        RuntimeManager.PlayOneShot(sfx.pullLeverSound, transform.position);
     }
 
     protected override void Start()

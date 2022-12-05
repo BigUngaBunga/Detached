@@ -8,13 +8,13 @@ using System;
 public class SFXManager
 {
     public float SFXVolume { get; private set; }
-    public string WalkSound => "event:/SFX/Walking";
-    public string AttachSound => "event:/SFX/Attach";
-    public string DetachSound => "event:/SFX/Detach";
-    public string JumpSound => "event:/SFX/Jump";
-    public string PullLeverSound => "event:/SFX/PullLever";
-    public string PushButtonSound => "event:/SFX/PushButton";
-    public string ThrowSound => "event:/SFX/Throw";
+    public string walkSound => "event:/SFX/Walking";
+    public string attachSound => "event:/SFX/Attach";
+    public string detachSound => "event:/SFX/Detach";
+    public string jumpSound => "event:/SFX/Jump";
+    public string pullLeverSound => "event:/SFX/PullLever";
+    public string pushButtonSound => "event:/SFX/PushButton";
+    public string throwSound => "event:/SFX/Throw";
 
     /// <summary>
     /// Converts the path to a GUID and then calls another method to play the event.
