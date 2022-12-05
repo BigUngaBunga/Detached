@@ -242,7 +242,7 @@ public class CharacterControl : NetworkBehaviour
         RaycastHit hitUpper;
         if (!Physics.Raycast(rayDirectionUpper.transform.position, rbDirection.normalized, out hitUpper, 0.4f)) //upper check
         {
-            if (input != Vector3.zero)
+            if (input != Vector3.zero && isGrounded)
                 rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f); //the actual stepClimb
         }
     }
@@ -252,7 +252,7 @@ public class CharacterControl : NetworkBehaviour
     private void GroundCheck()
     {
         isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask);
-        isGrounded = isGrounded || Physics.CheckSphere(secondaryGroundCheck.position, groundCheckRadius, groundMask);
+        isGrounded = isGrounded || (secondaryGroundCheck.gameObject.activeSelf && Physics.CheckSphere(secondaryGroundCheck.position, groundCheckRadius, groundMask));
     }
 
     private void Jump()

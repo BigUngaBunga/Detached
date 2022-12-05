@@ -1354,7 +1354,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3618494084896012017}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.8479999, z: 0.26}
+  m_LocalPosition: {x: 0, y: -1.8479999, z: 0.197}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3872462703351551213}
@@ -2315,7 +2315,7 @@ MonoBehaviour:
   stepRayLength: 1
   jumpForce: 8.5
   jumpCD: 0.25
-  airMultiplier: 0.01
+  airMultiplier: 0.05
   groundDrag: 3
   airDrag: 0.33
   jumpForceReduction: 0.4
@@ -3670,6 +3670,7 @@ MonoBehaviour:
   secondGroundCheck: {fileID: 6351764702393900031}
   colliders: {fileID: 83796364318809948}
   quickRig: {fileID: 5406308087083096826}
+  ofset: {x: 0, y: 0.4, z: -0.5}
   stepUpRayLenght: 2.6
 --- !u!1 &7044819932668841224
 GameObject:
