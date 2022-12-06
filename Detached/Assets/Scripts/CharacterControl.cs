@@ -160,6 +160,24 @@ public class CharacterControl : NetworkBehaviour
         cinemaFreelook.Follow = transform;
     }
 
+    private void NoLegCam()
+    {
+        if (limbManager.NumberOfLegs >= 1)
+        {
+            camFocus.localPosition = Vector3.zero;
+            camUpdated = false;
+            return;
+        }
+
+        if (limbManager.NumberOfLegs <= 0 && !camUpdated)
+        {
+            camFocus.localPosition = new Vector3(camFocus.localPosition.x + noLegCamOffset.x, camFocus.localPosition.y + noLegCamOffset.y, camFocus.localPosition.z + noLegCamOffset.z);
+            camUpdated = true;
+        }
+
+
+    }
+
     #endregion
 
     #region Input
