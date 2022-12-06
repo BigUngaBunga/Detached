@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1361967586582670630}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2324456254077386547}
   - {fileID: 2812822951409124410}
@@ -75,6 +75,7 @@ MonoBehaviour:
   activeConnections: 0
   stopWaitTime: 0.5
   platformSpeed: 6
+  rotationSpeed: 0.05
   targetDistance: 0.5
   platform: {fileID: 1586119667297130536}
   goingBackwards: 0
@@ -185,6 +186,7 @@ GameObject:
   - component: {fileID: 5426010991081658762}
   - component: {fileID: 5189197445030474694}
   - component: {fileID: 1119376082463039279}
+  - component: {fileID: 7904282083329973267}
   m_Layer: 6
   m_Name: Moving Platform
   m_TagString: Untagged
@@ -201,8 +203,9 @@ Transform:
   m_GameObject: {fileID: 1586119667297130536}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_LocalScale: {x: 5, y: 1, z: 5}
+  m_Children:
+  - {fileID: 8851297544666323720}
   m_Father: {fileID: 5637795637480281327}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -296,6 +299,145 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &7904282083329973267
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586119667297130536}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.9603553, y: 1.1600285, z: 0.95642614}
+  m_Center: {x: -0.0016848565, y: 0.08001426, z: 0.0035544874}
+--- !u!1 &5652847136046782059
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8851297544666323720}
+  - component: {fileID: 850076445720964517}
+  - component: {fileID: 1411041899776195473}
+  - component: {fileID: 6871816401782362967}
+  - component: {fileID: 8111838604881180809}
+  - component: {fileID: 2635999643982226971}
+  m_Layer: 0
+  m_Name: Train
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8851297544666323720
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5652847136046782059}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0, y: -3.27, z: 0.968}
+  m_LocalScale: {x: 0.79622, y: 3.9811, z: 0.79622}
+  m_Children: []
+  m_Father: {fileID: 2324456254077386547}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!33 &850076445720964517
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5652847136046782059}
+  m_Mesh: {fileID: -4960136813821076405, guid: d874609624d39614a9fd94fb31566bf3, type: 3}
+--- !u!23 &1411041899776195473
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5652847136046782059}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 5561349426305759274, guid: d874609624d39614a9fd94fb31566bf3, type: 3}
+  - {fileID: -382652638819485698, guid: d874609624d39614a9fd94fb31566bf3, type: 3}
+  - {fileID: -1580535799172915004, guid: d874609624d39614a9fd94fb31566bf3, type: 3}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6871816401782362967
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5652847136046782059}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.675893, y: 1.2851077, z: 0.9994331}
+  m_Center: {x: -0.008993682, y: -0.17177975, z: 0.002842206}
+--- !u!65 &8111838604881180809
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5652847136046782059}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.1913137, y: 0.31010267, z: 1.0102909}
+  m_Center: {x: 1.2342092, y: 0.6455504, z: -0.006990082}
+--- !u!136 &2635999643982226971
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5652847136046782059}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.254
+  m_Height: 1.14
+  m_Direction: 1
+  m_Center: {x: -1.15, y: 0.6, z: 0}
 --- !u!1 &5694476215347910944
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +512,7 @@ Transform:
   m_GameObject: {fileID: 7693794874649343535}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 1, z: 5}
   m_Children:
   - {fileID: 487776386631025784}
   m_Father: {fileID: 5637795637480281327}

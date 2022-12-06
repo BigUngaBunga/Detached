@@ -39,7 +39,7 @@ public class CrawlManager : MonoBehaviour
         {
             colliders.transform.localPosition = AdjustedPosition(colliderOfset);
             quickRig.transform.localPosition = Position;
-            colliders.transform.localRotation = Quaternion.Euler(initialColliderRotation.eulerAngles + rotation);
+            colliders.transform.localRotation = Quaternion.Euler(initialColliderRotation.eulerAngles + rotation);//ignore head?
             characterControl.stepRayLength = stepUpRayLenght;
             for (int i = 0; i < transformsToMove.Count; i++)
                 transformsToMove[i].localPosition = initialTransforms[i] + AdjustedPosition(moveOfset);

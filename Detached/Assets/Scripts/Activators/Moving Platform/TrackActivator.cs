@@ -14,8 +14,14 @@ public class TrackActivator : Activator
 
     protected override void Activate() => startNode.SetActivation(isActivated);
     protected override void Deactivate() => startNode.SetActivation(isActivated);
-    //public void Update() => startNode.DrawNodeConnections(Color.red);
     public Vector3 GetStartPosition() => startNode.Position;
+
+    public TrackNode PeekNextNode(bool isGoingBackwards)
+    {
+        if (!currentNode.CanContinue(isGoingBackwards))
+            isGoingBackwards = !isGoingBackwards;
+        return currentNode.GetNextNode(isGoingBackwards);
+    }
 
     public TrackNode GetNextNode(ref bool isGoingBackwards)
     {

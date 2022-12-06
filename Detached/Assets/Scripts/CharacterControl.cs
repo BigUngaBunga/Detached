@@ -33,14 +33,6 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] private Transform camTransform;
 
     [Header("Step up")]
-    /*[SerializeField] GameObject stepRayUpperFront;
-    [SerializeField] GameObject stepRayLowerFront;
-    [SerializeField] GameObject stepRayUpperBack;
-    [SerializeField] GameObject stepRayLowerBack;
-    [SerializeField] GameObject stepRayLowerBack;
-    [SerializeField] GameObject stepRayLowerBack;
-    [SerializeField] GameObject stepRayLowerBack;
-    [SerializeField] GameObject stepRayLowerBack;*/
     [SerializeField] GameObject[] stepRays;
     [SerializeField] float stepHeight = 0.3f;
     [SerializeField] float stepSmooth = 2f;
@@ -71,6 +63,9 @@ public class CharacterControl : NetworkBehaviour
     [Header("Camera")]
     [SerializeField] private GameObject cameraFollow;
     [SerializeField] private CinemachineFreeLook cinemaFreelook;
+    [SerializeField] private Transform camFocus;
+    [SerializeField] public Vector3 noLegCamOffset;
+    bool camUpdated;
 
     private bool isGrounded = false;
 
@@ -86,7 +81,7 @@ public class CharacterControl : NetworkBehaviour
         rb = GetComponent<Rigidbody>();
         playerCol = GetComponent<CapsuleCollider>();
         limbManager = GetComponent<ItemManager>();
-        originHeight = playerCol.height;
+        originHeight = 0;
         ResetJump();
         walkSpeed = movementSpeed;
 
@@ -127,13 +122,13 @@ public class CharacterControl : NetworkBehaviour
                 Movement();
                 Jump();
                 Sprint();
-                Crouch();
+               // Crouch();
 
                 #region stepClimbs
                 StepClimb(stepRays[0], stepRays[1], stepRays[2]);
 
                 #endregion
-
+                NoLegCam();
                 SpeedControl();
                 gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up);
                 //Debug.Log(movementSpeed);
@@ -156,6 +151,24 @@ public class CharacterControl : NetworkBehaviour
     {
         cinemaFreelook.LookAt = transform;
         cinemaFreelook.Follow = transform;
+    }
+
+    private void NoLegCam()
+    {
+        if (limbManager.NumberOfLegs >= 1)
+        {
+            camFocus.localPosition = Vector3.zero;
+            camUpdated = false;
+            return;
+        }
+
+        if (limbManager.NumberOfLegs <= 0 && !camUpdated)
+        {
+            camFocus.localPosition = new Vector3(camFocus.localPosition.x + noLegCamOffset.x, camFocus.localPosition.y + noLegCamOffset.y, camFocus.localPosition.z + noLegCamOffset.z);
+            camUpdated = true;
+        }
+
+
     }
 
     #endregion
@@ -187,7 +200,8 @@ public class CharacterControl : NetworkBehaviour
 
     private void Movement()
     {
-
+        if (limbManager.NumberOfArms <= 0 && limbManager.NumberOfLegs <= 0)
+            return;
         input = new Vector3(horizontalInput, 0, verticalInput);
         moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
 
@@ -202,12 +216,10 @@ public class CharacterControl : NetworkBehaviour
 
     void StepClimb(GameObject rayDirectioLowerMid, GameObject rayDirectioLowerLeft, GameObject rayDirectioLowerRight) //lower check
     {
-        float rayLengthMid = 0.5f;
-        float rayLengthSides = 1f;
         RaycastHit hitLower;
 
         Vector3 rbDirection = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-       // Debug.DrawRay(rayDirectioLowerMid.transform.position, rbDirection.normalized, Color.green);
+        // Debug.DrawRay(rayDirectioLowerMid.transform.position, rbDirection.normalized, Color.green);
         Debug.DrawRay(rayDirectioLowerLeft.transform.position, rbDirection.normalized * stepRayLength, Color.red);
         Debug.DrawRay(rayDirectioLowerRight.transform.position, rbDirection.normalized * stepRayLength, Color.blue);
         /* if (Physics.Raycast(rayDirectioLowerMid.transform.position, rbDirection.normalized, out hitLower, rayLengthMid))
@@ -218,18 +230,28 @@ public class CharacterControl : NetworkBehaviour
          }*/
         if (Physics.Raycast(rayDirectioLowerLeft.transform.position, rbDirection.normalized, out hitLower, stepRayLength))
         {
+            if (hitLower.collider.tag == "Leg")
+                return;
+
             Debug.Log("Left");
+            if (hitLower.collider.CompareTag("Leg") || hitLower.collider.CompareTag("Box"))
+                return;
             StepClimbUpperCheck(rbDirection, stepRays[4]);
             return;
         }
 
         if (Physics.Raycast(rayDirectioLowerRight.transform.position, rbDirection.normalized, out hitLower, stepRayLength))
         {
+            if (hitLower.collider.tag == "Leg")
+                return;
+
             Debug.Log("Right");
+            if (hitLower.collider.CompareTag("Leg") || hitLower.collider.CompareTag("Box"))
+                return;
             StepClimbUpperCheck(rbDirection, stepRays[5]);
         }
 
-       
+
 
         //Debug.DrawRay(stepRays[3].transform.position, rbDirection.normalized, Color.green);
         //Debug.DrawRay(stepRays[4].transform.position, rbDirection.normalized, Color.red);
@@ -240,7 +262,7 @@ public class CharacterControl : NetworkBehaviour
     private void StepClimbUpperCheck(Vector3 rbDirection, GameObject rayDirectionUpper)
     {
         RaycastHit hitUpper;
-        if (!Physics.Raycast(rayDirectionUpper.transform.position, rbDirection.normalized, out hitUpper, 0.4f)) //upper check
+        if (!Physics.Raycast(rayDirectionUpper.transform.position, rbDirection.normalized, out hitUpper, stepRayLength)) //upper check
         {
             if (input != Vector3.zero && isGrounded)
                 rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f); //the actual stepClimb
@@ -273,7 +295,7 @@ public class CharacterControl : NetworkBehaviour
 
     private void Sprint()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && limbManager.NumberOfLegs >= 1)
         {
             movementSpeed = runSpeed;
         }

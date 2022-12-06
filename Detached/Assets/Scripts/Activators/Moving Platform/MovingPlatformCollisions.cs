@@ -7,19 +7,31 @@ public class MovingPlatformCollisions : MonoBehaviour
     {
         activator = GetComponentInParent<MovingPlatformActivator>();
     }
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.rigidbody != null)
-        {
-            activator.Attach(collision.gameObject);
-        }
-            
+        if (HasRigidbody(other, out GameObject gameObject))
+            activator.Attach(gameObject);
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider other)
     {
-        if (collision.rigidbody != null)
-            activator.Detach(collision.gameObject);
+        if (HasRigidbody(other, out GameObject gameObject))
+            activator.Detach(gameObject);
+    }
+
+    private bool HasRigidbody(Collider other, out GameObject gameObject)
+    {
+        gameObject = null;
+        Rigidbody rigidbody = other.GetComponent<Rigidbody>();
+        if (rigidbody != null )
+            gameObject = rigidbody.gameObject;
+        else
+        {
+            rigidbody = other.GetComponentInParent<Rigidbody>();
+            if (rigidbody != null)
+                gameObject = rigidbody.gameObject;
+        }
+
+        return gameObject != null;
     }
 }

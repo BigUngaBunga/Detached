@@ -31,7 +31,20 @@ public class TrackNode : MonoBehaviour
     {
         if (nextNode == null || previousNode == null)
             type = NodeType.Stop;
+
+        if (nextNode != null)
+            AddTrack();
     }
+    private void AddTrack()
+    {
+        //float trackHeight = 5;
+        ////Quaternion rotation = Quaternion.Euler(GetDirection(nextNode.Position, Position) * 360);
+        //Quaternion rotation = Quaternion.LookRotation(GetDirection(nextNode.Position, Position));
+        //Vector3 trackPosition = transform.position - new Vector3(0, trackHeight, 0);
+        ////Instantiate(trackPrefab, trackPosition, rotation, transform);
+        //Instantiate(trackPrefab, trackPosition, rotation);
+    }
+    private Vector3 GetDirection(Vector3 target, Vector3 position) => (target - position).normalized;
 
     public TrackNode GetNextNode(bool goingBackwards)
     {
