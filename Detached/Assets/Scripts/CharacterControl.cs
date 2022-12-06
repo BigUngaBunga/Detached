@@ -115,7 +115,7 @@ public class CharacterControl : NetworkBehaviour
         if (SceneManager.GetActiveScene().buildIndex > 1 && controllingPlayer)
         {
 
-            if (isBeingControlled && limbManager.numberOfLimbs>=0) //If player is being actively controlled as oppose to a limb
+            if (isBeingControlled) //If player is being actively controlled as oppose to a limb
             {
                 GroundCheck();
                 MyInput();
@@ -200,7 +200,8 @@ public class CharacterControl : NetworkBehaviour
 
     private void Movement()
     {
-
+        if (limbManager.NumberOfArms <= 0 && limbManager.NumberOfLegs <= 0)
+            return;
         input = new Vector3(horizontalInput, 0, verticalInput);
         moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
 
