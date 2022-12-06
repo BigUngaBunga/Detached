@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1361967586582670630}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2324456254077386547}
   - {fileID: 2812822951409124410}
@@ -75,6 +75,7 @@ MonoBehaviour:
   activeConnections: 0
   stopWaitTime: 0.5
   platformSpeed: 6
+  rotationSpeed: 0.05
   targetDistance: 0.5
   platform: {fileID: 1586119667297130536}
   goingBackwards: 0
@@ -185,6 +186,7 @@ GameObject:
   - component: {fileID: 5426010991081658762}
   - component: {fileID: 5189197445030474694}
   - component: {fileID: 1119376082463039279}
+  - component: {fileID: 7904282083329973267}
   m_Layer: 6
   m_Name: Moving Platform
   m_TagString: Untagged
@@ -201,7 +203,7 @@ Transform:
   m_GameObject: {fileID: 1586119667297130536}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 1, z: 5}
   m_Children: []
   m_Father: {fileID: 5637795637480281327}
   m_RootOrder: 0
@@ -296,6 +298,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &7904282083329973267
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586119667297130536}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.9603553, y: 1.1600285, z: 0.95642614}
+  m_Center: {x: -0.0016848565, y: 0.08001426, z: 0.0035544874}
 --- !u!1 &5694476215347910944
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +385,7 @@ Transform:
   m_GameObject: {fileID: 7693794874649343535}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 1, z: 5}
   m_Children:
   - {fileID: 487776386631025784}
   m_Father: {fileID: 5637795637480281327}

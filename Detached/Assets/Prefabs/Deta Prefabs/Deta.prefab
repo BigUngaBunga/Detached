@@ -1295,7 +1295,8 @@ MonoBehaviour:
   secondGroundCheck: {fileID: 2317681978754600622}
   colliders: {fileID: 6767080942287752924}
   quickRig: {fileID: 1713378408680475514}
-  ofset: {x: 0, y: 0.4, z: -0.5}
+  colliderOfset: {x: 0, y: 0, z: 0}
+  moveOfset: {x: 0, y: 0, z: 0}
   stepUpRayLenght: 2
   transformsToMove:
   - {fileID: 7995944501814591378}
@@ -3403,7 +3404,7 @@ MonoBehaviour:
   stepRayLength: 1
   jumpForce: 8.5
   jumpCD: 0.25
-  airMultiplier: 0.01
+  airMultiplier: 0.075
   groundDrag: 3
   airDrag: 0.33
   jumpForceReduction: 0.4
