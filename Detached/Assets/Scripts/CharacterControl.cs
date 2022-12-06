@@ -291,7 +291,7 @@ public class CharacterControl : NetworkBehaviour
 
     private void Sprint()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && limbManager.NumberOfLegs >= 1)
         {
             movementSpeed = runSpeed;
         }
