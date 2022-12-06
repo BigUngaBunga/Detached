@@ -2039,7 +2039,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3872462703351551213}
   - component: {fileID: 3618494084772148757}
-  - component: {fileID: 3618494084772148750}
   - component: {fileID: 3618494084772148749}
   - component: {fileID: 3618494084772148745}
   - component: {fileID: 3618494084772148744}
@@ -2106,20 +2105,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!136 &3618494084772148750
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4536832242395614807}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2.170281
-  m_Direction: 1
-  m_Center: {x: 0, y: 2.6994817, z: 0}
 --- !u!95 &3618494084772148749
 Animator:
   serializedVersion: 3
@@ -2382,6 +2367,8 @@ MonoBehaviour:
   limbManager: {fileID: 0}
   cameraFollow: {fileID: 3618494085555675857}
   cinemaFreelook: {fileID: 0}
+  camFocus: {fileID: 3618494085555675856}
+  noLegCamOffset: {x: 0, y: -2.5, z: 3}
 --- !u!114 &3618494084772148758
 MonoBehaviour:
   m_ObjectHideFlags: 0

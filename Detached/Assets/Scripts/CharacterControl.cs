@@ -81,7 +81,7 @@ public class CharacterControl : NetworkBehaviour
         rb = GetComponent<Rigidbody>();
         playerCol = GetComponent<CapsuleCollider>();
         limbManager = GetComponent<ItemManager>();
-        originHeight = playerCol.height;
+        originHeight = 0;
         ResetJump();
         walkSpeed = movementSpeed;
 
@@ -122,13 +122,13 @@ public class CharacterControl : NetworkBehaviour
                 Movement();
                 Jump();
                 Sprint();
-                Crouch();
+               // Crouch();
 
                 #region stepClimbs
                 StepClimb(stepRays[0], stepRays[1], stepRays[2]);
 
                 #endregion
-
+                NoLegCam();
                 SpeedControl();
                 gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up);
                 //Debug.Log(movementSpeed);
