@@ -30,17 +30,11 @@ public class MovingPlatformActivator : Activator
         base.Start();
         track = GetComponent<TrackActivator>();
         Transform.position = track.GetStartPosition();
+        Transform.rotation = Quaternion.LookRotation(GetDirectionTo(track.PeekNextNode(false).Position));
     }
 
     private bool IsCloseToTarget(Vector3 target) => Vector3.Distance(Transform.position, target) <= targetDistance;
     private Vector3 GetDirectionTo(Vector3 target) => (target - Transform.position).normalized;
-
-    private Vector3 GetVelocity()
-    {
-        if (targetNode != null)
-            return platformSpeed * GetDirectionTo(targetNode.Position);
-        return Vector3.zero;
-    }
 
     protected override void Activate()
     {
@@ -96,7 +90,7 @@ public class MovingPlatformActivator : Activator
     {
         Transform.position += direction * Speed;
 
-        int goingBackwardsModifier = goingBackwards ? 1 : -1;
+        int goingBackwardsModifier = goingBackwards ? -1 : 1;
         Quaternion targetRotation = Quaternion.LookRotation(GetDirectionTo(targetNode.Position) * goingBackwardsModifier);
         Transform.rotation = Quaternion.Lerp(Transform.rotation, targetRotation, rotationSpeed);
         
@@ -126,7 +120,8 @@ public class MovingPlatformActivator : Activator
         }
         else if(connectedObjects.Contains(gameObject))
         {
-            gameObject.GetComponent<Rigidbody>().velocity = GetVelocity();
+            if (targetNode != null)
+                    gameObject.GetComponent<Rigidbody>().velocity = platformSpeed * GetDirectionTo(targetNode.Position);
             connectedObjects.Remove(gameObject);
         }
     }
