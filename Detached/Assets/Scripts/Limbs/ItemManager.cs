@@ -63,6 +63,7 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public Vector3 throwCamOffset;
     [SerializeField] GameObject indicator;
 
+    private Vector3 noLegCamPos;
     private bool readyToThrow;
     private Limb_enum selectedLimbToThrow = Limb_enum.Head;
     private GameObject headObj;
@@ -73,6 +74,8 @@ public class ItemManager : NetworkBehaviour
     private GameObject sceneObjectHoldingToThrow;
     private Vector3 orignalPosition = Vector3.zero;
     public int numberOfLimbs;
+
+    CharacterControl characterControlScript;
 
     //Color and selectionMode
     [SyncVar] public bool isDeta;
@@ -230,7 +233,8 @@ public class ItemManager : NetworkBehaviour
         limbTextureManager = gameObject.GetComponent<LimbTextureManager>();
         numberOfLimbs = 5;
         selectionMode = 0;
-
+        characterControlScript = gameObject.GetComponent<CharacterControl>();
+        noLegCamPos = camFocus.localPosition = new Vector3(camFocus.localPosition.x + characterControlScript.noLegCamOffset.x, camFocus.localPosition.y + characterControlScript.noLegCamOffset.y, camFocus.localPosition.z + characterControlScript.noLegCamOffset.z);
 
         /* originalCamTransform.position = camFocus.localPosition;
          originalCamTransform.eulerAngles = camFocus.localEulerAngles;
@@ -325,7 +329,7 @@ public class ItemManager : NetworkBehaviour
 
             if (selectionMode == 0) selectionMode = 1;
 
-            else if (gameObject.GetComponent<CharacterControl>().isBeingControlled == false && selectionMode == 1) //0 == limbSelection mode, 1 == out on map limb selection mode
+            else if (characterControlScript.isBeingControlled == false && selectionMode == 1) //0 == limbSelection mode, 1 == out on map limb selection mode
             {
                 selectionMode = 0;
                 ChangeControllingforLimbAndPlayer(limbs[indexControll], false);
@@ -811,7 +815,9 @@ public class ItemManager : NetworkBehaviour
             dragging = false;
             DrawTrajectory.instance.HideLine();
             indicator.SetActive(false);
-            camFocus.localPosition = Vector3.zero;
+
+            ResetCamCondition();
+
             cinemachine.m_YAxis.m_MaxSpeed = 10;
             cinemachine.m_YAxis.m_MinValue = 0;
             if (sceneObjectHoldingToThrow != null)
@@ -961,11 +967,18 @@ public class ItemManager : NetworkBehaviour
     {
         camFocus.parent = camFocusOrigin;
 
-        camFocus.localPosition = Vector3.zero;
+        ResetCamCondition();
+
         camFocus.localEulerAngles = Vector3.zero;
         camFocus.localScale = Vector3.one;
     }
     #endregion
 
-
+    void ResetCamCondition()
+    {
+        if (NumberOfLegs >= 1)
+            camFocus.localPosition = Vector3.zero;
+        else
+            camFocus.localPosition = noLegCamPos;
+    }
 }
