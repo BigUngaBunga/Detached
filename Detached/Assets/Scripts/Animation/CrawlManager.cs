@@ -42,7 +42,7 @@ public class CrawlManager : MonoBehaviour
             colliders.transform.localRotation = Quaternion.Euler(initialColliderRotation.eulerAngles + rotation);
             characterControl.stepRayLength = stepUpRayLenght;
             for (int i = 0; i < transformsToMove.Count; i++)
-                transformsToMove[i].localPosition = initialTransforms[i] + Position * ofsetFactor;
+                transformsToMove[i].localPosition = initialTransforms[i] + Position;
         }
         else
         {
