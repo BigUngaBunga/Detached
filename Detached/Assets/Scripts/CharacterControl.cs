@@ -31,16 +31,12 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] private float crouchSpeed;
     float walkSpeed;
     [SerializeField] private Transform camTransform;
+    [SerializeField] private Transform camFocus;
+    [SerializeField] public Vector3 noLegCamOffset;
+    bool camUpdated;
+
 
     [Header("Step up")]
-    /*[SerializeField] GameObject stepRayUpperFront;
-    [SerializeField] GameObject stepRayLowerFront;
-    [SerializeField] GameObject stepRayUpperBack;
-    [SerializeField] GameObject stepRayLowerBack;
-    [SerializeField] GameObject stepRayLowerBack;
-    [SerializeField] GameObject stepRayLowerBack;
-    [SerializeField] GameObject stepRayLowerBack;
-    [SerializeField] GameObject stepRayLowerBack;*/
     [SerializeField] GameObject[] stepRays;
     [SerializeField] float stepHeight = 0.3f;
     [SerializeField] float stepSmooth = 2f;
@@ -59,7 +55,7 @@ public class CharacterControl : NetworkBehaviour
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheckTransform;
-    [SerializeField] private Transform secondaryGroundCheck;
+    [SerializeField] private GameObject noLegGroundCheckObject;
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask groundMask;
 
@@ -102,15 +98,18 @@ public class CharacterControl : NetworkBehaviour
         cinemaFreelook = FindObjectOfType<CinemachineFreeLook>();
         SetCameraFocusPlayer();
 
+
         //DontDestroyOnLoad(this.gameObject);
     }
     private void Awake()
     {
+        // camFocus = limbManager.camFocus;
         for (int i = 3; i < 6; i++)
         {
 
             stepRays[i].transform.localPosition = new Vector3(stepRays[i].transform.localPosition.x, stepHeight, stepRays[i].transform.localPosition.z); //(upper rays position)
         }
+        //noLegGroundCheckObject.SetActive(false);
     }
 
     private void Update()
@@ -133,10 +132,12 @@ public class CharacterControl : NetworkBehaviour
                 StepClimb(stepRays[0], stepRays[1], stepRays[2]);
 
                 #endregion
-
+                NoLegCam();
+                NoLegGroundCheck();
                 SpeedControl();
                 gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up);
                 //Debug.Log(movementSpeed);
+
 
                 if (isGrounded)
                     rb.drag = groundDrag;
@@ -158,6 +159,23 @@ public class CharacterControl : NetworkBehaviour
         cinemaFreelook.Follow = transform;
     }
 
+    private void NoLegCam()
+    {
+        if (limbManager.NumberOfLegs >= 1)
+        {
+            camFocus.localPosition = Vector3.zero;
+            camUpdated = false;
+            return;
+        }
+
+        if (limbManager.NumberOfLegs <= 0 && !camUpdated)
+        {
+            camFocus.localPosition = new Vector3(camFocus.localPosition.x + noLegCamOffset.x, camFocus.localPosition.y + noLegCamOffset.y, camFocus.localPosition.z + noLegCamOffset.z);
+            camUpdated = true;
+        }
+
+
+    }
     #endregion
 
     #region Input
@@ -187,7 +205,8 @@ public class CharacterControl : NetworkBehaviour
 
     private void Movement()
     {
-
+        if (limbManager.NumberOfArms <= 0 && limbManager.NumberOfLegs <= 0)
+            return;
         input = new Vector3(horizontalInput, 0, verticalInput);
         moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
 
@@ -202,12 +221,10 @@ public class CharacterControl : NetworkBehaviour
 
     void StepClimb(GameObject rayDirectioLowerMid, GameObject rayDirectioLowerLeft, GameObject rayDirectioLowerRight) //lower check
     {
-        float rayLengthMid = 0.5f;
-        float rayLengthSides = 1f;
         RaycastHit hitLower;
 
         Vector3 rbDirection = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-       // Debug.DrawRay(rayDirectioLowerMid.transform.position, rbDirection.normalized, Color.green);
+        // Debug.DrawRay(rayDirectioLowerMid.transform.position, rbDirection.normalized, Color.green);
         Debug.DrawRay(rayDirectioLowerLeft.transform.position, rbDirection.normalized * stepRayLength, Color.red);
         Debug.DrawRay(rayDirectioLowerRight.transform.position, rbDirection.normalized * stepRayLength, Color.blue);
         /* if (Physics.Raycast(rayDirectioLowerMid.transform.position, rbDirection.normalized, out hitLower, rayLengthMid))
@@ -218,6 +235,9 @@ public class CharacterControl : NetworkBehaviour
          }*/
         if (Physics.Raycast(rayDirectioLowerLeft.transform.position, rbDirection.normalized, out hitLower, stepRayLength))
         {
+            if (hitLower.collider.tag == "Leg")
+                return;
+
             Debug.Log("Left");
             StepClimbUpperCheck(rbDirection, stepRays[4]);
             return;
@@ -225,11 +245,14 @@ public class CharacterControl : NetworkBehaviour
 
         if (Physics.Raycast(rayDirectioLowerRight.transform.position, rbDirection.normalized, out hitLower, stepRayLength))
         {
+            if (hitLower.collider.tag == "Leg")
+                return;
+
             Debug.Log("Right");
             StepClimbUpperCheck(rbDirection, stepRays[5]);
         }
 
-       
+
 
         //Debug.DrawRay(stepRays[3].transform.position, rbDirection.normalized, Color.green);
         //Debug.DrawRay(stepRays[4].transform.position, rbDirection.normalized, Color.red);
@@ -247,12 +270,20 @@ public class CharacterControl : NetworkBehaviour
         }
     }
 
+    private void NoLegGroundCheck()
+    {
+        if (limbManager.NumberOfLegs >= 1)
+            noLegGroundCheckObject.SetActive(false);
+        else
+            noLegGroundCheckObject.SetActive(true);
+    }
+
 
 
     private void GroundCheck()
     {
         isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask);
-        isGrounded = isGrounded || (secondaryGroundCheck.gameObject.activeSelf && Physics.CheckSphere(secondaryGroundCheck.position, groundCheckRadius, groundMask));
+        isGrounded = isGrounded || (noLegGroundCheckObject.activeSelf && Physics.CheckSphere(noLegGroundCheckObject.transform.position, groundCheckRadius, groundMask));
     }
 
     private void Jump()
@@ -305,6 +336,7 @@ public class CharacterControl : NetworkBehaviour
     {
         Gizmos.color = Color.magenta;
         Gizmos.DrawSphere(groundCheckTransform.position, groundCheckRadius);
-        Gizmos.DrawSphere(secondaryGroundCheck.position, groundCheckRadius);
+        Gizmos.DrawSphere(noLegGroundCheckObject.transform.position, groundCheckRadius);
     }
+
 }
