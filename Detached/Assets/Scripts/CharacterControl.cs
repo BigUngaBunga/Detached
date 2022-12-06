@@ -115,7 +115,7 @@ public class CharacterControl : NetworkBehaviour
         if (SceneManager.GetActiveScene().buildIndex > 1 && controllingPlayer)
         {
 
-            if (isBeingControlled) //If player is being actively controlled as oppose to a limb
+            if (isBeingControlled && limbManager.numberOfLimbs>=0) //If player is being actively controlled as oppose to a limb
             {
                 GroundCheck();
                 MyInput();
