@@ -71,6 +71,8 @@ public class CharacterControl : NetworkBehaviour
     [Header("Camera")]
     [SerializeField] private GameObject cameraFollow;
     [SerializeField] private CinemachineFreeLook cinemaFreelook;
+    [SerializeField] public Vector3 noLegCamOffset;
+    bool camUpdated;
 
     private bool isGrounded = false;
 
