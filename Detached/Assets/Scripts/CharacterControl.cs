@@ -33,14 +33,6 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] private Transform camTransform;
 
     [Header("Step up")]
-    /*[SerializeField] GameObject stepRayUpperFront;
-    [SerializeField] GameObject stepRayLowerFront;
-    [SerializeField] GameObject stepRayUpperBack;
-    [SerializeField] GameObject stepRayLowerBack;
-    [SerializeField] GameObject stepRayLowerBack;
-    [SerializeField] GameObject stepRayLowerBack;
-    [SerializeField] GameObject stepRayLowerBack;
-    [SerializeField] GameObject stepRayLowerBack;*/
     [SerializeField] GameObject[] stepRays;
     [SerializeField] float stepHeight = 0.3f;
     [SerializeField] float stepSmooth = 2f;
@@ -71,6 +63,7 @@ public class CharacterControl : NetworkBehaviour
     [Header("Camera")]
     [SerializeField] private GameObject cameraFollow;
     [SerializeField] private CinemachineFreeLook cinemaFreelook;
+    [SerializeField] private Transform camFocus;
     [SerializeField] public Vector3 noLegCamOffset;
     bool camUpdated;
 
@@ -222,8 +215,6 @@ public class CharacterControl : NetworkBehaviour
 
     void StepClimb(GameObject rayDirectioLowerMid, GameObject rayDirectioLowerLeft, GameObject rayDirectioLowerRight) //lower check
     {
-        float rayLengthMid = 0.5f;
-        float rayLengthSides = 1f;
         RaycastHit hitLower;
 
         Vector3 rbDirection = new Vector3(rb.velocity.x, 0, rb.velocity.z);
