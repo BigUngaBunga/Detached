@@ -218,7 +218,7 @@ public class CharacterControl : NetworkBehaviour
         RaycastHit hitLower;
 
         Vector3 rbDirection = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-       // Debug.DrawRay(rayDirectioLowerMid.transform.position, rbDirection.normalized, Color.green);
+        // Debug.DrawRay(rayDirectioLowerMid.transform.position, rbDirection.normalized, Color.green);
         Debug.DrawRay(rayDirectioLowerLeft.transform.position, rbDirection.normalized * stepRayLength, Color.red);
         Debug.DrawRay(rayDirectioLowerRight.transform.position, rbDirection.normalized * stepRayLength, Color.blue);
         /* if (Physics.Raycast(rayDirectioLowerMid.transform.position, rbDirection.normalized, out hitLower, rayLengthMid))
@@ -229,6 +229,9 @@ public class CharacterControl : NetworkBehaviour
          }*/
         if (Physics.Raycast(rayDirectioLowerLeft.transform.position, rbDirection.normalized, out hitLower, stepRayLength))
         {
+            if (hitLower.collider.tag == "Leg")
+                return;
+
             Debug.Log("Left");
             StepClimbUpperCheck(rbDirection, stepRays[4]);
             return;
@@ -236,11 +239,14 @@ public class CharacterControl : NetworkBehaviour
 
         if (Physics.Raycast(rayDirectioLowerRight.transform.position, rbDirection.normalized, out hitLower, stepRayLength))
         {
+            if (hitLower.collider.tag == "Leg")
+                return;
+
             Debug.Log("Right");
             StepClimbUpperCheck(rbDirection, stepRays[5]);
         }
 
-       
+
 
         //Debug.DrawRay(stepRays[3].transform.position, rbDirection.normalized, Color.green);
         //Debug.DrawRay(stepRays[4].transform.position, rbDirection.normalized, Color.red);
