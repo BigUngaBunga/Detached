@@ -234,6 +234,8 @@ public class CharacterControl : NetworkBehaviour
                 return;
 
             Debug.Log("Left");
+            if (hitLower.collider.CompareTag("Leg") || hitLower.collider.CompareTag("Box"))
+                return;
             StepClimbUpperCheck(rbDirection, stepRays[4]);
             return;
         }
@@ -244,6 +246,8 @@ public class CharacterControl : NetworkBehaviour
                 return;
 
             Debug.Log("Right");
+            if (hitLower.collider.CompareTag("Leg") || hitLower.collider.CompareTag("Box"))
+                return;
             StepClimbUpperCheck(rbDirection, stepRays[5]);
         }
 
@@ -258,7 +262,7 @@ public class CharacterControl : NetworkBehaviour
     private void StepClimbUpperCheck(Vector3 rbDirection, GameObject rayDirectionUpper)
     {
         RaycastHit hitUpper;
-        if (!Physics.Raycast(rayDirectionUpper.transform.position, rbDirection.normalized, out hitUpper, 0.4f)) //upper check
+        if (!Physics.Raycast(rayDirectionUpper.transform.position, rbDirection.normalized, out hitUpper, stepRayLength)) //upper check
         {
             if (input != Vector3.zero && isGrounded)
                 rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f); //the actual stepClimb

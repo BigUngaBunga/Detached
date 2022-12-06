@@ -1,4 +1,5 @@
 using FMODUnity;
+using Mirror;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,9 @@ public class BigButtonTrigger : Trigger, IInteractable
     [Header("Box interaction")]
     [SerializeField] private Transform boxPosition;
     [SerializeField] private GameObject box;
+    [SerializeField] private GameObject button;
+    [SerializeField] private float pressedButtonHeightDifference;
+    private Vector3 initialButtonPosition;
     private Carryable boxInteractable;
     [SerializeField] private List<GameObject> objectsOnButton = new List<GameObject>();
     private bool HasBox => box != null;
@@ -16,14 +20,26 @@ public class BigButtonTrigger : Trigger, IInteractable
         set {
             triggeringObjects = value;
             if (triggeringObjects >= 1)
+            {
                 IsTriggered = true;
+                MoveButton(true);
+            }
             else if (triggeringObjects <= 0)
+            {
                 IsTriggered = false;
+                MoveButton(false);
+            }
             if (triggeringObjects < 0)
                 triggeringObjects = 0;
         } 
     }
     [SerializeField] private int triggeringObjects;
+
+    protected override void Start()
+    {
+        base.Start();
+        initialButtonPosition = button.transform.localPosition;
+    }
 
     private bool IsCollisionObject(string tag) => tag.Equals("Box") || tag.Equals("Leg") || tag.Equals("Player") || tag.Equals("Torso");
 
@@ -112,5 +128,10 @@ public class BigButtonTrigger : Trigger, IInteractable
     private void HandleDestroyBox()
     {
         Invoke(nameof(CheckObjectsOnButton), 0.1f);
+    }
+
+    private void MoveButton(bool itTriggered)
+    {
+        button.transform.localPosition = itTriggered ? initialButtonPosition + new Vector3(0, pressedButtonHeightDifference) : initialButtonPosition;
     }
 }
