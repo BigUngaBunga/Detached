@@ -2,7 +2,7 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
+//using static UnityEditor.Progress; // this was causing build errors.
 
 public class InteractableManager : NetworkBehaviour
 {
