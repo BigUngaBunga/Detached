@@ -10,199 +10,165 @@ public class Animation : NetworkBehaviour
     bool isCarrying = false;
     bool moving = true;
     public Detach detach;
-    // Start is called before the first frame update
+    private CrawlManager crawlManager;
+
+    private bool HasRightArm => detach.RightArm.activeSelf;
+    private bool HasLeftArm => detach.LeftArm.activeSelf;
+    private bool HasRightLeg => detach.RightLeg.activeSelf;
+    private bool HasLeftLeg => detach.LeftLeg.activeSelf;
+
     void Start()
     {
         animator = GetComponent<Animator>();
         detach = GetComponent<Detach>();
         networkAnimator = GetComponent<NetworkAnimator>();
+        crawlManager = GetComponentInChildren<CrawlManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer) return;
+        if (!isLocalPlayer || animator == null) return;
         // Animation
-        if (animator != null)
+
+        IsCarrying();
+
+        if (IsCrawling() || IsHopping()) { }
+
+        if (!IsWalking() && Input.GetKeyDown(KeyCode.Space))
         {
-            if(animator.GetBool("isCarrying") == true)
-            {
-                if (Input.GetKey(KeyCode.W))
-                {
-                    animator.SetTrigger("CarryWalk");
-                    networkAnimator.SetTrigger("CarryWalk");
-                }
-                else if (Input.GetKey(KeyCode.S))
-                {
-                    animator.SetTrigger("CarryWalk");
-                    networkAnimator.SetTrigger("CarryWalk");
-                }
-                else if (Input.GetKey(KeyCode.A))
-                {
-                    animator.SetTrigger("CarryWalk");
-                    networkAnimator.SetTrigger("CarryWalk");
-                }
-                else if (Input.GetKey(KeyCode.D))
-                {
-                    animator.SetTrigger("CarryWalk");
-                    networkAnimator.SetTrigger("CarryWalk");
-                }
-                else if (Input.GetKeyDown(KeyCode.F))
-                {
-                    if (animator.GetBool("isCarrying") == true)
-                    {
-                        animator.SetBool("isCarrying", false);
-                 
-                    }
-                }
-                else
-                {
-                    animator.SetTrigger("CarryIdle");
-                    networkAnimator.SetTrigger("CarryIdle");
-                }
-            }
+            animator.SetTrigger("Jump");
+            networkAnimator.SetTrigger("Jump");
+        }
+        else if (Input.GetKeyDown(KeyCode.F))
+        {
+            animator.SetBool("isCarrying", false);
+            animator.SetTrigger("Carry");
+            networkAnimator.SetTrigger("Carry");
+            animator.SetBool("isCarrying", true);
+        }
+        else if (!Input.anyKey)
+        {
+            animator.SetTrigger("Idle");
+            networkAnimator.SetTrigger("Idle");
+        }
 
-            if (detach.LeftLeg.active == false && detach.RightLeg.active == false)
-            {
-                animator.SetBool("No Leg", true);
-                if (Input.GetKey(KeyCode.W) && detach.LeftArm.active == false && detach.RightArm.active == false)
-                {
-                    animator.SetTrigger("Crawling");
-                    networkAnimator.SetTrigger("Crawling");
-                }
-                else if (Input.GetKey(KeyCode.S))
-                {
-                    animator.SetTrigger("Crawling");
-                    networkAnimator.SetTrigger("Crawling");
-                }
-                else if (Input.GetKey(KeyCode.A))
-                {
-                    animator.SetTrigger("Crawling");
-                    networkAnimator.SetTrigger("Crawling");
-                }
-                else if (Input.GetKey(KeyCode.D))
-                {
-                    animator.SetTrigger("Crawling");
-                    networkAnimator.SetTrigger("Crawling");
-                }
-            }
-            else if (detach.LeftLeg.active == false)
-            {
-                if (Input.GetKey(KeyCode.W))
-                {
-                    animator.SetTrigger("Right Jump");
-                    networkAnimator.SetTrigger("Right Jump");
+        Emote();
+    }
 
-                }
-                else if (Input.GetKey(KeyCode.S))
-                {
-                    animator.SetTrigger("Right Jump");
-                    networkAnimator.SetTrigger("Right Jump");
-                }
-                else if (Input.GetKey(KeyCode.A))
-                {
-                    animator.SetTrigger("Right Jump");
-                    networkAnimator.SetTrigger("Right Jump");
-                }
-                else if (Input.GetKey(KeyCode.D))
-                {
-                    animator.SetTrigger("Right Jump");
-                    networkAnimator.SetTrigger("Right Jump");
-                }
-            }
-            else if(detach.RightLeg.active == false)
+    private bool IsCarrying()
+    {
+        if (animator.GetBool("isCarrying"))
+        {
+            if (CheckKeys(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D))
             {
-                if (Input.GetKey(KeyCode.W))
-                {
-                    animator.SetTrigger("Left Jump");
-                    networkAnimator.SetTrigger("Left Jump");
-                }
-                else if (Input.GetKey(KeyCode.S))
-                {
-                    animator.SetTrigger("Left Jump");
-                    networkAnimator.SetTrigger("Left Jump");
-                }
-                else if (Input.GetKey(KeyCode.A))
-                {
-                    animator.SetTrigger("Left Jump");
-                    networkAnimator.SetTrigger("Left Jump");
-                }
-                else if (Input.GetKey(KeyCode.D))
-                {
-                    animator.SetTrigger("Left Jump");
-                    networkAnimator.SetTrigger("Left Jump");
-                }
-            }
-            else
-            {
-                animator.SetBool("No Leg", false);
-            }
-
-            if (Input.GetKey(KeyCode.W) && detach.LeftLeg.active == true && detach.RightLeg.active == true)
-            {
-                animator.SetTrigger("Walking");
-                networkAnimator.SetTrigger("Walking");
-            }
-            else if (Input.GetKey(KeyCode.S) && detach.LeftLeg.active == true && detach.RightLeg.active == true)
-            {
-                animator.SetTrigger("Walking");
-                networkAnimator.SetTrigger("Walking");
-            }
-            else if (Input.GetKey(KeyCode.A) && detach.LeftLeg.active == true && detach.RightLeg.active == true)
-            {
-                animator.SetTrigger("Walking");
-                networkAnimator.SetTrigger("Walking");
-            }
-            else if (Input.GetKey(KeyCode.D) && detach.LeftLeg.active == true && detach.RightLeg.active == true)
-            {
-                animator.SetTrigger("Walking");
-                networkAnimator.SetTrigger("Walking");
-            }
-            else if (Input.GetKeyDown(KeyCode.Space))
-            {
-                animator.SetTrigger("Jump");
-                networkAnimator.SetTrigger("Jump");
+                animator.SetTrigger("CarryWalk");
+                networkAnimator.SetTrigger("CarryWalk");
             }
             else if (Input.GetKeyDown(KeyCode.F))
             {
-                if(animator.GetBool("isCarrying") == true)
-                {
-                    animator.SetBool("isCarrying", false);
-                }
-                animator.SetTrigger("Carry");
-                networkAnimator.SetTrigger("Carry");
-                animator.SetBool("isCarrying", true);               
+                animator.SetBool("isCarrying", false);
             }
-            else if (!Input.anyKey)
+            else
             {
-                animator.SetTrigger("Idle");
-                networkAnimator.SetTrigger("Idle");
+                animator.SetTrigger("CarryIdle");
+                networkAnimator.SetTrigger("CarryIdle");
             }
+            return true;
+        }
+        return false;
+    }
 
-            if (Input.GetKeyDown(KeyCode.Z))
+    private bool IsCrawling()
+    {
+        if (!HasLeftLeg && !HasRightLeg)
+        {
+            SetCrawl(true);
+            if (CheckKeys(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D) && (HasRightArm || HasLeftArm))
             {
-
-                animator.SetTrigger("Facepalm");
-                networkAnimator.SetTrigger("Facepalm");
+                animator.SetTrigger("Crawling");
+                networkAnimator.SetTrigger("Crawling");
             }
-            else if (Input.GetKeyDown(KeyCode.X))
-            {
-                animator.SetTrigger("Wave");
-                networkAnimator.SetTrigger("Wave");
-            }
-            else if (Input.GetKeyDown(KeyCode.C))
-            {
-                animator.SetTrigger("Mock");
+            return true;
+        }
+        SetCrawl(false);
+        return false;
+    }
 
-                networkAnimator.SetTrigger("Mock");
-            }
-            else if (Input.GetKeyDown(KeyCode.V))
+    private bool IsHopping()
+    {
+        if (CheckKeys(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D))
+        {
+            if (!HasLeftLeg && HasRightLeg)
             {
-                networkAnimator.SetTrigger("Laugh");
-
-                animator.SetTrigger("Laugh");
+                animator.SetTrigger("Right Jump");
+                networkAnimator.SetTrigger("Right Jump");
+                return true;
+            }
+            else if (!HasRightLeg && HasLeftLeg)
+            {
+                animator.SetTrigger("Left Jump");
+                networkAnimator.SetTrigger("Left Jump");
+                return true;
             }
         }
+        return false;
+    }
 
+    private bool IsWalking()
+    {
+        if (CheckKeys(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D) && HasLeftLeg && HasRightLeg)
+        {
+            animator.SetTrigger("Walking");
+            networkAnimator.SetTrigger("Walking");
+            return true;
+        }
+        return false;
+    }
+
+    private void Emote()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            animator.SetTrigger("Facepalm");
+            networkAnimator.SetTrigger("Facepalm");
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            animator.SetTrigger("Wave");
+            networkAnimator.SetTrigger("Wave");
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            animator.SetTrigger("Mock");
+            networkAnimator.SetTrigger("Mock");
+        }
+        else if (Input.GetKeyDown(KeyCode.V))
+        {
+            networkAnimator.SetTrigger("Laugh");
+            animator.SetTrigger("Laugh");
+        }
+    }
+
+    private bool CheckKeys(params KeyCode[] keyCodes)
+    {
+        for (int i = 0; i < keyCodes.Length; i++)
+        {
+            if (Input.GetKey(keyCodes[i]))
+                return true;
+        }
+        return false;
+    }
+
+    [Command]
+    private void SetCrawl(bool isCrawling)
+    {
+        if (animator.GetBool("No Leg") != isCrawling)
+            RPCSetCrawl(isCrawling);
+    }
+    [ClientRpc]
+    private void RPCSetCrawl(bool isCrawling)
+    {
+        crawlManager.SetCrawl(isCrawling);
+        animator.SetBool("No Leg", isCrawling);
     }
 }

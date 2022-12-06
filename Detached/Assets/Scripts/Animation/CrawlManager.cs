@@ -6,9 +6,8 @@ public class CrawlManager : MonoBehaviour
 {
     [SerializeField] private GameObject secondGroundCheck;
     [SerializeField] private GameObject colliders, quickRig;
-    [SerializeField] private Vector3 ofset;
+    [SerializeField] private Vector3 colliderOfset, moveOfset;
     [SerializeField] private float stepUpRayLenght = 2;
-    [Range(0, 2f)]
     [SerializeField] private List<Transform> transformsToMove = new List<Transform>();
     private List<Vector3> initialTransforms = new List<Vector3>();
     private float initialRayLength;
@@ -19,7 +18,8 @@ public class CrawlManager : MonoBehaviour
     private Vector3 rotation = new Vector3(90, 0, 0);
 
     private Vector3 Position => transform.localPosition;
-    private Vector3 AdjustedPosition => Position + ofset;
+    //private Vector3 AdjustedPosition => Position + colliderOfset;
+    private Vector3 AdjustedPosition(Vector3 ofset) => Position + ofset;
 
     private void Start()
     {
@@ -37,12 +37,12 @@ public class CrawlManager : MonoBehaviour
         secondGroundCheck.SetActive(isCrawling);
         if (isCrawling)
         {
-            colliders.transform.localPosition = AdjustedPosition;
+            colliders.transform.localPosition = AdjustedPosition(colliderOfset);
             quickRig.transform.localPosition = Position;
             colliders.transform.localRotation = Quaternion.Euler(initialColliderRotation.eulerAngles + rotation);
             characterControl.stepRayLength = stepUpRayLenght;
             for (int i = 0; i < transformsToMove.Count; i++)
-                transformsToMove[i].localPosition = initialTransforms[i] + Position;
+                transformsToMove[i].localPosition = initialTransforms[i] + AdjustedPosition(moveOfset);
         }
         else
         {
