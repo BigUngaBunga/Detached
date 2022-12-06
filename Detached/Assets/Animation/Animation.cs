@@ -11,6 +11,7 @@ public class Animation : NetworkBehaviour
     bool moving = true;
     public Detach detach;
     private CrawlManager crawlManager;
+    float targetTime = 0.0f;
 
     private bool HasRightArm => detach.RightArm.activeSelf;
     private bool HasLeftArm => detach.LeftArm.activeSelf;
@@ -29,6 +30,8 @@ public class Animation : NetworkBehaviour
     {
         if (!isLocalPlayer || animator == null) return;
         // Animation
+
+        targetTime += Time.deltaTime;
 
         IsCarrying();
 
@@ -113,13 +116,28 @@ public class Animation : NetworkBehaviour
         }
         return false;
     }
-
+    void PlaySoundOnTrigger()
+    {
+        SFXManager.PlayOneShot(SFXManager.WalkSound, SFXManager.SFXVolume, transform.position);
+ 
+    }
+    void timerEnded()
+    {
+        targetTime = 0.0f;
+    }
     private bool IsWalking()
     {
         if (CheckKeys(KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D) && HasLeftLeg && HasRightLeg)
         {
             animator.SetTrigger("Walking");
             networkAnimator.SetTrigger("Walking");
+
+            if(targetTime > 0.5f)
+            {
+                PlaySoundOnTrigger();
+                timerEnded();
+            }
+            
             return true;
         }
         return false;
