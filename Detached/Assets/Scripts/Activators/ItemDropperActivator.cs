@@ -29,16 +29,16 @@ public class ItemDropperActivator : Activator
         if (currentInstantiation != null)
             NetworkServer.Destroy(currentInstantiation);
         currentInstantiation = Instantiate(prefab, dropLocation.position, prefab.transform.rotation, interactableFolder);
-        //currentInstantiation.transform.position = prefab.transform.rotation;
         NetworkServer.Spawn(currentInstantiation);
-        RPCMoveToParent(currentInstantiation);
+        RPCMoveToParent(currentInstantiation, dropLocation.position, prefab.transform.rotation);
     }
 
-    //TODO lägg till InteractableFolder som förälder till currentInstantiation
     [ClientRpc]
-    private void RPCMoveToParent(GameObject gameObject)
+    private void RPCMoveToParent(GameObject gameObject, Vector3 objectPosition, Quaternion rotation)
     {
         currentInstantiation = gameObject;
         currentInstantiation.transform.parent = interactableFolder;
+        currentInstantiation.transform.position = objectPosition;
+        currentInstantiation.transform.rotation = rotation;
     }
 }
