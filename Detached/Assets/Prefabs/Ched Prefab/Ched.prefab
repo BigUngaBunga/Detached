@@ -2054,6 +2054,7 @@ GameObject:
   - component: {fileID: 5814121909641589077}
   - component: {fileID: 3000783395029977930}
   - component: {fileID: 8978797140055249330}
+  - component: {fileID: 380336373891148680}
   m_Layer: 0
   m_Name: Ched
   m_TagString: Player
@@ -2691,6 +2692,20 @@ MonoBehaviour:
   detaWhite: {r: 0.8000001, g: 0.8000001, b: 0.8000001, a: 0}
   chedBlack: {r: 0.058823533, g: 0.058823533, b: 0.058823533, a: 0}
   chedGold: {r: 0.28235295, g: 0.28235295, b: 0, a: 0}
+--- !u!114 &380336373891148680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4536832242395614807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a5714ec2af4fa45a8dc832f7ca6ca8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pingPoint: {fileID: 2533722832616019441}
+  camera: {fileID: 0}
 --- !u!1 &4751261324914809682
 GameObject:
   m_ObjectHideFlags: 0
@@ -4416,6 +4431,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a75922d775217a041b6efb76cd17c2e9, type: 3}
+--- !u!1 &2533722832616019441 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3479840868035733856, guid: a75922d775217a041b6efb76cd17c2e9, type: 3}
+  m_PrefabInstance: {fileID: 1397091876803706001}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6533055877219305287 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5316890906511064022, guid: a75922d775217a041b6efb76cd17c2e9, type: 3}
