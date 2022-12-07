@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class LoadUI : NetworkBehaviour
+public class LoadUI : MonoBehaviour
 {
     public GameObject gameUI;
     // Start is called before the first frame update
     void Start()
     {
         DontDestroyOnLoad(gameUI);
-     
+    
     }
 
 
