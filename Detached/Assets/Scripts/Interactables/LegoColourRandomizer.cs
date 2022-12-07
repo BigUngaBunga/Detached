@@ -7,19 +7,28 @@ public class LegoColourRandomizer : NetworkBehaviour
 {
     [SerializeField] private List<Material> materials = new List<Material>();
     [SerializeField] private List<GameObject> gameObjects = new List<GameObject>();
+    [SyncVar] private int seed;
 
-
-    [Server]
-    void Start()
+    private void Awake()
     {
-        for (int i = 0; i < gameObjects.Count; i++)
-        {
-            RPCUpdateMaterial(Random.Range(0, materials.Count), i);
-        }
+        if (!isClientOnly)
+            SetSeed();
     }
 
-    [ClientRpc]
-    private void RPCUpdateMaterial(int materialIndex, int objectIndex)
+    [Server]
+    private void SetSeed()
+    {
+        seed = Random.Range(int.MinValue, int.MaxValue);
+    }
+
+    void Start()
+    {
+        Random.InitState(seed);
+        for (int i = 0; i < gameObjects.Count; i++)
+            UpdateMaterial(Random.Range(0, materials.Count), i);
+    }
+
+    private void UpdateMaterial(int materialIndex, int objectIndex)
     {
         var renderers = gameObjects[objectIndex].GetComponentsInChildren<Renderer>();
         if (gameObjects[objectIndex].TryGetComponent(out Renderer renderer))
