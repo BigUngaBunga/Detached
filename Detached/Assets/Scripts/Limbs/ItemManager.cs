@@ -924,7 +924,7 @@ public class ItemManager : NetworkBehaviour
         switch (sceneObject.GetComponent<SceneObjectItemManager>().thisLimb)
         {
             case Limb_enum.Head:
-                if (headDetached)
+                if (headDetached && sceneObjectItemManager.orignalOwner == gameObject)
                     keepSceneObject = headDetached = false;
 
                 //camFocus.parent = camFocusOrigin;
