@@ -918,6 +918,8 @@ public class ItemManager : NetworkBehaviour
     [Command]
     public void CmdPickUpLimb(GameObject sceneObject)
     {
+        if (sceneObject == null) return; 
+
         sceneObject.GetComponent<HighlightObject>().ForceStopHighlight();
         bool keepSceneObject = true;
         SceneObjectItemManager sceneObjectItemManager = sceneObject.GetComponent<SceneObjectItemManager>();
