@@ -89,6 +89,7 @@ public class ItemManager : NetworkBehaviour
     public readonly UnityEvent pickupLimbEvent = new UnityEvent();
     public readonly UnityEvent changeSelectedLimbEvent = new UnityEvent();
     public readonly UnityEvent dropLimbEvent = new UnityEvent();
+    public bool testControlOwnLimb = true;
 
     private InteractionChecker interactionChecker;
     public bool allowInteraction = true;
@@ -310,12 +311,14 @@ public class ItemManager : NetworkBehaviour
         }
     }
 
-    private void ChangeSelectedLimbToThrow(float y)
+    private void ChangeSelectedLimbToThrow(float scrollDelta)
     {
-        int change = y > 0 ? 1 : -1;
+        int change = (int)scrollDelta;
         int currentlySelected = (int)selectedLimbToThrow;
         int allEnums = Enum.GetNames(typeof(Limb_enum)).Length;
-        selectedLimbToThrow = (Limb_enum)((currentlySelected + change) % allEnums);
+        int goingToSelect = (currentlySelected + -change) % allEnums;
+        if (goingToSelect < 0) goingToSelect = allEnums - 1; //Modulo in c# is remainder not modulo...
+        selectedLimbToThrow = (Limb_enum)goingToSelect;
     }
 
     /// <summary>
@@ -529,6 +532,35 @@ public class ItemManager : NetworkBehaviour
     }
 
     private void GetAllPlayerLimbsInScene()
+    {
+        try
+        {
+            limbs.Clear();
+            GameObject[] limbsInScene = GameObject.FindGameObjectsWithTag("Limb");
+            //limbs.AddRange(GameObject.FindGameObjectsWithTag("Limb"));
+            foreach (GameObject limb in limbsInScene) 
+            { 
+                if (limb.GetComponent<SceneObjectItemManager>().orignalOwner == gameObject) 
+                {
+                    limbs.Add(limb);
+                }
+            }
+            if (limbs.Count == 0)
+            {
+                return;
+            }
+            
+            limbs.Add(gameObject);
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Tag dosen't exist, Have you forgotten to add \"limb\" to your tags?");
+            Debug.Log(e.Message);
+        }
+    }
+
+    private void GetAllLimbsInScene()
+
     {
         try
         {
@@ -892,13 +924,15 @@ public class ItemManager : NetworkBehaviour
     [Command]
     public void CmdPickUpLimb(GameObject sceneObject)
     {
+        if (sceneObject == null) return; 
+
         sceneObject.GetComponent<HighlightObject>().ForceStopHighlight();
         bool keepSceneObject = true;
         SceneObjectItemManager sceneObjectItemManager = sceneObject.GetComponent<SceneObjectItemManager>();
         switch (sceneObject.GetComponent<SceneObjectItemManager>().thisLimb)
         {
             case Limb_enum.Head:
-                if (headDetached)
+                if (headDetached && sceneObjectItemManager.orignalOwner == gameObject)
                     keepSceneObject = headDetached = false;
 
                 //camFocus.parent = camFocusOrigin;
