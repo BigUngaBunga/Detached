@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class LoadUI : MonoBehaviour
+public class LoadUI : NetworkBehaviour
 {
     public GameObject gameUI;
     // Start is called before the first frame update
@@ -16,7 +17,15 @@ public class LoadUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameUI.SetActive(true);
+        if (gameObject == NetworkClient.localPlayer.gameObject)
+        {
+            gameUI.SetActive(true);
+        }
+        else
+        {
+            gameUI.SetActive(true);
+        }
+
     }
 
 }
