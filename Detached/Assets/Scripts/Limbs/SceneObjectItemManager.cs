@@ -31,6 +31,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SyncVar] public GameObject orignalOwner;
     [SyncVar] public bool isDeta;
     [SyncVar] private GameObject thisGameObject; 
+    [SyncVar] public bool isBeingPickedUp = false;
 
     public UnityEvent pickUpLimbEvent = new UnityEvent();
     private int numOfFallOutOfWorld = 0;
@@ -130,9 +131,10 @@ public class SceneObjectItemManager : NetworkBehaviour
     {
         Debug.Log("Attempting pickup");
         var itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
-        if (!IsBeingControlled && itemManager.CheckIfMissingLimb(thisLimb))
+        if (!IsBeingControlled && itemManager.CheckIfMissingLimb(thisLimb) && !isBeingPickedUp)
         {
             Debug.Log("Picking it up");
+            isBeingPickedUp = true;
             itemManager.CmdPickUpLimb(gameObject);
         }      
     }

@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638054041186058442
+  lastModified: 638060289479042677
   FileSizes: []
   Exists: 1
 --- !u!114 &-8797912400153106736
@@ -513,7 +513,7 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/Dialogue.bank
   Name: Dialogue
   StudioPath: bank:/Dialogue
-  lastModified: 638054041184927385
+  lastModified: 638060289475611903
   FileSizes: []
   Exists: 1
 --- !u!114 &-5745683874924594278
@@ -1053,6 +1053,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1880
+--- !u!114 &-2609216755254888427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/InsertBattery
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/InsertBattery
+  Guid:
+    Data1: 1931859472
+    Data2: 1157064807
+    Data3: -113049666
+    Data4: 1762810178
+  Banks:
+  - {fileID: 3209147859294559119}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 121
 --- !u!114 &-2595117344606966362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1530,13 +1557,17 @@ MonoBehaviour:
   - {fileID: 1867448615491219109}
   - {fileID: 3580471586992236105}
   - {fileID: -3530902663355152066}
+  - {fileID: -2609216755254888427}
+  - {fileID: 3123663646887571296}
+  - {fileID: 7660554094024793861}
+  - {fileID: 6641640504458108537}
   EditorParameters:
   - {fileID: 3224715806479717535}
   MasterBanks:
   - {fileID: 7412267887926691739}
   StringsBanks:
   - {fileID: 5626597695562776198}
-  cacheTime: 638054041186078459
+  cacheTime: 638060289480589093
   cacheVersion: 131593
 --- !u!114 &216127448544306568
 MonoBehaviour:
@@ -1972,6 +2003,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3578
+--- !u!114 &3123663646887571296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/RemoveBattery
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/RemoveBattery
+  Guid:
+    Data1: -1096370837
+    Data2: 1320635491
+    Data3: 601387681
+    Data4: 1775704461
+  Banks:
+  - {fileID: 3209147859294559119}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 187
 --- !u!114 &3209147859294559119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1987,7 +2045,7 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638054041186078459
+  lastModified: 638060289480589093
   FileSizes: []
   Exists: 1
 --- !u!114 &3224715806479717535
@@ -2242,10 +2300,10 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638054041184937389
+  lastModified: 638060289475661923
   FileSizes:
   - Name: 
-    Value: 3872
+    Value: 4046
   Exists: 1
 --- !u!114 &5678537954995164529
 MonoBehaviour:
@@ -2404,6 +2462,33 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
+--- !u!114 &6641640504458108537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ping
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ping
+  Guid:
+    Data1: -1481758575
+    Data2: 1125774058
+    Data3: 406379948
+    Data4: 1662160062
+  Banks:
+  - {fileID: 3209147859294559119}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 702
 --- !u!114 &7055329750033586491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2553,9 +2638,36 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638047444459802834
+  lastModified: 638060289475651913
   FileSizes: []
   Exists: 1
+--- !u!114 &7660554094024793861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/ExitButton
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/ExitButton
+  Guid:
+    Data1: -1799954805
+    Data2: 1176760536
+    Data3: -1541580622
+    Data4: -626960023
+  Banks:
+  - {fileID: 3209147859294559119}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 215
 --- !u!114 &8069900694814104135
 MonoBehaviour:
   m_ObjectHideFlags: 0
