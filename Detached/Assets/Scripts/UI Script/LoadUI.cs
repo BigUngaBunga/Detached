@@ -23,7 +23,7 @@ public class LoadUI : NetworkBehaviour
         }
         else
         {
-            gameUI.SetActive(true);
+            gameUI.SetActive(false);
         }
 
     }
