@@ -16,6 +16,10 @@ public static class SFXManager
     public static string PullLeverSound => "event:/SFX/PullLever";
     public static string PushButtonSound => "event:/SFX/PushButton";
     public static string ThrowSound => "event:/SFX/Throw";
+    public static string PingSound => "event:/SFX/Ping";
+    public static string ExitButtonSound => "event:/SFX/ExitButton";
+    public static string InsertBatterySound => "event:/SFX/InsertBattery";
+    public static string RemoveBatterySound => "event:/SFX/RemoveBattery";
 
     /// <summary>
     /// Converts the path to a GUID and then calls another method to play the event.
