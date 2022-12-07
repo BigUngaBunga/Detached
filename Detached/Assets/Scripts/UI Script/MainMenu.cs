@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
     }
+    
     public void QuitGame()
     {
         Debug.Log("QUIT!");

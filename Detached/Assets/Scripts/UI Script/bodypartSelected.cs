@@ -56,7 +56,7 @@ public class bodypartSelected : MonoBehaviour
         {
             if (headActive)
             {
-                Head.GetComponent<Image>().color = Color.red;
+                Head.GetComponent<Image>().color = Color.white;
             }
             else
             {
@@ -65,7 +65,7 @@ public class bodypartSelected : MonoBehaviour
 
             if (rightHandactive)
             {
-                RightHand.GetComponent<Image>().color = Color.red;
+                RightHand.GetComponent<Image>().color = Color.white;
             }
             else
             {
@@ -74,7 +74,7 @@ public class bodypartSelected : MonoBehaviour
 
             if (leftHandactive)
             {
-                LeftHand.GetComponent<Image>().color = Color.red;
+                LeftHand.GetComponent<Image>().color = Color.white;
             }
             else
             {
@@ -82,7 +82,7 @@ public class bodypartSelected : MonoBehaviour
             }
             if (rightLegactive)
             {
-                rightLeg.GetComponent<Image>().color = Color.red;
+                rightLeg.GetComponent<Image>().color = Color.white;
             }
             else
             {
@@ -90,7 +90,7 @@ public class bodypartSelected : MonoBehaviour
             }
             if (leftLegactive)
             {
-                leftLeg.GetComponent<Image>().color = Color.red;
+                leftLeg.GetComponent<Image>().color = Color.white;
             }
             else
             {

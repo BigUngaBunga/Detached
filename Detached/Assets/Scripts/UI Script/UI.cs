@@ -16,14 +16,19 @@ public class UI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             pauseUI.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+     
         }
 
         if (Input.GetKeyDown("9"))
         {
             pauseUI.SetActive(false);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
      
