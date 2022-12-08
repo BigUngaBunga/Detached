@@ -16,8 +16,7 @@ public class VolumeManager : MonoBehaviour
 
     public static float GetDialogueVolume()
     {
-        return 1.0f;
-        //return MasterVolume * DialogueVolume;
+        return MasterVolume * DialogueVolume;
     }
 
     public static float GetMusicVolume()
