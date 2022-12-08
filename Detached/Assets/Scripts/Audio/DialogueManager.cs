@@ -79,29 +79,36 @@ public class DialogueManager : MonoBehaviour
         {
             IntializeDialougeInstance(i);
         }
-
-        deta = GameObject.Find("Deta(Clone)");
-        ched = GameObject.Find("Ched(Clone)");
-        if (playAtStart)
-            PlayAudioChain();
     }
 
 
     private void Update()
     {
+        //Check if deta and ched are assigned before playing any sounds.
+        if (!DetaChedAssignmentCheck()) return;
+
         if (audioChain.Length == 0 || currentIndex >= audioChain.Length) return;
 
+        if (playAtStart)
+            PlayAudioChain();
+
+        Debug.Log(deta == null);
         // If the dialouge has reached the end then start the next dialogue option in queue.
         if ((string)timelineInfoList[currentIndex].lastMarker == "End")
         {
             currentIndex++;
-            events[currentIndex].set3DAttributes(RuntimeUtils.To3DAttributes(GetSource(audioChain[currentIndex].sayingLine).transform.position));
-            //RuntimeManager.AttachInstanceToGameObject(audioChain[currentIndex].eventInstance, GetSource(audioChain[currentIndex].sayingLine).transform);
-            Debug.Log(String.Format("Current Bar = {0}, Last Marker = {1}, Dialogue index {2}",
-                    timelineInfoList[currentIndex].currentMusicBar, (string)timelineInfoList[currentIndex].lastMarker, currentIndex));
+            RuntimeManager.AttachInstanceToGameObject(events[currentIndex], GetSource(audioChain[currentIndex].sayingLine).transform);
             events[currentIndex].setVolume(VolumeManager.GetDialogueVolume());
             events[currentIndex].start();
         }
+    }
+
+    private bool DetaChedAssignmentCheck()
+    {
+        if (deta == null) deta = GameObject.Find("Deta(Clone)");
+        if (ched == null) ched = GameObject.Find("Ched(Clone)");
+        if (ched == null || deta == null) return false;
+        return true;
     }
 
     private void EvaluateIfPlaySound()
@@ -114,10 +121,8 @@ public class DialogueManager : MonoBehaviour
 
     private void PlayAudioChain()
     {
-        events[currentIndex].set3DAttributes(RuntimeUtils.To3DAttributes(GetSource(audioChain[currentIndex].sayingLine).transform.position));
-        //RuntimeManager.AttachInstanceToGameObject(audioChain[currentIndex].eventInstance, GetSource(audioChain[currentIndex].sayingLine).transform);
-        Debug.Log(String.Format("Current Bar = {0}, Last Marker = {1}, Dialogue index {2}",
-                  timelineInfoList[currentIndex].currentMusicBar, (string)timelineInfoList[currentIndex].lastMarker, currentIndex));
+        playAtStart = false;
+        RuntimeManager.AttachInstanceToGameObject(events[currentIndex], GetSource(audioChain[currentIndex].sayingLine).transform);
         events[currentIndex].setVolume(VolumeManager.GetDialogueVolume());
         events[currentIndex].start();
     }
@@ -167,12 +172,6 @@ public class DialogueManager : MonoBehaviour
         events[index].setCallback(beatCallback, EVENT_CALLBACK_TYPE.TIMELINE_BEAT | EVENT_CALLBACK_TYPE.TIMELINE_MARKER);
 
         events[index].setVolume(DialogueVolume);
-    }
-
-    void OnGUI()
-    {
-        GUILayout.Box(String.Format("Current Bar = {0}, Last Marker = {1}, Dialogue index {2}",
-        timelineInfoList[currentIndex].currentMusicBar, (string)timelineInfoList[currentIndex].lastMarker, currentIndex));
     }
 
     [AOT.MonoPInvokeCallback(typeof(EVENT_CALLBACK))]
