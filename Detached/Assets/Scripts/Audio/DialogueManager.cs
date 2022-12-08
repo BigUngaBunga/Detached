@@ -98,7 +98,7 @@ public class DialogueManager : MonoBehaviour
             events[lastIndex].stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             lastIndex = currentIndex;
             currentIndex++;
-            events[currentIndex].set3DAttributes(RuntimeUtils.To3DAttributes(GetSource(audioChain[currentIndex].sayingLine).transform.position));
+            //events[currentIndex].set3DAttributes(RuntimeUtils.To3DAttributes(GetSource(audioChain[currentIndex].sayingLine).transform.position));
             //RuntimeManager.AttachInstanceToGameObject(audioChain[currentIndex].eventInstance, GetSource(audioChain[currentIndex].sayingLine).transform);
             events[currentIndex].setVolume(VolumeManager.GetDialogueVolume());
             events[currentIndex].start();
@@ -115,7 +115,7 @@ public class DialogueManager : MonoBehaviour
 
     private void PlayAudioChain()
     {
-        events[currentIndex].set3DAttributes(RuntimeUtils.To3DAttributes(GetSource(audioChain[currentIndex].sayingLine).transform.position));
+        //events[currentIndex].set3DAttributes(RuntimeUtils.To3DAttributes(GetSource(audioChain[currentIndex].sayingLine).transform.position));
         //RuntimeManager.AttachInstanceToGameObject(audioChain[currentIndex].eventInstance, GetSource(audioChain[currentIndex].sayingLine).transform);
         events[currentIndex].setVolume(VolumeManager.GetDialogueVolume());
         events[currentIndex].start();
@@ -165,6 +165,8 @@ public class DialogueManager : MonoBehaviour
         events[index].setUserData(GCHandle.ToIntPtr(timelineHandleList[index]));
 
         events[index].setCallback(beatCallback, EVENT_CALLBACK_TYPE.TIMELINE_BEAT | EVENT_CALLBACK_TYPE.TIMELINE_MARKER);
+
+        RuntimeManager.AttachInstanceToGameObject(events[currentIndex], GetSource(audioChain[currentIndex].sayingLine).transform);
         events[index].setVolume(DialogueVolume);
     }
 
