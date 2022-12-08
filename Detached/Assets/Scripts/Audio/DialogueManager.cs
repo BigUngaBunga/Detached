@@ -87,7 +87,7 @@ public class DialogueManager : MonoBehaviour
         //Check if deta and ched are assigned before playing any sounds.
         if (!DetaChedAssignmentCheck()) return;
 
-        if (audioChain.Length == 0 || currentIndex >= audioChain.Length) return;
+        if (audioChain.Length == 0 || currentIndex >= audioChain.Length-1) return;
 
         if (playAtStart)
             PlayAudioChain();
