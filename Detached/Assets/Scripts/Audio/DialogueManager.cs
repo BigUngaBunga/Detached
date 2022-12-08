@@ -25,7 +25,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private bool wasPlayed;
     [SerializeField] private int playerNumber;
 
-    private int currentIndex = 0, lastIndex = 0;
+    private int currentIndex = 0;
 
     public float DialogueVolume { get; set;}
 
@@ -73,11 +73,10 @@ public class DialogueManager : MonoBehaviour
         {
             timelineInfoList.Add(new TimelineInfo());
             timelineHandleList.Add(GCHandle.Alloc(timelineInfoList[i]));
+            events.Add(RuntimeManager.CreateInstance(audioChain[i].path));
         }
-
         for (int i = 0; i < audioChain.Length; i++)
         {
-            events.Add(RuntimeManager.CreateInstance(audioChain[i].path));
             IntializeDialougeInstance(i);
         }
 
@@ -90,18 +89,16 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        if (audioChain.Length == 0 || currentIndex == audioChain.Length) return;
+        if (audioChain.Length == 0 || currentIndex >= audioChain.Length) return;
 
-        // If the song has reached the end of the looping region then start the next song in queue.
+        // If the dialouge has reached the end then start the next dialogue option in queue.
         if ((string)timelineInfoList[currentIndex].lastMarker == "End")
         {
-            events[lastIndex].stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            lastIndex = currentIndex;
             currentIndex++;
             events[currentIndex].set3DAttributes(RuntimeUtils.To3DAttributes(GetSource(audioChain[currentIndex].sayingLine).transform.position));
             //RuntimeManager.AttachInstanceToGameObject(audioChain[currentIndex].eventInstance, GetSource(audioChain[currentIndex].sayingLine).transform);
-            Debug.Log(String.Format("Current Bar = {0}, Last Marker = {1}, Song index {2}, Last index {3}",
-                    timelineInfoList[currentIndex].currentMusicBar, (string)timelineInfoList[currentIndex].lastMarker, currentIndex, lastIndex));
+            Debug.Log(String.Format("Current Bar = {0}, Last Marker = {1}, Song index {2}",
+                    timelineInfoList[currentIndex].currentMusicBar, (string)timelineInfoList[currentIndex].lastMarker, currentIndex));
             events[currentIndex].setVolume(VolumeManager.GetDialogueVolume());
             events[currentIndex].start();
         }
@@ -119,8 +116,8 @@ public class DialogueManager : MonoBehaviour
     {
         events[currentIndex].set3DAttributes(RuntimeUtils.To3DAttributes(GetSource(audioChain[currentIndex].sayingLine).transform.position));
         //RuntimeManager.AttachInstanceToGameObject(audioChain[currentIndex].eventInstance, GetSource(audioChain[currentIndex].sayingLine).transform);
-        Debug.Log(String.Format("Current Bar = {0}, Last Marker = {1}, Song index {2}, Last index {3}",
-                  timelineInfoList[currentIndex].currentMusicBar, (string)timelineInfoList[currentIndex].lastMarker, currentIndex, lastIndex));
+        Debug.Log(String.Format("Current Bar = {0}, Last Marker = {1}, Song index {2}",
+                  timelineInfoList[currentIndex].currentMusicBar, (string)timelineInfoList[currentIndex].lastMarker, currentIndex));
         events[currentIndex].setVolume(VolumeManager.GetDialogueVolume());
         events[currentIndex].start();
     }
@@ -169,15 +166,13 @@ public class DialogueManager : MonoBehaviour
 
         events[index].setCallback(beatCallback, EVENT_CALLBACK_TYPE.TIMELINE_BEAT | EVENT_CALLBACK_TYPE.TIMELINE_MARKER);
 
-        //RuntimeManager.AttachInstanceToGameObject(events[index], GetSource(audioChain[currentIndex].sayingLine).transform);
-        //events[currentIndex].set3DAttributes(RuntimeUtils.To3DAttributes(GetSource(audioChain[index].sayingLine).transform.position));
         events[index].setVolume(DialogueVolume);
     }
 
     void OnGUI()
     {
-        GUILayout.Box(String.Format("Current Bar = {0}, Last Marker = {1}, Song index {2}, Last index {3}",
-        timelineInfoList[currentIndex].currentMusicBar, (string)timelineInfoList[currentIndex].lastMarker, currentIndex, lastIndex));
+        GUILayout.Box(String.Format("Current Bar = {0}, Last Marker = {1}, Song index {2}",
+        timelineInfoList[currentIndex].currentMusicBar, (string)timelineInfoList[currentIndex].lastMarker, currentIndex));
     }
 
     [AOT.MonoPInvokeCallback(typeof(EVENT_CALLBACK))]
