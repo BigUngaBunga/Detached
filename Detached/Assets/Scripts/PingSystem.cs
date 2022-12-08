@@ -29,7 +29,7 @@ public class PingSystem : MonoBehaviour
 
     void PlaySoundOnTrigger()
     {
-        SFXManager.PlayOneShot(SFXManager.JumpSound, SFXManager.SFXVolume, pingPoint.transform.position);
+        SFXManager.PlayOneShot(SFXManager.PingSound, SFXManager.SFXVolume, pingPoint.transform.position);
     }
     // Update is called once per frame
     void Update()
