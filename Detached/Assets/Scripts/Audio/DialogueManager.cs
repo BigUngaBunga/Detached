@@ -92,7 +92,6 @@ public class DialogueManager : MonoBehaviour
         if (playAtStart)
             PlayAudioChain();
 
-        Debug.Log(deta == null);
         // If the dialouge has reached the end then start the next dialogue option in queue.
         if ((string)timelineInfoList[currentIndex].lastMarker == "End")
         {
