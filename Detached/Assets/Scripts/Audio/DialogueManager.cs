@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 
-public class DialogueManager : NetworkBehaviour
+public class DialogueManager : MonoBehaviour
 {
     enum RequiredPlayers { None, One, Both };
     enum SayingLine { Deta, Ched, Other };
@@ -35,6 +35,7 @@ public class DialogueManager : NetworkBehaviour
     }
     //[SyncVar(hook = nameof(OnChangePlayerNumber))]
     [SerializeField] private LineOfDialogue[] audioChain;
+    private List<EventInstance> events = new List<EventInstance>();
 
     private GameObject deta, ched;
     class TimelineInfo
@@ -74,10 +75,9 @@ public class DialogueManager : NetworkBehaviour
             timelineHandleList.Add(GCHandle.Alloc(timelineInfoList[i]));
         }
 
-
-
         for (int i = 0; i < audioChain.Length; i++)
         {
+            events.Add(RuntimeManager.CreateInstance(audioChain[i].path));
             IntializeDialougeInstance(i);
         }
 
@@ -95,14 +95,13 @@ public class DialogueManager : NetworkBehaviour
         // If the song has reached the end of the looping region then start the next song in queue.
         if ((string)timelineInfoList[currentIndex].lastMarker == "End")
         {
-            //audioChain[lastIndex].eventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            events[lastIndex].stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
             lastIndex = currentIndex;
             currentIndex++;
-            Debug.Log("Playing dialogue");
-            audioChain[currentIndex].eventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(GetSource(audioChain[currentIndex].sayingLine).transform.position));
+            events[currentIndex].set3DAttributes(RuntimeUtils.To3DAttributes(GetSource(audioChain[currentIndex].sayingLine).transform.position));
             //RuntimeManager.AttachInstanceToGameObject(audioChain[currentIndex].eventInstance, GetSource(audioChain[currentIndex].sayingLine).transform);
-            audioChain[currentIndex].eventInstance.setVolume(VolumeManager.GetDialogueVolume());
-            audioChain[currentIndex].eventInstance.start();
+            events[currentIndex].setVolume(VolumeManager.GetDialogueVolume());
+            events[currentIndex].start();
         }
     }
 
@@ -116,12 +115,10 @@ public class DialogueManager : NetworkBehaviour
 
     private void PlayAudioChain()
     {
-        Debug.Log("Playing dialogue");
-        audioChain[currentIndex].eventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(GetSource(audioChain[currentIndex].sayingLine).transform.position));
+        events[currentIndex].set3DAttributes(RuntimeUtils.To3DAttributes(GetSource(audioChain[currentIndex].sayingLine).transform.position));
         //RuntimeManager.AttachInstanceToGameObject(audioChain[currentIndex].eventInstance, GetSource(audioChain[currentIndex].sayingLine).transform);
-        audioChain[currentIndex].eventInstance.setVolume(VolumeManager.GetDialogueVolume());
-        audioChain[currentIndex].eventInstance.start();
-        //SFXManager.PlayOneShot(audioChain[currentIndex].path, VolumeManager.GetDialogueVolume(), GetSource(audioChain[currentIndex].sayingLine).transform.position);
+        events[currentIndex].setVolume(VolumeManager.GetDialogueVolume());
+        events[currentIndex].start();
         currentIndex++;
     }
 
@@ -165,10 +162,10 @@ public class DialogueManager : NetworkBehaviour
     private void IntializeDialougeInstance(int index)
     {
         // Pass the object through the userdata of the instance
-        audioChain[index].eventInstance.setUserData(GCHandle.ToIntPtr(timelineHandleList[index]));
+        events[index].setUserData(GCHandle.ToIntPtr(timelineHandleList[index]));
 
-        audioChain[index].eventInstance.setCallback(beatCallback, FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_BEAT | FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER);
-        audioChain[index].eventInstance.setVolume(DialogueVolume);
+        events[index].setCallback(beatCallback, EVENT_CALLBACK_TYPE.TIMELINE_BEAT | EVENT_CALLBACK_TYPE.TIMELINE_MARKER);
+        events[index].setVolume(DialogueVolume);
     }
 
     void OnGUI()
@@ -216,11 +213,11 @@ public class DialogueManager : NetworkBehaviour
 
     void OnDestroy()
     {
-        for (int i = 0; i < audioChain.Length; i++)
+        for (int i = 0; i < events.Count; i++)
         {
-            audioChain[i].eventInstance.setUserData(IntPtr.Zero);
-            audioChain[i].eventInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            audioChain[i].eventInstance.release();
+            events[i].setUserData(IntPtr.Zero);
+            events[i].stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            events[i].release();
         }
         foreach (GCHandle timelineHandle in timelineHandleList)
         {
