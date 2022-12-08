@@ -40,7 +40,7 @@ public class PingSystem : MonoBehaviour
             ResetPing();
             timer = 0;
         }
-        if (Input.GetMouseButtonDown(0)) //Replace jump with apropriate key
+        if (Input.GetMouseButtonDown(0) && !Input.GetMouseButtonDown(1)) //Replace jump with apropriate key
         {
             timer = 0;
             Ping();
