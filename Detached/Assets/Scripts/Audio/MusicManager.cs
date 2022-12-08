@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,9 +9,8 @@ using UnityEngine.SceneManagement;
 public class MusicManager : MonoBehaviour
 {
     private string SceneName;
-    private int currentIndex = 5, lastIndex = 4;
+    private int currentIndex = 0, lastIndex = 0;
     private bool hasChangedSong = true;
-    private float globalVolume = 0.1f;
 
     class TimelineInfo
     {
@@ -20,8 +18,9 @@ public class MusicManager : MonoBehaviour
         public FMOD.StringWrapper lastMarker = new FMOD.StringWrapper();
     }
 
-    [FMODUnity.EventRef]
-    public string eventName = "event:/SoundTrack/ST_MAIN_MENU";
+
+    [SerializeField]
+    private FMODUnity.EventReference eventName = new FMODUnity.EventReference();
 
     FMOD.Studio.EVENT_CALLBACK beatCallback;
 
@@ -80,7 +79,9 @@ public class MusicManager : MonoBehaviour
         musicInstances[index].setUserData(GCHandle.ToIntPtr(timelineHandleArray[index]));
 
         musicInstances[index].setCallback(beatCallback, FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_BEAT | FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER);
-        musicInstances[index].setVolume(globalVolume);
+
+        musicInstances[index].setVolume(VolumeManager.GetMusicVolume());
+
     }
 
     void OnDestroy()
@@ -135,12 +136,6 @@ public class MusicManager : MonoBehaviour
             }
             
         }
-    }
-
-    void OnGUI()
-    {
-        //GUILayout.Box(String.Format("Current Bar = {0}, Last Marker = {1}, Song index {2}, Last index {3}",
-            //timelineInfoArray[currentIndex].currentMusicBar, (string)timelineInfoArray[currentIndex].lastMarker, currentIndex, lastIndex));
     }
 
     [AOT.MonoPInvokeCallback(typeof(FMOD.Studio.EVENT_CALLBACK))]
