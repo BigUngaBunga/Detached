@@ -97,7 +97,7 @@ public class DialogueManager : MonoBehaviour
             currentIndex++;
             events[currentIndex].set3DAttributes(RuntimeUtils.To3DAttributes(GetSource(audioChain[currentIndex].sayingLine).transform.position));
             //RuntimeManager.AttachInstanceToGameObject(audioChain[currentIndex].eventInstance, GetSource(audioChain[currentIndex].sayingLine).transform);
-            Debug.Log(String.Format("Current Bar = {0}, Last Marker = {1}, Song index {2}",
+            Debug.Log(String.Format("Current Bar = {0}, Last Marker = {1}, Dialogue index {2}",
                     timelineInfoList[currentIndex].currentMusicBar, (string)timelineInfoList[currentIndex].lastMarker, currentIndex));
             events[currentIndex].setVolume(VolumeManager.GetDialogueVolume());
             events[currentIndex].start();
@@ -116,7 +116,7 @@ public class DialogueManager : MonoBehaviour
     {
         events[currentIndex].set3DAttributes(RuntimeUtils.To3DAttributes(GetSource(audioChain[currentIndex].sayingLine).transform.position));
         //RuntimeManager.AttachInstanceToGameObject(audioChain[currentIndex].eventInstance, GetSource(audioChain[currentIndex].sayingLine).transform);
-        Debug.Log(String.Format("Current Bar = {0}, Last Marker = {1}, Song index {2}",
+        Debug.Log(String.Format("Current Bar = {0}, Last Marker = {1}, Dialogue index {2}",
                   timelineInfoList[currentIndex].currentMusicBar, (string)timelineInfoList[currentIndex].lastMarker, currentIndex));
         events[currentIndex].setVolume(VolumeManager.GetDialogueVolume());
         events[currentIndex].start();
@@ -171,7 +171,7 @@ public class DialogueManager : MonoBehaviour
 
     void OnGUI()
     {
-        GUILayout.Box(String.Format("Current Bar = {0}, Last Marker = {1}, Song index {2}",
+        GUILayout.Box(String.Format("Current Bar = {0}, Last Marker = {1}, Dialogue index {2}",
         timelineInfoList[currentIndex].currentMusicBar, (string)timelineInfoList[currentIndex].lastMarker, currentIndex));
     }
 
