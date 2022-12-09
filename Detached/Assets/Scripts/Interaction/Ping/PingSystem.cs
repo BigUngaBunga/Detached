@@ -26,7 +26,7 @@ public class PingSystem : NetworkBehaviour
 
     void Update()
     {
-        if (isLocalPlayer && Input.GetMouseButtonDown(0) && !Input.GetMouseButtonDown(1))
+        if (isLocalPlayer && Input.GetMouseButtonDown(0) && !Input.GetMouseButton(1))
             Ping(raySource.position, raySource.forward);
     }
 

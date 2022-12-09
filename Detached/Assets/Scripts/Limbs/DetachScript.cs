@@ -36,7 +36,7 @@ public class DetachScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(detachKey) && detached == false)
+        if (Input.GetKeyDown(detachKey) && !detached)
         {
 
             if (!gameObject.GetComponent<Rigidbody>())
@@ -52,7 +52,7 @@ public class DetachScript : MonoBehaviour
             detached = true;
             DrawTrajectory.instance.HideLine();
         }
-        else if (Input.GetKeyDown(attachKey) && detached )
+        else if (Input.GetKeyDown(attachKey) && detached)
         {
 
             if (partName == "Leg")

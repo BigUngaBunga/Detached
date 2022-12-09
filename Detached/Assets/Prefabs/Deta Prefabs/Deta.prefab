@@ -1342,7 +1342,7 @@ GameObject:
   m_Component:
   - component: {fileID: 868468626228277526}
   - component: {fileID: 6373816987512553334}
-  - component: {fileID: 2857301930252137888}
+  - component: {fileID: 7395739283494534370}
   m_Layer: 2
   m_Name: DetaBody
   m_TagString: Torso
@@ -1431,8 +1431,8 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.68428624, y: -0.04793167, z: -0.026047766}
     m_Extent: {x: 0.88574564, y: 0.37925032, z: 0.41989124}
   m_DirtyAABB: 0
---- !u!65 &2857301930252137888
-BoxCollider:
+--- !u!136 &7395739283494534370
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1441,9 +1441,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.1294483, y: 2.0332873, z: 0.95664006}
-  m_Center: {x: 1.3032236, y: 0.58145726, z: 0.5768776}
+  m_Radius: 0.63678545
+  m_Height: 2.3624933
+  m_Direction: 1
+  m_Center: {x: 1.3032236, y: 0.7460604, z: 0.5387986}
 --- !u!1 &3016867642947243956
 GameObject:
   m_ObjectHideFlags: 0
@@ -3614,7 +3615,7 @@ MonoBehaviour:
   syncInterval: 0.1
   pingPrefab: {fileID: 975805146150492933, guid: dbb90cada5781af4a8adeedb16f8e1c3, type: 3}
   duration: 2
-  camera: {fileID: 0}
+  raySource: {fileID: 0}
 --- !u!1 &7200559197792005935
 GameObject:
   m_ObjectHideFlags: 0

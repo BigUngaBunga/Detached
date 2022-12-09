@@ -6,8 +6,9 @@ using LimbType = ItemManager.Limb_enum;
 
 public class LimbMovement : NetworkBehaviour
 {
-    float movementSpeed = 1f;
-    SceneObjectItemManager sceneObjectItemManagerScript;
+    private float movementSpeed = 1f;
+    private float initialRotationY;
+    private SceneObjectItemManager sceneObjectItemManagerScript;
 
 
     [Header("Movement")]
@@ -21,9 +22,10 @@ public class LimbMovement : NetworkBehaviour
 
     private void Start()
     {
+        
         sceneObjectItemManagerScript = gameObject.GetComponent<SceneObjectItemManager>();
+        initialRotationY = GetInitialRotation(sceneObjectItemManagerScript.thisLimb);
         camTransform = Camera.main.transform;
-
     }
 
     void Update()
@@ -42,7 +44,7 @@ public class LimbMovement : NetworkBehaviour
             CmdMoveObject(moveDir);
         }
 
-        gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up);
+        gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y + initialRotationY, Vector3.up);
     }
 
     private void Movement()
@@ -57,6 +59,15 @@ public class LimbMovement : NetworkBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal") * Time.deltaTime * speed;
         verticalInput = Input.GetAxisRaw("Vertical") * Time.deltaTime * speed;
+    }
+
+    private float GetInitialRotation(LimbType type)
+    {
+        return type switch
+        {
+            LimbType.Arm => 90,
+            _ => 0,
+        };
     }
 
     [Command]
