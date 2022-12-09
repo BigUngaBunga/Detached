@@ -120,7 +120,7 @@ public class MovingPlatformActivator : Activator
         }
         else if(connectedObjects.Contains(gameObject))
         {
-            if (targetNode != null)
+            if (isMoving && targetNode != null)
                     gameObject.GetComponent<Rigidbody>().velocity = platformSpeed * GetDirectionTo(targetNode.Position);
             connectedObjects.Remove(gameObject);
         }

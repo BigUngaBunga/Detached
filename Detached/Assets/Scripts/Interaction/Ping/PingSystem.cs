@@ -9,9 +9,10 @@ public class PingSystem : NetworkBehaviour
 {
     [Header("GameObject")]
 
-    [SerializeField] GameObject pingPrefab;
-    [SerializeField] float duration;
-    [SerializeField] Transform raySource;
+    [SerializeField] private LayerMask pingMask;
+    [SerializeField] private GameObject pingPrefab;
+    [SerializeField] private float duration;
+    [SerializeField] private Transform raySource;
 
     void Start()
     {
@@ -33,7 +34,7 @@ public class PingSystem : NetworkBehaviour
     [Command]
     private void Ping(Vector3 origin, Vector3 direction)
     {
-        if (!Physics.Raycast(origin, direction, out RaycastHit hit))
+        if (!Physics.Raycast(origin, direction, out RaycastHit hit, float.MaxValue, pingMask))
             return;
 
         Vector3 position = hit.point + new Vector3(0, 3f, 0);

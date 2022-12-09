@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 7658785927461817556}
   - component: {fileID: 4809421172724197705}
   - component: {fileID: 834472334467612862}
-  m_Layer: 0
+  - component: {fileID: 6264978597401565828}
+  m_Layer: 14
   m_Name: Item Dropper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,13 +96,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdde3723c7cb15e4ab239ba57958ea50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   activationRequirement: 0
   isActivated: 0
+  locked: 0
   totalConnections: 0
   activeConnections: 0
   prefab: {fileID: 3778121554060850741, guid: df31382ef94f12d4faf5440b952af762, type: 3}
-  dropLocation: {fileID: 2531641203590721761}
   currentInstantiation: {fileID: 0}
+  dropLocation: {fileID: 2531641203590721761}
+  interactableFolder: {fileID: 0}
+--- !u!114 &6264978597401565828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2215219024280075308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: d68332c4227ceb14b83d19a1ca020a70
+  hasSpawned: 0
 --- !u!1 &8693362175256129825
 GameObject:
   m_ObjectHideFlags: 0
