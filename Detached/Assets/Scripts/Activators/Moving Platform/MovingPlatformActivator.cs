@@ -14,13 +14,16 @@ public class MovingPlatformActivator : Activator
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float targetDistance;
     [Header("Moving platform information")]
+    [SerializeField] private GameObject train;
     [SerializeField] private GameObject platform;
     [SerializeField] private bool goingBackwards;
     [SerializeField] private TrackNode targetNode;
     [SerializeField] private List<GameObject> connectedObjects = new List<GameObject>();
+    private Quaternion initialRotation;
 
     private TrackActivator track;
     private Transform Transform => platform.transform;
+    private Transform Train => train.transform;
 
     private float Speed => platformSpeed * Time.deltaTime;
     [SyncVar] private bool isMoving;
@@ -30,7 +33,8 @@ public class MovingPlatformActivator : Activator
         base.Start();
         track = GetComponent<TrackActivator>();
         Transform.position = track.GetStartPosition();
-        Transform.rotation = Quaternion.LookRotation(GetDirectionTo(track.PeekNextNode(false).Position));
+        initialRotation = Quaternion.Euler(train.transform.localEulerAngles);
+        Train.rotation = Quaternion.LookRotation(GetDirectionTo(track.PeekNextNode(false).Position)) * initialRotation;
     }
 
     private bool IsCloseToTarget(Vector3 target) => Vector3.Distance(Transform.position, target) <= targetDistance;
@@ -71,7 +75,7 @@ public class MovingPlatformActivator : Activator
             Vector3 direction = GetDirectionTo(targetNode.Position);
             Debug.DrawRay(Transform.position, direction * 10f, Color.red);
 
-            UpdatePlatformTransform(direction);
+            UpdateTrainTransform(direction);
             foreach (var gameObject in connectedObjects)
             {
                 if (gameObject != null)
@@ -86,14 +90,15 @@ public class MovingPlatformActivator : Activator
             Invoke(nameof(PickNextStop), stopWaitTime);
     }
 
-    private void UpdatePlatformTransform(Vector3 direction)
+    private void UpdateTrainTransform(Vector3 direction)
     {
         Transform.position += direction * Speed;
 
         int goingBackwardsModifier = goingBackwards ? -1 : 1;
         Quaternion targetRotation = Quaternion.LookRotation(GetDirectionTo(targetNode.Position) * goingBackwardsModifier);
-        Transform.rotation = Quaternion.Lerp(Transform.rotation, targetRotation, rotationSpeed);
-        
+        targetRotation *= initialRotation;
+        train.transform.rotation = Quaternion.Lerp(train.transform.rotation, targetRotation, rotationSpeed);
+        //platform.transform.localRotation = Quaternion.Euler(new Vector3(-Transform.eulerAngles.x, -Transform.eulerAngles.y, -Transform.eulerAngles.z));
     }
 
     [Server]
@@ -121,7 +126,7 @@ public class MovingPlatformActivator : Activator
         else if(connectedObjects.Contains(gameObject))
         {
             if (isMoving && targetNode != null)
-                    gameObject.GetComponent<Rigidbody>().velocity = platformSpeed * GetDirectionTo(targetNode.Position);
+                gameObject.GetComponent<Rigidbody>().velocity = platformSpeed * GetDirectionTo(targetNode.Position);
             connectedObjects.Remove(gameObject);
         }
     }
