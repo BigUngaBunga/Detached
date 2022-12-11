@@ -230,9 +230,6 @@ public class CharacterControl : NetworkBehaviour
          }*/
         if (Physics.Raycast(rayDirectioLowerLeft.transform.position, rbDirection.normalized, out hitLower, stepRayLength))
         {
-            if (hitLower.collider.tag == "Leg")
-                return;
-
             Debug.Log("Left");
             if (hitLower.collider.CompareTag("Leg") || hitLower.collider.CompareTag("Box"))
                 return;
@@ -242,9 +239,6 @@ public class CharacterControl : NetworkBehaviour
 
         if (Physics.Raycast(rayDirectioLowerRight.transform.position, rbDirection.normalized, out hitLower, stepRayLength))
         {
-            if (hitLower.collider.tag == "Leg")
-                return;
-
             Debug.Log("Right");
             if (hitLower.collider.CompareTag("Leg") || hitLower.collider.CompareTag("Box"))
                 return;

@@ -279,7 +279,7 @@ public class ItemManager : NetworkBehaviour
             Transform body = transform.Find("group1");
             SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, SFXManager.SFXVolume, body.gameObject);
         }
-        if (Input.GetKeyDown(detachKeyLeg) && (!leftLegDetached|| !rightLegDetached))
+        if (Input.GetKeyDown(detachKeyLeg) && (!leftLegDetached || !rightLegDetached))
         {
             CmdDropLimb(Limb_enum.Leg, gameObject);
             Transform body = transform.Find("group1");
@@ -332,7 +332,7 @@ public class ItemManager : NetworkBehaviour
 
             if (selectionMode == 0) selectionMode = 1;
 
-            else if (characterControlScript.isBeingControlled == false && selectionMode == 1) //0 == limbSelection mode, 1 == out on map limb selection mode
+            else if (characterControlScript.isBeingControlled == false && selectionMode == 1) //0 == limbSelection mode, 1 == on ground limb selection mode
             {
                 selectionMode = 0;
                 ChangeControllingforLimbAndPlayer(limbs[indexControll], false);
@@ -538,9 +538,9 @@ public class ItemManager : NetworkBehaviour
             limbs.Clear();
             GameObject[] limbsInScene = GameObject.FindGameObjectsWithTag("Limb");
             //limbs.AddRange(GameObject.FindGameObjectsWithTag("Limb"));
-            foreach (GameObject limb in limbsInScene) 
-            { 
-                if (limb.GetComponent<SceneObjectItemManager>().orignalOwner == gameObject) 
+            foreach (GameObject limb in limbsInScene)
+            {
+                if (limb.GetComponent<SceneObjectItemManager>().orignalOwner == gameObject)
                 {
                     limbs.Add(limb);
                 }
@@ -549,7 +549,7 @@ public class ItemManager : NetworkBehaviour
             {
                 return;
             }
-            
+
             limbs.Add(gameObject);
         }
         catch (Exception e)
@@ -719,6 +719,7 @@ public class ItemManager : NetworkBehaviour
                 headDetached = true;
                 camFocus.parent = SceneObjectScript.transform;
                 selectionMode = 1;
+                ResetHeadPosCam(SceneObjectScript);
                 SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 break;
 
@@ -768,7 +769,13 @@ public class ItemManager : NetworkBehaviour
         return newSceneObject;
     }
 
-
+    private void ResetHeadPosCam(SceneObjectItemManager SceneObjectScript)
+    {
+        SceneObjectScript.transform.rotation = Quaternion.Euler(new Vector3(0, camPoint.rotation.eulerAngles.y, 0));
+        camFocus.localPosition = Vector3.zero;
+        camFocus.localEulerAngles = Vector3.zero;
+        camFocus.localScale = Vector3.one;
+    }
 
     //[TargetRpc]
     //public void TargetRpcGetThrowingGameObject(NetworkIdentity identity, GameObject sceneObject)
@@ -847,7 +854,8 @@ public class ItemManager : NetworkBehaviour
             DrawTrajectory.instance.HideLine();
             indicator.SetActive(false);
 
-            ResetCamCondition();
+            if (sceneObjectHoldingToThrow != headObj)
+                ResetCamCondition();
 
             cinemachine.m_YAxis.m_MaxSpeed = 10;
             cinemachine.m_YAxis.m_MinValue = 0;
@@ -923,7 +931,7 @@ public class ItemManager : NetworkBehaviour
     [Command]
     public void CmdPickUpLimb(GameObject sceneObject)
     {
-        if (sceneObject == null) return; 
+        if (sceneObject == null) return;
 
         sceneObject.GetComponent<HighlightObject>().ForceStopHighlight();
         bool keepSceneObject = true;

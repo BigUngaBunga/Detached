@@ -16,16 +16,18 @@ public class LimbMovement : NetworkBehaviour
     [SerializeField] private Transform camTransform;
     Vector3 moveDir;
     Vector3 input;
-
+    public Rigidbody rb;
     float horizontalInput;
     float verticalInput;
 
     private void Start()
     {
-        
+
         sceneObjectItemManagerScript = gameObject.GetComponent<SceneObjectItemManager>();
         initialRotationY = GetInitialRotation(sceneObjectItemManagerScript.thisLimb);
         camTransform = Camera.main.transform;
+        //rb = gameObject.AddComponent<Rigidbody>();
+        rb = gameObject.GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -37,12 +39,16 @@ public class LimbMovement : NetworkBehaviour
 
         if (sceneObjectItemManagerScript.thisLimb != LimbType.Head)
         {
-
+           
             MyInput();
             Movement();
 
             CmdMoveObject(moveDir);
+            //rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
+
         }
+
+        Debug.Log(rb.velocity);
 
         gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y + initialRotationY, Vector3.up);
     }
@@ -52,6 +58,7 @@ public class LimbMovement : NetworkBehaviour
 
         input = new Vector3(horizontalInput, 0, verticalInput);
         moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
+      
 
     }
 
@@ -79,6 +86,9 @@ public class LimbMovement : NetworkBehaviour
     [ClientRpc]
     private void RpcMoveObject(Vector3 move)
     {
-        gameObject.transform.position += move;
+        //rb.AddForce(move.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
+        //gameObject.transform.position += move;
+        rb.AddForce(move.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
+
     }
 }
