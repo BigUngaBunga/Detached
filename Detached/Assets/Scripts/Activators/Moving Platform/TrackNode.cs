@@ -10,6 +10,7 @@ public class TrackNode : MonoBehaviour
     [SerializeField] private TrackNode previousNode, previousActiveNode;
     [SerializeField] private bool isActivated;
     private bool hasBeenDrawn, hasBeenSearched;
+    [SerializeField] private GameObject trackPrefab;
 
     public bool IsStop => type.Equals(NodeType.Stop);
     public Vector3 Position { get { return transform.position; } }
@@ -32,17 +33,18 @@ public class TrackNode : MonoBehaviour
         if (nextNode == null || previousNode == null)
             type = NodeType.Stop;
 
-        if (nextNode != null)
+        if (nextNode != null && trackPrefab != null)
             AddTrack();
     }
     private void AddTrack()
     {
-        //float trackHeight = 5;
-        ////Quaternion rotation = Quaternion.Euler(GetDirection(nextNode.Position, Position) * 360);
-        //Quaternion rotation = Quaternion.LookRotation(GetDirection(nextNode.Position, Position));
-        //Vector3 trackPosition = transform.position - new Vector3(0, trackHeight, 0);
-        ////Instantiate(trackPrefab, trackPosition, rotation, transform);
-        //Instantiate(trackPrefab, trackPosition, rotation);
+        float trackHeight = 6;
+        float forwardDistance = 5;
+        Quaternion rotation = Quaternion.LookRotation(GetDirection(nextNode.Position, Position));
+        rotation *= Quaternion.Euler(new Vector3(0, -90, 0));
+        Vector3 trackPosition = transform.position - new Vector3(0, trackHeight, 0);
+        var track = Instantiate(trackPrefab, trackPosition, rotation);
+        track.transform.position += track.transform.right * forwardDistance;
     }
     private Vector3 GetDirection(Vector3 target, Vector3 position) => (target - position).normalized;
 
