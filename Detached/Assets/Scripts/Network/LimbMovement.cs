@@ -43,7 +43,7 @@ public class LimbMovement : NetworkBehaviour
             MyInput();
             Movement();
 
-            CmdMoveObject(moveDir);
+            CmdMoveObject(input);
             //rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
 
         }
@@ -57,7 +57,7 @@ public class LimbMovement : NetworkBehaviour
     {
 
         input = new Vector3(horizontalInput, 0, verticalInput);
-        moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
+        //moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
       
 
     }
