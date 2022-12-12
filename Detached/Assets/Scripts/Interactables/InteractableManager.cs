@@ -75,6 +75,8 @@ public class InteractableManager : NetworkBehaviour
     [ClientRpc]
     private void RPCDropItem() 
     {
+        if(carriedItem == null)
+            return;
         carriedItem.destroyEvent.RemoveListener(DropItem);
         isCarryingItem = false;
         if(carriedItem != null)

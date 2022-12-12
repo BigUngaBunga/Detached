@@ -106,7 +106,7 @@ public class SceneObjectItemManager : NetworkBehaviour
                 NetworkClient.localPlayer.GetComponent<ItemManager>().CmdPickUpLimb(gameObject);
             }
         }
-        if (thisLimb == LimbType.Arm && IsBeingControlled && itemManager.isLocalPlayer)
+        if (thisLimb == LimbType.Arm && IsBeingControlled && itemManager != null && itemManager.isLocalPlayer)
             armInteractor.UpdateInteractor(Input.GetKeyDown(KeyCode.E));
         //Todo Needs to be changed to a more specific pickup action
         if (Input.GetKeyDown(KeyCode.T) && !IsBeingControlled)

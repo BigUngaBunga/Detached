@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using LimbType = ItemManager.Limb_enum;
+using Mirror.Experimental;
 
 public class LimbMovement : NetworkBehaviour
 {
@@ -87,8 +88,7 @@ public class LimbMovement : NetworkBehaviour
     private void RpcMoveObject(Vector3 move)
     {
         //rb.AddForce(move.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
-        //gameObject.transform.position += move;
-        rb.AddForce(move.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
-
+        gameObject.transform.position += move;
+        //rb.AddForce(move.normalized * speed * Time.deltaTime, ForceMode.Force);
     }
 }
