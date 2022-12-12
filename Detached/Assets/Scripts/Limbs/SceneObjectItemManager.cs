@@ -14,7 +14,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SerializeField] private int NumOfTimeLimbCanFallOut;
 
     //Ground Checks
-    private Vector3 safeLocation;
+    [SerializeField] private Vector3 safeLocation;
     [SerializeField] public LayerMask groundMask;
     [SerializeField] float groundCheckRadius;
 
@@ -27,6 +27,7 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     [SyncVar(hook = nameof(OnChangeDetached))] public bool detached = false;
     [SyncVar] public LimbType thisLimb;
+    [SyncVar] public Vector3 initalPosition;
     [SyncVar] public bool isBeingControlled = false;
     [SyncVar] public GameObject orignalOwner;
     [SyncVar] public bool isDeta;
@@ -67,7 +68,9 @@ public class SceneObjectItemManager : NetworkBehaviour
         highlight = GetComponent<HighlightObject>();
         detachKeyHead = itemManager.detachKeyHead;
         detachKeyArm = itemManager.detachKeyArm;
-        detachKeyLeg = itemManager.detachKeyLeg;   
+        detachKeyLeg = itemManager.detachKeyLeg;
+
+        
     }
 
     //Instantiates the limb as a child on the SceneObject 
@@ -75,22 +78,22 @@ public class SceneObjectItemManager : NetworkBehaviour
     {
         if (newValue) // if Detached == true
         {
+            GameObject limb = null;
             switch (thisLimb)
             {
                 case LimbType.Head:
-                    Instantiate(headLimb, transform.position, transform.rotation, transform);
-                    textureManager.UpdateColor();
+                    limb = headLimb;
                     break;
                 case LimbType.Arm:
-                    Instantiate(armLimb, transform.position, transform.rotation, transform);
-                    textureManager.UpdateColor();
+                    limb = armLimb;
                     armInteractor = gameObject.AddComponent<ArmInteraction>();
                     break;
                 case LimbType.Leg:
-                    Instantiate(legLimb, transform.position, transform.rotation, transform);
-                    textureManager.UpdateColor();
+                    limb = legLimb;
                     break;
             }
+            Instantiate(limb, transform.position, transform.rotation, transform);
+            textureManager.UpdateColor();
         }
     }
 
@@ -170,14 +173,10 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Ground")
+        if (Physics.CheckSphere(transform.position, groundCheckRadius, groundMask))
         {
-            if (Physics.CheckSphere(transform.position, groundCheckRadius, groundMask))
-            {
-                safeLocation = transform.position;
-            }
+            safeLocation = transform.position;
         }
-        
     }
 
     private void OnDestroy()

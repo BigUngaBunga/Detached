@@ -46,7 +46,7 @@ public class InteractionChecker : NetworkBehaviour
 
     private void Start()
     {
-        NetworkClient.localPlayer.TryGetComponent(out interactableManager); //TODO kolla så att det faktiskt fungerar
+        NetworkClient.localPlayer.TryGetComponent(out interactableManager);
         player = interactableManager.gameObject;
         sourceTransform = transform;
     }

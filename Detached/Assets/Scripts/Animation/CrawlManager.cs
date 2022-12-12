@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using LimbType = ItemManager.Limb_enum;
+
 
 public class CrawlManager : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class CrawlManager : MonoBehaviour
     [SerializeField] private Vector3 colliderOfset, moveOfset;
     [SerializeField] private float stepUpRayLenght = 2;
     [SerializeField] private List<Transform> transformsToMove = new List<Transform>();
+
+
     private List<Vector3> initialTransforms = new List<Vector3>();
     private float initialRayLength;
     private CharacterControl characterControl;
@@ -16,20 +20,24 @@ public class CrawlManager : MonoBehaviour
     private Quaternion initialColliderRotation;
     private Vector3 initialQuickRigPosition;
     private Vector3 rotation = new Vector3(90, 0, 0);
-
     private Vector3 Position => transform.localPosition;
     //private Vector3 AdjustedPosition => Position + colliderOfset;
     private Vector3 AdjustedPosition(Vector3 ofset) => Position + ofset;
 
+    bool updateOnce;
+
     private void Start()
     {
         characterControl = GetComponentInParent<CharacterControl>();
+
         initialRayLength = characterControl.stepRayLength;
         initialColliderPosition = colliders.transform.localPosition;
         initialColliderRotation = colliders.transform.localRotation;
         initialQuickRigPosition = quickRig.transform.localPosition;
         for (int i = 0; i < transformsToMove.Count; i++)
             initialTransforms.Add(transformsToMove[i].localPosition);
+
+        updateOnce = false;
     }
 
     public void SetCrawl(bool isCrawling)
@@ -39,7 +47,7 @@ public class CrawlManager : MonoBehaviour
         {
             colliders.transform.localPosition = AdjustedPosition(colliderOfset);
             quickRig.transform.localPosition = Position;
-            colliders.transform.localRotation = Quaternion.Euler(initialColliderRotation.eulerAngles + rotation);//ignore head?
+            colliders.transform.localRotation = Quaternion.Euler(initialColliderRotation.eulerAngles + rotation);
             characterControl.stepRayLength = stepUpRayLenght;
             for (int i = 0; i < transformsToMove.Count; i++)
                 transformsToMove[i].localPosition = initialTransforms[i] + AdjustedPosition(moveOfset);

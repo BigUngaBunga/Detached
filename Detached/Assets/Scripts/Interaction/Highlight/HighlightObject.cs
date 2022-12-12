@@ -61,12 +61,15 @@ public class HighlightObject : NetworkBehaviour
     [ClientRpc]
     private void RCPRemoveRenderer(int index) => renderers.RemoveAt(index);
 
-    public void DurationHighlight()
+    public void DurationHighlight(float duration = 0)
     {
         Highlight();
         if (IsInvoking(StopMethod))
             CancelInvoke(StopMethod);
-        Invoke(StopMethod, highlightMilliseconds / 1000);
+        if (duration > 0)
+            Invoke(StopMethod, duration);
+        else
+            Invoke(StopMethod, highlightMilliseconds / 1000);
     }
 
     public void Highlight()
