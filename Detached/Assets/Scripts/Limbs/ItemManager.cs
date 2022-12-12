@@ -271,19 +271,19 @@ public class ItemManager : NetworkBehaviour
         {
             CmdDropLimb(Limb_enum.Head, gameObject);
             Transform body = transform.Find("group1");
-            SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, SFXManager.SFXVolume, body.gameObject);
+            SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
         }
         if (Input.GetKeyDown(detachKeyArm) && (!leftArmDetached || !rightArmDetached))
         {
             CmdDropLimb(Limb_enum.Arm, gameObject);
             Transform body = transform.Find("group1");
-            SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, SFXManager.SFXVolume, body.gameObject);
+            SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
         }
         if (Input.GetKeyDown(detachKeyLeg) && (!leftLegDetached || !rightLegDetached))
         {
             CmdDropLimb(Limb_enum.Leg, gameObject);
             Transform body = transform.Find("group1");
-            SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, SFXManager.SFXVolume, body.gameObject);
+            SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
         }
 
 
@@ -834,7 +834,7 @@ public class ItemManager : NetworkBehaviour
             sceneObjectHoldingToThrow = Instantiate(GetGameObjectLimbFromSelect());
             sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
 
-            SFXManager.PlayOneShotAttached(SFXManager.DetachSound, SFXManager.SFXVolume, transform.gameObject);
+            SFXManager.PlayOneShotAttached(SFXManager.DetachSound, VolumeManager.GetSFXVolume(), transform.gameObject);
 
             //cam when aiming
             camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
@@ -882,7 +882,7 @@ public class ItemManager : NetworkBehaviour
             CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position, gameObject);
 
             Transform body = transform.Find("group1");
-            SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, SFXManager.SFXVolume, body.gameObject);
+            SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
 
         }
     }

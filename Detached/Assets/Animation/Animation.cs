@@ -118,7 +118,7 @@ public class Animation : NetworkBehaviour
     }
     void PlaySoundOnTrigger()
     {
-        SFXManager.PlayOneShot(SFXManager.WalkSound, SFXManager.SFXVolume, transform.position);
+        SFXManager.PlayOneShot(SFXManager.WalkSound, VolumeManager.GetSFXVolume(), transform.position);
  
     }
     void timerEnded()
