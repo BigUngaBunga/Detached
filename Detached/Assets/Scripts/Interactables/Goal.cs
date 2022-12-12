@@ -2,12 +2,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
 using UnityEngine.UIElements;
+using System.Security.Cryptography;
 
 public class Goal : NetworkBehaviour
 {
-
+    [Header("Debug")]
     [SerializeField] private int playerNumber;
     [SerializeField] private bool sameNumLimbInAsOut = true;
+    [SerializeField] private bool skippLevel = false;
     private int numOfLimbsRequired = 0;
     public bool isLocked;
     [Header("Override variables")]
@@ -27,6 +29,15 @@ public class Goal : NetworkBehaviour
                 return manager;
             }
             return manager = CustomNetworkManager.singleton as CustomNetworkManager;
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.O) && Input.GetKey(KeyCode.P))
+        {   
+            string nextScene = GlobalLevelIndex.GetNextLevel();
+            ServerChangeScene(nextScene);
         }
     }
 
@@ -57,7 +68,7 @@ public class Goal : NetworkBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Torso"))
         {
             playerNumber++;
             EvaluateVictory();
@@ -66,7 +77,7 @@ public class Goal : NetworkBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Torso"))
             playerNumber--;
     }
 
