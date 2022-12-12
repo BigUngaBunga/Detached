@@ -19,6 +19,11 @@ public class LeverTrigger : Trigger, IInteractable
         SFXManager.PlayOneShot(SFXManager.ThrowSound, SFXManager.SFXVolume, transform.position);
     }
 
+    protected override void PlaySoundOnStopTrigger()
+    {
+        SFXManager.PlayOneShot(SFXManager.ThrowSound, SFXManager.SFXVolume, transform.position);
+    }
+
     protected override void Start()
     {
         base.Start();

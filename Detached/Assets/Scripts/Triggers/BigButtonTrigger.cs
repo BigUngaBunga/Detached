@@ -69,6 +69,11 @@ public class BigButtonTrigger : Trigger, IInteractable
         SFXManager.PlayOneShot(SFXManager.PushButtonSound, SFXManager.SFXVolume, transform.position);
     }
 
+    protected override void PlaySoundOnStopTrigger()
+    {
+        SFXManager.PlayOneShot(SFXManager.PushButtonSound, SFXManager.SFXVolume, transform.position);
+    }
+
     public void OnTriggerExit(Collider other)
     {
         if (IsCollisionObject(other.gameObject.tag))

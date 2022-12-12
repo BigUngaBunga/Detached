@@ -13,6 +13,11 @@ public class BatterySocketTrigger : Trigger, IInteractable
         SFXManager.PlayOneShot(SFXManager.AttachSound, 0.3f, transform.position);
     }
 
+    protected override void PlaySoundOnStopTrigger()
+    {
+        SFXManager.PlayOneShot(SFXManager.DetachSound, SFXManager.SFXVolume, transform.position);
+    }
+
     public void Interact(GameObject activatingObject)
     {
         var itemManager = activatingObject.GetComponent<InteractableManager>();
