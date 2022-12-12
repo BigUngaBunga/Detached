@@ -22,7 +22,7 @@ public class PingSystem : NetworkBehaviour
 
     void PlaySoundOnTrigger(Vector3 position)
     {
-        SFXManager.PlayOneShot(SFXManager.PingSound, SFXManager.SFXVolume, position);
+        SFXManager.PlayOneShot(SFXManager.PingSound, VolumeManager.SFXVolume, position);
     }
 
     void Update()

@@ -15,7 +15,7 @@ public class BatterySocketTrigger : Trigger, IInteractable
 
     protected override void PlaySoundOnStopTrigger()
     {
-        SFXManager.PlayOneShot(SFXManager.DetachSound, SFXManager.SFXVolume, transform.position);
+        SFXManager.PlayOneShot(SFXManager.DetachSound, VolumeManager.SFXVolume, transform.position);
     }
 
     public void Interact(GameObject activatingObject)
