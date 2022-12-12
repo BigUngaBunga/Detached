@@ -2,6 +2,7 @@ using FMOD.Studio;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -25,28 +26,42 @@ public class MusicManager : MonoBehaviour
 
     FMOD.Studio.EVENT_CALLBACK beatCallback;
 
-    private FMOD.Studio.EventInstance[] musicInstances = new FMOD.Studio.EventInstance[6]
-    {
-        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_MAIN_MENU"),
-        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG2"),
-        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG3"),
-        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG4"),
-        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG6"),
-        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG7"),
-    };
-    private TimelineInfo[] timelineInfoArray = new TimelineInfo[6]
-    {
-        new TimelineInfo(),
-        new TimelineInfo(),
-        new TimelineInfo(),
-        new TimelineInfo(),
-        new TimelineInfo(),
-        new TimelineInfo()
-    };
+    private FMOD.Studio.EventInstance[] musicInstances;
+    private TimelineInfo[] timelineInfoArray;
     private GCHandle[] timelineHandleArray;
 
     void Start()
     {
+        GameObject[] objects = GameObject.FindGameObjectsWithTag("MusicManager");
+
+        // This just destroys itself if there already is a MusicManager in the scene.
+        if (objects.Length > 1)
+        {
+            Destroy(this.gameObject);
+        }
+
+
+        musicInstances = new FMOD.Studio.EventInstance[6]
+        {
+            FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_MAIN_MENU"),
+            FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG2"),
+            FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG3"),
+            FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG4"),
+            FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG6"),
+            FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG7"),
+        };
+
+        timelineInfoArray = new TimelineInfo[6]
+        {
+            new TimelineInfo(),
+            new TimelineInfo(),
+            new TimelineInfo(),
+            new TimelineInfo(),
+            new TimelineInfo(),
+            new TimelineInfo()
+        };
+
+
         // Explicitly create the delegate object and assign it to a member so it doesn't get freed
         // by the garbage collected while it's being used
         beatCallback = new FMOD.Studio.EVENT_CALLBACK(BeatEventCallback);
