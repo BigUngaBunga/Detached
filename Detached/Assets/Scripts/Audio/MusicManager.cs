@@ -1,3 +1,4 @@
+using FMOD.Studio;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -62,7 +63,6 @@ public class MusicManager : MonoBehaviour
 
         };
 
-
         for (int i = 0; i < musicInstances.Length; i++)
         {
             IntializeMusicInstance(i);
@@ -97,6 +97,14 @@ public class MusicManager : MonoBehaviour
             timelineHandle.Free();
         }
 
+    }
+
+    public void UpdateVolume(float volume)
+    {
+        foreach (EventInstance song in musicInstances)
+        {
+            song.setVolume(volume);
+        }
     }
 
     private void Update()
@@ -135,6 +143,11 @@ public class MusicManager : MonoBehaviour
                 musicInstances[currentIndex].start();
             }
             
+        }
+        musicInstances[currentIndex].getVolume(out float volume);
+        if (volume != VolumeManager.MusicVolume)
+        {
+            UpdateVolume(VolumeManager.MusicVolume);
         }
     }
 
