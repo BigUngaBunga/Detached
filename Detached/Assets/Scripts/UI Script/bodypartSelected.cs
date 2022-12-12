@@ -38,11 +38,16 @@ public class bodypartSelected : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            pauseUI.SetActive(true);
-            gameUI.SetActive(false);
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    pauseUI.SetActive(true);
+        //    gameUI.SetActive(false);
+        //}
+
+        //if(pauseUI.activeSelf)
+        //{
+        //    gameUI.SetActive(true);
+        //}
         if (!headActive && !rightLegactive && !rightHandactive && !leftHandactive && !leftLegactive)
         {
             Head.GetComponent<Image>().color = Color.white;

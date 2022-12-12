@@ -7,12 +7,15 @@ public class UI : MonoBehaviour
     // Start is called before the first frame update
 
     public GameObject pauseUI;
-
+    public GameObject gameUI;
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
     }
-
+    public void ResumeGame()
+    {
+        Time.timeScale = 1;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -21,7 +24,7 @@ public class UI : MonoBehaviour
         {
             pauseUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
-     
+            Time.timeScale = 0;
         }
 
         if (Input.GetKeyDown("9"))
@@ -30,8 +33,5 @@ public class UI : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
-
-     
-  
     }
 }
