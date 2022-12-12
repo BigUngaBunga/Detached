@@ -21,7 +21,17 @@ public class SmallButtonTrigger : Trigger, IInteractable
             StartCoroutine(PushButton());
     }
 
-    
+    protected override void PlaySoundOnTrigger()
+    {
+        SFXManager.PlayOneShot(SFXManager.PushButtonSound, VolumeManager.SFXVolume, transform.position);
+    }
+
+    protected override void PlaySoundOnStopTrigger()
+    {
+        SFXManager.PlayOneShot(SFXManager.PushButtonSound, VolumeManager.SFXVolume, transform.position);
+    }
+
+
 
     public IEnumerator PushButton()
     {

@@ -9,7 +9,8 @@ public class TrackActivator : Activator
     [SerializeField] private TrackNode startNode;
     [SerializeField] private TrackNode currentNode;
     [SerializeField] private bool drawConnections;
-
+    [Header("Rail prefab")]
+    [SerializeField] private GameObject railPrefab;
     private void Awake() => currentNode = startNode;
 
     protected override void Activate() => startNode.SetActivation(isActivated);

@@ -1,7 +1,8 @@
-
+using FMOD.Studio;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using UnityEngine;
@@ -10,9 +11,8 @@ using UnityEngine.SceneManagement;
 public class MusicManager : MonoBehaviour
 {
     private string SceneName;
-    private int currentIndex = 5, lastIndex = 4;
+    private int currentIndex = 0, lastIndex = 0;
     private bool hasChangedSong = true;
-    private float globalVolume = 0.1f;
 
     class TimelineInfo
     {
@@ -20,33 +20,48 @@ public class MusicManager : MonoBehaviour
         public FMOD.StringWrapper lastMarker = new FMOD.StringWrapper();
     }
 
-    [FMODUnity.EventRef]
-    public string eventName = "event:/SoundTrack/ST_MAIN_MENU";
+
+    [SerializeField]
+    private FMODUnity.EventReference eventName = new FMODUnity.EventReference();
 
     FMOD.Studio.EVENT_CALLBACK beatCallback;
 
-    private FMOD.Studio.EventInstance[] musicInstances = new FMOD.Studio.EventInstance[6]
-    {
-        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_MAIN_MENU"),
-        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG2"),
-        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG3"),
-        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG4"),
-        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG6"),
-        FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG7"),
-    };
-    private TimelineInfo[] timelineInfoArray = new TimelineInfo[6]
-    {
-        new TimelineInfo(),
-        new TimelineInfo(),
-        new TimelineInfo(),
-        new TimelineInfo(),
-        new TimelineInfo(),
-        new TimelineInfo()
-    };
+    private FMOD.Studio.EventInstance[] musicInstances;
+    private TimelineInfo[] timelineInfoArray;
     private GCHandle[] timelineHandleArray;
 
     void Start()
     {
+        GameObject[] objects = GameObject.FindGameObjectsWithTag("MusicManager");
+
+        // This just destroys itself if there already is a MusicManager in the scene.
+        if (objects.Length > 1)
+        {
+            Destroy(this.gameObject);
+        }
+
+
+        musicInstances = new FMOD.Studio.EventInstance[6]
+        {
+            FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_MAIN_MENU"),
+            FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG2"),
+            FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG3"),
+            FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG4"),
+            FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG6"),
+            FMODUnity.RuntimeManager.CreateInstance("event:/SoundTrack/ST_SONG7"),
+        };
+
+        timelineInfoArray = new TimelineInfo[6]
+        {
+            new TimelineInfo(),
+            new TimelineInfo(),
+            new TimelineInfo(),
+            new TimelineInfo(),
+            new TimelineInfo(),
+            new TimelineInfo()
+        };
+
+
         // Explicitly create the delegate object and assign it to a member so it doesn't get freed
         // by the garbage collected while it's being used
         beatCallback = new FMOD.Studio.EVENT_CALLBACK(BeatEventCallback);
@@ -62,7 +77,6 @@ public class MusicManager : MonoBehaviour
             GCHandle.Alloc(timelineInfoArray[5])
 
         };
-
 
         for (int i = 0; i < musicInstances.Length; i++)
         {
@@ -80,7 +94,9 @@ public class MusicManager : MonoBehaviour
         musicInstances[index].setUserData(GCHandle.ToIntPtr(timelineHandleArray[index]));
 
         musicInstances[index].setCallback(beatCallback, FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_BEAT | FMOD.Studio.EVENT_CALLBACK_TYPE.TIMELINE_MARKER);
-        musicInstances[index].setVolume(globalVolume);
+
+        musicInstances[index].setVolume(VolumeManager.GetMusicVolume());
+
     }
 
     void OnDestroy()
@@ -96,6 +112,14 @@ public class MusicManager : MonoBehaviour
             timelineHandle.Free();
         }
 
+    }
+
+    public void UpdateVolume(float volume)
+    {
+        foreach (EventInstance song in musicInstances)
+        {
+            song.setVolume(volume);
+        }
     }
 
     private void Update()
@@ -135,12 +159,11 @@ public class MusicManager : MonoBehaviour
             }
             
         }
-    }
-
-    void OnGUI()
-    {
-        //GUILayout.Box(String.Format("Current Bar = {0}, Last Marker = {1}, Song index {2}, Last index {3}",
-            //timelineInfoArray[currentIndex].currentMusicBar, (string)timelineInfoArray[currentIndex].lastMarker, currentIndex, lastIndex));
+        musicInstances[currentIndex].getVolume(out float volume);
+        if (volume != VolumeManager.MusicVolume)
+        {
+            UpdateVolume(VolumeManager.MusicVolume);
+        }
     }
 
     [AOT.MonoPInvokeCallback(typeof(FMOD.Studio.EVENT_CALLBACK))]

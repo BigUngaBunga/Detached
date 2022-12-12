@@ -1295,9 +1295,9 @@ MonoBehaviour:
   secondGroundCheck: {fileID: 2317681978754600622}
   colliders: {fileID: 6767080942287752924}
   quickRig: {fileID: 1713378408680475514}
-  colliderOfset: {x: 0, y: 0, z: 0}
-  moveOfset: {x: 0, y: 0, z: 0}
-  stepUpRayLenght: 2
+  colliderOfset: {x: 0, y: 0.4, z: -0.5}
+  moveOfset: {x: 0, y: 0.6, z: 2}
+  stepUpRayLenght: 2.5
   transformsToMove:
   - {fileID: 7995944501814591378}
   - {fileID: 7995944500616204133}
@@ -3617,6 +3617,7 @@ MonoBehaviour:
     m_Bits: 49216
   pingPrefab: {fileID: 975805146150492933, guid: dbb90cada5781af4a8adeedb16f8e1c3, type: 3}
   duration: 2
+  height: 0
   raySource: {fileID: 0}
 --- !u!1 &7200559197792005935
 GameObject:

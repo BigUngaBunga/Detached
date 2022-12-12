@@ -107,19 +107,21 @@ MonoBehaviour:
   armLimb: {fileID: 371422405250746770, guid: 18e8d2ca487fb9e499e5faf1e4e36755, type: 3}
   legLimb: {fileID: 7050426242656491765, guid: 39b903b3b227a3b4ab219b187e4bad5c, type: 3}
   NumOfTimeLimbCanFallOut: 3
+  safeLocation: {x: 0, y: 0, z: 0}
   groundMask:
     serializedVersion: 2
     m_Bits: 32785
   groundCheckRadius: 2
   detached: 0
   thisLimb: 0
+  initalPosition: {x: 0, y: 0, z: 0}
   isBeingControlled: 0
+  orignalOwner: {fileID: 0}
+  isDeta: 0
+  isBeingPickedUp: 0
   pickUpLimbEvent:
     m_PersistentCalls:
       m_Calls: []
-  orignalOwner: {fileID: 0}
-  isDeta: 0
-  test: 1
   itemManager: {fileID: 0}
 --- !u!54 &-7261762353476088667
 Rigidbody:
@@ -175,6 +177,7 @@ MonoBehaviour:
   syncInterval: 0.1
   speed: 10
   camTransform: {fileID: 0}
+  rb: {fileID: 0}
 --- !u!114 &6247909107761634463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,3 +211,4 @@ MonoBehaviour:
   detaWhite: {r: 0.53333336, g: 0.53333336, b: 0.5372549, a: 0}
   chedBlack: {r: 0.13725491, g: 0.13333334, b: 0.1254902, a: 0}
   chedGold: {r: 0.3254902, g: 0.3254902, b: 0.12941177, a: 0}
+  rend: {fileID: 0}

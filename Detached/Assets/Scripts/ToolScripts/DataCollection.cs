@@ -69,18 +69,20 @@ public class DataCollection : MonoBehaviour
         /// Change this from checking the players position to just checking the camera position since the camera will now be 
         /// attached to limbs and in turn will better represent where the player is actually getting stuck.
         time += Time.deltaTime;
-        player = conn.identity.gameObject;
-        playerPosition = player.transform.position;
-        for (int i = 0; i < triggers.Length; i++)
+        if (conn != null)
         {
-            triggerStructArray[i].name = triggers[i].gameObject.GetComponent<Data>().name;
-            triggerStructArray[i].activations = triggers[i].gameObject.GetComponent<Data>().Activations;
-            triggerStructArray[i].x = triggers[i].gameObject.GetComponent<Data>().position.x;
-            triggerStructArray[i].y = triggers[i].gameObject.GetComponent<Data>().position.y;
-            triggerStructArray[i].z = triggers[i].gameObject.GetComponent<Data>().position.z;
+            player = conn.identity.gameObject;
+            playerPosition = player.transform.position;
+            for (int i = 0; i < triggers.Length; i++)
+            {
+                triggerStructArray[i].name = triggers[i].gameObject.GetComponent<Data>().name;
+                triggerStructArray[i].activations = triggers[i].gameObject.GetComponent<Data>().Activations;
+                triggerStructArray[i].x = triggers[i].gameObject.GetComponent<Data>().position.x;
+                triggerStructArray[i].y = triggers[i].gameObject.GetComponent<Data>().position.y;
+                triggerStructArray[i].z = triggers[i].gameObject.GetComponent<Data>().position.z;
+            }
+            WriteString();
         }
-        WriteString();
-
     }
 
     void WriteString()

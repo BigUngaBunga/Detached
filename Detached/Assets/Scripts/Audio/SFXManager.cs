@@ -8,7 +8,6 @@ using Mirror;
 
 public static class SFXManager
 {
-    public static float SFXVolume = 0.3f;
     public static string WalkSound => "event:/SFX/Walking";
     public static string AttachSound => "event:/SFX/Attach";
     public static string DetachSound => "event:/SFX/Detach";
@@ -38,7 +37,6 @@ public static class SFXManager
         }
     }
 
-
     /// <summary>
     /// Plays a sound once and then releases it
     /// </summary>
@@ -47,10 +45,9 @@ public static class SFXManager
     public static void PlayOneShot(FMOD.GUID guid, float volume, Vector3 position)
     {
         var instance = RuntimeManager.CreateInstance(guid);
-        instance.setVolume(SFXVolume);
+        instance.setVolume(VolumeManager.GetSFXVolume());
         instance.set3DAttributes(RuntimeUtils.To3DAttributes(position));
         instance.start();
-        Debug.Log($"transform position: X: {position.x} Y: {position.y} Z: {position.z}");
         instance.release();
     }
 
@@ -87,6 +84,7 @@ public static class SFXManager
 #else
         RuntimeManager.AttachInstanceToGameObject(instance, gameObject.transform);
 #endif
+        instance.setVolume(VolumeManager.GetSFXVolume());
         instance.start();
         instance.release();
     }
