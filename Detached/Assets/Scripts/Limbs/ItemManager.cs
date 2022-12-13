@@ -718,7 +718,7 @@ public class ItemManager : NetworkBehaviour
                 SceneObjectScript.detached = true;
                 headDetached = true;
                 camFocus.parent = SceneObjectScript.transform;
-                selectionMode = 1;
+
                 ResetHeadPosCam(SceneObjectScript);
                 SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 break;
@@ -854,8 +854,9 @@ public class ItemManager : NetworkBehaviour
             DrawTrajectory.instance.HideLine();
             indicator.SetActive(false);
 
-            if (sceneObjectHoldingToThrow != headObj)
+            if (SelectedLimbToThrow == Limb_enum.Head)
                 ResetCamCondition();
+
 
             cinemachine.m_YAxis.m_MaxSpeed = 10;
             cinemachine.m_YAxis.m_MinValue = 0;
@@ -876,10 +877,16 @@ public class ItemManager : NetworkBehaviour
             cinemachine.m_YAxis.m_MaxSpeed = 10;
             cinemachine.m_YAxis.m_MinValue = 0;
 
+
             //ending point - starting point + cam movement
             // dir = (Input.mousePosition - mousePressDownPos).normalized;
             // CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position);
             CmdThrowLimb(selectedLimbToThrow, force: camPoint.transform.forward * throwForce + transform.up * throwUpwardForce, throwPoint.position, gameObject);
+            if (SelectedLimbToThrow == Limb_enum.Head)
+            {
+                characterControlScript.isBeingControlled = false;
+                selectionMode = 1;
+            }
 
             Transform body = transform.Find("group1");
             SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
