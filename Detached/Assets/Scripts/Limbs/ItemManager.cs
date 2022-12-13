@@ -476,11 +476,19 @@ public class ItemManager : NetworkBehaviour
         CheckIfAddClientAuthority(limbs[indexControll]);
     }
 
+    private void SetCamFocusOnPlayer()
+    {
+        camFocus.parent = gameObject.transform;
+        camFocus.localPosition = Vector3.zero;
+        camFocus.localEulerAngles = Vector3.zero;
+        camFocus.localScale = Vector3.one;
+    }
+
     public void ReturnControllToPlayer()
     {
         //Expected that all handling of other limb controll removement is done
         gameObject.GetComponent<CharacterControl>().isBeingControlled = true;
-
+        SetCamFocusOnPlayer();
     }
 
     private bool CheckIfOtherPlayerIsControllingLimb(GameObject objToCheck)
@@ -777,12 +785,6 @@ public class ItemManager : NetworkBehaviour
         camFocus.localScale = Vector3.one;
     }
 
-    //[TargetRpc]
-    //public void TargetRpcGetThrowingGameObject(NetworkIdentity identity, GameObject sceneObject)
-    //{
-    //    sceneObjectHoldingToThrow = sceneObject;
-    //}
-
     private void TrajectoryCal()
     {
         #region trash code
@@ -936,20 +938,13 @@ public class ItemManager : NetworkBehaviour
         sceneObject.GetComponent<HighlightObject>().ForceStopHighlight();
         bool keepSceneObject = true;
         SceneObjectItemManager sceneObjectItemManager = sceneObject.GetComponent<SceneObjectItemManager>();
+        allowInteraction = true;
         switch (sceneObject.GetComponent<SceneObjectItemManager>().thisLimb)
         {
             case Limb_enum.Head:
                 if (headDetached && sceneObjectItemManager.orignalOwner == gameObject)
-                    keepSceneObject = headDetached = false;
-
-                //camFocus.parent = camFocusOrigin;
-
-                //camFocus.localPosition = Vector3.zero;
-                //camFocus.localEulerAngles = Vector3.zero;
-                //camFocus.localScale = Vector3.one;
-                CamPositionReset();
-                /*  camFocus = originalCamTransform;
-                  Debug.Log(originalCamTransform);*/
+                    keepSceneObject = headDetached = false;               
+                CamPositionReset();          
                 break;
             case Limb_enum.Arm:
                 if (rightArmDetached)
