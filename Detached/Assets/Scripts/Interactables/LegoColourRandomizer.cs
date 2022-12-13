@@ -7,17 +7,17 @@ using System.Linq;
 
 public class LegoColourRandomizer : NetworkBehaviour
 {
-    //[SerializeField] private List<Material> materials = new List<Material>();
-    private Object[] materials;
     [SerializeField] private List<GameObject> gameObjects = new List<GameObject>();
     [SyncVar] private int seed;
+    private Object[] materials;
 
     private void Awake()
     {
         materials = Resources.LoadAll("Lego Materials", typeof(Material));
         if (gameObjects.Count <= 0)
             for (int i = 0; i < gameObject.transform.childCount; i++)
-                gameObjects.Add(gameObject.transform.GetChild(i).gameObject);
+                if (gameObject.transform.GetChild(i).gameObject.activeSelf)
+                    gameObjects.Add(gameObject.transform.GetChild(i).gameObject);
         if (!isClientOnly)
             SetSeed();
     }
