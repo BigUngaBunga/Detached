@@ -28,7 +28,7 @@ public class LimbMovement : NetworkBehaviour
         initialRotationY = GetInitialRotation(sceneObjectItemManagerScript.thisLimb);
         camTransform = Camera.main.transform;
         //rb = gameObject.AddComponent<Rigidbody>();
-        rb = gameObject.GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -44,8 +44,12 @@ public class LimbMovement : NetworkBehaviour
             MyInput();
             Movement();
 
-            CmdMoveObject(input);
+            //CmdMoveObject(input);
             //rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
+           
+            if (moveDir.normalized != Vector3.zero)
+                rb.AddForce(moveDir.normalized * speed * Time.deltaTime, ForceMode.Force);
+
 
         }
 
@@ -58,7 +62,7 @@ public class LimbMovement : NetworkBehaviour
     {
 
         input = new Vector3(horizontalInput, 0, verticalInput);
-        //moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
+        moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
       
 
     }
