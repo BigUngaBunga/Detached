@@ -146,7 +146,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     public void TryPickUpWithOrginalOwner()
     {
         Debug.Log("Attempting pickup");
-        var itemManager = orignalOwner.GetComponent<ItemManager>();
+        var itemManager = originalOwner.GetComponent<ItemManager>();
         if (itemManager.CheckIfMissingLimb(thisLimb) && !isBeingPickedUp)
         {
             Debug.Log("Picking it up");
@@ -168,16 +168,16 @@ public class SceneObjectItemManager : NetworkBehaviour
         }
         else
         {
-            if (orignalOwner == NetworkClient.localPlayer.gameObject)
+            if (originalOwner == NetworkClient.localPlayer.gameObject)
             {
 
-                var itemManager = orignalOwner.GetComponent<ItemManager>();
+                var itemManager = originalOwner.GetComponent<ItemManager>();
                 itemManager.ReturnControllToPlayer();                
                 TryPickUpWithOrginalOwner();
             }
             else //If it is the client, the client can send a command from a server, therefore we need a targetrpc
-            {              
-                PickUpLimb(orignalOwner.GetComponent<NetworkIdentity>().connectionToServer);
+            {
+                TargetRpcPickUpLimb(originalOwner.GetComponent<NetworkIdentity>().connectionToServer);
             }
         }
     }
@@ -186,7 +186,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     private void TargetRpcPickUpLimb(NetworkConnection target)
     {
         Debug.Log("Attempting pickup");
-        var itemManager = orignalOwner.GetComponent<ItemManager>();
+        var itemManager = originalOwner.GetComponent<ItemManager>();
         if (itemManager.CheckIfMissingLimb(thisLimb) && !isBeingPickedUp)
         {
             Debug.Log("Picking it up");
