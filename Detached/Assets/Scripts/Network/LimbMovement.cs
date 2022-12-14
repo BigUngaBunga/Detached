@@ -90,7 +90,6 @@ public class LimbMovement : NetworkBehaviour
         input = new Vector3(horizontalInput, 0, verticalInput);
         moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
 
-
     }
 
     private void MyInput()

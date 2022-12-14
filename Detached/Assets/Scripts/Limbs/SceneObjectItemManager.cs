@@ -31,16 +31,17 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SyncVar] public bool isBeingControlled = false;
     [SyncVar] public GameObject originalOwner;
     [SyncVar] public bool isDeta;
-    [SyncVar] private GameObject thisGameObject; 
+    [SyncVar] private GameObject thisGameObject;
     [SyncVar] public bool isBeingPickedUp = false;
 
     public UnityEvent pickUpLimbEvent = new UnityEvent();
     private int numOfFallOutOfWorld = 0;
-  
+
     public bool IsBeingControlled
     {
         get { return isBeingControlled; }
-        set { 
+        set
+        {
             SetControlledStatus(value);
             if (value)
             {
@@ -70,7 +71,7 @@ public class SceneObjectItemManager : NetworkBehaviour
         detachKeyArm = itemManager.detachKeyArm;
         detachKeyLeg = itemManager.detachKeyLeg;
 
-        
+
     }
 
     //Instantiates the limb as a child on the SceneObject 
@@ -139,33 +140,68 @@ public class SceneObjectItemManager : NetworkBehaviour
             Debug.Log("Picking it up");
             isBeingPickedUp = true;
             itemManager.CmdPickUpLimb(gameObject);
-        }      
+        }
+    }
+
+    public void TryPickUpWithOrginalOwner()
+    {
+        Debug.Log("Attempting pickup");
+        var itemManager = orignalOwner.GetComponent<ItemManager>();
+        if (itemManager.CheckIfMissingLimb(thisLimb) && !isBeingPickedUp)
+        {
+            Debug.Log("Picking it up");
+            isBeingPickedUp = true;
+            itemManager.CmdPickUpLimb(gameObject);
+        }
     }
 
     public void HandleFallOutOfWorld()
     {
+
         if (safeLocation != null && safeLocation != Vector3.zero && NumOfTimeLimbCanFallOut >= numOfFallOutOfWorld)
         {
             if (isServer)
             {
                 numOfFallOutOfWorld++;
                 RpcUpdatePosition(safeLocation);
-            }            
+            }
         }
         else
         {
-            var itemManager = originalOwner.GetComponent<ItemManager>();
-            itemManager.CmdPickUpLimb(gameObject);
-            itemManager.ReturnControllToPlayer();
+            if (orignalOwner == NetworkClient.localPlayer.gameObject)
+            {
+
+                var itemManager = orignalOwner.GetComponent<ItemManager>();
+                itemManager.ReturnControllToPlayer();                
+                TryPickUpWithOrginalOwner();
+            }
+            else //If it is the client, the client can send a command from a server, therefore we need a targetrpc
+            {              
+                PickUpLimb(orignalOwner.GetComponent<NetworkIdentity>().connectionToServer);
+            }
         }
     }
 
-    
+    [TargetRpc]
+    private void TargetRpcPickUpLimb(NetworkConnection target)
+    {
+        Debug.Log("Attempting pickup");
+        var itemManager = orignalOwner.GetComponent<ItemManager>();
+        if (itemManager.CheckIfMissingLimb(thisLimb) && !isBeingPickedUp)
+        {
+            Debug.Log("Picking it up");
+            isBeingPickedUp = true;
+            itemManager.CmdPickUpLimb(gameObject);
+        }
+        itemManager.ReturnControllToPlayer();
+    }
+
+
 
     [ClientRpc]
     public void RpcUpdatePosition(Vector3 safeLocation)
-    {       
-        gameObject.transform.position = safeLocation + new Vector3(0,2,0); //So it dosne't collide with ground or other limbs
+    {
+        gameObject.transform.position = safeLocation + new Vector3(0, 2, 0); //So it dosne't collide with ground or other limbs
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
     }
