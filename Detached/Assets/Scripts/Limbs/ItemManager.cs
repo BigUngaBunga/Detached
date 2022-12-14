@@ -956,6 +956,7 @@ public class ItemManager : NetworkBehaviour
                 //camFocus.localEulerAngles = Vector3.zero;
                 //camFocus.localScale = Vector3.one;
                 CamPositionReset();
+                selectionMode = 0;
                 /*  camFocus = originalCamTransform;
                   Debug.Log(originalCamTransform);*/
                 break;
