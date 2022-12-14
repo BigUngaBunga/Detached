@@ -827,19 +827,20 @@ public class ItemManager : NetworkBehaviour
         {
             if (!CheckIfSelectedCanBeThrown()) return;
 
-            mousePressDownPos = Input.mousePosition;
+           // mousePressDownPos = Input.mousePosition;
 
             readyToThrow = true;
             dragging = true;
             indicator.SetActive(true);
+            //cam when aiming
+            camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
+
             sceneObjectHoldingToThrow = Instantiate(GetGameObjectLimbFromSelect());
             sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
 
             SFXManager.PlayOneShotAttached(SFXManager.DetachSound, VolumeManager.GetSFXVolume(), transform.gameObject);
 
-            //cam when aiming
-            camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
-            float chargeUpSpeed = 3f;
+           float chargeUpSpeed = 3f;
             cinemachine.m_YAxis.m_MaxSpeed = chargeUpSpeed;
             //if (cinemachine.m_YAxis.m_MaxValue <= 0.35f)
 
@@ -855,7 +856,7 @@ public class ItemManager : NetworkBehaviour
             DrawTrajectory.instance.HideLine();
             indicator.SetActive(false);
 
-            if (SelectedLimbToThrow == Limb_enum.Head)
+            //if (SelectedLimbToThrow == Limb_enum.Head)
                 ResetCamCondition();
 
 
@@ -872,7 +873,7 @@ public class ItemManager : NetworkBehaviour
             dragging = false;
             DrawTrajectory.instance.HideLine();
             indicator.SetActive(false);
-            mouseReleasePos = Input.mousePosition;
+           // mouseReleasePos = Input.mousePosition;
             Destroy(sceneObjectHoldingToThrow);
 
             cinemachine.m_YAxis.m_MaxSpeed = 10;
@@ -1013,7 +1014,7 @@ public class ItemManager : NetworkBehaviour
     [ClientRpc]
     private void RPCMovePlayer(Vector3 displacement) => transform.position += displacement;
 
-    void CamPositionReset()
+    public void CamPositionReset()
     {
         camFocus.parent = camFocusOrigin;
 
