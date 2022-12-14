@@ -540,7 +540,7 @@ public class ItemManager : NetworkBehaviour
             //limbs.AddRange(GameObject.FindGameObjectsWithTag("Limb"));
             foreach (GameObject limb in limbsInScene)
             {
-                if (limb.GetComponent<SceneObjectItemManager>().orignalOwner == gameObject)
+                if (limb.GetComponent<SceneObjectItemManager>().originalOwner == gameObject)
                 {
                     limbs.Add(limb);
                 }
@@ -569,7 +569,7 @@ public class ItemManager : NetworkBehaviour
             //limbs.AddRange(GameObject.FindGameObjectsWithTag("Limb"));
             foreach (GameObject limb in limbsInScene)
             {
-                if (limb.GetComponent<SceneObjectItemManager>().orignalOwner == gameObject)
+                if (limb.GetComponent<SceneObjectItemManager>().originalOwner == gameObject)
                 {
                     limbs.Add(limb);
                 }
@@ -643,7 +643,7 @@ public class ItemManager : NetworkBehaviour
     }
 
     [Server]
-    GameObject DropLimb(Limb_enum limb, GameObject orginalOwner)
+    GameObject DropLimb(Limb_enum limb, GameObject originalOwner)
     {
         GameObject newSceneObject = null;
         switch (limb)
@@ -652,6 +652,7 @@ public class ItemManager : NetworkBehaviour
                 newSceneObject = Instantiate(wrapperSceneObject, throwPoint.position, headPrefab.transform.rotation);
                 var SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
                 SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn               
+                SceneObjectScript.originalOwner = originalOwner;
                 NetworkServer.Spawn(newSceneObject, connectionToClient); //Set Authority to client att spawn since no other player should be able to control it.
                 SceneObjectScript.detached = true;
                 headDetached = true;
@@ -662,13 +663,13 @@ public class ItemManager : NetworkBehaviour
                 if (!leftArmDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, throwPoint.position, Quaternion.Euler(leftArmParent.eulerAngles + extraRotation));
-                    DropGenericLimb(newSceneObject, limb, orginalOwner, leftArmIsDeta);
+                    DropGenericLimb(newSceneObject, limb, originalOwner, leftArmIsDeta);
                     leftArmDetached = true;
                 }
                 else if (!rightArmDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, throwPoint.position, Quaternion.Euler(rightArmParent.eulerAngles + extraRotation));
-                    DropGenericLimb(newSceneObject, limb, orginalOwner, rightArmIsDeta);
+                    DropGenericLimb(newSceneObject, limb, originalOwner, rightArmIsDeta);
                     rightArmDetached = true;
                 }
                 else
@@ -680,13 +681,13 @@ public class ItemManager : NetworkBehaviour
                 if (!leftLegDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, throwPoint.position, leftLegParent.rotation);
-                    DropGenericLimb(newSceneObject, limb, orginalOwner, leftLegIsDeta);
+                    DropGenericLimb(newSceneObject, limb, originalOwner, leftLegIsDeta);
                     leftLegDetached = true;
                 }
                 else if (!rightLegDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, throwPoint.position, rightLegParent.rotation);
-                    DropGenericLimb(newSceneObject, limb, orginalOwner, rightLegIsDeta);
+                    DropGenericLimb(newSceneObject, limb, originalOwner, rightLegIsDeta);
                     rightLegDetached = true;
                 }
                 else
@@ -712,7 +713,7 @@ public class ItemManager : NetworkBehaviour
                 newSceneObject = Instantiate(wrapperSceneObject, throwpoint, headPrefab.transform.rotation);
                 var SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
                 SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
-                SceneObjectScript.orignalOwner = originalOwner;
+                SceneObjectScript.originalOwner = originalOwner;
                 SceneObjectScript.isDeta = isDeta;
                 NetworkServer.Spawn(newSceneObject, connectionToClient); //Set Authority to client att spawn since no other player should be able to control it.
                 SceneObjectScript.detached = true;
@@ -927,7 +928,7 @@ public class ItemManager : NetworkBehaviour
         SceneObjectScript.isDeta = limbIsDeta;
         NetworkServer.Spawn(newSceneObject);
         SceneObjectScript.detached = true;
-        SceneObjectScript.orignalOwner = orignalOwner;
+        SceneObjectScript.originalOwner = orignalOwner;
     }
 
     #endregion
@@ -946,7 +947,7 @@ public class ItemManager : NetworkBehaviour
         switch (sceneObject.GetComponent<SceneObjectItemManager>().thisLimb)
         {
             case Limb_enum.Head:
-                if (headDetached && sceneObjectItemManager.orignalOwner == gameObject)
+                if (headDetached && sceneObjectItemManager.originalOwner == gameObject)
                     keepSceneObject = headDetached = false;
 
                 //camFocus.parent = camFocusOrigin;

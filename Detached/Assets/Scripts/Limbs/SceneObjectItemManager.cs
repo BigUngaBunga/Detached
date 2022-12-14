@@ -29,7 +29,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SyncVar] public LimbType thisLimb;
     [SyncVar] public Vector3 initalPosition;
     [SyncVar] public bool isBeingControlled = false;
-    [SyncVar] public GameObject orignalOwner;
+    [SyncVar] public GameObject originalOwner;
     [SyncVar] public bool isDeta;
     [SyncVar] private GameObject thisGameObject; 
     [SyncVar] public bool isBeingPickedUp = false;
@@ -154,7 +154,7 @@ public class SceneObjectItemManager : NetworkBehaviour
         }
         else
         {
-            var itemManager = orignalOwner.GetComponent<ItemManager>();
+            var itemManager = originalOwner.GetComponent<ItemManager>();
             itemManager.CmdPickUpLimb(gameObject);
             itemManager.ReturnControllToPlayer();
         }
