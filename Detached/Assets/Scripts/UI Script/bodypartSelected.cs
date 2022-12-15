@@ -5,13 +5,13 @@ using UnityEngine.UI;
 using Mirror;
 using System;
 
-public class bodypartSelected : MonoBehaviour
+public class BodypartSelected : MonoBehaviour
 {
-    public GameObject pauseUI, gameUI;
-    public GameObject Head, LeftHand, leftLeg, RightHand, rightLeg;
+    [SerializeField] private GameObject pauseUI, gameUI;
+    [SerializeField] private GameObject head, leftHand, leftLeg, rightHand, rightLeg;
+    [SerializeField] private GameObject headSelection, leftHandSelection, leftLegSelection, rightHandSelection, rightLegSelection;
     private ItemManager iManagerLocalPlayer;
-    bool headActive, leftHandactive, rightHandactive, leftLegactive, rightLegactive;
-    // Start is called before the first frame update
+    private bool headActive, leftHandActive, rightHandActive, leftLegActive, rightLegActive;
     void Start()
     {
         iManagerLocalPlayer = NetworkClient.localPlayer.gameObject.GetComponent<ItemManager>();
@@ -19,8 +19,7 @@ public class bodypartSelected : MonoBehaviour
         iManagerLocalPlayer.dropLimbEvent.AddListener(GetCurrentLimbsOfPlayer);
         iManagerLocalPlayer.pickupLimbEvent.AddListener(GetCurrentLimbsOfPlayer);
 
-
-        GetSelectedOfPlayer();
+        GetCurrentLimbsOfPlayer();
     }
     void PauseGame()
     {
@@ -35,7 +34,6 @@ public class bodypartSelected : MonoBehaviour
         gameUI.SetActive(true);
     }
 
-    // Update is called once per frame
     void Update()
     {
         //if (Input.GetKeyDown(KeyCode.Escape))
@@ -48,60 +46,6 @@ public class bodypartSelected : MonoBehaviour
         //{
         //    gameUI.SetActive(true);
         //}
-        if (!headActive && !rightLegactive && !rightHandactive && !leftHandactive && !leftLegactive)
-        {
-            Head.GetComponent<Image>().color = Color.white;
-            RightHand.GetComponent<Image>().color = Color.white;
-            rightLeg.GetComponent<Image>().color = Color.white;
-            LeftHand.GetComponent<Image>().color = Color.white;
-            leftLeg.GetComponent<Image>().color = Color.white;
-
-        }
-        else
-        {
-            if (headActive)
-            {
-                Head.GetComponent<Image>().color = Color.white;
-            }
-            else
-            {
-                Head.GetComponent<Image>().color = Color.white;
-            }
-
-            if (rightHandactive)
-            {
-                RightHand.GetComponent<Image>().color = Color.white;
-            }
-            else
-            {
-                RightHand.GetComponent<Image>().color = Color.white;
-            }
-
-            if (leftHandactive)
-            {
-                LeftHand.GetComponent<Image>().color = Color.white;
-            }
-            else
-            {
-                LeftHand.GetComponent<Image>().color = Color.white;
-            }
-            if (rightLegactive)
-            {
-                rightLeg.GetComponent<Image>().color = Color.white;
-            }
-            else
-            {
-                rightLeg.GetComponent<Image>().color = Color.white;
-            }
-            if (leftLegactive)
-            {
-                leftLeg.GetComponent<Image>().color = Color.white;
-            }
-            else
-            {
-                leftLeg.GetComponent<Image>().color = Color.white;
-            }
-        }
     }
 
     private void GetSelectedOfPlayer()
@@ -112,29 +56,39 @@ public class bodypartSelected : MonoBehaviour
             if (iManagerLocalPlayer.SelectedLimbToThrow == ItemManager.Limb_enum.Arm)
             {
                 if (iManagerLocalPlayer.HasBothArms())
-                    leftHandactive = true;
+                    leftHandActive = true;
                 else
-                    rightHandactive = true;
+                    rightHandActive = true;
             }
             if (iManagerLocalPlayer.SelectedLimbToThrow == ItemManager.Limb_enum.Leg)
             {
                 if (iManagerLocalPlayer.HasBothLegs())
-                    leftLegactive = true;
+                    leftLegActive = true;
                 else
-                    rightLegactive = true;
+                    rightLegActive = true;
             }
             if (iManagerLocalPlayer.SelectedLimbToThrow == ItemManager.Limb_enum.Head)
                 headActive = true;
         }
+        IndicateSelectedLimb();
+    }
+
+    private void IndicateSelectedLimb()
+    {
+        headSelection.SetActive(headActive);
+        leftHandSelection.SetActive(leftHandActive);
+        leftLegSelection.SetActive(leftLegActive);
+        rightHandSelection.SetActive(rightHandActive);
+        rightLegSelection.SetActive(rightLegActive);
     }
 
     private void SetAllInactive()
     {
         headActive = false;
-        leftHandactive = false;
-        rightHandactive = false;
-        leftLegactive = false;
-        rightLegactive = false;
+        leftHandActive = false;
+        rightHandActive = false;
+        leftLegActive = false;
+        rightLegActive = false;
     }
 
     private void GetCurrentLimbsOfPlayer()
@@ -142,38 +96,11 @@ public class bodypartSelected : MonoBehaviour
         int numberOfArms = iManagerLocalPlayer.NumberOfArms;
         int numberOfLegs = iManagerLocalPlayer.NumberOfLegs;
 
-        if (numberOfArms == 2)
-        {
-            RightHand.SetActive(true);
-            LeftHand.SetActive(true);
-        }
-        else if (numberOfArms == 1)
-        {
-            RightHand.SetActive(true);
-            LeftHand.SetActive(false);
-        }
-        else if (numberOfArms == 0)
-        {
-            RightHand.SetActive(false);
-            LeftHand.SetActive(false);
-        }
-
-
-        if (numberOfLegs == 2)
-        {
-            rightLeg.SetActive(true);
-            leftLeg.SetActive(true);
-        }
-        else if (numberOfLegs == 1)
-        {
-            rightLeg.SetActive(true);
-            leftLeg.SetActive(false);
-        }
-        else if (numberOfLegs == 0)
-        {
-            rightLeg.SetActive(false);
-            leftLeg.SetActive(false);
-        }
+        head.SetActive(!iManagerLocalPlayer.headDetached);
+        rightHand.SetActive(numberOfArms > 0);
+        leftHand.SetActive(numberOfArms > 1);
+        rightLeg.SetActive(numberOfLegs > 0);
+        leftLeg.SetActive(numberOfLegs > 1);
         GetSelectedOfPlayer();
     }
 }

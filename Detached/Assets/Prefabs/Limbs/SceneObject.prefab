@@ -154,7 +154,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   target: {fileID: -7261762353476088667}
-  clientAuthority: 0
+  clientAuthority: 1
   syncVelocity: 1
   clearVelocity: 0
   velocitySensitivity: 0.1
@@ -175,9 +175,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  speed: 10
+  speed: 10000
   camTransform: {fileID: 0}
   rb: {fileID: 0}
+  stepRays:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  stepHeight: 0.3
+  stepSmooth: 2
+  stepRayLength: 1
 --- !u!114 &6247909107761634463
 MonoBehaviour:
   m_ObjectHideFlags: 0
