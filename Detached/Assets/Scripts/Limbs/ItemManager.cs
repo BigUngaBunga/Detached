@@ -319,6 +319,8 @@ public class ItemManager : NetworkBehaviour
         int goingToSelect = (currentlySelected + -change) % allEnums;
         if (goingToSelect < 0) goingToSelect = allEnums - 1; //Modulo in c# is remainder not modulo...
         selectedLimbToThrow = (Limb_enum)goingToSelect;
+        if (numberOfLimbs > 0 && !CanDropSelected())
+            ChangeSelectedLimbToThrow(1);
     }
 
     /// <summary>
@@ -649,7 +651,16 @@ public class ItemManager : NetworkBehaviour
         }
         return false;
     }
-
+    private bool CanDropSelected()
+    {
+        return selectedLimbToThrow switch
+        {
+            Limb_enum.Head => !headDetached,
+            Limb_enum.Arm => !rightArmDetached || !leftArmDetached,
+            Limb_enum.Leg => !rightLegDetached || !leftLegDetached,
+            _ => false,
+        };
+    }
     [Server]
     GameObject DropLimb(Limb_enum limb, GameObject originalOwner)
     {

@@ -1,10 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using Mono.CecilX;
-using System.Linq;
-
 public class LegoColourRandomizer : NetworkBehaviour
 {
     [SerializeField] private List<GameObject> gameObjects = new List<GameObject>();

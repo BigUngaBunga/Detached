@@ -51,23 +51,23 @@ public class BodypartSelected : MonoBehaviour
     private void GetSelectedOfPlayer()
     {
         SetAllInactive();
-        if (!Convert.ToBoolean(iManagerLocalPlayer.SelectionMode))
+        if (iManagerLocalPlayer.numberOfLimbs > 0 && !Convert.ToBoolean(iManagerLocalPlayer.SelectionMode))
         {
-            if (iManagerLocalPlayer.SelectedLimbToThrow == ItemManager.Limb_enum.Arm)
+            if (iManagerLocalPlayer.SelectedLimbToThrow == ItemManager.Limb_enum.Arm && iManagerLocalPlayer.NumberOfArms > 0)
             {
                 if (iManagerLocalPlayer.HasBothArms())
                     leftHandActive = true;
                 else
                     rightHandActive = true;
             }
-            if (iManagerLocalPlayer.SelectedLimbToThrow == ItemManager.Limb_enum.Leg)
+            if (iManagerLocalPlayer.SelectedLimbToThrow == ItemManager.Limb_enum.Leg && iManagerLocalPlayer.NumberOfLegs > 0)
             {
                 if (iManagerLocalPlayer.HasBothLegs())
                     leftLegActive = true;
                 else
                     rightLegActive = true;
             }
-            if (iManagerLocalPlayer.SelectedLimbToThrow == ItemManager.Limb_enum.Head)
+            if (iManagerLocalPlayer.SelectedLimbToThrow == ItemManager.Limb_enum.Head && head.activeSelf)
                 headActive = true;
         }
         IndicateSelectedLimb();
