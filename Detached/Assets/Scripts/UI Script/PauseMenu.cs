@@ -13,7 +13,6 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     Dropdown resolutionDropdown;
 
-    [SerializeField] private Toggle fullscreenToggle;
     public Toggle vSyncTog;
 
     Resolution[] resolutions;
@@ -51,15 +50,15 @@ public class PauseMenu : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
     }
 
-    public void SetResolution()
+    public void SetResolution(int resolutionIndex)
     {
-        Resolution resolution = resolutions[resolutionDropdown.value];
+        Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
 
-    public void SetFullscren()
+    public void SetFullscren(bool isFullscreen)
     {
-        Screen.fullScreen = fullscreenToggle.isOn;
+        Screen.fullScreen = isFullscreen;
     }
     public void SetVolume(float volume)
     {
