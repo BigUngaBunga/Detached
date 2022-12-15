@@ -973,6 +973,7 @@ public class ItemManager : NetworkBehaviour
                 //camFocus.localScale = Vector3.one;
                 CamPositionReset();
                 selectionMode = 0;
+                characterControlScript.isBeingControlled = true;
                 /*  camFocus = originalCamTransform;
                   Debug.Log(originalCamTransform);*/
 
