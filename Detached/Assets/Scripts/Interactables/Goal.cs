@@ -11,7 +11,7 @@ public class Goal : NetworkBehaviour
     [SerializeField] private bool sameNumLimbInAsOut = true;
     [SerializeField] private bool skippLevel = false;
     private int numOfLimbsRequired = 0;
-    [SyncVar] public bool isLocked;
+    public bool isLocked;
     [Header("Override variables")]
     [SerializeField] private bool overrideNextMap;
     [SerializeField] private int overrideMapIndex;
@@ -32,7 +32,6 @@ public class Goal : NetworkBehaviour
         }
     }
 
-#if UNITY_EDITOR
     private void Update()
     {
         if (Input.GetKey(KeyCode.O) && Input.GetKey(KeyCode.P))
@@ -41,7 +40,6 @@ public class Goal : NetworkBehaviour
             ServerChangeScene(nextScene);
         }
     }
-#endif
 
 
     protected virtual void Start()
