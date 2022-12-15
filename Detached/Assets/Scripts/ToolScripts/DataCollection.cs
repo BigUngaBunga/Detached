@@ -47,9 +47,10 @@ public class DataCollection : MonoBehaviour
         level = SceneManager.GetActiveScene().name;
         gameVersion = 1;
         filePath = "Assets/Resources/" + level + " " + gameVersion.ToString() + ".txt";
-        if (File.Exists(filePath))
+        while (File.Exists(filePath))
         {
-            File.Delete(filePath); // deletes the file so the tool can get fresh data for every run.
+            gameVersion++;
+            filePath = "Assets/Resources/" + level + " " + gameVersion.ToString() + ".txt";
         }
         triggerStructArray = new TriggerStruct[triggers.Length];
         for (int i = 0; i < triggers.Length; i++)
