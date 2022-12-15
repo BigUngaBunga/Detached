@@ -7,7 +7,8 @@ public class UI : MonoBehaviour
     // Start is called before the first frame update
 
     public GameObject pauseUI;
-    public GameObject gameUI;
+    public GameObject mainMenu;
+    public bool gameIsPaused;
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -15,6 +16,14 @@ public class UI : MonoBehaviour
     public void ResumeGame()
     {
         Time.timeScale = 1;
+        gameIsPaused = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+    public void FreezeGame()
+    {
+        gameIsPaused = true;
+        Time.timeScale = 0;
     }
     // Update is called once per frame
     void Update()
@@ -24,8 +33,12 @@ public class UI : MonoBehaviour
         {
             pauseUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
-            Time.timeScale = 0;
+            FreezeGame();
         }
+
+
+     
+    
 
         if (Input.GetKeyDown("9"))
         {
