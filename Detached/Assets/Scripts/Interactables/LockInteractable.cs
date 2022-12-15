@@ -51,7 +51,7 @@ public class LockInteractable : NetworkBehaviour, IInteractable
                 break;
             default:
                 break;
-        }
+        };
         gameObject.GetComponent<HighlightObject>().ForceStopHighlight();
         NetworkServer.Destroy(key);
         NetworkServer.Destroy(gameObject);
