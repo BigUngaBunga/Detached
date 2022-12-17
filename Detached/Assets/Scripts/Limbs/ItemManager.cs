@@ -48,8 +48,9 @@ public class ItemManager : NetworkBehaviour
     //BooleanForColorOnLimbs
 
 
-    private List<GameObject> limbs = new List<GameObject>();
-    private int indexControll;
+    public List<GameObject> limbs = new List<GameObject>();
+    public List<GameObject> limbsOnGround;
+    public int indexControll;
     private bool isControllingLimb;
 
     [Header("Throwing")]
@@ -85,6 +86,10 @@ public class ItemManager : NetworkBehaviour
     [SyncVar] private bool leftArmIsDeta;
     [SyncVar] private int selectionMode; //0 == limbSelection mode, 1 == out on map limb selection mode
     private LimbTextureManager limbTextureManager;
+    public bool groundMode;
+
+    bool leftLegExist, rightLegExist;
+    bool leftArmExist, rightArmExist;
 
     public readonly UnityEvent pickupLimbEvent = new UnityEvent();
     public readonly UnityEvent changeSelectedLimbEvent = new UnityEvent();
@@ -243,8 +248,11 @@ public class ItemManager : NetworkBehaviour
         cinemachine = FindObjectOfType<CinemachineFreeLook>();
         ///TODO
         ///Check what maxCamHeight is?
+
+        //MAX CAM HEIGHT IS HOW HIGH UP PLAYER CAN LOOK, 0 = look at sky, 1 = look at ground, MinValue = 0.2 prevents player from look all the way up to the sky
+
         //maxCamHeight = 0.2f;
-        //cinemachine.m_YAxis.m_MinValue = maxCamHeight;
+        //cinemachine.m_YAxis.m_MinValue = maxCamHeight; 
     }
     /* All drop/throw updates happens below.
      * All pickup checks happen on each object in script: SceneObjectManager  
@@ -264,26 +272,34 @@ public class ItemManager : NetworkBehaviour
         HandleSelectionModeChange();
         HandleScrollWheelInput();
 
+        if (selectionMode == 0)
+            groundMode = false;
+        else
+            groundMode = true;
         if (!AllowInteraction) return;
 
         //Below not needed anymore, only  used for testing purposes
-        if (Input.GetKeyDown(detachKeyHead) && !headDetached)
+        if (selectionMode == 0)
         {
-            CmdDropLimb(Limb_enum.Head, gameObject);
-            Transform body = transform.Find("group1");
-            SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
-        }
-        if (Input.GetKeyDown(detachKeyArm) && (!leftArmDetached || !rightArmDetached))
-        {
-            CmdDropLimb(Limb_enum.Arm, gameObject);
-            Transform body = transform.Find("group1");
-            SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
-        }
-        if (Input.GetKeyDown(detachKeyLeg) && (!leftLegDetached || !rightLegDetached))
-        {
-            CmdDropLimb(Limb_enum.Leg, gameObject);
-            Transform body = transform.Find("group1");
-            SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
+
+            if (Input.GetKeyDown(detachKeyHead) && !headDetached)
+            {
+                CmdDropLimb(Limb_enum.Head, gameObject);
+                Transform body = transform.Find("group1");
+                SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
+            }
+            if (Input.GetKeyDown(detachKeyArm) && (!leftArmDetached || !rightArmDetached))
+            {
+                CmdDropLimb(Limb_enum.Arm, gameObject);
+                Transform body = transform.Find("group1");
+                SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
+            }
+            if (Input.GetKeyDown(detachKeyLeg) && (!leftLegDetached || !rightLegDetached))
+            {
+                CmdDropLimb(Limb_enum.Leg, gameObject);
+                Transform body = transform.Find("group1");
+                SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
+            }
         }
 
 
@@ -291,20 +307,33 @@ public class ItemManager : NetworkBehaviour
 
         if (dragging)
             TrajectoryCal();
+
+        #region desperate af
+        if (!leftLegDetached)
+            leftLegExist = false;
+
+        if (!rightLegDetached)
+            rightLegExist = false;
+
+        if (!leftArmDetached)
+            leftArmExist = false;
+
+        if (!rightArmDetached)
+            rightArmExist = false;
+        #endregion
     }
 
     private void HandleScrollWheelInput()
     {
         if (Input.mouseScrollDelta.y < 0 || Input.mouseScrollDelta.y > 0)
         {
-
             if (selectionMode == 0)
             {
                 ChangeSelectedLimbToThrow(Input.mouseScrollDelta.y);
             }
             else if (selectionMode == 1)
             {
-                GetAllPlayerLimbsInScene();
+
                 ChangeLimbControll(Input.mouseScrollDelta.y); //Change this to handle the scroll up and down
             }
             changeSelectedLimbEvent.Invoke();
@@ -331,8 +360,13 @@ public class ItemManager : NetworkBehaviour
     {
         if (Input.GetKeyDown(changeSelectionMode))
         {
+            //limbsOnGround = GameObject.FindGameObjectsWithTag("Limb");
+            if (selectionMode == 0)
+            {
+                selectionMode = 1;
+                GetAllPlayerLimbsInScene();
+            }
 
-            if (selectionMode == 0) selectionMode = 1;
 
             else if (characterControlScript.isBeingControlled == false && selectionMode == 1) //0 == limbSelection mode, 1 == on ground limb selection mode
             {
@@ -343,12 +377,13 @@ public class ItemManager : NetworkBehaviour
             else if (selectionMode == 1)
             {
                 selectionMode = 0;
-
+                // indexControll = 0;
             }
 
             if (selectionMode == 0)
             {
                 CamPositionReset();
+                // indexControll = 0;
             }
         }
     }
@@ -470,7 +505,7 @@ public class ItemManager : NetworkBehaviour
         //else
         ///TODO
         ///Check what maxCamHeight is?
-            //cinemachine.m_YAxis.m_MinValue = maxCamHeight;
+            //cinemachine.m_YAxis.m_MinValue = maxCamHeight; //check in Awake()
 
         camFocus.localPosition = Vector3.zero;
         camFocus.localEulerAngles = Vector3.zero;
@@ -548,11 +583,55 @@ public class ItemManager : NetworkBehaviour
             limbs.Clear();
             GameObject[] limbsInScene = GameObject.FindGameObjectsWithTag("Limb");
             //limbs.AddRange(GameObject.FindGameObjectsWithTag("Limb"));
-            foreach (GameObject limb in limbsInScene)
+            //foreach (GameObject limb in limbsInScene)
+
+            for (int i = 0; i <= limbsInScene.Length; i++)
             {
-                if (limb.GetComponent<SceneObjectItemManager>().originalOwner == gameObject)
+
+                if (limbsInScene[i].GetComponent<SceneObjectItemManager>().originalOwner == gameObject)
                 {
-                    limbs.Add(limb);
+                    //blood, tears, sweat and other body fluid
+                    #region onGround limb names
+                    if (limbsInScene[i].transform.GetChild(0).gameObject.tag == "Leg" && leftLegDetached && !leftLegExist)
+                    {
+                        if (!limbs.Exists(x => limbsInScene[i].name == "RightLeg"))
+                        {
+                            limbsInScene[i].name = "LeftLeg";
+                            limbsInScene[i].transform.GetChild(0).gameObject.name = "LeftLeg";
+                            leftLegExist = true;
+                        }
+                    }
+                    else if (limbsInScene[i].transform.GetChild(0).gameObject.tag == "Leg" && rightLegDetached && leftLegExist && !rightLegExist)
+                    {
+                        if (!limbs.Exists(x => limbsInScene[i].name == "LeftLeg"))
+                        {
+                            limbsInScene[i].name = "RightLeg";
+                            limbsInScene[i].transform.GetChild(0).gameObject.name = "RightLeg";
+                            rightLegExist = true;
+                        }
+                    }
+
+                    if (limbsInScene[i].transform.GetChild(0).gameObject.tag == "Arm" && leftArmDetached && !leftArmExist)
+                    {
+                        if (!limbs.Exists(x => limbsInScene[i].name == "RightArm"))
+                        {
+                            limbsInScene[i].name = "LeftArm";
+                            limbsInScene[i].transform.GetChild(0).gameObject.name = "LeftArm";
+                            leftArmExist = true;
+                        }
+                    }
+                    else if (limbsInScene[i].transform.GetChild(0).gameObject.tag == "Arm" && rightArmDetached && leftArmExist && !rightArmExist)
+                    {
+                        if (!limbs.Exists(x => limbsInScene[i].name == "LeftArm"))
+                        {
+                            limbsInScene[i].name = "RightArm";
+                            limbsInScene[i].transform.GetChild(0).gameObject.name = "RightArm";
+                            rightArmExist = true;
+                        }
+                    }
+                    #endregion 
+
+                    limbs.Add(limbsInScene[i]);
                 }
             }
             if (limbs.Count == 0)
@@ -787,7 +866,7 @@ public class ItemManager : NetworkBehaviour
         dropLimbEvent.Invoke();
         return newSceneObject;
     }
-    
+
 
     private void ResetHeadPosCam(SceneObjectItemManager SceneObjectScript)
     {
@@ -840,7 +919,7 @@ public class ItemManager : NetworkBehaviour
         {
             if (!CheckIfSelectedCanBeThrown()) return;
 
-           // mousePressDownPos = Input.mousePosition;
+            // mousePressDownPos = Input.mousePosition;
 
             readyToThrow = true;
             dragging = true;
@@ -853,7 +932,7 @@ public class ItemManager : NetworkBehaviour
 
             SFXManager.PlayOneShotAttached(SFXManager.DetachSound, VolumeManager.GetSFXVolume(), transform.gameObject);
 
-           float chargeUpSpeed = 3f;
+            float chargeUpSpeed = 3f;
             cinemachine.m_YAxis.m_MaxSpeed = chargeUpSpeed;
             //if (cinemachine.m_YAxis.m_MaxValue <= 0.35f)
 
@@ -870,7 +949,7 @@ public class ItemManager : NetworkBehaviour
             indicator.SetActive(false);
 
             //if (SelectedLimbToThrow == Limb_enum.Head)
-                ResetCamCondition();
+            ResetCamCondition();
 
 
             cinemachine.m_YAxis.m_MaxSpeed = 10;
@@ -886,7 +965,7 @@ public class ItemManager : NetworkBehaviour
             dragging = false;
             DrawTrajectory.instance.HideLine();
             indicator.SetActive(false);
-           // mouseReleasePos = Input.mousePosition;
+            // mouseReleasePos = Input.mousePosition;
             Destroy(sceneObjectHoldingToThrow);
 
             cinemachine.m_YAxis.m_MaxSpeed = 10;
@@ -975,10 +1054,10 @@ public class ItemManager : NetworkBehaviour
                 //CamPositionReset();
 
                 //Head Can be picked up even if you are controlling as the head, need a check to fix this
-                if (sceneObjectItemManager.isBeingControlled) 
+                if (sceneObjectItemManager.isBeingControlled)
                 {
                     TargetRpcLetGoHeadControll(connectionClient, sceneObjectItemManager.originalOwner);
-                } 
+                }
 
                 TargetRpcSetSelectionMode(connectionClient, 0);
                 TargetRpcSetCharaterIsBeingControlled(connectionClient, characterControlScript, true);
@@ -1036,7 +1115,7 @@ public class ItemManager : NetworkBehaviour
         pickupLimbEvent.Invoke();
     }
 
-    
+
 
     [Command(requiresAuthority = false)]
     private void MovePlayer(Vector3 displacement) => RPCMovePlayer(displacement);

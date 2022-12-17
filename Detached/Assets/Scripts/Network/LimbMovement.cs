@@ -68,8 +68,6 @@ public class LimbMovement : NetworkBehaviour
 
         }
 
-        Debug.Log(rb.velocity);
-
         gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y + initialRotationY, Vector3.up);
     }
 

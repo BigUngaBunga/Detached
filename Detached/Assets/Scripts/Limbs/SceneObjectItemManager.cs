@@ -77,7 +77,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     //Instantiates the limb as a child on the SceneObject 
     private void OnChangeDetached(bool oldValue, bool newValue)
     {
-        if (newValue) // if Detached == true
+        if (newValue ) // if Detached == true
         {
             GameObject limb = null;
             switch (thisLimb)
