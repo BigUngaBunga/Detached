@@ -21,6 +21,7 @@ public class CharacterControl : NetworkBehaviour
     [Header("General")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float crouchHeight;
+
     [SerializeField] public bool isBeingControlled = true;
     CapsuleCollider playerCol;
     float originHeight;
@@ -167,8 +168,6 @@ public class CharacterControl : NetworkBehaviour
             camFocus.localPosition = new Vector3(camFocus.localPosition.x + noLegCamOffset.x, camFocus.localPosition.y + noLegCamOffset.y, camFocus.localPosition.z + noLegCamOffset.z);
             camUpdated = true;
         }
-
-
     }
 
     #endregion

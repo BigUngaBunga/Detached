@@ -623,7 +623,6 @@ public class ItemManager : NetworkBehaviour
     {
         //sceneObject.GetComponent<Rigidbody>().useGravity = true;
         //sceneObject.GetComponent<SceneObjectItemManager>().IsBeingControlled = false;
-
         ThrowLimb(force, CmdThrowDropLimb(limb, throwPoint, orignalOwner));
     }
 
@@ -737,8 +736,8 @@ public class ItemManager : NetworkBehaviour
                 NetworkServer.Spawn(newSceneObject, connectionToClient); //Set Authority to client att spawn since no other player should be able to control it.
                 SceneObjectScript.detached = true;
                 headDetached = true;
-                camFocus.parent = SceneObjectScript.transform;
-
+                //camFocus.parent = SceneObjectScript.transform;
+                TargetRpcUpdateCameraPositionForHeadOnClient(originalOwner.GetComponent<NetworkIdentity>().connectionToClient, SceneObjectScript);
                 ResetHeadPosCam(SceneObjectScript);
                 SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 break;
@@ -787,6 +786,11 @@ public class ItemManager : NetworkBehaviour
         //TargetRpcGetThrowingGameObject(identity, newSceneObject);
         dropLimbEvent.Invoke();
         return newSceneObject;
+    }
+    [TargetRpc]
+    private void TargetRpcUpdateCameraPositionForHeadOnClient(NetworkConnection client, SceneObjectItemManager SceneObjectScript)
+    {
+        camFocus.parent = SceneObjectScript.transform;
     }
 
     private void ResetHeadPosCam(SceneObjectItemManager SceneObjectScript)
@@ -959,6 +963,7 @@ public class ItemManager : NetworkBehaviour
         bool keepSceneObject = true;
         SceneObjectItemManager sceneObjectItemManager = sceneObject.GetComponent<SceneObjectItemManager>();
         allowInteraction = true;
+        NetworkConnection connectionClient = sceneObject.GetComponent<NetworkIdentity>().connectionToClient;
         switch (sceneObject.GetComponent<SceneObjectItemManager>().thisLimb)
         {
             case Limb_enum.Head:
@@ -971,9 +976,12 @@ public class ItemManager : NetworkBehaviour
                 //camFocus.localPosition = Vector3.zero;
                 //camFocus.localEulerAngles = Vector3.zero;
                 //camFocus.localScale = Vector3.one;
-                CamPositionReset();
+                //CamPositionReset();
                 selectionMode = 0;
-                characterControlScript.isBeingControlled = true;
+                TargetRpcSetCharaterIsBeingControlled(connectionClient, characterControlScript, true);
+                TargetRpcCamPositionReset(connectionClient);
+
+                //characterControlScript.isBeingControlled = true;
                 /*  camFocus = originalCamTransform;
                   Debug.Log(originalCamTransform);*/
 
@@ -1025,6 +1033,17 @@ public class ItemManager : NetworkBehaviour
         pickupLimbEvent.Invoke();
     }
 
+    [TargetRpc]
+    private void TargetRpcCamPositionReset(NetworkConnection connectionToClient)
+    {
+        camFocus.parent = camFocusOrigin;
+
+        ResetCamCondition();
+
+        camFocus.localEulerAngles = Vector3.zero;
+        camFocus.localScale = Vector3.one;
+    }
+
     [Command(requiresAuthority = false)]
     private void MovePlayer(Vector3 displacement) => RPCMovePlayer(displacement);
 
@@ -1041,6 +1060,12 @@ public class ItemManager : NetworkBehaviour
         camFocus.localScale = Vector3.one;
     }
     #endregion
+
+    [TargetRpc]
+    private void TargetRpcSetCharaterIsBeingControlled(NetworkConnection connection, CharacterControl characterControlScript, bool isBeingControlled)
+    {
+        characterControlScript.isBeingControlled = isBeingControlled;
+    }
 
     void ResetCamCondition()
     {
