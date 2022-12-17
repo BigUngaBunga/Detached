@@ -973,7 +973,13 @@ public class ItemManager : NetworkBehaviour
                 //camFocus.localEulerAngles = Vector3.zero;
                 //camFocus.localScale = Vector3.one;
                 //CamPositionReset();
-                
+
+                //Head Can be picked up even if you are controlling as the head, need a check to fix this
+                if (sceneObjectItemManager.isBeingControlled) 
+                {
+                    TargetRpcLetGoHeadControll(connectionClient, sceneObjectItemManager.originalOwner);
+                } 
+
                 TargetRpcSetSelectionMode(connectionClient, 0);
                 TargetRpcSetCharaterIsBeingControlled(connectionClient, characterControlScript, true);
                 TargetRpcCamPositionReset(connectionClient);
@@ -1051,6 +1057,13 @@ public class ItemManager : NetworkBehaviour
 
 
     #region TargetRpcFunctions
+
+    [TargetRpc]
+    private void TargetRpcLetGoHeadControll(NetworkConnection connectionClient, GameObject orginalOwner)
+    {
+        ChangeControllingforLimbAndPlayer(orginalOwner, true);
+    }
+
     [TargetRpc]
     private void TargetRpcUpdateCameraPositionForHeadOnClient(NetworkConnection client, SceneObjectItemManager SceneObjectScript)
     {
