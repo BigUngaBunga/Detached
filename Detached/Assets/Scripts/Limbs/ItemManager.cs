@@ -787,11 +787,7 @@ public class ItemManager : NetworkBehaviour
         dropLimbEvent.Invoke();
         return newSceneObject;
     }
-    [TargetRpc]
-    private void TargetRpcUpdateCameraPositionForHeadOnClient(NetworkConnection client, SceneObjectItemManager SceneObjectScript)
-    {
-        camFocus.parent = SceneObjectScript.transform;
-    }
+    
 
     private void ResetHeadPosCam(SceneObjectItemManager SceneObjectScript)
     {
@@ -977,7 +973,8 @@ public class ItemManager : NetworkBehaviour
                 //camFocus.localEulerAngles = Vector3.zero;
                 //camFocus.localScale = Vector3.one;
                 //CamPositionReset();
-                selectionMode = 0;
+                
+                TargetRpcSetSelectionMode(connectionClient, 0);
                 TargetRpcSetCharaterIsBeingControlled(connectionClient, characterControlScript, true);
                 TargetRpcCamPositionReset(connectionClient);
 
@@ -1033,16 +1030,7 @@ public class ItemManager : NetworkBehaviour
         pickupLimbEvent.Invoke();
     }
 
-    [TargetRpc]
-    private void TargetRpcCamPositionReset(NetworkConnection connectionToClient)
-    {
-        camFocus.parent = camFocusOrigin;
-
-        ResetCamCondition();
-
-        camFocus.localEulerAngles = Vector3.zero;
-        camFocus.localScale = Vector3.one;
-    }
+    
 
     [Command(requiresAuthority = false)]
     private void MovePlayer(Vector3 displacement) => RPCMovePlayer(displacement);
@@ -1061,12 +1049,37 @@ public class ItemManager : NetworkBehaviour
     }
     #endregion
 
+
+    #region TargetRpcFunctions
+    [TargetRpc]
+    private void TargetRpcUpdateCameraPositionForHeadOnClient(NetworkConnection client, SceneObjectItemManager SceneObjectScript)
+    {
+        camFocus.parent = SceneObjectScript.transform;
+    }
+
     [TargetRpc]
     private void TargetRpcSetCharaterIsBeingControlled(NetworkConnection connection, CharacterControl characterControlScript, bool isBeingControlled)
     {
         characterControlScript.isBeingControlled = isBeingControlled;
     }
+    [TargetRpc]
+    private void TargetRpcSetSelectionMode(NetworkConnection connection, int mode)
+    {
+        selectionMode = mode;
+    }
 
+    [TargetRpc]
+    private void TargetRpcCamPositionReset(NetworkConnection connectionToClient)
+    {
+        camFocus.parent = camFocusOrigin;
+
+        ResetCamCondition();
+
+        camFocus.localEulerAngles = Vector3.zero;
+        camFocus.localScale = Vector3.one;
+    }
+
+    #endregion
     void ResetCamCondition()
     {
         if (NumberOfLegs >= 1)
@@ -1074,4 +1087,5 @@ public class ItemManager : NetworkBehaviour
         else
             camFocus.localPosition = noLegCamPos;
     }
+
 }
