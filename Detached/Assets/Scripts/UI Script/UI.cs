@@ -29,22 +29,27 @@ public class UI : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused)
         {
             pauseUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             FreezeGame();
         }
 
-
-     
-    
-
-        if (Input.GetKeyDown("9"))
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused)
         {
             pauseUI.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            ResumeGame();
         }
+
+        //if (Input.GetKeyDown("9"))
+        //{
+        //    pauseUI.SetActive(false);
+        //    Cursor.lockState = CursorLockMode.Locked;
+        //    Cursor.visible = false;
+        //}
     }
 }
