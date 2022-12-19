@@ -76,6 +76,14 @@ public class Goal : NetworkBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Torso"))
+        {
+             EvaluateVictory();
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("Torso"))
