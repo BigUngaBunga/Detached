@@ -35,7 +35,7 @@ public class UI : MonoBehaviour
     public void LoadMainMenu()
     {
 
-        Application.LoadLevel("SteamLobby");
+        Application.LoadLevel("MainMenu");
 
     }
     // Update is called once per frame
