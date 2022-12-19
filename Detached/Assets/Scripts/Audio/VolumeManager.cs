@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class VolumeManager : MonoBehaviour
 {
-    public static float MasterVolume = 1.0f;
-    public static float SFXVolume = 1.0f;
-    public static float DialogueVolume = 1.0f;
-    public static float MusicVolume = 1.0f;
+    public static float MasterVolume = 0.3f;
+    public static float SFXVolume = 0.3f;
+    public static float DialogueVolume = 0.3f;
+    public static float MusicVolume = 0.3f;
     
 
     public static float GetSFXVolume()

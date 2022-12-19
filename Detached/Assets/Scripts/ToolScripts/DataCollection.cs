@@ -44,13 +44,22 @@ public class DataCollection : MonoBehaviour
 
     private void Start()
     {
+        // Check if a folder exists in the current project's Assets folder
+        bool folderExists = Directory.Exists(Application.dataPath + "/DebugTool");
+
+        if (!folderExists)
+        {
+            Directory.CreateDirectory(Application.dataPath + "/DebugTool");
+        }
+
+
         level = SceneManager.GetActiveScene().name;
         gameVersion = 1;
-        filePath = "Assets/Resources/" + level + " " + gameVersion.ToString() + ".txt";
+        filePath = Application.dataPath + "/DebugTool/" + level + " " + gameVersion.ToString() + ".txt";
         while (File.Exists(filePath))
         {
             gameVersion++;
-            filePath = "Assets/Resources/" + level + " " + gameVersion.ToString() + ".txt";
+            filePath = Application.dataPath + "/DebugTool/" + level + " " + gameVersion.ToString() + ".txt";
         }
         triggerStructArray = new TriggerStruct[triggers.Length];
         for (int i = 0; i < triggers.Length; i++)

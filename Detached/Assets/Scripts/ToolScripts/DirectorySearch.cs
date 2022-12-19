@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using static Cinemachine.DocumentationSortingAttribute;
 
 public class DirectorySearch : MonoBehaviour
 {
     public Dropdown dropdown;
     public DataVisualizer visualizer;
-    string sourceDirectory = @"Assets/Resources";
+    string sourceDirectory = Application.dataPath + "/DebugTool";
 
     private void Start()
     {
