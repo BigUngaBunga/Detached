@@ -160,9 +160,9 @@ public class MusicManager : MonoBehaviour
             
         }
         musicInstances[currentIndex].getVolume(out float volume);
-        if (volume != VolumeManager.MusicVolume)
+        if (volume != VolumeManager.GetMusicVolume())
         {
-            UpdateVolume(VolumeManager.MusicVolume);
+            UpdateVolume(VolumeManager.GetMusicVolume());
         }
     }
 

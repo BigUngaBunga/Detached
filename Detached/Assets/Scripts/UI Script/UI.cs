@@ -20,10 +20,23 @@ public class UI : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
+    public void ResumeMainMenu()
+    {
+        Time.timeScale = 1;
+        gameIsPaused = false;
+    }
     public void FreezeGame()
     {
         gameIsPaused = true;
         Time.timeScale = 0;
+    }
+
+    [System.Obsolete]
+    public void LoadMainMenu()
+    {
+
+        Application.LoadLevel("MainMenu");
+
     }
     // Update is called once per frame
     void Update()
