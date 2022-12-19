@@ -1,15 +1,10 @@
-using Mirror;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
 using System;
 using FMOD.Studio;
 using FMOD;
-using System.Reflection;
-using UnityEngine.Events;
 using System.Runtime.InteropServices;
-using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 
 public class DialogueManager : MonoBehaviour
