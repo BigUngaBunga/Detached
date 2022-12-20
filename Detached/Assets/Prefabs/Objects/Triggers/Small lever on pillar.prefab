@@ -30,7 +30,7 @@ Transform:
   - {fileID: 694081813943040702}
   - {fileID: 5021407902209291827}
   m_Father: {fileID: 3680813342638785981}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 303, y: 0, z: 0}
 --- !u!1 &3921040456282786740
 GameObject:
@@ -62,7 +62,7 @@ Transform:
   - {fileID: 5086263090004902657}
   - {fileID: 6082070819443060393}
   m_Father: {fileID: 3680813342638785981}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4062018814650392327
 GameObject:
@@ -73,9 +73,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3680813342638785981}
+  - component: {fileID: 4936942102886329060}
   - component: {fileID: 4709313831715125337}
   - component: {fileID: 4241599172738007733}
-  - component: {fileID: 4936942102886329060}
   - component: {fileID: 7642935878446399897}
   - component: {fileID: 7829385210978685340}
   - component: {fileID: 4366540893436767309}
@@ -98,12 +98,31 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 2207548886047909975}
   - {fileID: 6082819857307496253}
   - {fileID: 7797487467385283065}
-  - {fileID: 2207548886047909975}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &4936942102886329060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4062018814650392327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe49282cb17b8e247ae21888e7952170, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  activators: []
+  isTriggered: 0
+  requiredArms: 1
+  triggeredLever: {fileID: 2890729232450306155}
+  normalLever: {fileID: 3921040456282786740}
 --- !u!33 &4709313831715125337
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -153,25 +172,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4936942102886329060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4062018814650392327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe49282cb17b8e247ae21888e7952170, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  activators: []
-  isTriggered: 0
-  requiredArms: 1
-  triggeredLever: {fileID: 2890729232450306155}
-  normalLever: {fileID: 3921040456282786740}
 --- !u!65 &7642935878446399897
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -342,11 +342,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4475039646766008853}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 2.9403}
+  m_LocalPosition: {x: 0, y: 0, z: 2.9403}
   m_LocalScale: {x: 1, y: 1, z: 6.442704}
   m_Children: []
   m_Father: {fileID: 3680813342638785981}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7135942511616150591
 MeshFilter:
