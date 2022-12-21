@@ -156,7 +156,7 @@ public class CharacterControl : NetworkBehaviour
 
     private void NoLegCam()
     {
-        if (limbManager.NumberOfLegs >= 1)
+        if (limbManager.NumberOfLegs >= 1 && !limbManager.readyToThrow)
         {
             camFocus.localPosition = Vector3.zero;
             camUpdated = false;
@@ -255,9 +255,9 @@ public class CharacterControl : NetworkBehaviour
     private void StepClimbUpperCheck(Vector3 rbDirection, GameObject rayDirectionUpper)
     {
         RaycastHit hitUpper;
-        if (!Physics.Raycast(rayDirectionUpper.transform.position, rbDirection.normalized, out hitUpper, stepRayLength)) //upper check
+        if (!Physics.Raycast(rayDirectionUpper.transform.position, rbDirection.normalized, out hitUpper, 0.5f)) //upper check
         {
-            if (input != Vector3.zero && isGrounded)
+            if (isGrounded)
                 rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f); //the actual stepClimb
         }
     }

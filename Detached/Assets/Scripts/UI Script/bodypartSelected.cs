@@ -148,7 +148,8 @@ public class BodypartSelected : MonoBehaviour
         for (int i = 0; i < boundCheck; i++)
         {
             selectedObject = iManagerLocalPlayer.limbs[iManagerLocalPlayer.indexControll].transform.GetChild(i).gameObject;
-            cam = iManagerLocalPlayer.limbs[iManagerLocalPlayer.indexControll].transform.GetChild(i + 1).gameObject;
+            if (iManagerLocalPlayer.limbs[iManagerLocalPlayer.indexControll].transform.GetChild(i + 1) != null)
+                cam = iManagerLocalPlayer.limbs[iManagerLocalPlayer.indexControll].transform.GetChild(i + 1).gameObject;
         }
 
         if (cam != null && selectedObject.tag == "Head")
