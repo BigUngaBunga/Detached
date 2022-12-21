@@ -65,7 +65,7 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] GameObject indicator;
 
     private Vector3 noLegCamPos;
-    private bool readyToThrow;
+    public bool readyToThrow;
     private Limb_enum selectedLimbToThrow = Limb_enum.Head;
     private GameObject headObj;
     private bool dragging;
@@ -240,7 +240,7 @@ public class ItemManager : NetworkBehaviour
         numberOfLimbs = 5;
         selectionMode = 0;
         characterControlScript = gameObject.GetComponent<CharacterControl>();
-        noLegCamPos = camFocus.localPosition = new Vector3(camFocus.localPosition.x + characterControlScript.noLegCamOffset.x, camFocus.localPosition.y + characterControlScript.noLegCamOffset.y, camFocus.localPosition.z + characterControlScript.noLegCamOffset.z);
+        noLegCamPos = new Vector3(camFocus.localPosition.x + characterControlScript.noLegCamOffset.x, camFocus.localPosition.y + characterControlScript.noLegCamOffset.y, camFocus.localPosition.z + characterControlScript.noLegCamOffset.z);
 
         /* originalCamTransform.position = camFocus.localPosition;
          originalCamTransform.eulerAngles = camFocus.localEulerAngles;
@@ -938,7 +938,7 @@ public class ItemManager : NetworkBehaviour
 
             float maxThrowHeight = 0.28f; //from cam perspective
             cinemachine.m_YAxis.m_MinValue = maxThrowHeight;
-            //camFocus.localRotation = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
+           // camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
 
         }
         else if (Input.GetMouseButtonUp(1))

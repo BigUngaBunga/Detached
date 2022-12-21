@@ -17,22 +17,13 @@ public class Billboarding : MonoBehaviour
 
     void Start()
     {
-        if (PreSpawn)
-        {
-            text = Instantiate(floatingText, transform.position, Quaternion.identity, transform).GetComponentInChildren<TextMeshPro>();
-            text.GetComponent<TextMeshPro>().SetText(prompt);
-            text.GetComponent<TextMeshPro>().fontSize = 16;
-            int multiplier = 2 + prompt.Length / 40;
-            text.GetComponent<TextMeshPro>().gameObject.transform.position += Vector3.up * multiplier;
-        }
+        text = null;
+        SetTextVisible(PreSpawn);
     }
 
     void Update()
     {
-        if (text == null)
-        {
-            return;
-        }
+        if (text == null) return;
         cameraDir = camera.transform.forward;
         cameraDir.y = 0;
 
@@ -41,26 +32,28 @@ public class Billboarding : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (text != null) { return; }
         if (other.gameObject.name == "ChedBody" || other.gameObject.name == "DetaBody")
-        {
-            text = Instantiate(floatingText, transform.position, Quaternion.identity, transform).GetComponentInChildren<TextMeshPro>();
-            text.GetComponent<TextMeshPro>().SetText(prompt);
-            text.GetComponent<TextMeshPro>().fontSize = 16;
-            int multiplier = 2 + prompt.Length / 40;
-            text.GetComponent<TextMeshPro>().gameObject.transform.position += Vector3.up*multiplier;
-        }
+            SetTextVisible(true);
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.name == "ChedBody" || other.gameObject.name == "DetaBody")
-        {
-            if (text == null)
-            {
-                return;
-            }
-            Destroy(text);
-        }
+            SetTextVisible(false);
+    }
+
+    private void CreateText()
+    {
+        text = Instantiate(floatingText, transform.position, Quaternion.identity, transform).GetComponentInChildren<TextMeshPro>();
+        text.GetComponent<TextMeshPro>().SetText(prompt);
+        int multiplier = 2 + prompt.Length / 40;
+        text.GetComponent<TextMeshPro>().gameObject.transform.position += Vector3.up * multiplier;
+    }
+
+    private void SetTextVisible(bool setVisible)
+    {
+        if (text == null)
+            CreateText();
+        text.gameObject.SetActive(setVisible);
     }
 }
