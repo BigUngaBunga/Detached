@@ -86,7 +86,7 @@ public class SteamLobby : MonoBehaviour
         Debug.Log("Request to join Lobby");
         if (manager.isNetworkActive)
         {
-            manager.StopHost();
+            //manager.StopHost();
         }
         SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
 
