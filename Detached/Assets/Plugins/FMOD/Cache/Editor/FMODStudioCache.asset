@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638060882727742524
+  lastModified: 638073026145427000
   FileSizes: []
   Exists: 1
 --- !u!114 &-8797912400153106736
@@ -231,7 +231,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 1074
+  Length: 168
 --- !u!114 &-7744316102529532771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,6 +498,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2612
+--- !u!114 &-5822553270554108153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Stinger3
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Stinger3
+  Guid:
+    Data1: -1950356648
+    Data2: 1258141084
+    Data3: -357449048
+    Data4: 1145772712
+  Banks:
+  - {fileID: 3209147859294559119}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3144
 --- !u!114 &-5745749548514558754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,7 +540,7 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/Dialogue.bank
   Name: Dialogue
   StudioPath: bank:/Dialogue
-  lastModified: 638067027263917118
+  lastModified: 638073026142095130
   FileSizes: []
   Exists: 1
 --- !u!114 &-5745683874924594278
@@ -1324,6 +1351,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4466
+--- !u!114 &-763218544575667494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Stinger1
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Stinger1
+  Guid:
+    Data1: 23381860
+    Data2: 1283475845
+    Data3: 1846445228
+    Data4: 1537402012
+  Banks:
+  - {fileID: 3209147859294559119}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 7344
 --- !u!114 &-706497086919926752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1406,7 +1460,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 271
+  Length: 192
 --- !u!114 &-440337461199348369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1561,13 +1615,18 @@ MonoBehaviour:
   - {fileID: 3123663646887571296}
   - {fileID: 7660554094024793861}
   - {fileID: 6641640504458108537}
+  - {fileID: -5822553270554108153}
+  - {fileID: -763218544575667494}
+  - {fileID: 6576821347308449915}
+  - {fileID: 9016459154827194197}
+  - {fileID: 4631931911742790291}
   EditorParameters:
   - {fileID: 3224715806479717535}
   MasterBanks:
   - {fileID: 7412267887926691739}
   StringsBanks:
   - {fileID: 5626597695562776198}
-  cacheTime: 638067027263917118
+  cacheTime: 638073026147931729
   cacheVersion: 131593
 --- !u!114 &216127448544306568
 MonoBehaviour:
@@ -1894,7 +1953,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 360
+  Length: 144
 --- !u!114 &2110953311761049525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2045,7 +2104,7 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638060882727762198
+  lastModified: 638073026147931729
   FileSizes: []
   Exists: 1
 --- !u!114 &3224715806479717535
@@ -2177,6 +2236,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2664
+--- !u!114 &4631931911742790291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/PushSmallButton
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/PushSmallButton
+  Guid:
+    Data1: -1433081115
+    Data2: 1312879520
+    Data3: -1912215111
+    Data4: 93007358
+  Banks:
+  - {fileID: 3209147859294559119}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 168
 --- !u!114 &4909719340600962181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2300,10 +2386,10 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638064488659761075
+  lastModified: 638073026142145144
   FileSizes:
   - Name: 
-    Value: 4086
+    Value: 4294
   Exists: 1
 --- !u!114 &5678537954995164529
 MonoBehaviour:
@@ -2462,6 +2548,33 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
+--- !u!114 &6576821347308449915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Stinger2
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Stinger2
+  Guid:
+    Data1: -1527418725
+    Data2: 1219303473
+    Data3: 1402119868
+    Data4: -1099538638
+  Banks:
+  - {fileID: 3209147859294559119}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 7752
 --- !u!114 &6641640504458108537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2638,7 +2751,7 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638047172073463554
+  lastModified: 638073026142135147
   FileSizes: []
   Exists: 1
 --- !u!114 &7660554094024793861
@@ -2667,7 +2780,7 @@ MonoBehaviour:
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 215
+  Length: 144
 --- !u!114 &8069900694814104135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2751,3 +2864,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3134
+--- !u!114 &9016459154827194197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/BoxGround
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/BoxGround
+  Guid:
+    Data1: 217851831
+    Data2: 1337876056
+    Data3: 1433180560
+    Data4: -1457956331
+  Banks:
+  - {fileID: 3209147859294559119}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 266

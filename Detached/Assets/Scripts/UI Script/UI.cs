@@ -31,6 +31,18 @@ public class UI : MonoBehaviour
         Time.timeScale = 0;
     }
 
+    public void RestartGame()
+    {
+        Time.timeScale = 1;
+        gameIsPaused = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        FallOutOfWorld script = GameObject.Find("FallOutOfWorldTrigger").GetComponent<FallOutOfWorld>();
+        script.ChangeScene();
+
+    }
+
     [System.Obsolete]
     public void LoadMainMenu()
     {
