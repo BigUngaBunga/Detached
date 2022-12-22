@@ -16,7 +16,7 @@ public class GlobalLevelIndex : MonoBehaviour
     }
 
     public static string GetLevel(int levelNumber) => levelNames[levelNumber - 1];
-    public static string GetLevelZeroIndex(int levelNumber) => levelNames[levelNumber];
+    public static string GetLevelZeroIndex(int levelNumber) => levelNames[levelNumber];    
     public static string GetNextLevel()
     {
         string currentLevel = SceneManager.GetActiveScene().name;
@@ -28,5 +28,16 @@ public class GlobalLevelIndex : MonoBehaviour
                 return levelNames[i+1];
         }
         return currentLevel;
+    }
+
+    public static int GetLevelIndex()
+    {
+        string currentLevel = SceneManager.GetActiveScene().name;
+        for (int i = 0; i < levelNames.Length; i++)
+        {
+            if (currentLevel == levelNames[i])
+                return i;
+        }
+        return 0;
     }
 }
