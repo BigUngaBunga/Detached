@@ -1174,12 +1174,7 @@ public class ItemManager : NetworkBehaviour
     [TargetRpc]
     private void TargetRpcCamPositionReset(NetworkConnection connectionToClient)
     {
-        Debug.Log(camFocusOrigin);
-
-        if(camFocus == null)
-        {
-            camFocus = new GameObject().transform;
-        }
+        
         camFocus.parent = camFocusOrigin;
 
         ResetCamCondition();
