@@ -12939,6 +12939,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6989780455174827013}
     m_Modifications:
+    - target: {fileID: 32353589649615330, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 32353589649615330, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6989780455174827012}
+    - target: {fileID: 32353589649615330, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RestartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 32353589649615330, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UI, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 2795029362663547005, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
@@ -12977,7 +12993,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2795029363888504329, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2795029363888504370, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
       propertyPath: m_Pivot.x
@@ -13063,21 +13079,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2795029364385145233, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+    - target: {fileID: 2917444371243977564, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
+      propertyPath: m_Name
+      value: RestartText
+      objectReference: {fileID: 0}
+    - target: {fileID: 5079567942525090573, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2795029364385145233, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 6989780455174827012}
-    - target: {fileID: 2795029364385145233, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ResumeGame
+    - target: {fileID: 5458063718593085215, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
       objectReference: {fileID: 0}
-    - target: {fileID: 2795029364385145233, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UI, Assembly-CSharp
+    - target: {fileID: 5458063718593085215, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 105.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5800716624780746440, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
+      propertyPath: m_text
+      value: Restart level
+      objectReference: {fileID: 0}
+    - target: {fileID: 5800716624780746440, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
+      propertyPath: m_margin.x
+      value: -3.7271576
+      objectReference: {fileID: 0}
+    - target: {fileID: 5800716624780746440, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
+      propertyPath: m_margin.z
+      value: -3.805748
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2e622fc07b768b409c4f82889bf36e4, type: 3}
