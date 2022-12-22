@@ -7,6 +7,8 @@ public class UI : MonoBehaviour
     // Start is called before the first frame update
 
     public GameObject pauseUI;
+    public GameObject optionUIMenu;
+    public GameObject controlUIMenu;
     public GameObject mainMenu;
     public bool gameIsPaused;
     void Start()
@@ -19,6 +21,8 @@ public class UI : MonoBehaviour
         gameIsPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        optionUIMenu.SetActive(false);
+        controlUIMenu.SetActive(false);
     }
     public void FreezeGame()
     {
