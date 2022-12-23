@@ -145,22 +145,22 @@ public class Animation : NetworkBehaviour
 
     private void Emote()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             animator.SetTrigger("Facepalm");
             networkAnimator.SetTrigger("Facepalm");
         }
-        else if (Input.GetKeyDown(KeyCode.X))
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             animator.SetTrigger("Wave");
             networkAnimator.SetTrigger("Wave");
         }
-        else if (Input.GetKeyDown(KeyCode.C))
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             animator.SetTrigger("Mock");
             networkAnimator.SetTrigger("Mock");
         }
-        else if (Input.GetKeyDown(KeyCode.V))
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             networkAnimator.SetTrigger("Laugh");
             animator.SetTrigger("Laugh");

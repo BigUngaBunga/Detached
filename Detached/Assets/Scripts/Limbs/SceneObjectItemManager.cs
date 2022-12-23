@@ -18,10 +18,9 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SerializeField] public LayerMask groundMask;
     [SerializeField] float groundCheckRadius;
 
-    private KeyCode detachKeyHead;
-    private KeyCode detachKeyArm;
-    private KeyCode detachKeyLeg;
-
+    //For instantly picking up the head again
+    [SerializeField] private KeyCode detachKeyHead;
+    
     private HighlightObject highlight;
     private ArmInteraction armInteractor;
 
@@ -66,12 +65,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     private void Start()
     {
         itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
-        highlight = GetComponent<HighlightObject>();
-        detachKeyHead = itemManager.detachKeyHead;
-        detachKeyArm = itemManager.detachKeyArm;
-        detachKeyLeg = itemManager.detachKeyLeg;
-
-
+        highlight = GetComponent<HighlightObject>();      
     }
 
     //Instantiates the limb as a child on the SceneObject 
@@ -109,8 +103,7 @@ public class SceneObjectItemManager : NetworkBehaviour
         }
         if (thisLimb == LimbType.Arm && IsBeingControlled && itemManager != null && itemManager.isLocalPlayer)
             armInteractor.UpdateInteractor(Input.GetKeyDown(KeyCode.E));
-        //Todo Needs to be changed to a more specific pickup action
-        if (Input.GetKeyDown(KeyCode.T) && !IsBeingControlled)
+        if (Input.GetKey(KeyCode.I) && Input.GetKey(KeyCode.LeftControl)  && Input.GetKey(KeyCode.L) && !IsBeingControlled)
         {
             var itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
             switch (thisLimb)
