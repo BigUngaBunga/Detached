@@ -10,10 +10,10 @@ using System.Collections.Generic;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private Slider sliderSensitivity;
-    private float rotY = 0.0f; // rotation around the up/y axis
+ /*   private float rotY = 0.0f; // rotation around the up/y axis
     private float rotX = 0.0f; // rotation around the right/x axis
     public float clampAngle = 80.0f;
-    float mouseSensitivity = 100f;
+    float mouseSensitivity = 100f;*/
     public void PlayGame()
     {
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -27,11 +27,11 @@ public class MainMenu : MonoBehaviour
     }
     public void adjustMouseSensitivity()
     {
-         mouseSensitivity = sliderSensitivity.value;
+         //mouseSensitivity = sliderSensitivity.value;
     }
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X");
+/*        float mouseX = Input.GetAxis("Mouse X");
         float mouseY = -Input.GetAxis("Mouse Y");
 
         rotY += mouseX * mouseSensitivity * Time.deltaTime;
@@ -40,7 +40,7 @@ public class MainMenu : MonoBehaviour
         rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
 
         Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
-        transform.rotation = localRotation;
+        transform.rotation = localRotation;*/
     }
     public void QuitGame()
     {
