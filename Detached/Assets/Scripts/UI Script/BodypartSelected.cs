@@ -36,8 +36,14 @@ public class BodypartSelected : MonoBehaviour
 
     public GameObject cam;
     int numOfLimbOnGround;
+    private bool performedSetup = false;
     private ItemManager iManagerLocalPlayer;
     void Start()
+    {
+        
+    }
+
+    private void Setup()
     {
         iManagerLocalPlayer = NetworkClient.localPlayer.gameObject.GetComponent<ItemManager>();
         iManagerLocalPlayer.changeSelectedLimbEvent.AddListener(GetSelectedOfPlayer);
@@ -45,6 +51,7 @@ public class BodypartSelected : MonoBehaviour
         iManagerLocalPlayer.pickupLimbEvent.AddListener(GetCurrentLimbsOfPlayer);
 
         GetCurrentLimbsOfPlayer();
+        performedSetup = true;
     }
     void PauseGame()
     {
@@ -61,6 +68,8 @@ public class BodypartSelected : MonoBehaviour
 
     void Update()
     {
+        if (!performedSetup)
+            Setup();
         if (!iManagerLocalPlayer.groundMode)
         {
             groundUI.SetActive(false);
