@@ -61,7 +61,7 @@ public class UI : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused)
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused && !mainMenu)
         {
             pauseUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
