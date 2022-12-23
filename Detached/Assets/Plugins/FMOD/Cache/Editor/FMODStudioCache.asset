@@ -1,23 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9085042095685632430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Music.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/FmodBanks/Desktop/Music.bank
-  Name: Music
-  StudioPath: bank:/Music
-  lastModified: 638060882727742524
-  FileSizes: []
-  Exists: 1
 --- !u!114 &-8797912400153106736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45,6 +27,32 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1253
+--- !u!114 &-8635267567703880074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ST_SONG2/EndSong
+  m_EditorClassIdentifier: 
+  Name: EndSong
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3473249328
+    data2: 3943168979
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - No
+  - Yes
+  Exists: 1
 --- !u!114 &-8583754947787838151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,32 +80,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2560
---- !u!114 &-8493943399106923502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/ST_MAIN_MENU/EndSong
-  m_EditorClassIdentifier: 
-  Name: EndSong
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 3473249328
-    data2: 3943168979
-  Type: 2
-  IsGlobal: 0
-  Labels:
-  - No
-  - Yes
-  Exists: 1
 --- !u!114 &-8368676802432133180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,6 +134,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 5015
+--- !u!114 &-8250934429037332676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/PushSmallButton
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/PushSmallButton
+  Guid:
+    Data1: -1433081115
+    Data2: 1312879520
+    Data3: -1912215111
+    Data4: 93007358
+  Banks:
+  - {fileID: -2201744530611959729}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 168
 --- !u!114 &-8069602533066261098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,59 +188,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3108
---- !u!114 &-8042028536080740828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/ST_SONG3/EndSong
-  m_EditorClassIdentifier: 
-  Name: EndSong
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 3473249328
-    data2: 3943168979
-  Type: 2
-  IsGlobal: 0
-  Labels:
-  - No
-  - Yes
-  Exists: 1
---- !u!114 &-8019352050440971322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Jump
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/Jump
-  Guid:
-    Data1: -1252559524
-    Data2: 1153111641
-    Data3: -2143657311
-    Data4: -2140548206
-  Banks:
-  - {fileID: 3209147859294559119}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 168
 --- !u!114 &-7744316102529532771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,6 +242,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4179
+--- !u!114 &-7044624317776363486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/BoxGround
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/BoxGround
+  Guid:
+    Data1: 217851831
+    Data2: 1337876056
+    Data3: 1433180560
+    Data4: -1457956331
+  Banks:
+  - {fileID: -2201744530611959729}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 266
 --- !u!114 &-6917455769409873099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,36 +296,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2429
---- !u!114 &-6782668104230150965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SOUNDTRACK/ST_SONG2
-  m_EditorClassIdentifier: 
-  Path: event:/SOUNDTRACK/ST_SONG2
-  Guid:
-    Data1: 2141301526
-    Data2: 1270499891
-    Data3: -506460265
-    Data4: -2112625319
-  Banks:
-  - {fileID: -9085042095685632430}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters:
-  - {fileID: -6305322092977065128}
-  - {fileID: -440337461199348369}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 43627
---- !u!114 &-6606801732939841140
+--- !u!114 &-6642604669589983679
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -352,7 +306,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/ST_MAIN_MENU/Intensity
+  m_Name: parameter:/ST_SONG3/Intensity
   m_EditorClassIdentifier: 
   Name: Intensity
   StudioPath: 
@@ -420,30 +374,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3082
---- !u!114 &-6305322092977065128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/ST_SONG2/Intensity
-  m_EditorClassIdentifier: 
-  Name: Intensity
-  StudioPath: 
-  Min: 0
-  Max: 100
-  Default: 0
-  ID:
-    data1: 303111441
-    data2: 2953778341
-  Type: 0
-  IsGlobal: 1
-  Labels: []
-  Exists: 1
 --- !u!114 &-6246751288760803532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -471,6 +401,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3213
+--- !u!114 &-6013421403989347293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ST_SONG7/Intensity
+  m_EditorClassIdentifier: 
+  Name: Intensity
+  StudioPath: 
+  Min: 0
+  Max: 100
+  Default: 0
+  ID:
+    data1: 303111441
+    data2: 2953778341
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
 --- !u!114 &-5989797212511637806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,7 +452,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2612
---- !u!114 &-5822553270554108153
+--- !u!114 &-5780043301591300319
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -507,24 +461,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Stinger3
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ST_SONG4/Intensity
   m_EditorClassIdentifier: 
-  Path: event:/SFX/Stinger3
-  Guid:
-    Data1: -1950356648
-    Data2: 1258141084
-    Data3: -357449048
-    Data4: 1145772712
-  Banks:
-  - {fileID: 3209147859294559119}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 3144
+  Name: Intensity
+  StudioPath: 
+  Min: 0
+  Max: 100
+  Default: 0
+  ID:
+    data1: 303111441
+    data2: 2953778341
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
 --- !u!114 &-5745749548514558754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,7 +491,7 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/Dialogue.bank
   Name: Dialogue
   StudioPath: bank:/Dialogue
-  lastModified: 638067027263917118
+  lastModified: 638073820686403959
   FileSizes: []
   Exists: 1
 --- !u!114 &-5745683874924594278
@@ -624,6 +575,32 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1488
+--- !u!114 &-5359136390719581791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ST_SONG7/EndSong
+  m_EditorClassIdentifier: 
+  Name: EndSong
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3473249328
+    data2: 3943168979
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - No
+  - Yes
+  Exists: 1
 --- !u!114 &-5323428907069201704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -678,6 +655,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1462
+--- !u!114 &-4898314627575157358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Stinger1
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Stinger1
+  Guid:
+    Data1: 23381860
+    Data2: 1283475845
+    Data3: 1846445228
+    Data4: 1537402012
+  Banks:
+  - {fileID: -2201744530611959729}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 7344
 --- !u!114 &-4654138869932394872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -705,6 +709,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3578
+--- !u!114 &-4642287063118531412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/ExitButton
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/ExitButton
+  Guid:
+    Data1: -1799954805
+    Data2: 1176760536
+    Data3: -1541580622
+    Data4: -626960023
+  Banks:
+  - {fileID: -2201744530611959729}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 144
 --- !u!114 &-4641719122384088236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -732,30 +763,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2063
---- !u!114 &-4621504000928443093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/ST_SONG3/Intensity
-  m_EditorClassIdentifier: 
-  Name: Intensity
-  StudioPath: 
-  Min: 0
-  Max: 100
-  Default: 0
-  ID:
-    data1: 303111441
-    data2: 2953778341
-  Type: 0
-  IsGlobal: 1
-  Labels: []
-  Exists: 1
 --- !u!114 &-4247470574258962023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -864,6 +871,60 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1332
+--- !u!114 &-3802079302474329871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Ping
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Ping
+  Guid:
+    Data1: -1481758575
+    Data2: 1125774058
+    Data3: 406379948
+    Data4: 1662160062
+  Banks:
+  - {fileID: -2201744530611959729}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 702
+--- !u!114 &-3778146753454064962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/PushButton
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/PushButton
+  Guid:
+    Data1: -517610404
+    Data2: 1151069317
+    Data3: 327972499
+    Data4: 2015012006
+  Banks:
+  - {fileID: -2201744530611959729}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 192
 --- !u!114 &-3764463467405891374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -945,33 +1006,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1071
---- !u!114 &-3530902663355152066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Throw
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/Throw
-  Guid:
-    Data1: 1473450480
-    Data2: 1095916530
-    Data3: -1744309630
-    Data4: 2066883017
-  Banks:
-  - {fileID: 3209147859294559119}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 239
 --- !u!114 &-3523279212537658238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1026,6 +1060,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4362
+--- !u!114 &-3356254652573108015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Throw
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Throw
+  Guid:
+    Data1: 1473450480
+    Data2: 1095916530
+    Data3: -1744309630
+    Data4: 2066883017
+  Banks:
+  - {fileID: -2201744530611959729}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 239
 --- !u!114 &-3338101685340188451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1080,7 +1141,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1880
---- !u!114 &-2609216755254888427
+--- !u!114 &-3183625125388255422
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1090,23 +1151,43 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/InsertBattery
+  m_Name: event:/SOUNDTRACK/ST_SONG2
   m_EditorClassIdentifier: 
-  Path: event:/SFX/InsertBattery
+  Path: event:/SOUNDTRACK/ST_SONG2
   Guid:
-    Data1: 1931859472
-    Data2: 1157064807
-    Data3: -113049666
-    Data4: 1762810178
+    Data1: 2141301526
+    Data2: 1270499891
+    Data3: -506460265
+    Data4: -2112625319
   Banks:
-  - {fileID: 3209147859294559119}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
+  - {fileID: -2843513741016720536}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 4961017971374628677}
+  - {fileID: -8635267567703880074}
   MinDistance: 1
   MaxDistance: 20
-  Length: 121
+  Length: 43627
+--- !u!114 &-2843513741016720536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Music.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FmodBanks/Desktop/Music.bank
+  Name: Music
+  StudioPath: bank:/Music
+  lastModified: 638073820690018119
+  FileSizes: []
+  Exists: 1
 --- !u!114 &-2595117344606966362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1161,7 +1242,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4519
---- !u!114 &-1895131523668465746
+--- !u!114 &-2499236092441283795
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1170,22 +1251,45 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/ST_SONG4/Intensity
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SOUNDTRACK/ST_SONG4
   m_EditorClassIdentifier: 
-  Name: Intensity
-  StudioPath: 
-  Min: 0
-  Max: 100
-  Default: 0
-  ID:
-    data1: 303111441
-    data2: 2953778341
-  Type: 0
-  IsGlobal: 1
-  Labels: []
+  Path: event:/SOUNDTRACK/ST_SONG4
+  Guid:
+    Data1: 1018048192
+    Data2: 1124088334
+    Data3: -1711981143
+    Data4: -79468347
+  Banks:
+  - {fileID: -2843513741016720536}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 6721102312343524551}
+  - {fileID: -5780043301591300319}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 51452
+--- !u!114 &-2201744530611959729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/SFX.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FmodBanks/Desktop/SFX.bank
+  Name: SFX
+  StudioPath: bank:/SFX
+  lastModified: 638073820690486555
+  FileSizes: []
   Exists: 1
---- !u!114 &-1463444797693455110
+--- !u!114 &-2020544776249732522
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1204,16 +1308,120 @@ MonoBehaviour:
     Data3: -1879334745
     Data4: 1195872145
   Banks:
-  - {fileID: -9085042095685632430}
+  - {fileID: -2843513741016720536}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
   Parameters:
-  - {fileID: -6606801732939841140}
-  - {fileID: -8493943399106923502}
+  - {fileID: 5199362500021986557}
+  - {fileID: 9166251488465173696}
   MinDistance: 1
   MaxDistance: 20
   Length: 76609
+--- !u!114 &-1984098926657383020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ST_SONG6/Intensity
+  m_EditorClassIdentifier: 
+  Name: Intensity
+  StudioPath: 
+  Min: 0
+  Max: 100
+  Default: 0
+  ID:
+    data1: 303111441
+    data2: 2953778341
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
+--- !u!114 &-1955121298786142941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Walking
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Walking
+  Guid:
+    Data1: 90736500
+    Data2: 1261312036
+    Data3: -1807111516
+    Data4: -27845891
+  Banks:
+  - {fileID: -2201744530611959729}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 126
+--- !u!114 &-1796166690066588907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ST_SONG3/EndSong
+  m_EditorClassIdentifier: 
+  Name: EndSong
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3473249328
+    data2: 3943168979
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - No
+  - Yes
+  Exists: 1
+--- !u!114 &-1787152990656998573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Stinger2
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Stinger2
+  Guid:
+    Data1: -1527418725
+    Data2: 1219303473
+    Data3: 1402119868
+    Data4: -1099538638
+  Banks:
+  - {fileID: -2201744530611959729}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 7752
 --- !u!114 &-1262260522435600707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1241,62 +1449,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1906
---- !u!114 &-1189553181996546552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Attach
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/Attach
-  Guid:
-    Data1: -339994546
-    Data2: 1087714488
-    Data3: 298199452
-    Data4: 972352571
-  Banks:
-  - {fileID: 3209147859294559119}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 330
---- !u!114 &-1173440930706175948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SOUNDTRACK/ST_SONG4
-  m_EditorClassIdentifier: 
-  Path: event:/SOUNDTRACK/ST_SONG4
-  Guid:
-    Data1: 1018048192
-    Data2: 1124088334
-    Data3: -1711981143
-    Data4: -79468347
-  Banks:
-  - {fileID: -9085042095685632430}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters:
-  - {fileID: 6082539529658173419}
-  - {fileID: -1895131523668465746}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 51452
 --- !u!114 &-1023990424403797631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1351,62 +1503,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4466
---- !u!114 &-763218544575667494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Stinger1
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/Stinger1
-  Guid:
-    Data1: 23381860
-    Data2: 1283475845
-    Data3: 1846445228
-    Data4: 1537402012
-  Banks:
-  - {fileID: 3209147859294559119}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 7344
---- !u!114 &-706497086919926752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SOUNDTRACK/ST_SONG3
-  m_EditorClassIdentifier: 
-  Path: event:/SOUNDTRACK/ST_SONG3
-  Guid:
-    Data1: 1006838348
-    Data2: 1286964328
-    Data3: -1586238545
-    Data4: -744182054
-  Banks:
-  - {fileID: -9085042095685632430}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters:
-  - {fileID: -4621504000928443093}
-  - {fileID: -8042028536080740828}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 46834
 --- !u!114 &-661558645343961712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1434,59 +1530,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2063
---- !u!114 &-572660660281998434
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/PushButton
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/PushButton
-  Guid:
-    Data1: -517610404
-    Data2: 1151069317
-    Data3: 327972499
-    Data4: 2015012006
-  Banks:
-  - {fileID: 3209147859294559119}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 192
---- !u!114 &-440337461199348369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/ST_SONG2/EndSong
-  m_EditorClassIdentifier: 
-  Name: EndSong
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 3473249328
-    data2: 3943168979
-  Type: 2
-  IsGlobal: 0
-  Labels:
-  - No
-  - Yes
-  Exists: 1
 --- !u!114 &-186144000402859829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1529,16 +1572,10 @@ MonoBehaviour:
   EditorBanks:
   - {fileID: 5626597695562776198}
   - {fileID: 7412267887926691739}
-  - {fileID: -9085042095685632430}
   - {fileID: -5745749548514558754}
-  - {fileID: 3209147859294559119}
+  - {fileID: -2843513741016720536}
+  - {fileID: -2201744530611959729}
   EditorEvents:
-  - {fileID: -6782668104230150965}
-  - {fileID: -1463444797693455110}
-  - {fileID: 1828525514499545936}
-  - {fileID: 8069900694814104135}
-  - {fileID: -706497086919926752}
-  - {fileID: -1173440930706175948}
   - {fileID: -2595117344606966362}
   - {fileID: 7140555877254805882}
   - {fileID: 6325826936759226776}
@@ -1604,29 +1641,35 @@ MonoBehaviour:
   - {fileID: -5511691363168787613}
   - {fileID: -5323428907069201704}
   - {fileID: -4247470574258962023}
-  - {fileID: -1189553181996546552}
-  - {fileID: -8019352050440971322}
-  - {fileID: -572660660281998434}
-  - {fileID: 7055329750033586491}
-  - {fileID: 1867448615491219109}
-  - {fileID: 3580471586992236105}
-  - {fileID: -3530902663355152066}
-  - {fileID: -2609216755254888427}
-  - {fileID: 3123663646887571296}
-  - {fileID: 7660554094024793861}
-  - {fileID: 6641640504458108537}
-  - {fileID: -5822553270554108153}
-  - {fileID: -763218544575667494}
-  - {fileID: 6576821347308449915}
-  - {fileID: 9016459154827194197}
-  - {fileID: 4631931911742790291}
+  - {fileID: -3183625125388255422}
+  - {fileID: -2020544776249732522}
+  - {fileID: 5060510798599137001}
+  - {fileID: 6674812756745708434}
+  - {fileID: 6724820781027099124}
+  - {fileID: -2499236092441283795}
+  - {fileID: 8065784365627570811}
+  - {fileID: 6127053096237106092}
+  - {fileID: 7373501304750015526}
+  - {fileID: 8751636246652866355}
+  - {fileID: -3778146753454064962}
+  - {fileID: -4898314627575157358}
+  - {fileID: 2399608024723094589}
+  - {fileID: -1955121298786142941}
+  - {fileID: -4642287063118531412}
+  - {fileID: -3802079302474329871}
+  - {fileID: -1787152990656998573}
+  - {fileID: 545757222852029558}
+  - {fileID: -7044624317776363486}
+  - {fileID: 702660233428558110}
+  - {fileID: -8250934429037332676}
+  - {fileID: -3356254652573108015}
   EditorParameters:
   - {fileID: 3224715806479717535}
   MasterBanks:
   - {fileID: 7412267887926691739}
   StringsBanks:
   - {fileID: 5626597695562776198}
-  cacheTime: 638073178191840104
+  cacheTime: 638073820690486555
   cacheVersion: 131593
 --- !u!114 &216127448544306568
 MonoBehaviour:
@@ -1709,6 +1752,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2925
+--- !u!114 &545757222852029558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/PullLever
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/PullLever
+  Guid:
+    Data1: 437049258
+    Data2: 1309686514
+    Data3: -1099818856
+    Data4: -1631246129
+  Banks:
+  - {fileID: -2201744530611959729}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 144
 --- !u!114 &571574124245626164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1736,6 +1806,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3108
+--- !u!114 &702660233428558110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Detach
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Detach
+  Guid:
+    Data1: -687049000
+    Data2: 1097706336
+    Data3: 401584771
+    Data4: 1084005126
+  Banks:
+  - {fileID: -2201744530611959729}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 96
 --- !u!114 &762727903050338856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1898,62 +1995,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 5276
---- !u!114 &1828525514499545936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SOUNDTRACK/ST_SONG7
-  m_EditorClassIdentifier: 
-  Path: event:/SOUNDTRACK/ST_SONG7
-  Guid:
-    Data1: -600557015
-    Data2: 1337307504
-    Data3: 483846275
-    Data4: -2035142238
-  Banks:
-  - {fileID: -9085042095685632430}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters:
-  - {fileID: 3322043436306842071}
-  - {fileID: 5678537954995164529}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 61666
---- !u!114 &1867448615491219109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/PullLever
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/PullLever
-  Guid:
-    Data1: 437049258
-    Data2: 1309686514
-    Data3: -1099818856
-    Data4: -1631246129
-  Banks:
-  - {fileID: 3209147859294559119}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 144
 --- !u!114 &2110953311761049525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2008,6 +2049,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1593
+--- !u!114 &2399608024723094589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/RemoveBattery
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/RemoveBattery
+  Guid:
+    Data1: -1096370837
+    Data2: 1320635491
+    Data3: 601387681
+    Data4: 1775704461
+  Banks:
+  - {fileID: -2201744530611959729}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 187
 --- !u!114 &2577627347167530867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2062,51 +2130,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3578
---- !u!114 &3123663646887571296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/RemoveBattery
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/RemoveBattery
-  Guid:
-    Data1: -1096370837
-    Data2: 1320635491
-    Data3: 601387681
-    Data4: 1775704461
-  Banks:
-  - {fileID: 3209147859294559119}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 187
---- !u!114 &3209147859294559119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/SFX.bank
-  m_EditorClassIdentifier: 
-  Path: Assets/FmodBanks/Desktop/SFX.bank
-  Name: SFX
-  StudioPath: bank:/SFX
-  lastModified: 638073178191840104
-  FileSizes: []
-  Exists: 1
 --- !u!114 &3224715806479717535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2131,57 +2154,6 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
---- !u!114 &3322043436306842071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/ST_SONG7/Intensity
-  m_EditorClassIdentifier: 
-  Name: Intensity
-  StudioPath: 
-  Min: 0
-  Max: 100
-  Default: 0
-  ID:
-    data1: 303111441
-    data2: 2953778341
-  Type: 0
-  IsGlobal: 1
-  Labels: []
-  Exists: 1
---- !u!114 &3580471586992236105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Detach
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/Detach
-  Guid:
-    Data1: -687049000
-    Data2: 1097706336
-    Data3: 401584771
-    Data4: 1084005126
-  Banks:
-  - {fileID: 3209147859294559119}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 96
 --- !u!114 &3587860312091009059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2236,33 +2208,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2664
---- !u!114 &4631931911742790291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/PushSmallButton
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/PushSmallButton
-  Guid:
-    Data1: -1433081115
-    Data2: 1312879520
-    Data3: -1912215111
-    Data4: 93007358
-  Banks:
-  - {fileID: 3209147859294559119}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 168
 --- !u!114 &4909719340600962181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2317,6 +2262,59 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4623
+--- !u!114 &4961017971374628677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ST_SONG2/Intensity
+  m_EditorClassIdentifier: 
+  Name: Intensity
+  StudioPath: 
+  Min: 0
+  Max: 100
+  Default: 0
+  ID:
+    data1: 303111441
+    data2: 2953778341
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
+--- !u!114 &5060510798599137001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SOUNDTRACK/ST_SONG7
+  m_EditorClassIdentifier: 
+  Path: event:/SOUNDTRACK/ST_SONG7
+  Guid:
+    Data1: -600557015
+    Data2: 1337307504
+    Data3: 483846275
+    Data4: -2035142238
+  Banks:
+  - {fileID: -2843513741016720536}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -6013421403989347293}
+  - {fileID: -5359136390719581791}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 61666
 --- !u!114 &5110396621492832861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2344,6 +2342,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1123
+--- !u!114 &5199362500021986557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ST_MAIN_MENU/Intensity
+  m_EditorClassIdentifier: 
+  Name: Intensity
+  StudioPath: 
+  Min: 0
+  Max: 100
+  Default: 0
+  ID:
+    data1: 303111441
+    data2: 2953778341
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
 --- !u!114 &5573367512992306703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2386,36 +2408,10 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638073178191710151
+  lastModified: 638073820686443835
   FileSizes:
   - Name: 
     Value: 4294
-  Exists: 1
---- !u!114 &5678537954995164529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/ST_SONG7/EndSong
-  m_EditorClassIdentifier: 
-  Name: EndSong
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 3473249328
-    data2: 3943168979
-  Type: 2
-  IsGlobal: 0
-  Labels:
-  - No
-  - Yes
   Exists: 1
 --- !u!114 &5703445594338386470
 MonoBehaviour:
@@ -2444,6 +2440,32 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 2037
+--- !u!114 &5890431943396394598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ST_SONG6/EndSong
+  m_EditorClassIdentifier: 
+  Name: EndSong
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3473249328
+    data2: 3943168979
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - No
+  - Yes
+  Exists: 1
 --- !u!114 &5905132863263521138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2471,7 +2493,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 4754
---- !u!114 &6082539529658173419
+--- !u!114 &6127053096237106092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2480,23 +2502,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/ST_SONG4/EndSong
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Attach
   m_EditorClassIdentifier: 
-  Name: EndSong
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 3473249328
-    data2: 3943168979
-  Type: 2
-  IsGlobal: 0
-  Labels:
-  - No
-  - Yes
-  Exists: 1
+  Path: event:/SFX/Attach
+  Guid:
+    Data1: -339994546
+    Data2: 1087714488
+    Data3: 298199452
+    Data4: 972352571
+  Banks:
+  - {fileID: -2201744530611959729}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 330
 --- !u!114 &6325826936759226776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2524,7 +2547,36 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3108
---- !u!114 &6326626713363274825
+--- !u!114 &6674812756745708434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SOUNDTRACK/ST_SONG6
+  m_EditorClassIdentifier: 
+  Path: event:/SOUNDTRACK/ST_SONG6
+  Guid:
+    Data1: -1451063242
+    Data2: 1100746909
+    Data3: -713110631
+    Data4: -430318793
+  Banks:
+  - {fileID: -2843513741016720536}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -1984098926657383020}
+  - {fileID: 5890431943396394598}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 66461
+--- !u!114 &6721102312343524551
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2534,21 +2586,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/ST_SONG6/Intensity
+  m_Name: parameter:/ST_SONG4/EndSong
   m_EditorClassIdentifier: 
-  Name: Intensity
+  Name: EndSong
   StudioPath: 
   Min: 0
-  Max: 100
+  Max: 1
   Default: 0
   ID:
-    data1: 303111441
-    data2: 2953778341
-  Type: 0
-  IsGlobal: 1
-  Labels: []
+    data1: 3473249328
+    data2: 3943168979
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - No
+  - Yes
   Exists: 1
---- !u!114 &6576821347308449915
+--- !u!114 &6724820781027099124
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2558,77 +2612,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Stinger2
+  m_Name: event:/SOUNDTRACK/ST_SONG3
   m_EditorClassIdentifier: 
-  Path: event:/SFX/Stinger2
+  Path: event:/SOUNDTRACK/ST_SONG3
   Guid:
-    Data1: -1527418725
-    Data2: 1219303473
-    Data3: 1402119868
-    Data4: -1099538638
+    Data1: 1006838348
+    Data2: 1286964328
+    Data3: -1586238545
+    Data4: -744182054
   Banks:
-  - {fileID: 3209147859294559119}
-  IsStream: 0
+  - {fileID: -2843513741016720536}
+  IsStream: 1
   Is3D: 0
-  IsOneShot: 1
-  Parameters: []
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -6642604669589983679}
+  - {fileID: -1796166690066588907}
   MinDistance: 1
   MaxDistance: 20
-  Length: 7752
---- !u!114 &6641640504458108537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Ping
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/Ping
-  Guid:
-    Data1: -1481758575
-    Data2: 1125774058
-    Data3: 406379948
-    Data4: 1662160062
-  Banks:
-  - {fileID: 3209147859294559119}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 702
---- !u!114 &7055329750033586491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/Walking
-  m_EditorClassIdentifier: 
-  Path: event:/SFX/Walking
-  Guid:
-    Data1: 90736500
-    Data2: 1261312036
-    Data3: -1807111516
-    Data4: -27845891
-  Banks:
-  - {fileID: 3209147859294559119}
-  IsStream: 0
-  Is3D: 1
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 126
+  Length: 46834
 --- !u!114 &7140555877254805882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2683,32 +2685,6 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3813
---- !u!114 &7312766175891040767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
-  m_Name: parameter:/ST_SONG6/EndSong
-  m_EditorClassIdentifier: 
-  Name: EndSong
-  StudioPath: 
-  Min: 0
-  Max: 1
-  Default: 0
-  ID:
-    data1: 3473249328
-    data2: 3943168979
-  Type: 2
-  IsGlobal: 0
-  Labels:
-  - No
-  - Yes
-  Exists: 1
 --- !u!114 &7321780033072446822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2736,6 +2712,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 1645
+--- !u!114 &7373501304750015526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Stinger3
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Stinger3
+  Guid:
+    Data1: -1950356648
+    Data2: 1258141084
+    Data3: -357449048
+    Data4: 1145772712
+  Banks:
+  - {fileID: -2201744530611959729}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3144
 --- !u!114 &7412267887926691739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2751,10 +2754,10 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638047172073463554
+  lastModified: 638073820686423885
   FileSizes: []
   Exists: 1
---- !u!114 &7660554094024793861
+--- !u!114 &8065784365627570811
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2764,52 +2767,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/ExitButton
+  m_Name: event:/SFX/InsertBattery
   m_EditorClassIdentifier: 
-  Path: event:/SFX/ExitButton
+  Path: event:/SFX/InsertBattery
   Guid:
-    Data1: -1799954805
-    Data2: 1176760536
-    Data3: -1541580622
-    Data4: -626960023
+    Data1: 1931859472
+    Data2: 1157064807
+    Data3: -113049666
+    Data4: 1762810178
   Banks:
-  - {fileID: 3209147859294559119}
+  - {fileID: -2201744530611959729}
   IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 144
---- !u!114 &8069900694814104135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SOUNDTRACK/ST_SONG6
-  m_EditorClassIdentifier: 
-  Path: event:/SOUNDTRACK/ST_SONG6
-  Guid:
-    Data1: -1451063242
-    Data2: 1100746909
-    Data3: -713110631
-    Data4: -430318793
-  Banks:
-  - {fileID: -9085042095685632430}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters:
-  - {fileID: 6326626713363274825}
-  - {fileID: 7312766175891040767}
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 66461
+  Length: 121
 --- !u!114 &8268292867740602668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2864,7 +2838,7 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 3134
---- !u!114 &9016459154827194197
+--- !u!114 &8751636246652866355
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2874,20 +2848,46 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/SFX/BoxGround
+  m_Name: event:/SFX/Jump
   m_EditorClassIdentifier: 
-  Path: event:/SFX/BoxGround
+  Path: event:/SFX/Jump
   Guid:
-    Data1: 217851831
-    Data2: 1337876056
-    Data3: 1433180560
-    Data4: -1457956331
+    Data1: -1252559524
+    Data2: 1153111641
+    Data3: -2143657311
+    Data4: -2140548206
   Banks:
-  - {fileID: 3209147859294559119}
+  - {fileID: -2201744530611959729}
   IsStream: 0
-  Is3D: 0
+  Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 266
+  Length: 168
+--- !u!114 &9166251488465173696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/ST_MAIN_MENU/EndSong
+  m_EditorClassIdentifier: 
+  Name: EndSong
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 3473249328
+    data2: 3943168979
+  Type: 2
+  IsGlobal: 0
+  Labels:
+  - No
+  - Yes
+  Exists: 1
