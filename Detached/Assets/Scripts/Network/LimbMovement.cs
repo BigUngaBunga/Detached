@@ -56,6 +56,7 @@ public class LimbMovement : NetworkBehaviour
             Movement();
             #region stepClimbs
             // 
+            if(limbStepUp == null) limbStepUp = GetComponentInChildren<LimbStepUpRay>();
             limbStepUp.ActiveStepClimb(input, rb);
             #endregion
 
