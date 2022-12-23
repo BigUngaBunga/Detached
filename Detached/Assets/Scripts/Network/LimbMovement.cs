@@ -44,7 +44,7 @@ public class LimbMovement : NetworkBehaviour
 
     void Update()
     {
-        if (!hasAuthority && !isClient) return;
+        if (!hasAuthority) return;
 
 
         if (!sceneObjectItemManagerScript.IsBeingControlled) return;
