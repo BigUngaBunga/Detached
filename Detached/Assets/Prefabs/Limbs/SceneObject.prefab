@@ -112,11 +112,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32785
   groundCheckRadius: 2
+  detachKeyHead: 102
   detached: 0
   thisLimb: 0
   initalPosition: {x: 0, y: 0, z: 0}
   isBeingControlled: 0
-  orignalOwner: {fileID: 0}
+  originalOwner: {fileID: 0}
   isDeta: 0
   isBeingPickedUp: 0
   pickUpLimbEvent:
@@ -177,17 +178,8 @@ MonoBehaviour:
   syncInterval: 0.1
   speed: 10000
   camTransform: {fileID: 0}
+  input: {x: 0, y: 0, z: 0}
   rb: {fileID: 0}
-  stepRays:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  stepHeight: 0.3
-  stepSmooth: 2
-  stepRayLength: 1
 --- !u!114 &6247909107761634463
 MonoBehaviour:
   m_ObjectHideFlags: 0
