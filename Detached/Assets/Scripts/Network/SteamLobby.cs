@@ -78,14 +78,18 @@ public class SteamLobby : MonoBehaviour
 
     private void onJoinGame(GameRichPresenceJoinRequested_t callback)
     {
-        Debug.Log("Request join game");
-        
+        Debug.Log("Request join game");        
     }
 
     private void OnJoinRequest(GameLobbyJoinRequested_t callback)
     {
         Debug.Log("Request to join Lobby");
+        if (Manager.isNetworkActive)
+        {
+            Manager.StopHost();
+        }
         SteamMatchmaking.JoinLobby(callback.m_steamIDLobby);
+
     }
 
     private void OnLobbyEntered(LobbyEnter_t callback)

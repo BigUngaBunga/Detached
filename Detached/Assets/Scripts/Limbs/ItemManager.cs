@@ -75,6 +75,7 @@ public class ItemManager : NetworkBehaviour
     private GameObject sceneObjectHoldingToThrow;
     private Vector3 orignalPosition = Vector3.zero;
     public int numberOfLimbs;
+    private List<GameObject> objsToDelete = new List<GameObject>();
 
     CharacterControl characterControlScript;
 
@@ -867,6 +868,14 @@ public class ItemManager : NetworkBehaviour
         return newSceneObject;
     }
 
+    [Command]
+    private void LateNetworkDestroy()
+    {
+        foreach(GameObject obj in objsToDelete)
+        {
+            NetworkServer.Destroy(obj);
+        }
+    }
 
     private void ResetHeadPosCam(SceneObjectItemManager SceneObjectScript)
     {
@@ -1019,7 +1028,7 @@ public class ItemManager : NetworkBehaviour
         var SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
         SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
         SceneObjectScript.isDeta = limbIsDeta;
-        NetworkServer.Spawn(newSceneObject);
+        NetworkServer.Spawn(newSceneObject, orignalOwner);
         SceneObjectScript.detached = true;
         SceneObjectScript.originalOwner = orignalOwner;
     }
@@ -1033,6 +1042,7 @@ public class ItemManager : NetworkBehaviour
     public void CmdPickUpLimb(GameObject sceneObject)
     {
         if (sceneObject == null) return;
+        bool lateDelete = false;
 
         sceneObject.GetComponent<HighlightObject>().ForceStopHighlight();
         bool keepSceneObject = true;
@@ -1045,7 +1055,8 @@ public class ItemManager : NetworkBehaviour
 
                 if (headDetached && sceneObjectItemManager.originalOwner == gameObject)
                     keepSceneObject = headDetached = false;
-
+                lateDelete = true;
+                objsToDelete.Add(sceneObject);
                 //camFocus.parent = camFocusOrigin;
 
                 //camFocus.localPosition = Vector3.zero;
@@ -1061,7 +1072,7 @@ public class ItemManager : NetworkBehaviour
 
                 TargetRpcSetSelectionMode(connectionClient, 0);
                 TargetRpcSetCharaterIsBeingControlled(connectionClient, characterControlScript, true);
-                TargetRpcCamPositionReset(connectionClient);
+                TargetRpcCamPositionReset(connectionClient); //This methods also calls for deletion of sceneobject
 
                 //characterControlScript.isBeingControlled = true;
                 /*  camFocus = originalCamTransform;
@@ -1110,7 +1121,7 @@ public class ItemManager : NetworkBehaviour
                 return;
         }
 
-        if (!keepSceneObject)
+        if (!keepSceneObject && !lateDelete)
             NetworkServer.Destroy(sceneObject);
         pickupLimbEvent.Invoke();
     }
@@ -1163,12 +1174,15 @@ public class ItemManager : NetworkBehaviour
     [TargetRpc]
     private void TargetRpcCamPositionReset(NetworkConnection connectionToClient)
     {
+        
         camFocus.parent = camFocusOrigin;
 
         ResetCamCondition();
 
         camFocus.localEulerAngles = Vector3.zero;
         camFocus.localScale = Vector3.one;
+
+        LateNetworkDestroy(); 
     }
 
     #endregion
@@ -1179,5 +1193,4 @@ public class ItemManager : NetworkBehaviour
         else
             camFocus.localPosition = noLegCamPos;
     }
-
 }

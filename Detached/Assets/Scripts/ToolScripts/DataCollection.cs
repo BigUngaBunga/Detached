@@ -52,7 +52,6 @@ public class DataCollection : MonoBehaviour
             Directory.CreateDirectory(Application.dataPath + "/DebugTool");
         }
 
-
         level = SceneManager.GetActiveScene().name;
         gameVersion = 1;
         filePath = Application.dataPath + "/DebugTool/" + level + " " + gameVersion.ToString() + ".txt";
@@ -78,6 +77,7 @@ public class DataCollection : MonoBehaviour
         ///TODO
         /// Change this from checking the players position to just checking the camera position since the camera will now be 
         /// attached to limbs and in turn will better represent where the player is actually getting stuck.
+        Debug.Log("Updating datacollector");
         time += Time.deltaTime;
         if (conn != null)
         {

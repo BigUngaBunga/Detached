@@ -35,6 +35,11 @@ public class FallOutOfWorld : NetworkBehaviour
         }
     }
 
+    public void ChangeScene()
+    {
+        ServerChangeScene(SceneManager.GetActiveScene().name);
+    }
+
     [Server]
     void ServerChangeScene(string sceneName)
     {
