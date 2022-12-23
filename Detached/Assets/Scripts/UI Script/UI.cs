@@ -10,19 +10,24 @@ public class UI : MonoBehaviour
     public GameObject optionUIMenu;
     public GameObject controlUIMenu;
     public GameObject mainMenu;
+
     public bool gameIsPaused;
+    bool lockMouse;
+
     void Start()
     {
         DontDestroyOnLoad(this.gameObject);
+
     }
     public void ResumeGame()
     {
-        Time.timeScale = 1;
-        gameIsPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Time.timeScale = 1;
+        gameIsPaused = false;
         optionUIMenu.SetActive(false);
         controlUIMenu.SetActive(false);
+
     }
     public void ResumeMainMenu()
     {
@@ -57,20 +62,19 @@ public class UI : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused)
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused && !mainMenu)
         {
             pauseUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            lockMouse = false;
             FreezeGame();
         }
-
         else if (Input.GetKeyDown(KeyCode.Escape) && gameIsPaused)
         {
             pauseUI.SetActive(false);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
             ResumeGame();
+            //Debug.Log("Its a me");
         }
 
         //if (Input.GetKeyDown("9"))
