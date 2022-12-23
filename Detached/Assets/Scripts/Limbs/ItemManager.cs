@@ -949,7 +949,7 @@ public class ItemManager : NetworkBehaviour
 
             SFXManager.PlayOneShotAttached(SFXManager.DetachSound, VolumeManager.GetSFXVolume(), transform.gameObject);
 
-            float chargeUpSpeed = 0.009f;
+            float chargeUpSpeed = 0.01f;
             cinemachine.m_YAxis.m_MaxSpeed = chargeUpSpeed;
             //if (cinemachine.m_YAxis.m_MaxValue <= 0.35f)
 
