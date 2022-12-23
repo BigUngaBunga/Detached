@@ -7,13 +7,11 @@ using UnityEngine;
 public class Billboarding : MonoBehaviour
 {
     [SerializeField] bool PreSpawn;
-    public string prompt;
+    [SerializeField] private string prompt;
     public GameObject floatingText;
-    public Camera camera;
-    Vector3 cameraDir;
-
-    TextMeshPro text;
-
+    private Camera camera;
+    private Vector3 cameraDir;
+    private TextMeshPro text;
 
     void Start()
     {
@@ -24,6 +22,8 @@ public class Billboarding : MonoBehaviour
     void Update()
     {
         if (text == null) return;
+        if(camera == null)
+            camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         cameraDir = camera.transform.forward;
         cameraDir.y = 0;
 

@@ -13,7 +13,7 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public KeyCode detachKeyHead;
     [SerializeField] public KeyCode detachKeyArm;
     [SerializeField] public KeyCode detachKeyLeg;
-    [SerializeField] public KeyCode keySwitchBetweenLimbs;
+    [SerializeField] public KeyCode dropKey;
     [SerializeField] public KeyCode throwKey;
     [SerializeField] public KeyCode selectHeadKey;
     [SerializeField] public KeyCode selectArmKey;
@@ -282,25 +282,31 @@ public class ItemManager : NetworkBehaviour
         //Below not needed anymore, only  used for testing purposes
         if (selectionMode == 0)
         {
+            if(Input.GetKeyDown(dropKey) && CanDropSelected())
+            {
+                CmdDropLimb(selectedLimbToThrow, gameObject);
+                Transform body = transform.Find("group1");
+                SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
+            }
 
-            if (Input.GetKeyDown(detachKeyHead) && !headDetached)
-            {
-                CmdDropLimb(Limb_enum.Head, gameObject);
-                Transform body = transform.Find("group1");
-                SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
-            }
-            if (Input.GetKeyDown(detachKeyArm) && (!leftArmDetached || !rightArmDetached))
-            {
-                CmdDropLimb(Limb_enum.Arm, gameObject);
-                Transform body = transform.Find("group1");
-                SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
-            }
-            if (Input.GetKeyDown(detachKeyLeg) && (!leftLegDetached || !rightLegDetached))
-            {
-                CmdDropLimb(Limb_enum.Leg, gameObject);
-                Transform body = transform.Find("group1");
-                SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
-            }
+            //if (Input.GetKeyDown(detachKeyHead) && !headDetached)
+            //{
+            //    CmdDropLimb(Limb_enum.Head, gameObject);
+            //    Transform body = transform.Find("group1");
+            //    SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
+            //}
+            //if (Input.GetKeyDown(detachKeyArm) && (!leftArmDetached || !rightArmDetached))
+            //{
+            //    CmdDropLimb(Limb_enum.Arm, gameObject);
+            //    Transform body = transform.Find("group1");
+            //    SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
+            //}
+            //if (Input.GetKeyDown(detachKeyLeg) && (!leftLegDetached || !rightLegDetached))
+            //{
+            //    CmdDropLimb(Limb_enum.Leg, gameObject);
+            //    Transform body = transform.Find("group1");
+            //    SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
+            //}
         }
 
 
@@ -694,9 +700,10 @@ public class ItemManager : NetworkBehaviour
     #endregion
 
     [Command]
-    void CmdDropLimb(Limb_enum limb, GameObject orginalOwner)
+    void CmdDropLimb(Limb_enum limb, GameObject originalOwner)
     {
-        DropLimb(limb, orginalOwner);
+        CmdThrowDropLimb(limb, throwPoint.position, originalOwner);
+        //DropLimb(limb, originalOwner);
     }
     [Command]
     void CmdThrowLimb(Limb_enum limb, Vector3 force, Vector3 throwPoint, GameObject orignalOwner)
@@ -740,6 +747,7 @@ public class ItemManager : NetworkBehaviour
             _ => false,
         };
     }
+
     [Server]
     GameObject DropLimb(Limb_enum limb, GameObject originalOwner)
     {
