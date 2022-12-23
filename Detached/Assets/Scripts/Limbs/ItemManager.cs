@@ -698,13 +698,13 @@ public class ItemManager : NetworkBehaviour
 
     #endregion
 
-    [Command]
+    
     void CmdDropLimb(Limb_enum limb, GameObject originalOwner)
     {
         CmdThrowDropLimb(limb, throwPoint.position, originalOwner);
         //DropLimb(limb, originalOwner);
     }
-    [Command]
+    
     void CmdThrowLimb(Limb_enum limb, Vector3 force, Vector3 throwPoint, GameObject orignalOwner)
     {
         //sceneObject.GetComponent<Rigidbody>().useGravity = true;
@@ -808,7 +808,7 @@ public class ItemManager : NetworkBehaviour
         return newSceneObject;
     }
 
-    [Server]
+    [Command]
     GameObject CmdThrowDropLimb(Limb_enum limb, Vector3 throwpoint, GameObject originalOwner)
     {
         GameObject newSceneObject = null;

@@ -55,7 +55,7 @@ public class LimbMovement : NetworkBehaviour
             MyInput();
             Movement();
             #region stepClimbs
-            // 
+            
             if (limbStepUp == null) limbStepUp = GetComponentInChildren<LimbStepUpRay>();
             limbStepUp.ActiveStepClimb(input, rb);
             #endregion
@@ -106,19 +106,5 @@ public class LimbMovement : NetworkBehaviour
             LimbType.Arm => 90,
             _ => 0,
         };
-    }
-
-    [Command]
-    private void CmdMoveObject(Vector3 move)
-    {
-        RpcMoveObject(move);
-    }
-
-    [ClientRpc]
-    private void RpcMoveObject(Vector3 move)
-    {
-        //rb.AddForce(move.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
-        gameObject.transform.position += move;
-        //rb.AddForce(move.normalized * speed * Time.deltaTime, ForceMode.Force);
     }
 }
