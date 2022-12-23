@@ -820,7 +820,7 @@ public class ItemManager : NetworkBehaviour
                 SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
                 SceneObjectScript.originalOwner = originalOwner;
                 SceneObjectScript.isDeta = isDeta;
-                NetworkServer.Spawn(newSceneObject, connectionToClient); //Set Authority to client att spawn since no other player should be able to control it.
+                NetworkServer.Spawn(newSceneObject); //Set Authority to client att spawn since no other player should be able to control it.
                 SceneObjectScript.detached = true;
                 headDetached = true;
                 //camFocus.parent = SceneObjectScript.transform;

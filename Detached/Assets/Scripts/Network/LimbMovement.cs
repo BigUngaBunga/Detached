@@ -33,14 +33,14 @@ public class LimbMovement : NetworkBehaviour
         //rb = gameObject.AddComponent<Rigidbody>();
         rb = GetComponent<Rigidbody>();
         limbStepUp = GetComponentInChildren<LimbStepUpRay>();
- /*       stepRays[0] = GameObject.Find("StepRayLowerFrontMid");
-        stepRays[1] = GameObject.Find("StepRayLowerFrontLeft");
-        stepRays[2] = GameObject.Find("StepRayLowerFrontRight");
-        stepRays[4] = GameObject.Find("StepRayUpperFrontLeft");
-        stepRays[5] = GameObject.Find("StepRayUpperFrontLeft");*/
+        /*       stepRays[0] = GameObject.Find("StepRayLowerFrontMid");
+               stepRays[1] = GameObject.Find("StepRayLowerFrontLeft");
+               stepRays[2] = GameObject.Find("StepRayLowerFrontRight");
+               stepRays[4] = GameObject.Find("StepRayUpperFrontLeft");
+               stepRays[5] = GameObject.Find("StepRayUpperFrontLeft");*/
     }
 
-  
+
 
     void Update()
     {
@@ -56,13 +56,13 @@ public class LimbMovement : NetworkBehaviour
             Movement();
             #region stepClimbs
             // 
-            if(limbStepUp == null) limbStepUp = GetComponentInChildren<LimbStepUpRay>();
+            if (limbStepUp == null) limbStepUp = GetComponentInChildren<LimbStepUpRay>();
             limbStepUp.ActiveStepClimb(input, rb);
             #endregion
 
             //CmdMoveObject(input);
             //rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
-           SpeedControl();
+            SpeedControl();
             if (moveDir.normalized != Vector3.zero)
                 rb.AddForce(moveDir.normalized * speed * Time.deltaTime, ForceMode.Force);
 
@@ -97,7 +97,7 @@ public class LimbMovement : NetworkBehaviour
         verticalInput = Input.GetAxisRaw("Vertical") * Time.deltaTime * speed;
     }
 
-   
+
 
     private float GetInitialRotation(LimbType type)
     {
