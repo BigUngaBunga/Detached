@@ -72,7 +72,6 @@ public class ItemManager : NetworkBehaviour
     private Vector3 mousePressDownPos;
     private Vector3 dir;
     private Vector3 mouseReleasePos;
-    private GameObject sceneObjectHoldingToThrow;
     private Vector3 orignalPosition = Vector3.zero;
     public int numberOfLimbs;
     private List<GameObject> objsToDelete = new List<GameObject>();
@@ -912,24 +911,6 @@ public class ItemManager : NetworkBehaviour
         DrawTrajectory.instance.DrawProjection(camPoint.transform.forward, transform.up, throwPoint.position, throwForce, throwUpwardForce);
     }
 
-    private GameObject GetGameObjectLimbFromSelect()
-    {
-        switch (selectedLimbToThrow)
-        {
-            case Limb_enum.Arm:
-                return leftArmPrefab;
-            case Limb_enum.Head:
-                return headPrefab;
-            case Limb_enum.Leg:
-                if (!leftLegDetached)
-                    return leftLegPrefab;
-                else if (!rightLegDetached)
-                    return rightLegPrefab;
-                break;
-        }
-        return null;
-    }
-
     private void UpdateThrowButton()
     {
         if (Input.GetMouseButtonDown(1))
@@ -943,10 +924,6 @@ public class ItemManager : NetworkBehaviour
             indicator.SetActive(true);
             //cam when aiming
             camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
-
-            sceneObjectHoldingToThrow = Instantiate(GetGameObjectLimbFromSelect());
-            sceneObjectHoldingToThrow.transform.localPosition = throwPoint.position;
-
             SFXManager.PlayOneShotAttached(SFXManager.DetachSound, VolumeManager.GetSFXVolume(), transform.gameObject);
 
             float chargeUpSpeed = 3f;
@@ -965,25 +942,18 @@ public class ItemManager : NetworkBehaviour
             DrawTrajectory.instance.HideLine();
             indicator.SetActive(false);
 
-            //if (SelectedLimbToThrow == Limb_enum.Head)
             ResetCamCondition();
 
 
             cinemachine.m_YAxis.m_MaxSpeed = 10;
             cinemachine.m_YAxis.m_MinValue = 0;
-            if (sceneObjectHoldingToThrow != null)
-            {
-                Destroy(sceneObjectHoldingToThrow);
-            }
-
         }
-        if (Input.GetMouseButtonUp(0) && readyToThrow && sceneObjectHoldingToThrow != null)
+        if (Input.GetMouseButtonUp(0) && readyToThrow)
         {
             dragging = false;
             DrawTrajectory.instance.HideLine();
             indicator.SetActive(false);
             // mouseReleasePos = Input.mousePosition;
-            Destroy(sceneObjectHoldingToThrow);
 
             cinemachine.m_YAxis.m_MaxSpeed = 10;
             cinemachine.m_YAxis.m_MinValue = 0;
