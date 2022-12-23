@@ -62,9 +62,9 @@ public class LimbMovement : NetworkBehaviour
 
             //CmdMoveObject(input);
             //rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
-            SpeedControl();
-            if (moveDir.normalized != Vector3.zero)
-                rb.AddForce(moveDir.normalized * speed * Time.deltaTime, ForceMode.Force);
+            //SpeedControl();
+            //if (moveDir.normalized != Vector3.zero)
+                //rb.AddForce(moveDir.normalized * speed * Time.deltaTime, ForceMode.Force);
 
 
         }
