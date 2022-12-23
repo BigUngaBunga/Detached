@@ -69,6 +69,7 @@ public class CharacterControl : NetworkBehaviour
     bool camUpdated;
 
     string xName, yName;
+    float xSpeed, ySpeed;
 
     public UI ui;
 
@@ -116,6 +117,8 @@ public class CharacterControl : NetworkBehaviour
         SetCameraFocusPlayer();
         xName = cinemaFreelook.m_XAxis.m_InputAxisName;
         yName = cinemaFreelook.m_YAxis.m_InputAxisName;
+        xSpeed = cinemaFreelook.m_XAxis.m_MaxSpeed;
+        ySpeed = cinemaFreelook.m_YAxis.m_MaxSpeed;
         //DontDestroyOnLoad(this.gameObject);
     }
     private void Awake()
@@ -349,11 +352,15 @@ public class CharacterControl : NetworkBehaviour
         {
             cinemaFreelook.m_XAxis.m_InputAxisName = "";
             cinemaFreelook.m_YAxis.m_InputAxisName = "";
+            cinemaFreelook.m_XAxis.m_MaxSpeed = 0;
+            cinemaFreelook.m_YAxis.m_MaxSpeed = 0;
         }
         else
         {
             cinemaFreelook.m_XAxis.m_InputAxisName = xName;
             cinemaFreelook.m_YAxis.m_InputAxisName = yName;
+            cinemaFreelook.m_XAxis.m_MaxSpeed = xSpeed;
+            cinemaFreelook.m_YAxis.m_MaxSpeed = ySpeed;
         }
 
     }
