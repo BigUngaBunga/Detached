@@ -122,10 +122,10 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7752841846949681606}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 8.01
+  m_Radius: 14
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7752841846949681605
 MonoBehaviour:
@@ -139,6 +139,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d1f3a157ddf4bc438ee9e641e0387fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PreSpawn: 0
-  prompt: Sample Text
+  PreSpawn: 1
+  prompt: Use WASD to move around
   floatingText: {fileID: 6474692616049549497, guid: 0f8351329989c5a4393f3ca1ed79f547, type: 3}
