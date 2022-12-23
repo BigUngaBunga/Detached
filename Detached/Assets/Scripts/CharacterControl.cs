@@ -69,6 +69,7 @@ public class CharacterControl : NetworkBehaviour
     bool camUpdated;
 
     private bool isGrounded = false;
+    private QueryTriggerInteraction collideWithTrigger = QueryTriggerInteraction.Ignore;
 
     Vector3 moveDir;
     Vector3 input;
@@ -230,6 +231,7 @@ public class CharacterControl : NetworkBehaviour
         RaycastHit hitLower;
 
         Vector3 rbDirection = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+        Vector3 normalizedDirection = rbDirection.normalized;
         // Debug.DrawRay(rayDirectioLowerMid.transform.position, rbDirection.normalized, Color.green);
         Debug.DrawRay(rayDirectioLowerLeft.transform.position, rbDirection.normalized * stepRayLength, Color.red);
         Debug.DrawRay(rayDirectioLowerRight.transform.position, rbDirection.normalized * stepRayLength, Color.blue);
@@ -239,7 +241,9 @@ public class CharacterControl : NetworkBehaviour
              StepClimbUpperCheck(rbDirection, stepRays[3]);
 
          }*/
-        if (Physics.Raycast(rayDirectioLowerLeft.transform.position, rbDirection.normalized, out hitLower, stepRayLength))
+
+
+        if (Physics.Raycast(rayDirectioLowerLeft.transform.position, normalizedDirection, out hitLower, stepRayLength, groundMask, collideWithTrigger))
         {
             Debug.Log("Left");
             if (hitLower.collider.CompareTag("Leg") || hitLower.collider.CompareTag("Box"))
@@ -248,7 +252,7 @@ public class CharacterControl : NetworkBehaviour
             return;
         }
 
-        if (Physics.Raycast(rayDirectioLowerRight.transform.position, rbDirection.normalized, out hitLower, stepRayLength))
+        if (Physics.Raycast(rayDirectioLowerRight.transform.position, normalizedDirection, out hitLower, stepRayLength, groundMask, collideWithTrigger))
         {
             Debug.Log("Right");
             if (hitLower.collider.CompareTag("Leg") || hitLower.collider.CompareTag("Box"))
@@ -278,8 +282,8 @@ public class CharacterControl : NetworkBehaviour
 
     private void GroundCheck()
     {
-        isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask);
-        isGrounded = isGrounded || (secondaryGroundCheck.gameObject.activeSelf && Physics.CheckSphere(secondaryGroundCheck.position, groundCheckRadius, groundMask));
+        isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask, collideWithTrigger);
+        isGrounded = isGrounded || (secondaryGroundCheck.gameObject.activeSelf && Physics.CheckSphere(secondaryGroundCheck.position, groundCheckRadius, groundMask, collideWithTrigger));
     }
 
     private void Jump()
