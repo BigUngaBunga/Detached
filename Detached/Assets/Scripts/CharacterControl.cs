@@ -68,6 +68,10 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] public Vector3 noLegCamOffset;
     bool camUpdated;
 
+    string xName, yName;
+
+    public UI ui;
+
     private bool isGrounded = false;
 
     Vector3 moveDir;
@@ -81,6 +85,7 @@ public class CharacterControl : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ui = FindObjectOfType<UI>();
         rb = GetComponent<Rigidbody>();
         playerCol = GetComponent<CapsuleCollider>();
         limbManager = GetComponent<ItemManager>();
@@ -88,7 +93,7 @@ public class CharacterControl : NetworkBehaviour
         ResetJump();
         walkSpeed = movementSpeed;
 
-        if(!mainMenu || !pauseMenu)
+        if (!mainMenu || !pauseMenu)
         {
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
@@ -109,7 +114,8 @@ public class CharacterControl : NetworkBehaviour
 
         cinemaFreelook = FindObjectOfType<CinemachineFreeLook>();
         SetCameraFocusPlayer();
-
+        xName = cinemaFreelook.m_XAxis.m_InputAxisName;
+        yName = cinemaFreelook.m_YAxis.m_InputAxisName;
         //DontDestroyOnLoad(this.gameObject);
     }
     private void Awake()
@@ -120,6 +126,8 @@ public class CharacterControl : NetworkBehaviour
             stepRays[i].transform.localPosition = new Vector3(stepRays[i].transform.localPosition.x, stepHeight, stepRays[i].transform.localPosition.z); //(upper rays position)
         }
     }
+
+
 
     private void Update()
     {
@@ -135,8 +143,8 @@ public class CharacterControl : NetworkBehaviour
                 Movement();
                 Jump();
                 Sprint();
-               // Crouch();
-
+                // Crouch();
+                PauseCam();
                 #region stepClimbs
                 StepClimb(stepRays[0], stepRays[1], stepRays[2]);
 
@@ -333,5 +341,20 @@ public class CharacterControl : NetworkBehaviour
         Gizmos.color = Color.magenta;
         Gizmos.DrawSphere(groundCheckTransform.position, groundCheckRadius);
         Gizmos.DrawSphere(secondaryGroundCheck.position, groundCheckRadius);
+    }
+
+    void PauseCam()
+    {
+        if (ui.gameIsPaused)
+        {
+            cinemaFreelook.m_XAxis.m_InputAxisName = "";
+            cinemaFreelook.m_YAxis.m_InputAxisName = "";
+        }
+        else
+        {
+            cinemaFreelook.m_XAxis.m_InputAxisName = xName;
+            cinemaFreelook.m_YAxis.m_InputAxisName = yName;
+        }
+
     }
 }

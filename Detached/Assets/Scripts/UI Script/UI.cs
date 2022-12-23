@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
+
 
 public class UI : MonoBehaviour
 {
@@ -11,10 +13,14 @@ public class UI : MonoBehaviour
     public GameObject controlUIMenu;
     public GameObject mainMenu;
     public bool gameIsPaused;
+
+
     void Start()
     {
 
         DontDestroyOnLoad(gameObject);
+        //cam = FindObjectOfType<CinemachineFreeLook>();
+      
     }
     public void ResumeGame()
     {
@@ -22,17 +28,15 @@ public class UI : MonoBehaviour
         gameIsPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        
         optionUIMenu.SetActive(false);
         controlUIMenu.SetActive(false);
-    }
-    public void ResumeMainMenu()
-    {
-        Time.timeScale = 1;
-        gameIsPaused = false;
+
     }
     public void FreezeGame()
     {
         gameIsPaused = true;
+
         Time.timeScale = 0;
     }
 
@@ -42,7 +46,6 @@ public class UI : MonoBehaviour
         gameIsPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
         FallOutOfWorld script = GameObject.Find("FallOutOfWorldTrigger").GetComponent<FallOutOfWorld>();
         script.ChangeScene();
 
