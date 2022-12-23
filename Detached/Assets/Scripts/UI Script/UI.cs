@@ -13,7 +13,8 @@ public class UI : MonoBehaviour
     public bool gameIsPaused;
     void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
+
+        DontDestroyOnLoad(gameObject);
     }
     public void ResumeGame()
     {
@@ -72,7 +73,6 @@ public class UI : MonoBehaviour
             Cursor.visible = false;
             ResumeGame();
         }
-
         //if (Input.GetKeyDown("9"))
         //{
         //    pauseUI.SetActive(false);

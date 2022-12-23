@@ -20,10 +20,10 @@ public class MainMenu : MonoBehaviour
     }
     void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
-        Vector3 rot = transform.localRotation.eulerAngles;
+        DontDestroyOnLoad(gameObject);
+/*        Vector3 rot = transform.localRotation.eulerAngles;
         rotY = rot.y;
-        rotX = rot.x;
+        rotX = rot.x;*/
     }
     public void adjustMouseSensitivity()
     {

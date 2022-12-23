@@ -941,7 +941,7 @@ public class ItemManager : NetworkBehaviour
 
             SFXManager.PlayOneShotAttached(SFXManager.DetachSound, VolumeManager.GetSFXVolume(), transform.gameObject);
 
-            float chargeUpSpeed = 3f;
+            float chargeUpSpeed = 0.009f;
             cinemachine.m_YAxis.m_MaxSpeed = chargeUpSpeed;
             //if (cinemachine.m_YAxis.m_MaxValue <= 0.35f)
 
@@ -961,7 +961,7 @@ public class ItemManager : NetworkBehaviour
             ResetCamCondition();
 
 
-            cinemachine.m_YAxis.m_MaxSpeed = 10;
+            cinemachine.m_YAxis.m_MaxSpeed = 0.03f;
             cinemachine.m_YAxis.m_MinValue = 0;
             if (sceneObjectHoldingToThrow != null)
             {
@@ -977,7 +977,7 @@ public class ItemManager : NetworkBehaviour
             // mouseReleasePos = Input.mousePosition;
             Destroy(sceneObjectHoldingToThrow);
 
-            cinemachine.m_YAxis.m_MaxSpeed = 10;
+            cinemachine.m_YAxis.m_MaxSpeed = 0.03f;
             cinemachine.m_YAxis.m_MinValue = 0;
 
 
