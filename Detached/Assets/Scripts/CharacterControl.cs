@@ -76,6 +76,8 @@ public class CharacterControl : NetworkBehaviour
     float horizontalInput;
     float verticalInput;
 
+    public UI pauseMenu, mainMenu;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -86,8 +88,18 @@ public class CharacterControl : NetworkBehaviour
         ResetJump();
         walkSpeed = movementSpeed;
 
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Confined;
+        if(!mainMenu || !pauseMenu)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+
 
         playerObjectController = GetComponent<PlayerObjectController>();
 
