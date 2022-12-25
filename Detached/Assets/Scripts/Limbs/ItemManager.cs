@@ -704,12 +704,24 @@ public class ItemManager : NetworkBehaviour
         CmdThrowDropLimb(limb, throwPoint.position, originalOwner);
         //DropLimb(limb, originalOwner);
     }
+   
     [Command]
-    void CmdThrowLimb(Limb_enum limb, Vector3 force, Vector3 throwPoint, GameObject orignalOwner)
+    void CmdThrowLimb(Limb_enum limb, Vector3 force, Vector3 throwPoint, GameObject originalOwner)
     {
         //sceneObject.GetComponent<Rigidbody>().useGravity = true;
         //sceneObject.GetComponent<SceneObjectItemManager>().IsBeingControlled = false;
-        ThrowLimb(force, CmdThrowDropLimb(limb, throwPoint, orignalOwner));
+
+
+        //ThrowLimb(force, CmdThrowDropLimb(limb, throwPoint, originalOwner));
+        GameObject obj = CmdThrowDropLimb(limb, throwPoint, originalOwner);
+        TargetRpcAddForce(originalOwner.GetComponent<NetworkIdentity>().connectionToClient, force, obj);
+
+    }
+
+    [TargetRpc]
+    void TargetRpcAddForce(NetworkConnection connection, Vector3 force, GameObject sceneObject)
+    {
+        ThrowLimb(force, sceneObject);
     }
 
 
@@ -820,7 +832,7 @@ public class ItemManager : NetworkBehaviour
                 SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
                 SceneObjectScript.originalOwner = originalOwner;
                 SceneObjectScript.isDeta = isDeta;
-                NetworkServer.Spawn(newSceneObject, connectionToClient); //Set Authority to client att spawn since no other player should be able to control it.
+                NetworkServer.Spawn(newSceneObject); //Set Authority to client att spawn since no other player should be able to control it.
                 SceneObjectScript.detached = true;
                 headDetached = true;
                 //camFocus.parent = SceneObjectScript.transform;
@@ -975,7 +987,6 @@ public class ItemManager : NetworkBehaviour
         }
     }
 
-    [Server]
     void ThrowLimb(Vector3 force, GameObject sceneObject)
     {
 
@@ -992,7 +1003,6 @@ public class ItemManager : NetworkBehaviour
         Invoke(nameof(ResetThrow), throwCD);
     }
 
-    [Server]
     void ResetThrow()
     {
         readyToThrow = true;

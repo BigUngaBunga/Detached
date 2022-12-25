@@ -33,14 +33,14 @@ public class LimbMovement : NetworkBehaviour
         //rb = gameObject.AddComponent<Rigidbody>();
         rb = GetComponent<Rigidbody>();
         limbStepUp = GetComponentInChildren<LimbStepUpRay>();
- /*       stepRays[0] = GameObject.Find("StepRayLowerFrontMid");
-        stepRays[1] = GameObject.Find("StepRayLowerFrontLeft");
-        stepRays[2] = GameObject.Find("StepRayLowerFrontRight");
-        stepRays[4] = GameObject.Find("StepRayUpperFrontLeft");
-        stepRays[5] = GameObject.Find("StepRayUpperFrontLeft");*/
+        /*       stepRays[0] = GameObject.Find("StepRayLowerFrontMid");
+               stepRays[1] = GameObject.Find("StepRayLowerFrontLeft");
+               stepRays[2] = GameObject.Find("StepRayLowerFrontRight");
+               stepRays[4] = GameObject.Find("StepRayUpperFrontLeft");
+               stepRays[5] = GameObject.Find("StepRayUpperFrontLeft");*/
     }
 
-  
+
 
     void Update()
     {
@@ -55,8 +55,8 @@ public class LimbMovement : NetworkBehaviour
             MyInput();
             Movement();
             #region stepClimbs
-            // 
-            if(limbStepUp == null) limbStepUp = GetComponentInChildren<LimbStepUpRay>();
+            
+            if (limbStepUp == null) limbStepUp = GetComponentInChildren<LimbStepUpRay>();
             limbStepUp.ActiveStepClimb(input, rb);
             #endregion
 
@@ -65,8 +65,6 @@ public class LimbMovement : NetworkBehaviour
             SpeedControl();
             if (moveDir.normalized != Vector3.zero)
                 rb.AddForce(moveDir.normalized * speed * Time.deltaTime, ForceMode.Force);
-
-
         }
 
         gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y + initialRotationY, Vector3.up);
@@ -97,7 +95,7 @@ public class LimbMovement : NetworkBehaviour
         verticalInput = Input.GetAxisRaw("Vertical") * Time.deltaTime * speed;
     }
 
-   
+
 
     private float GetInitialRotation(LimbType type)
     {
@@ -106,19 +104,5 @@ public class LimbMovement : NetworkBehaviour
             LimbType.Arm => 90,
             _ => 0,
         };
-    }
-
-    [Command]
-    private void CmdMoveObject(Vector3 move)
-    {
-        RpcMoveObject(move);
-    }
-
-    [ClientRpc]
-    private void RpcMoveObject(Vector3 move)
-    {
-        //rb.AddForce(move.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
-        gameObject.transform.position += move;
-        //rb.AddForce(move.normalized * speed * Time.deltaTime, ForceMode.Force);
     }
 }
