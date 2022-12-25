@@ -698,18 +698,30 @@ public class ItemManager : NetworkBehaviour
 
     #endregion
 
-    
+    [Command]
     void CmdDropLimb(Limb_enum limb, GameObject originalOwner)
     {
         CmdThrowDropLimb(limb, throwPoint.position, originalOwner);
         //DropLimb(limb, originalOwner);
     }
-    
-    void CmdThrowLimb(Limb_enum limb, Vector3 force, Vector3 throwPoint, GameObject orignalOwner)
+   
+    [Command]
+    void CmdThrowLimb(Limb_enum limb, Vector3 force, Vector3 throwPoint, GameObject originalOwner)
     {
         //sceneObject.GetComponent<Rigidbody>().useGravity = true;
         //sceneObject.GetComponent<SceneObjectItemManager>().IsBeingControlled = false;
-        ThrowLimb(force, CmdThrowDropLimb(limb, throwPoint, orignalOwner));
+
+
+        //ThrowLimb(force, CmdThrowDropLimb(limb, throwPoint, originalOwner));
+        GameObject obj = CmdThrowDropLimb(limb, throwPoint, originalOwner);
+        TargetRpcAddForce(originalOwner.GetComponent<NetworkIdentity>().connectionToClient, force, obj);
+
+    }
+
+    [TargetRpc]
+    void TargetRpcAddForce(NetworkConnection connection, Vector3 force, GameObject sceneObject)
+    {
+        ThrowLimb(force, sceneObject);
     }
 
 
@@ -808,7 +820,7 @@ public class ItemManager : NetworkBehaviour
         return newSceneObject;
     }
 
-    [Command]
+    [Server]
     GameObject CmdThrowDropLimb(Limb_enum limb, Vector3 throwpoint, GameObject originalOwner)
     {
         GameObject newSceneObject = null;
@@ -975,7 +987,6 @@ public class ItemManager : NetworkBehaviour
         }
     }
 
-    [Server]
     void ThrowLimb(Vector3 force, GameObject sceneObject)
     {
 
@@ -992,7 +1003,6 @@ public class ItemManager : NetworkBehaviour
         Invoke(nameof(ResetThrow), throwCD);
     }
 
-    [Server]
     void ResetThrow()
     {
         readyToThrow = true;

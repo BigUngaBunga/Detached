@@ -65,8 +65,6 @@ public class LimbMovement : NetworkBehaviour
             SpeedControl();
             if (moveDir.normalized != Vector3.zero)
                 rb.AddForce(moveDir.normalized * speed * Time.deltaTime, ForceMode.Force);
-
-
         }
 
         gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y + initialRotationY, Vector3.up);
