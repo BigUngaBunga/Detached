@@ -829,7 +829,7 @@ public class ItemManager : NetworkBehaviour
         }
 
         dropLimbEvent.Invoke();
-        UpdateUI();
+        TargetRpcUpdateUI(originalOwner.GetComponent<NetworkIdentity>().connectionToServer);
         return newSceneObject;
     }
 
@@ -899,7 +899,7 @@ public class ItemManager : NetworkBehaviour
         //newSceneObject.GetComponent<Rigidbody>().useGravity = false;
         //TargetRpcGetThrowingGameObject(identity, newSceneObject);
         dropLimbEvent.Invoke();
-        UpdateUI();
+        TargetRpcUpdateUI(originalOwner.GetComponent<NetworkIdentity>().connectionToServer);
         return newSceneObject;
     }
 
@@ -1134,7 +1134,7 @@ public class ItemManager : NetworkBehaviour
         if (!keepSceneObject && !lateDelete)
             NetworkServer.Destroy(sceneObject);
         pickupLimbEvent.Invoke();
-        UpdateUI();
+        TargetRpcUpdateUI(connectionClient);
     }
 
 
@@ -1158,6 +1158,13 @@ public class ItemManager : NetworkBehaviour
 
 
     #region TargetRpcFunctions
+
+    [TargetRpc]
+    private void TargetRpcUpdateUI(NetworkConnection client)
+    {
+        float delay = 0.25f;
+        Invoke(nameof(UpdateUI), delay);
+    }
 
     [TargetRpc]
     private void TargetRpcLetGoHeadControll(NetworkConnection connectionClient, GameObject orginalOwner)
