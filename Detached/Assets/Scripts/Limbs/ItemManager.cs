@@ -906,14 +906,15 @@ public class ItemManager : NetworkBehaviour
     [ClientRpc]
     private void RpcUpdateUI()
     {
-        float delay = 0.25f;
-        Invoke(nameof(UpdateUI), delay);
-    }
-
-    private void UpdateUI()
-    {
+        
         selectionUI.GetCurrentLimbsOfPlayer();
     }
+
+    //private void UpdateUI()
+    //{
+    //    float delay = 0.25f;
+    //    Invoke(nameof(UpdateUI), delay);
+    //}
 
 
     [Command]
