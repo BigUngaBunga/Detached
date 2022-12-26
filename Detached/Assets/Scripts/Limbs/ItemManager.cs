@@ -903,7 +903,7 @@ public class ItemManager : NetworkBehaviour
         return newSceneObject;
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void UpdateUI()
     {
         selectionUI.GetCurrentLimbsOfPlayer();
