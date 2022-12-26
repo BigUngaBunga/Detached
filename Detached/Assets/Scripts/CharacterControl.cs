@@ -53,7 +53,7 @@ public class CharacterControl : NetworkBehaviour
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheckTransform;
     [SerializeField] private Transform secondaryGroundCheck;
-    [SerializeField] private float groundCheckRadius;
+    [SerializeField] private Vector3 groundCheckColliderSize;
     [SerializeField] private LayerMask groundMask;
 
     [Header("NetWorking")]
@@ -293,8 +293,14 @@ public class CharacterControl : NetworkBehaviour
 
     private void GroundCheck()
     {
-        isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask, collideWithTrigger);
-        isGrounded = isGrounded || (secondaryGroundCheck.gameObject.activeSelf && Physics.CheckSphere(secondaryGroundCheck.position, groundCheckRadius, groundMask, collideWithTrigger));
+        GroundCheck ground1 = groundCheckTransform.GetComponent<GroundCheck>();
+        GroundCheck ground2 = secondaryGroundCheck.GetComponent<GroundCheck>();
+        isGrounded = ground1.IsGrounded;
+        isGrounded = isGrounded || (secondaryGroundCheck.gameObject.activeSelf && ground2.IsGrounded);
+
+        //isGrounded = Physics.CheckBox(groundCheckTransform.position, groundCheckColliderSize/2, Quaternion.identity, groundMask, collideWithTrigger);
+        //isGrounded = isGrounded || (secondaryGroundCheck.gameObject.activeSelf && Physics.CheckBox(secondaryGroundCheck.position, groundCheckColliderSize/2, Quaternion.identity, groundMask, collideWithTrigger));
+        
     }
 
     private void Jump()
@@ -342,13 +348,6 @@ public class CharacterControl : NetworkBehaviour
     }
 
     #endregion
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawSphere(groundCheckTransform.position, groundCheckRadius);
-        Gizmos.DrawSphere(secondaryGroundCheck.position, groundCheckRadius);
-    }
 
     void PauseCam()
     {
