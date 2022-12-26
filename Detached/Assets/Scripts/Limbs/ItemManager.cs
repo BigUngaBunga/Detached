@@ -268,7 +268,7 @@ public class ItemManager : NetworkBehaviour
         leftArmIsDeta = isDeta;
 
         selectionUI = GetComponentInChildren<BodypartSelected>();
-        selectionUI.Setup();
+        //selectionUI.Setup();
     }
     void Update()
     {
