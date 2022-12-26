@@ -829,7 +829,7 @@ public class ItemManager : NetworkBehaviour
         }
 
         dropLimbEvent.Invoke();
-        UpdateUI();
+        RpcUpdateUI();
         return newSceneObject;
     }
 
@@ -899,15 +899,22 @@ public class ItemManager : NetworkBehaviour
         //newSceneObject.GetComponent<Rigidbody>().useGravity = false;
         //TargetRpcGetThrowingGameObject(identity, newSceneObject);
         dropLimbEvent.Invoke();
-        UpdateUI();
+        RpcUpdateUI();
         return newSceneObject;
     }
 
-    //[ClientRpc]
+    [ClientRpc]
+    private void RpcUpdateUI()
+    {
+        float delay = 0.25f;
+        Invoke(nameof(UpdateUI), delay);
+    }
+
     private void UpdateUI()
     {
         selectionUI.GetCurrentLimbsOfPlayer();
     }
+
 
     [Command]
     private void LateNetworkDestroy()
@@ -1122,7 +1129,7 @@ public class ItemManager : NetworkBehaviour
         if (!keepSceneObject && !lateDelete)
             NetworkServer.Destroy(sceneObject);
         pickupLimbEvent.Invoke();
-        UpdateUI();
+        RpcUpdateUI();
     }
 
 
