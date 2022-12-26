@@ -87,6 +87,7 @@ public class ItemManager : NetworkBehaviour
     [SyncVar] private int selectionMode; //0 == limbSelection mode, 1 == out on map limb selection mode
     private LimbTextureManager limbTextureManager;
     public bool groundMode;
+    private bool changedSelectionMode;
 
     bool leftLegExist, rightLegExist;
     bool leftArmExist, rightArmExist;
@@ -365,7 +366,11 @@ public class ItemManager : NetworkBehaviour
     private void HandleSelectionModeChange()
     {
         if (Input.GetKeyDown(changeSelectionMode))
+            changedSelectionMode = true;
+
+        if (changedSelectionMode)
         {
+            changedSelectionMode = false;
             //limbsOnGround = GameObject.FindGameObjectsWithTag("Limb");
             if (selectionMode == 0)
             {
@@ -530,6 +535,7 @@ public class ItemManager : NetworkBehaviour
     public void ReturnControllToPlayer()
     {
         //Expected that all handling of other limb controll removement is done
+        changedSelectionMode = true;
         gameObject.GetComponent<CharacterControl>().isBeingControlled = true;
         SetCamFocusOnPlayer();
     }
@@ -838,6 +844,8 @@ public class ItemManager : NetworkBehaviour
                 //camFocus.parent = SceneObjectScript.transform;
                 TargetRpcUpdateCameraPositionForHeadOnClient(originalOwner.GetComponent<NetworkIdentity>().connectionToClient, SceneObjectScript);
                 ResetHeadPosCam(SceneObjectScript);
+                changedSelectionMode = true;
+                characterControlScript.isBeingControlled = false;
                 SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
                 break;
 
@@ -978,7 +986,7 @@ public class ItemManager : NetworkBehaviour
             if (SelectedLimbToThrow == Limb_enum.Head)
             {
                 characterControlScript.isBeingControlled = false;
-                selectionMode = 1;
+                //changedSelectionMode = true;
             }
 
             Transform body = transform.Find("group1");

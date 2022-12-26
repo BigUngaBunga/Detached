@@ -54,6 +54,7 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] private Transform groundCheckTransform;
     [SerializeField] private Transform secondaryGroundCheck;
     [SerializeField] private float groundCheckRadius;
+    [SerializeField] private Vector3 groundCheckSize;
     [SerializeField] private LayerMask groundMask;
 
     [Header("NetWorking")]
@@ -228,10 +229,11 @@ public class CharacterControl : NetworkBehaviour
         input = new Vector3(horizontalInput, 0, verticalInput);
         moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
 
+        Vector3 force = moveDir.normalized * movementSpeed * 10f * Time.deltaTime;
         if (isGrounded)
-            rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
-        else if (!isGrounded)
-            rb.AddForce(moveDir.normalized * movementSpeed * 10f * airMultiplier * Time.deltaTime, ForceMode.Force);
+            rb.AddForce(force, ForceMode.Force);
+        else
+            rb.AddForce(force * airMultiplier, ForceMode.Force);
 
         /*        Debug.DrawRay(transform.position, transform.TransformDirection(moveDir.normalized), Color.green);*/
         //transform.position += moveDir * movementSpeed * Time.deltaTime;
@@ -293,8 +295,10 @@ public class CharacterControl : NetworkBehaviour
 
     private void GroundCheck()
     {
-        isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask, collideWithTrigger);
-        isGrounded = isGrounded || (secondaryGroundCheck.gameObject.activeSelf && Physics.CheckSphere(secondaryGroundCheck.position, groundCheckRadius, groundMask, collideWithTrigger));
+        isGrounded = Physics.CheckBox(groundCheckTransform.position, groundCheckSize, transform.rotation, groundMask, collideWithTrigger);
+        //isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask, collideWithTrigger);
+        isGrounded = isGrounded || (secondaryGroundCheck.gameObject.activeSelf && 
+                    Physics.CheckSphere(secondaryGroundCheck.position, groundCheckRadius, groundMask, collideWithTrigger));
     }
 
     private void Jump()
@@ -346,8 +350,11 @@ public class CharacterControl : NetworkBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        Gizmos.DrawSphere(groundCheckTransform.position, groundCheckRadius);
+        //Gizmos.DrawSphere(groundCheckTransform.position, groundCheckRadius);
         Gizmos.DrawSphere(secondaryGroundCheck.position, groundCheckRadius);
+
+        Gizmos.matrix = Matrix4x4.TRS(groundCheckTransform.position, transform.rotation, groundCheckSize * 2);
+        Gizmos.DrawCube(Vector3.zero, Vector3.one);
     }
 
     void PauseCam()

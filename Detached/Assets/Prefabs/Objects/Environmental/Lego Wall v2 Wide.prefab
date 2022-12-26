@@ -2004,6 +2004,8 @@ GameObject:
   - component: {fileID: 1795661496479077960}
   - component: {fileID: 5779766538304085648}
   - component: {fileID: 802045971674476213}
+  - component: {fileID: 8933637165374573732}
+  - component: {fileID: 7756738585711349580}
   m_Layer: 14
   m_Name: Lego Wall v2 Wide
   m_TagString: Untagged
@@ -2280,6 +2282,33 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   gameObjects: []
+--- !u!114 &8933637165374573732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887526708733823505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 557a6e3f8bba7c641895b7320aeec508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!65 &7756738585711349580
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887526708733823505}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.43978065, y: 0.21167858, z: 0.005000006}
+  m_Center: {x: 0.05504453, y: 0.18, z: -0.0002059936}
 --- !u!1 &923573071179526309
 GameObject:
   m_ObjectHideFlags: 0
