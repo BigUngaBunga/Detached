@@ -268,7 +268,7 @@ public class ItemManager : NetworkBehaviour
         leftArmIsDeta = isDeta;
 
         selectionUI = GetComponentInChildren<BodypartSelected>();
-        //selectionUI.Setup();
+        selectionUI.Setup();
     }
     void Update()
     {
@@ -286,7 +286,7 @@ public class ItemManager : NetworkBehaviour
         //Below not needed anymore, only  used for testing purposes
         if (selectionMode == 0)
         {
-            if(Input.GetKeyDown(dropKey) && CanDropSelected())
+            if (Input.GetKeyDown(dropKey) && CanDropSelected())
             {
                 CmdDropLimb(selectedLimbToThrow, gameObject);
                 Transform body = transform.Find("group1");
@@ -348,7 +348,7 @@ public class ItemManager : NetworkBehaviour
                 ChangeLimbControll(Input.mouseScrollDelta.y); //Change this to handle the scroll up and down
             }
             //if (!isLocalPlayer) return;
-           // changeSelectedLimbEvent.Invoke();
+            // changeSelectedLimbEvent.Invoke();
             selectionUI.GetSelectedOfPlayer();
         }
     }
@@ -716,7 +716,7 @@ public class ItemManager : NetworkBehaviour
         CmdThrowDropLimb(limb, throwPoint.position, originalOwner);
         //DropLimb(limb, originalOwner);
     }
-   
+
     [Command]
     void CmdThrowLimb(Limb_enum limb, Vector3 force, Vector3 throwPoint, GameObject originalOwner)
     {
@@ -830,6 +830,8 @@ public class ItemManager : NetworkBehaviour
 
         dropLimbEvent.Invoke();
         RpcUpdateUI();
+        //selectionUI.GetCurrentLimbsOfPlayer(headDetached, NumberOfArms, NumberOfLegs);
+
         return newSceneObject;
     }
 
@@ -899,6 +901,8 @@ public class ItemManager : NetworkBehaviour
         //newSceneObject.GetComponent<Rigidbody>().useGravity = false;
         //TargetRpcGetThrowingGameObject(identity, newSceneObject);
         dropLimbEvent.Invoke();
+        //selectionUI.GetCurrentLimbsOfPlayer(headDetached, NumberOfArms, NumberOfLegs);
+
         RpcUpdateUI();
         return newSceneObject;
     }
@@ -906,8 +910,8 @@ public class ItemManager : NetworkBehaviour
     [ClientRpc]
     private void RpcUpdateUI()
     {
-        
-        selectionUI.GetCurrentLimbsOfPlayer(headDetached,NumberOfArms,NumberOfLegs);
+        //selectionUI.GetCurrentLimbsOfPlayerTest();
+        selectionUI.GetCurrentLimbsOfPlayer(headDetached, NumberOfArms, NumberOfLegs);
     }
 
     //private void UpdateUI()
@@ -920,7 +924,7 @@ public class ItemManager : NetworkBehaviour
     [Command]
     private void LateNetworkDestroy()
     {
-        foreach(GameObject obj in objsToDelete)
+        foreach (GameObject obj in objsToDelete)
         {
             NetworkServer.Destroy(obj);
         }
@@ -962,7 +966,7 @@ public class ItemManager : NetworkBehaviour
 
             float maxThrowHeight = 0.28f; //from cam perspective
             cinemachine.m_YAxis.m_MinValue = maxThrowHeight;
-           // camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
+            // camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
 
         }
         else if (Input.GetMouseButtonUp(1))
@@ -1131,6 +1135,8 @@ public class ItemManager : NetworkBehaviour
             NetworkServer.Destroy(sceneObject);
         pickupLimbEvent.Invoke();
         RpcUpdateUI();
+        //selectionUI.GetCurrentLimbsOfPlayer(headDetached, NumberOfArms, NumberOfLegs);
+
     }
 
 
@@ -1181,7 +1187,7 @@ public class ItemManager : NetworkBehaviour
     [TargetRpc]
     private void TargetRpcCamPositionReset(NetworkConnection connectionToClient)
     {
-        
+
         camFocus.parent = camFocusOrigin;
 
         ResetCamCondition();
@@ -1189,7 +1195,7 @@ public class ItemManager : NetworkBehaviour
         camFocus.localEulerAngles = Vector3.zero;
         camFocus.localScale = Vector3.one;
 
-        LateNetworkDestroy(); 
+        LateNetworkDestroy();
     }
 
     #endregion

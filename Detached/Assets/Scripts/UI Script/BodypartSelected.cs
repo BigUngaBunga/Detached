@@ -252,4 +252,16 @@ public class BodypartSelected : MonoBehaviour
 
         GetCurrentLimbsOfPlayer(iManagerLocalPlayer.headDetached, numberOfArms, numberOfLegs);
     }
+    public void GetCurrentLimbsOfPlayerTest()
+    {
+        int numberOfArms = iManagerLocalPlayer.NumberOfArms;
+        int numberOfLegs = iManagerLocalPlayer.NumberOfLegs;
+
+        rightHand.SetActive(numberOfArms > 0);
+        leftHand.SetActive(numberOfArms > 1);
+        rightLeg.SetActive(numberOfLegs > 0);
+        leftLeg.SetActive(numberOfLegs > 1);
+        GetSelectedOfPlayer();
+
+    }
 }
