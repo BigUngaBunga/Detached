@@ -70,8 +70,8 @@ public class BodypartSelected : MonoBehaviour
     void Update()
     {
 
-        if (!performedSetup)
-            Setup();
+/*        if (!performedSetup)
+            Setup();*/
         if (!iManagerLocalPlayer.groundMode)
         {
             groundUI.SetActive(false);
