@@ -88,6 +88,7 @@ public class ItemManager : NetworkBehaviour
     private LimbTextureManager limbTextureManager;
     public bool groundMode;
     private bool changedSelectionMode;
+    BodypartSelected selectionUI;
 
     bool leftLegExist, rightLegExist;
     bool leftArmExist, rightArmExist;
@@ -265,6 +266,9 @@ public class ItemManager : NetworkBehaviour
         leftLegIsDeta = isDeta;
         rightArmIsDeta = isDeta;
         leftArmIsDeta = isDeta;
+
+        selectionUI = GetComponentInChildren<BodypartSelected>();
+        selectionUI.Setup();
     }
     void Update()
     {
@@ -343,7 +347,9 @@ public class ItemManager : NetworkBehaviour
 
                 ChangeLimbControll(Input.mouseScrollDelta.y); //Change this to handle the scroll up and down
             }
-            changeSelectedLimbEvent.Invoke();
+            //if (!isLocalPlayer) return;
+           // changeSelectedLimbEvent.Invoke();
+            selectionUI.GetSelectedOfPlayer();
         }
     }
 
@@ -823,6 +829,7 @@ public class ItemManager : NetworkBehaviour
         }
 
         dropLimbEvent.Invoke();
+        selectionUI.GetCurrentLimbsOfPlayer();
         return newSceneObject;
     }
 
@@ -892,6 +899,7 @@ public class ItemManager : NetworkBehaviour
         //newSceneObject.GetComponent<Rigidbody>().useGravity = false;
         //TargetRpcGetThrowingGameObject(identity, newSceneObject);
         dropLimbEvent.Invoke();
+        selectionUI.GetCurrentLimbsOfPlayer();
         return newSceneObject;
     }
 
@@ -1120,6 +1128,7 @@ public class ItemManager : NetworkBehaviour
         if (!keepSceneObject && !lateDelete)
             NetworkServer.Destroy(sceneObject);
         pickupLimbEvent.Invoke();
+        selectionUI.GetCurrentLimbsOfPlayer();
     }
 
 

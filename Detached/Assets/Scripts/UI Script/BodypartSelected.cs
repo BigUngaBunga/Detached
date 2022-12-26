@@ -40,16 +40,16 @@ public class BodypartSelected : MonoBehaviour
     private ItemManager iManagerLocalPlayer;
     void Start()
     {
-        
+
     }
 
-    private void Setup()
+    public void Setup()
     {
         iManagerLocalPlayer = NetworkClient.localPlayer.gameObject.GetComponent<ItemManager>();
         Debug.Log("Game object name: " + iManagerLocalPlayer.gameObject.name);
-        iManagerLocalPlayer.changeSelectedLimbEvent.AddListener(GetSelectedOfPlayer);
-        iManagerLocalPlayer.dropLimbEvent.AddListener(GetCurrentLimbsOfPlayer);
-        iManagerLocalPlayer.pickupLimbEvent.AddListener(GetCurrentLimbsOfPlayer);
+        /*      iManagerLocalPlayer.changeSelectedLimbEvent.AddListener(GetSelectedOfPlayer);
+              iManagerLocalPlayer.dropLimbEvent.AddListener(GetCurrentLimbsOfPlayer);
+              iManagerLocalPlayer.pickupLimbEvent.AddListener(GetCurrentLimbsOfPlayer);*/
 
         GetCurrentLimbsOfPlayer();
         performedSetup = true;
@@ -69,8 +69,9 @@ public class BodypartSelected : MonoBehaviour
 
     void Update()
     {
-        if (!performedSetup)
-            Setup();
+
+/*        if (!performedSetup)
+            Setup();*/
         if (!iManagerLocalPlayer.groundMode)
         {
             groundUI.SetActive(false);
@@ -96,9 +97,10 @@ public class BodypartSelected : MonoBehaviour
         //}
     }
 
-    private void GetSelectedOfPlayer()
+    public void GetSelectedOfPlayer()
     {
         SetBodyAllInactive();
+
         if (iManagerLocalPlayer.numberOfLimbs > 0 && !Convert.ToBoolean(iManagerLocalPlayer.SelectionMode))
         {
             if (iManagerLocalPlayer.SelectedLimbToThrow == ItemManager.Limb_enum.Arm && iManagerLocalPlayer.NumberOfArms > 0)
@@ -230,7 +232,7 @@ public class BodypartSelected : MonoBehaviour
         rightLegSelectionG.SetActive(false);
     }
 
-    private void GetCurrentLimbsOfPlayer()
+    public void GetCurrentLimbsOfPlayer()
     {
         int numberOfArms = iManagerLocalPlayer.NumberOfArms;
         int numberOfLegs = iManagerLocalPlayer.NumberOfLegs;
