@@ -906,7 +906,7 @@ public class ItemManager : NetworkBehaviour
     //[ClientRpc]
     private void UpdateUI()
     {
-        selectionUI.GetCurrentLimbsOfPlayer();
+        selectionUI.GetCurrentLimbsOfPlayer(headDetached,NumberOfArms,NumberOfLegs);
     }
 
     [Command]

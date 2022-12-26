@@ -70,8 +70,8 @@ public class BodypartSelected : MonoBehaviour
     void Update()
     {
 
-/*        if (!performedSetup)
-            Setup();*/
+        /*        if (!performedSetup)
+                    Setup();*/
         if (!iManagerLocalPlayer.groundMode)
         {
             groundUI.SetActive(false);
@@ -232,16 +232,24 @@ public class BodypartSelected : MonoBehaviour
         rightLegSelectionG.SetActive(false);
     }
 
+    public void GetCurrentLimbsOfPlayer(bool hasHead, int arms, int legs)
+    {
+        /*int numberOfArms = iManagerLocalPlayer.NumberOfArms;
+        int numberOfLegs = iManagerLocalPlayer.NumberOfLegs;*/
+
+        head.SetActive(hasHead);
+        rightHand.SetActive(arms > 0);
+        leftHand.SetActive(arms > 1);
+        rightLeg.SetActive(legs > 0);
+        leftLeg.SetActive(legs > 1);
+        GetSelectedOfPlayer();
+
+    }
     public void GetCurrentLimbsOfPlayer()
     {
         int numberOfArms = iManagerLocalPlayer.NumberOfArms;
         int numberOfLegs = iManagerLocalPlayer.NumberOfLegs;
 
-        head.SetActive(!iManagerLocalPlayer.headDetached);
-        rightHand.SetActive(numberOfArms > 0);
-        leftHand.SetActive(numberOfArms > 1);
-        rightLeg.SetActive(numberOfLegs > 0);
-        leftLeg.SetActive(numberOfLegs > 1);
-        GetSelectedOfPlayer();
+        GetCurrentLimbsOfPlayer(iManagerLocalPlayer.headDetached, numberOfArms, numberOfLegs);
     }
 }
