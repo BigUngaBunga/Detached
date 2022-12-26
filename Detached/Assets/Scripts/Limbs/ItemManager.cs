@@ -772,70 +772,6 @@ public class ItemManager : NetworkBehaviour
     }
 
     [Server]
-    GameObject DropLimb(Limb_enum limb, GameObject originalOwner)
-    {
-        GameObject newSceneObject = null;
-        switch (limb)
-        {
-            case Limb_enum.Head:
-                newSceneObject = Instantiate(wrapperSceneObject, throwPoint.position, headPrefab.transform.rotation);
-                var SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
-                SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn               
-                SceneObjectScript.originalOwner = originalOwner;
-                NetworkServer.Spawn(newSceneObject, connectionToClient); //Set Authority to client att spawn since no other player should be able to control it.
-                SceneObjectScript.detached = true;
-                headDetached = true;
-                break;
-
-            case Limb_enum.Arm:
-                Vector3 extraRotation = new Vector3(0, 90);
-                if (!leftArmDetached)
-                {
-                    newSceneObject = Instantiate(wrapperSceneObject, throwPoint.position, Quaternion.Euler(leftArmParent.eulerAngles + extraRotation));
-                    DropGenericLimb(newSceneObject, limb, originalOwner, leftArmIsDeta);
-                    leftArmDetached = true;
-                }
-                else if (!rightArmDetached)
-                {
-                    newSceneObject = Instantiate(wrapperSceneObject, throwPoint.position, Quaternion.Euler(rightArmParent.eulerAngles + extraRotation));
-                    DropGenericLimb(newSceneObject, limb, originalOwner, rightArmIsDeta);
-                    rightArmDetached = true;
-                }
-                else
-                {
-                    Debug.Log("No arm to detach");
-                }
-                break;
-            case Limb_enum.Leg:
-                if (!leftLegDetached)
-                {
-                    newSceneObject = Instantiate(wrapperSceneObject, throwPoint.position, leftLegParent.rotation);
-                    DropGenericLimb(newSceneObject, limb, originalOwner, leftLegIsDeta);
-                    leftLegDetached = true;
-                }
-                else if (!rightLegDetached)
-                {
-                    newSceneObject = Instantiate(wrapperSceneObject, throwPoint.position, rightLegParent.rotation);
-                    DropGenericLimb(newSceneObject, limb, originalOwner, rightLegIsDeta);
-                    rightLegDetached = true;
-                }
-                else
-                {
-                    Debug.Log("No leg to detach");
-                }
-                break;
-            default:
-                return null;
-        }
-
-        dropLimbEvent.Invoke();
-        RpcUpdateUI();
-        //selectionUI.GetCurrentLimbsOfPlayer(headDetached, NumberOfArms, NumberOfLegs);
-
-        return newSceneObject;
-    }
-
-    [Server]
     GameObject CmdThrowDropLimb(Limb_enum limb, Vector3 throwpoint, GameObject originalOwner)
     {
         GameObject newSceneObject = null;
@@ -901,9 +837,9 @@ public class ItemManager : NetworkBehaviour
         //newSceneObject.GetComponent<Rigidbody>().useGravity = false;
         //TargetRpcGetThrowingGameObject(identity, newSceneObject);
         dropLimbEvent.Invoke();
-        //selectionUI.GetCurrentLimbsOfPlayer(headDetached, NumberOfArms, NumberOfLegs);
 
-        RpcUpdateUI();
+        UpdateUI(originalOwner, headDetached, NumberOfArms, NumberOfLegs);
+        //RpcUpdateUI();
         return newSceneObject;
     }
 
@@ -914,11 +850,12 @@ public class ItemManager : NetworkBehaviour
         selectionUI.GetCurrentLimbsOfPlayer(headDetached, NumberOfArms, NumberOfLegs);
     }
 
-    //private void UpdateUI()
-    //{
-    //    float delay = 0.25f;
-    //    Invoke(nameof(UpdateUI), delay);
-    //}
+
+    private void UpdateUI(GameObject originalOwner, bool headIsDetached, int arms, int legs)
+    {
+        var itemManager = originalOwner.GetComponent<ItemManager>();
+        itemManager.selectionUI.GetCurrentLimbsOfPlayer(headIsDetached, arms, legs, 0.05f);
+    }
 
 
     [Command]
@@ -1134,7 +1071,8 @@ public class ItemManager : NetworkBehaviour
         if (!keepSceneObject && !lateDelete)
             NetworkServer.Destroy(sceneObject);
         pickupLimbEvent.Invoke();
-        RpcUpdateUI();
+        //RpcUpdateUI();
+        UpdateUI(gameObject, headDetached, NumberOfArms, NumberOfLegs);
         //selectionUI.GetCurrentLimbsOfPlayer(headDetached, NumberOfArms, NumberOfLegs);
 
     }

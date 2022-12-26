@@ -232,12 +232,13 @@ public class BodypartSelected : MonoBehaviour
         rightLegSelectionG.SetActive(false);
     }
 
-    public void GetCurrentLimbsOfPlayer(bool hasHead, int arms, int legs)
+    public void GetCurrentLimbsOfPlayer(bool headIsDetached, int arms, int legs, float delay = 0)
     {
         /*int numberOfArms = iManagerLocalPlayer.NumberOfArms;
         int numberOfLegs = iManagerLocalPlayer.NumberOfLegs;*/
-
-        head.SetActive(hasHead);
+        if (delay != 0)
+            Invoke(nameof(GetCurrentLimbsOfPlayer), delay);
+        head.SetActive(!headIsDetached);
         rightHand.SetActive(arms > 0);
         leftHand.SetActive(arms > 1);
         rightLeg.SetActive(legs > 0);
@@ -257,6 +258,7 @@ public class BodypartSelected : MonoBehaviour
         int numberOfArms = iManagerLocalPlayer.NumberOfArms;
         int numberOfLegs = iManagerLocalPlayer.NumberOfLegs;
 
+        head.SetActive(!iManagerLocalPlayer.headDetached);
         rightHand.SetActive(numberOfArms > 0);
         leftHand.SetActive(numberOfArms > 1);
         rightLeg.SetActive(numberOfLegs > 0);
