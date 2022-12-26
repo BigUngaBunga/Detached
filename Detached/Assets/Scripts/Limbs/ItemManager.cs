@@ -907,7 +907,7 @@ public class ItemManager : NetworkBehaviour
     private void RpcUpdateUI()
     {
         
-        selectionUI.GetCurrentLimbsOfPlayer();
+        selectionUI.GetCurrentLimbsOfPlayer(headDetached,NumberOfArms,NumberOfLegs);
     }
 
     //private void UpdateUI()
