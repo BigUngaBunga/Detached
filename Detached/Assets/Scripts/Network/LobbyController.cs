@@ -16,6 +16,7 @@ public class LobbyController : NetworkBehaviour
     //UI Elements
     //public Text LobbyNameText;
     public Button StartGameButton;
+    public Button LevelSelectButton;
     public Text ReadyButtonText;
     public Button Invite;
     public Text LobbyNameText;
@@ -214,15 +215,18 @@ public class LobbyController : NetworkBehaviour
             if (localPlayerController.PlayerIdNumber == 1)
             {
                 StartGameButton.interactable = true;
+                LevelSelectButton.interactable = true;
             }
             else
             {
                 StartGameButton.interactable = false;
+                LevelSelectButton.interactable = false;
             }
         }
         else
         {
             StartGameButton.interactable = false;
+            LevelSelectButton.interactable = false;
         }
     }
 
