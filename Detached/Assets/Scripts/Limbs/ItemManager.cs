@@ -713,8 +713,7 @@ public class ItemManager : NetworkBehaviour
     [Command]
     void CmdDropLimb(Limb_enum limb, GameObject originalOwner)
     {
-        CmdThrowDropLimb(limb, throwPoint.position, originalOwner);
-        //DropLimb(limb, originalOwner);
+        CmdThrowDropLimb(limb, throwPoint.position, originalOwner, false);
     }
 
     [Command]
@@ -725,7 +724,7 @@ public class ItemManager : NetworkBehaviour
 
 
         //ThrowLimb(force, CmdThrowDropLimb(limb, throwPoint, originalOwner));
-        GameObject obj = CmdThrowDropLimb(limb, throwPoint, originalOwner);
+        GameObject obj = CmdThrowDropLimb(limb, throwPoint, originalOwner, true);
         TargetRpcAddForce(originalOwner.GetComponent<NetworkIdentity>().connectionToClient, force, obj);
 
     }
@@ -772,7 +771,7 @@ public class ItemManager : NetworkBehaviour
     }
 
     [Server]
-    GameObject CmdThrowDropLimb(Limb_enum limb, Vector3 throwpoint, GameObject originalOwner)
+    GameObject CmdThrowDropLimb(Limb_enum limb, Vector3 throwpoint, GameObject originalOwner, bool isThrowing)
     {
         GameObject newSceneObject = null;
         switch (limb)
@@ -804,9 +803,15 @@ public class ItemManager : NetworkBehaviour
                     // camFocus.parent = SceneObjectScript.transform;
                     /*  SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;*/
                 }
-                else
+                else if(isThrowing || rightArmDetached)
                 {
                     Debug.Log("No arm to detach");
+                }
+                else
+                {
+                    newSceneObject = Instantiate(wrapperSceneObject, throwpoint, rightArmParent.transform.rotation);
+                    DropGenericLimb(newSceneObject, limb, originalOwner, rightArmIsDeta);
+                    rightArmDetached = true;
                 }
                 break;
             case Limb_enum.Leg:

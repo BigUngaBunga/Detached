@@ -47,31 +47,12 @@ public class BodypartSelected : MonoBehaviour
     {
         iManagerLocalPlayer = NetworkClient.localPlayer.gameObject.GetComponent<ItemManager>();
         Debug.Log("Game object name: " + iManagerLocalPlayer.gameObject.name);
-        /*      iManagerLocalPlayer.changeSelectedLimbEvent.AddListener(GetSelectedOfPlayer);
-              iManagerLocalPlayer.dropLimbEvent.AddListener(GetCurrentLimbsOfPlayer);
-              iManagerLocalPlayer.pickupLimbEvent.AddListener(GetCurrentLimbsOfPlayer);*/
-
         GetCurrentLimbsOfPlayer();
         performedSetup = true;
-    }
-    void PauseGame()
-    {
-        Time.timeScale = 0;
-    }
-    void ResumeGame()
-    {
-        Time.timeScale = 1;
-    }
-    void activate()
-    {
-        gameUI.SetActive(true);
     }
 
     void Update()
     {
-
-        /*        if (!performedSetup)
-                    Setup();*/
         if (!iManagerLocalPlayer.groundMode)
         {
             groundUI.SetActive(false);
@@ -85,16 +66,6 @@ public class BodypartSelected : MonoBehaviour
 
         GetLimbsOnGround();
         GetSelectedOnGround();
-        //if (Input.GetKeyDown(KeyCode.Escape))
-        //{
-        //    pauseUI.SetActive(true);
-        //    gameUI.SetActive(false);
-        //}
-
-        //if(pauseUI.activeSelf)
-        //{
-        //    gameUI.SetActive(true);
-        //}
     }
 
     public void GetSelectedOfPlayer()
@@ -126,15 +97,10 @@ public class BodypartSelected : MonoBehaviour
 
     private void GetLimbsOnGround()
     {
-
         headG.SetActive(!head.activeSelf);
-
         leftHandG.SetActive(!leftHand.activeSelf);
-
         rightHandG.SetActive(!rightHand.activeSelf);
-
         leftLegG.SetActive(!leftLeg.activeSelf);
-
         rightLegG.SetActive(!rightLeg.activeSelf);
     }
 
@@ -164,49 +130,18 @@ public class BodypartSelected : MonoBehaviour
                 cam = iManagerLocalPlayer.limbs[iManagerLocalPlayer.indexControll].transform.GetChild(i + 1).gameObject;
         }
 
-        if (cam != null && selectedObject.tag == "Head")
-            headSelectionG.SetActive(true);
-        else
-            headSelectionG.SetActive(false);
-
-        if (cam != null && selectedObject.name == "LeftLeg")
-            leftLegSelectionG.SetActive(true);
-        else
-            leftLegSelectionG.SetActive(false);
-
-        if (cam != null && selectedObject.name == "RightLeg")
-            rightLegSelectionG.SetActive(true);
-        else
-            rightLegSelectionG.SetActive(false);
-
-        if (cam != null && selectedObject.name == "LeftArm")
-            leftHandSelectionG.SetActive(true);
-        else
-            leftHandSelectionG.SetActive(false);
-
-        if (cam != null && selectedObject.name == "RightArm")
-            rightHandSelectionG.SetActive(true);
-        else
-            rightHandSelectionG.SetActive(false);
-        /*      
-                if (iManagerLocalPlayer.limbs[iManagerLocalPlayer.indexControll].transform.GetChild(1).gameObject != null)
-                    leftLegSelectionG.SetActive(true);
-                else
-                    leftLegSelectionG.SetActive(false);*/
-        // test = iManagerLocalPlayer.limbs[iManagerLocalPlayer.indexControll].transform.GetChild(1).gameObject;
-        //if ()
-
-
-        /*rightHandSelectionG.SetActive(rightHandG.activeSelf);
-        rightLegSelectionG.SetActive(rightLegG.activeSelf);
-        leftHandSelectionG.SetActive(leftHandG.activeSelf);
-        leftLegSelectionG.SetActive(leftLegG.activeSelf);*/
+        if (cam == null || selectedObject == null) return;
+        
+        headSelectionG.SetActive(selectedObject.name == "Head");
+        leftLegSelectionG.SetActive(selectedObject.name == "LeftLeg");
+        rightLegSelectionG.SetActive(selectedObject.name == "RightLeg");
+        leftHandSelectionG.SetActive(selectedObject.name == "LeftArm");
+        rightHandSelectionG.SetActive(selectedObject.name == "RigthArm");
     }
 
     private void GetSelectedOnGround()
     {
         SetGroundAllInactive();
-
         IndicateSelectedLimbOnGround();
     }
 
@@ -221,10 +156,6 @@ public class BodypartSelected : MonoBehaviour
 
     private void SetGroundAllInactive()
     {
-        /*   for (int i = 0; i < groundSelection.Length; i++)
-           {
-               groundSelection[i].SetActive(false);
-           }*/
         headSelectionG.SetActive(false);
         leftHandSelectionG.SetActive(false);
         rightHandSelectionG.SetActive(false);
