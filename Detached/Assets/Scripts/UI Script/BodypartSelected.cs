@@ -46,6 +46,7 @@ public class BodypartSelected : MonoBehaviour
     private void Setup()
     {
         iManagerLocalPlayer = NetworkClient.localPlayer.gameObject.GetComponent<ItemManager>();
+        Debug.Log("Game object name: " + iManagerLocalPlayer.gameObject.name);
         iManagerLocalPlayer.changeSelectedLimbEvent.AddListener(GetSelectedOfPlayer);
         iManagerLocalPlayer.dropLimbEvent.AddListener(GetCurrentLimbsOfPlayer);
         iManagerLocalPlayer.pickupLimbEvent.AddListener(GetCurrentLimbsOfPlayer);
