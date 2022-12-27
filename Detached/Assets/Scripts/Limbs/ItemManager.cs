@@ -349,7 +349,7 @@ public class ItemManager : NetworkBehaviour
             }
             //if (!isLocalPlayer) return;
             // changeSelectedLimbEvent.Invoke();
-            selectionUI.GetSelectedOfPlayer();
+            //selectionUI.GetSelectedOfPlayer();
         }
     }
 
@@ -843,8 +843,8 @@ public class ItemManager : NetworkBehaviour
         //TargetRpcGetThrowingGameObject(identity, newSceneObject);
         dropLimbEvent.Invoke();
 
-        UpdateUI(originalOwner, headDetached, NumberOfArms, NumberOfLegs);
-        //RpcUpdateUI();
+        //UpdateUI(originalOwner, headDetached, NumberOfArms, NumberOfLegs);
+        RpcUpdateUI();
         return newSceneObject;
     }
 
@@ -859,7 +859,7 @@ public class ItemManager : NetworkBehaviour
     private void UpdateUI(GameObject originalOwner, bool headIsDetached, int arms, int legs)
     {
         var itemManager = originalOwner.GetComponent<ItemManager>();
-        itemManager.selectionUI.GetCurrentLimbsOfPlayer(headIsDetached, arms, legs, 0.05f);
+        itemManager.selectionUI.GetCurrentLimbsOfPlayer(headIsDetached, arms, legs, 0.1f);
     }
 
 
@@ -1076,10 +1076,8 @@ public class ItemManager : NetworkBehaviour
         if (!keepSceneObject && !lateDelete)
             NetworkServer.Destroy(sceneObject);
         pickupLimbEvent.Invoke();
-        //RpcUpdateUI();
-        UpdateUI(gameObject, headDetached, NumberOfArms, NumberOfLegs);
-        //selectionUI.GetCurrentLimbsOfPlayer(headDetached, NumberOfArms, NumberOfLegs);
-
+        RpcUpdateUI();
+        //UpdateUI(gameObject, headDetached, NumberOfArms, NumberOfLegs);
     }
 
 
