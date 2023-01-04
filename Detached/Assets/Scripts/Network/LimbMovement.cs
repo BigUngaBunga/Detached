@@ -35,14 +35,6 @@ public class LimbMovement : NetworkBehaviour
         limbStepUp = GetComponentInChildren<LimbStepUpRay>();
     }
 
-
-    private void Update()
-    {
-        if (!hasAuthority || !sceneObjectItemManagerScript.IsBeingControlled) return;
-        //Vector3 newRotation = new Vector3(0, camTransform.rotation.eulerAngles.y + initialRotationY, 0);
-        
-    }
-
     void FixedUpdate()
     {
         if (!hasAuthority || !sceneObjectItemManagerScript.IsBeingControlled) return;
@@ -52,22 +44,17 @@ public class LimbMovement : NetworkBehaviour
 
             MyInput();
             Movement();
-            #region stepClimbs
-            
             if (limbStepUp == null) limbStepUp = GetComponentInChildren<LimbStepUpRay>();
-            limbStepUp.ActivateStepClimb(input, rb);
-
-            #endregion
+            Vector3 stepUpSize = limbStepUp.GetStepClimb(input, rb);
+            if (stepUpSize != Vector3.zero)
+            {
+                Debug.Log("Stepup size: " + stepUpSize);
+                rb.position += stepUpSize;
+            }
             SpeedControl();
 
             float angle = (camTransform.rotation.eulerAngles.y + initialRotationY);// % 360f;
             RotateLimb(angle);
-            
-            //rb.rotation = Quaternion.AngleAxis(angle, Vector3.up);
-            //CmdMoveObject(input);
-            //rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
-            //if (moveDir.normalized != Vector3.zero)
-            //    rb.AddForce(moveDir.normalized * speed * Time.deltaTime, ForceMode.Force);
         }
     }
 

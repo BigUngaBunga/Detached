@@ -84,6 +84,7 @@ public class LimbStepUpRay : MonoBehaviour
         RaycastHit hitUpper;
         if (!Physics.Raycast(rayDirectionUpper.transform.position, rbDirection.normalized, out hitUpper, stepRayLengthHigh)) //upper check
         {
+            Debug.Log("Input " + input);
             if (input != Vector3.zero)
                return new Vector3(0f, -stepSmooth, 0f) * -1; //the actual stepClimb
         }
