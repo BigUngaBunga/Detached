@@ -49,7 +49,8 @@ public class LimbMovement : NetworkBehaviour
             if (stepUpSize != Vector3.zero)
             {
                 Debug.Log("Stepup size: " + stepUpSize);
-                rb.position += stepUpSize;
+                rb.AddForce(stepUpSize * movementSpeed * Time.deltaTime, ForceMode.Impulse);
+                //rb.position += stepUpSize;
             }
             SpeedControl();
 
