@@ -30,8 +30,7 @@ public class LimbStepUpRay : MonoBehaviour
 
     public void IncreasePlayerTwoRay()
     {
-        stepRayLengthLow = 1.5f;
-        stepSmooth = 5f;
+        stepRayLengthLow *= 1.5f;
     }
     public void ActivateStepClimb(Vector3 input,Rigidbody rb) => rb.position += StepClimb(stepRays[0], stepRays[1], input, rb);
 
