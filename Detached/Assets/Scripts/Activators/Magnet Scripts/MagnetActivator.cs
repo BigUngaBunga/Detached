@@ -56,13 +56,21 @@ public class MagnetActivator : Activator
     protected override void Activate()
     {
         base.Activate();
-        magnetizationField.SetActive(true);
-        
+        SetMagnetizationActivation(true);
     }
 
     protected override void Deactivate()
     {
         base.Deactivate();
+        SetMagnetizationActivation(false);
+    }
+
+    protected override void Start()
+    {
+        base.Start();
         magnetizationField.SetActive(false);
     }
+
+    [ClientRpc]
+    private void SetMagnetizationActivation(bool isActive) => magnetizationField.SetActive(isActive);
 }
