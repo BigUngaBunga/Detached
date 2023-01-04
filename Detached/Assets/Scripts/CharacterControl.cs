@@ -164,8 +164,6 @@ public class CharacterControl : NetworkBehaviour
                 else
                     rb.drag = airDrag;
             }
-
-
         }
     }
 
@@ -214,7 +212,6 @@ public class CharacterControl : NetworkBehaviour
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
         if (flatVel.magnitude > movementSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * movementSpeed;

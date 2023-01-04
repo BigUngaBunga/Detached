@@ -39,7 +39,8 @@ public class LimbMovement : NetworkBehaviour
     private void Update()
     {
         if (!hasAuthority || !sceneObjectItemManagerScript.IsBeingControlled) return;
-        gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y + initialRotationY, Vector3.up);
+        //Vector3 newRotation = new Vector3(0, camTransform.rotation.eulerAngles.y + initialRotationY, 0);
+        
     }
 
     void FixedUpdate()
@@ -57,19 +58,28 @@ public class LimbMovement : NetworkBehaviour
             limbStepUp.ActivateStepClimb(input, rb);
 
             #endregion
-
-                //CmdMoveObject(input);
-                //rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
-            if (moveDir.normalized != Vector3.zero)
-                rb.AddForce(moveDir.normalized * speed * Time.deltaTime, ForceMode.Force);
             SpeedControl();
+
+            float angle = (camTransform.rotation.eulerAngles.y + initialRotationY);// % 360f;
+            RotateLimb(angle);
+            
+            //rb.rotation = Quaternion.AngleAxis(angle, Vector3.up);
+            //CmdMoveObject(input);
+            //rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
+            //if (moveDir.normalized != Vector3.zero)
+            //    rb.AddForce(moveDir.normalized * speed * Time.deltaTime, ForceMode.Force);
         }
+    }
+
+    [Command]
+    private void RotateLimb(float angle)
+    {
+        rb.MoveRotation(Quaternion.AngleAxis(angle, Vector3.up));
     }
 
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
         if (flatVel.magnitude > movementSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * movementSpeed;
@@ -83,6 +93,8 @@ public class LimbMovement : NetworkBehaviour
         input = new Vector3(horizontalInput, 0, verticalInput);
         moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
 
+        Vector3 force = moveDir.normalized * movementSpeed * 10f * Time.deltaTime;
+        rb.AddForce(force, ForceMode.Force);
     }
 
     private void MyInput()

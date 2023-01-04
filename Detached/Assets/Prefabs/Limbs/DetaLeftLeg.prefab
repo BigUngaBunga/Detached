@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 1901186255312970622}
   - component: {fileID: 7825811623867521928}
   - component: {fileID: 6667736685768702795}
+  - component: {fileID: 7654525768985463066}
   m_Layer: 15
   m_Name: DetaLeftLeg
   m_TagString: Leg
@@ -227,6 +228,20 @@ MonoBehaviour:
   stepSmooth: 0.2
   stepRayLengthLow: 0.9
   stepRayLengthHigh: 1.2
+--- !u!136 &7654525768985463066
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7050426242656491765}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.23
+  m_Height: 1.17
+  m_Direction: 2
+  m_Center: {x: -0.00000011920929, y: -0.75, z: 0.000000029802322}
 --- !u!1 &8888632952686855168
 GameObject:
   m_ObjectHideFlags: 0
