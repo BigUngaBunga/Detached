@@ -30,7 +30,6 @@ public class LimbMovement : NetworkBehaviour
         sceneObjectItemManagerScript = gameObject.GetComponent<SceneObjectItemManager>();
         initialRotationY = GetInitialRotation(sceneObjectItemManagerScript.thisLimb);
         camTransform = Camera.main.transform;
-        //rb = gameObject.AddComponent<Rigidbody>();
         rb = GetComponent<Rigidbody>();
         limbStepUp = GetComponentInChildren<LimbStepUpRay>();
     }
@@ -50,11 +49,10 @@ public class LimbMovement : NetworkBehaviour
             {
                 Debug.Log("Stepup size: " + stepUpSize);
                 rb.AddForce(stepUpSize * movementSpeed * Time.deltaTime, ForceMode.Impulse);
-                //rb.position += stepUpSize;
             }
             SpeedControl();
 
-            float angle = (camTransform.rotation.eulerAngles.y + initialRotationY);// % 360f;
+            float angle = (camTransform.rotation.eulerAngles.y + initialRotationY);
             RotateLimb(angle);
         }
     }
