@@ -212,7 +212,6 @@ public class CharacterControl : NetworkBehaviour
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-        Debug.Log("Player flat velocity magnitude: " + flatVel.magnitude);
         if (flatVel.magnitude > movementSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * movementSpeed;

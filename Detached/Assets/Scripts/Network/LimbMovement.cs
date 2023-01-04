@@ -39,8 +39,10 @@ public class LimbMovement : NetworkBehaviour
     private void Update()
     {
         if (!hasAuthority || !sceneObjectItemManagerScript.IsBeingControlled) return;
-        rb.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y + initialRotationY, Vector3.up);
-        //gameObject.transform.rotation = 
+        //Vector3 newRotation = new Vector3(0, camTransform.rotation.eulerAngles.y + initialRotationY, 0);
+        float angle = (camTransform.rotation.eulerAngles.y + initialRotationY) % 360f;
+        Debug.Log("Rotating to " + (angle) + " degrees");
+        rb.MoveRotation(Quaternion.AngleAxis(angle, Vector3.up)); 
     }
 
     void FixedUpdate()
@@ -70,7 +72,6 @@ public class LimbMovement : NetworkBehaviour
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-        Debug.Log("Limb flat velocity magnitude: " + flatVel.magnitude);
         if (flatVel.magnitude > movementSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * movementSpeed;
