@@ -231,9 +231,6 @@ public class CharacterControl : NetworkBehaviour
             rb.AddForce(force, ForceMode.Force);
         else
             rb.AddForce(force * airMultiplier, ForceMode.Force);
-
-        /*        Debug.DrawRay(transform.position, transform.TransformDirection(moveDir.normalized), Color.green);*/
-        //transform.position += moveDir * movementSpeed * Time.deltaTime;
     }
 
     void StepClimb(GameObject rayDirectioLowerMid, GameObject rayDirectioLowerLeft, GameObject rayDirectioLowerRight) //lower check
@@ -347,7 +344,6 @@ public class CharacterControl : NetworkBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        //Gizmos.DrawSphere(groundCheckTransform.position, groundCheckRadius);
         Gizmos.DrawSphere(secondaryGroundCheck.position, groundCheckRadius);
 
         Gizmos.matrix = Matrix4x4.TRS(groundCheckTransform.position, transform.rotation, groundCheckSize * 2);

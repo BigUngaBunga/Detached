@@ -28,24 +28,18 @@ public class LimbStepUpRay : MonoBehaviour
 
     // Update is called once per frame
 
-
-    public void ActivateStepClimb(Vector3 input,Rigidbody rb)
+    public void IncreasePlayerTwoRay()
     {
-        StepClimb(stepRays[0], stepRays[1],input,rb, out Vector3 resultant);
-        rb.position += resultant;
+        stepRayLengthLow = 1.5f;
+        stepSmooth = 5f;
     }
+    public void ActivateStepClimb(Vector3 input,Rigidbody rb) => rb.position += StepClimb(stepRays[0], stepRays[1], input, rb);
 
-    public Vector3 GetStepClimb(Vector3 input, Rigidbody rb)
-    {
-        StepClimb(stepRays[0], stepRays[1], input, rb, out Vector3 resultant);
-        return resultant;
-    }
+    public Vector3 GetStepClimb(Vector3 input, Rigidbody rb) => StepClimb(stepRays[0], stepRays[1], input, rb);
 
-    void StepClimb(GameObject rayDirectioLowerLeft, GameObject rayDirectioLowerRight, Vector3 input, Rigidbody rb, out Vector3 resultant)
+    Vector3 StepClimb(GameObject rayDirectioLowerLeft, GameObject rayDirectioLowerRight, Vector3 input, Rigidbody rb)
     {
         RaycastHit hitLower;
-        resultant = Vector3.zero;
-
         Vector3 rbDirection = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         // Debug.DrawRay(rayDirectioLowerMid.transform.position, rbDirection.normalized, Color.green);
         Debug.DrawRay(rayDirectioLowerLeft.transform.position, rbDirection.normalized * stepRayLengthLow, Color.red);
@@ -59,20 +53,18 @@ public class LimbStepUpRay : MonoBehaviour
         if (Physics.Raycast(rayDirectioLowerLeft.transform.position, rbDirection.normalized, out hitLower, stepRayLengthLow, layerMask, QueryTriggerInteraction.Ignore))
         {
             Debug.Log("Left");
-            if (hitLower.collider.CompareTag("Leg") || hitLower.collider.CompareTag("Arm") || hitLower.collider.CompareTag("Box"))
-                return;
-            resultant += StepClimbUpperCheck(rbDirection, stepRays[2], input, rb);
-            return;
+            if (!hitLower.collider.CompareTag("Leg") && !hitLower.collider.CompareTag("Arm") && !hitLower.collider.CompareTag("Box"))
+                return StepClimbUpperCheck(rbDirection, stepRays[2], input, rb);
         }
 
         if (Physics.Raycast(rayDirectioLowerRight.transform.position, rbDirection.normalized, out hitLower, stepRayLengthLow, layerMask, QueryTriggerInteraction.Ignore))
         {
             Debug.Log("Right");
-            if (hitLower.collider.CompareTag("Leg") || hitLower.collider.CompareTag("Arm") || hitLower.collider.CompareTag("Box"))
-                return;
-            resultant += StepClimbUpperCheck(rbDirection, stepRays[3], input, rb);
+            if (!hitLower.collider.CompareTag("Leg") && !hitLower.collider.CompareTag("Arm") && !hitLower.collider.CompareTag("Box"))
+                return StepClimbUpperCheck(rbDirection, stepRays[3], input, rb);
         }
 
+        return Vector3.zero;
 
         //Debug.DrawRay(stepRays[3].transform.position, rbDirection.normalized, Color.green);
         //Debug.DrawRay(stepRays[4].transform.position, rbDirection.normalized, Color.red);
@@ -84,6 +76,7 @@ public class LimbStepUpRay : MonoBehaviour
         RaycastHit hitUpper;
         if (!Physics.Raycast(rayDirectionUpper.transform.position, rbDirection.normalized, out hitUpper, stepRayLengthHigh)) //upper check
         {
+            Debug.Log("Input " + input);
             if (input != Vector3.zero)
                return new Vector3(0f, -stepSmooth, 0f) * -1; //the actual stepClimb
         }

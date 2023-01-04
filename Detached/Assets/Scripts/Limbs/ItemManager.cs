@@ -63,6 +63,7 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public CinemachineFreeLook cinemachine;
     [SerializeField] public Vector3 throwCamOffset;
     [SerializeField] GameObject indicator;
+    bool thrown;
 
     private Vector3 noLegCamPos;
     public bool readyToThrow;
@@ -948,6 +949,7 @@ public class ItemManager : NetworkBehaviour
                 characterControlScript.isBeingControlled = false;
                 //changedSelectionMode = true;
             }
+            
 
             Transform body = transform.Find("group1");
             SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
