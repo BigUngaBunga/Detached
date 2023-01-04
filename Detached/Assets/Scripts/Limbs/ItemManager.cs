@@ -267,8 +267,10 @@ public class ItemManager : NetworkBehaviour
         rightArmIsDeta = isDeta;
         leftArmIsDeta = isDeta;
 
+        interactionChecker = FindObjectOfType<Camera>().GetComponent<InteractionChecker>();
         selectionUI = GetComponentInChildren<BodypartSelected>();
         selectionUI.Setup();
+
     }
     void Update()
     {
@@ -900,6 +902,7 @@ public class ItemManager : NetworkBehaviour
             indicator.SetActive(true);
             //cam when aiming
             camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
+            interactionChecker.AllowInteraction = false;
             SFXManager.PlayOneShotAttached(SFXManager.DetachSound, VolumeManager.GetSFXVolume(), transform.gameObject);
 
             float chargeUpSpeed = 0.01f;
@@ -919,6 +922,7 @@ public class ItemManager : NetworkBehaviour
             indicator.SetActive(false);
 
             ResetCamCondition();
+            interactionChecker.AllowInteraction = characterControlScript.isBeingControlled;
 
 
             cinemachine.m_YAxis.m_MaxSpeed = 0.03f;

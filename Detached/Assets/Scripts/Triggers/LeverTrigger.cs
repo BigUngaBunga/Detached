@@ -14,6 +14,8 @@ public class LeverTrigger : Trigger, IInteractable
     [SerializeField] private GameObject normalLever;
     private HighlightObject highlight;
 
+    private bool isOnCooldown = false;
+
     protected override void PlaySoundOnTrigger()
     {
         SFXManager.PlayOneShot(SFXManager.PullLeverSound, VolumeManager.GetSFXVolume(), transform.position);
@@ -60,11 +62,17 @@ public class LeverTrigger : Trigger, IInteractable
         SetRecursiveActivation(isTriggered, triggeredLever);
     }
 
+    private void RevokeCooldown() => isOnCooldown = false;
+
     private void OnCollisionEnter(Collision collision)
     {
         if (isServer && !collision.gameObject.CompareTag("Player") && CanInteract(collision.gameObject))
+        {
             Interact(collision.gameObject);
+            isOnCooldown = true;
+            Invoke(nameof(RevokeCooldown), 0.1f);
+        }
     }
 
-    public bool CanInteract(GameObject activatingObject) => HasEnoughArms(activatingObject, requiredArms);
+    public bool CanInteract(GameObject activatingObject) => HasEnoughArms(activatingObject, requiredArms) && !isOnCooldown;
 }
