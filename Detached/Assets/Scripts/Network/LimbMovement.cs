@@ -60,14 +60,22 @@ public class LimbMovement : NetworkBehaviour
             #endregion
             SpeedControl();
 
-            float angle = (camTransform.rotation.eulerAngles.y + initialRotationY) % 360f;
+            float angle = (camTransform.rotation.eulerAngles.y + initialRotationY);// % 360f;
             Debug.Log("Rotating to " + (angle) + " degrees");
-            rb.MoveRotation(Quaternion.AngleAxis(angle, Vector3.up));
+            RotateLimb(angle);
+            
+            //rb.rotation = Quaternion.AngleAxis(angle, Vector3.up);
             //CmdMoveObject(input);
             //rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
             //if (moveDir.normalized != Vector3.zero)
             //    rb.AddForce(moveDir.normalized * speed * Time.deltaTime, ForceMode.Force);
         }
+    }
+
+    [Command]
+    private void RotateLimb(float angle)
+    {
+        rb.MoveRotation(Quaternion.AngleAxis(angle, Vector3.up));
     }
 
     private void SpeedControl()
