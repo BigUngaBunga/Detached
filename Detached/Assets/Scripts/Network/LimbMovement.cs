@@ -40,9 +40,7 @@ public class LimbMovement : NetworkBehaviour
     {
         if (!hasAuthority || !sceneObjectItemManagerScript.IsBeingControlled) return;
         //Vector3 newRotation = new Vector3(0, camTransform.rotation.eulerAngles.y + initialRotationY, 0);
-        float angle = (camTransform.rotation.eulerAngles.y + initialRotationY) % 360f;
-        Debug.Log("Rotating to " + (angle) + " degrees");
-        rb.MoveRotation(Quaternion.AngleAxis(angle, Vector3.up)); 
+        
     }
 
     void FixedUpdate()
@@ -62,8 +60,11 @@ public class LimbMovement : NetworkBehaviour
             #endregion
             SpeedControl();
 
-                //CmdMoveObject(input);
-                //rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
+            float angle = (camTransform.rotation.eulerAngles.y + initialRotationY) % 360f;
+            Debug.Log("Rotating to " + (angle) + " degrees");
+            rb.MoveRotation(Quaternion.AngleAxis(angle, Vector3.up));
+            //CmdMoveObject(input);
+            //rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
             //if (moveDir.normalized != Vector3.zero)
             //    rb.AddForce(moveDir.normalized * speed * Time.deltaTime, ForceMode.Force);
         }
