@@ -39,7 +39,8 @@ public class LimbMovement : NetworkBehaviour
     private void Update()
     {
         if (!hasAuthority || !sceneObjectItemManagerScript.IsBeingControlled) return;
-        gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y + initialRotationY, Vector3.up);
+        rb.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y + initialRotationY, Vector3.up);
+        //gameObject.transform.rotation = 
     }
 
     void FixedUpdate()
