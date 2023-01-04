@@ -22,6 +22,8 @@ public class LimbMovement : NetworkBehaviour
     float horizontalInput;
     float verticalInput;
 
+    bool hasUpdated = true;
+
     LimbStepUpRay limbStepUp;
 
     private void Start()
@@ -32,13 +34,22 @@ public class LimbMovement : NetworkBehaviour
         camTransform = Camera.main.transform;
         rb = GetComponent<Rigidbody>();
         limbStepUp = GetComponentInChildren<LimbStepUpRay>();
-        if (!isLocalPlayer)
-            limbStepUp.IncreasePlayerTwoRay();
+        if (isClientOnly)
+        {
+            hasUpdated = false;
+            if (limbStepUp != null)
+                limbStepUp.IncreasePlayerTwoRay();
+        }
     }
 
     void FixedUpdate()
     {
         if (!hasAuthority || !sceneObjectItemManagerScript.IsBeingControlled) return;
+        if (!hasUpdated && limbStepUp != null)
+        {
+            limbStepUp.IncreasePlayerTwoRay();
+            hasUpdated = true;
+        }
 
         if (sceneObjectItemManagerScript.thisLimb != LimbType.Head)
         {
