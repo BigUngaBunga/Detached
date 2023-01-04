@@ -57,19 +57,19 @@ public class LimbMovement : NetworkBehaviour
             limbStepUp.ActivateStepClimb(input, rb);
 
             #endregion
+            SpeedControl();
 
                 //CmdMoveObject(input);
                 //rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
-            if (moveDir.normalized != Vector3.zero)
-                rb.AddForce(moveDir.normalized * speed * Time.deltaTime, ForceMode.Force);
-            SpeedControl();
+            //if (moveDir.normalized != Vector3.zero)
+            //    rb.AddForce(moveDir.normalized * speed * Time.deltaTime, ForceMode.Force);
         }
     }
 
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
+        Debug.Log("Limb flat velocity magnitude: " + flatVel.magnitude);
         if (flatVel.magnitude > movementSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * movementSpeed;
@@ -83,6 +83,8 @@ public class LimbMovement : NetworkBehaviour
         input = new Vector3(horizontalInput, 0, verticalInput);
         moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
 
+        Vector3 force = moveDir.normalized * movementSpeed * 10f * Time.deltaTime;
+        rb.AddForce(force, ForceMode.Force);
     }
 
     private void MyInput()

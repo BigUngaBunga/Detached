@@ -12,6 +12,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     [SerializeField] private GameObject armLimb;
     [SerializeField] private GameObject legLimb;
     [SerializeField] private int NumOfTimeLimbCanFallOut;
+    [SerializeField] private float drag;
 
     //Ground Checks
     [SerializeField] private Vector3 safeLocation;
@@ -23,6 +24,7 @@ public class SceneObjectItemManager : NetworkBehaviour
     
     private HighlightObject highlight;
     private ArmInteraction armInteractor;
+    private Rigidbody rigidbody;
 
     [SyncVar(hook = nameof(OnChangeDetached))] public bool detached = false;
     [SyncVar] public LimbType thisLimb;
@@ -44,10 +46,14 @@ public class SceneObjectItemManager : NetworkBehaviour
             SetControlledStatus(value);
             if (value)
             {
+                rigidbody.drag = drag;
                 highlight.ForceHighlight();
             }
             else
+            {
                 highlight.ForceStopHighlight();
+                rigidbody.drag = 0;
+            }
         }
     }
 
@@ -64,8 +70,9 @@ public class SceneObjectItemManager : NetworkBehaviour
 
     private void Start()
     {
-        itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>();
-        highlight = GetComponent<HighlightObject>();      
+        itemManager = NetworkClient.localPlayer.GetComponent<ItemManager>(); 
+        highlight = GetComponent<HighlightObject>();
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     //Instantiates the limb as a child on the SceneObject 
@@ -205,6 +212,7 @@ public class SceneObjectItemManager : NetworkBehaviour
         if (Physics.CheckSphere(transform.position, groundCheckRadius, groundMask))
         {
             safeLocation = transform.position;
+            
         }
     }
 
