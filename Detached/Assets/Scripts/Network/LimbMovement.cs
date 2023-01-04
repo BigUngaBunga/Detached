@@ -33,6 +33,8 @@ public class LimbMovement : NetworkBehaviour
         //rb = gameObject.AddComponent<Rigidbody>();
         rb = GetComponent<Rigidbody>();
         limbStepUp = GetComponentInChildren<LimbStepUpRay>();
+        if (!isLocalPlayer)
+            limbStepUp.IncreasePlayerTwoRay();
     }
 
     void FixedUpdate()

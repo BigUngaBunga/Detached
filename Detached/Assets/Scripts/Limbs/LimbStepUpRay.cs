@@ -28,7 +28,11 @@ public class LimbStepUpRay : MonoBehaviour
 
     // Update is called once per frame
 
-
+    public void IncreasePlayerTwoRay()
+    {
+        stepRayLengthLow = 1.5f;
+        stepSmooth = 5f;
+    }
     public void ActivateStepClimb(Vector3 input,Rigidbody rb) => rb.position += StepClimb(stepRays[0], stepRays[1], input, rb);
 
     public Vector3 GetStepClimb(Vector3 input, Rigidbody rb) => StepClimb(stepRays[0], stepRays[1], input, rb);
