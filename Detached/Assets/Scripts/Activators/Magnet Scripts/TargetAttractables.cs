@@ -13,10 +13,9 @@ public class TargetAttractables : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (HasAMagneticTag(other.gameObject) && other.gameObject.TryGetComponent(out Rigidbody rigidbody))
+        if (HasAMagneticTag(other.gameObject))
         {
-            //Debug.Log("Encountered magnetic object");
-            magnet.AddMagnetizedObject(other.gameObject);
+            magnet.AddMagnetizedObject(GetObjectWithRigidbody(other.gameObject));
         }
     }
 
@@ -24,18 +23,23 @@ public class TargetAttractables : MonoBehaviour
     {
         if (HasAMagneticTag(other.gameObject))
         {
-            //Debug.Log("Lost magnetic object");
-            magnet.RemoveMagnetizedObject(other.gameObject);
+            magnet.RemoveMagnetizedObject(GetObjectWithRigidbody(other.gameObject));
         }
     }
 
     private bool HasAMagneticTag(GameObject gameObject)
     {
-        string[] tags = { "Leg", "Torso", "Player", "Battery", "Key", "Magnetic"};
+        string[] tags = { "Leg", "Arm", "Head", "Torso", "Player", "Battery", "Key", "Magnetic", "Box" };
         foreach (var tag in tags)
             if (gameObject.CompareTag(tag))
                 return true;
         return false;
     }
 
+    private GameObject GetObjectWithRigidbody(GameObject gameObject)
+    {
+        if (gameObject.TryGetComponent(out Rigidbody _))
+            return gameObject;
+        return gameObject.GetComponentInParent<Rigidbody>().gameObject;
+    }
 }

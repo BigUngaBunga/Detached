@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 8041825891303585377}
   - component: {fileID: 6730681211345856172}
   - component: {fileID: 6657567300749381835}
+  - component: {fileID: -5403462899844700356}
   m_Layer: 15
   m_Name: Key
   m_TagString: Key
@@ -119,6 +120,9 @@ MonoBehaviour:
   syncInterval: 0.1
   requiredArms: 1
   positionTarget: {fileID: 0}
+  destroyEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &-8922259986786135973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,3 +204,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.015854912, y: 0.038116526, z: 0.006550741}
   m_Center: {x: 0, y: 0.00000001117587, z: 0}
+--- !u!114 &-5403462899844700356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5695310747410234217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 821ec44bfa18d264a846d3039e523cf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0
+  safeLocation: {x: 0, y: 0, z: 0}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  groundCheckRadius: 1.04
+  fallOutMaxAmount: 3
