@@ -11,6 +11,7 @@ public class DataCollection : MonoBehaviour
     public GameObject[] triggers;
 
     //Player
+    [SerializeField]
     private Camera player;
 
     private struct TriggerStruct
@@ -55,7 +56,6 @@ public class DataCollection : MonoBehaviour
             triggerStructArray[i].y = triggers[i].gameObject.GetComponent<Data>().position.y;
             triggerStructArray[i].z = triggers[i].gameObject.GetComponent<Data>().position.z;
         }
-        player = Camera.main;
 
     }
     void Update()
@@ -66,7 +66,7 @@ public class DataCollection : MonoBehaviour
         Debug.Log("Updating datacollector");
         time += Time.deltaTime;
 
-        playerPosition = player.transform.position;
+        playerPosition = player.gameObject.transform.position;
         for (int i = 0; i < triggers.Length; i++)
         {
             triggerStructArray[i].name = triggers[i].gameObject.GetComponent<Data>().name;
