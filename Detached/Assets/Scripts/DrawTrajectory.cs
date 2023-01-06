@@ -72,7 +72,7 @@ public class DrawTrajectory : MonoBehaviour
 
             Vector3 lastPosition = LineRenderer.GetPosition(i - 1);
 
-            if (Physics.Raycast(lastPosition, (point - lastPosition).normalized, out RaycastHit hit, (point - lastPosition).magnitude, collidable))
+            if (Physics.Raycast(lastPosition, (point - lastPosition).normalized, out RaycastHit hit, (point - lastPosition).magnitude, collidable, QueryTriggerInteraction.Ignore))
             {
                 LineRenderer.SetPosition(i, hit.point);
                 LineRenderer.positionCount = i + 1;

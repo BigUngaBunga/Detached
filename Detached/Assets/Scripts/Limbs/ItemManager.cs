@@ -728,6 +728,7 @@ public class ItemManager : NetworkBehaviour
 
         //ThrowLimb(force, CmdThrowDropLimb(limb, throwPoint, originalOwner));
         GameObject obj = CmdThrowDropLimb(limb, throwPoint, originalOwner, true);
+        if (obj == null) return;
         TargetRpcAddForce(originalOwner.GetComponent<NetworkIdentity>().connectionToClient, force, obj);
 
     }
@@ -741,24 +742,18 @@ public class ItemManager : NetworkBehaviour
 
     #region DropLimb/ThrowLimb
 
-    bool CheckIfSelectedCanBeThrown()
+    bool CanSelectedLimbBeThrown()
     {
         if (rightArmDetached)
             return false;
         switch (selectedLimbToThrow)
         {
             case Limb_enum.Head:
-                if (!headDetached)
-                    return true;
-                break;
+                return !headDetached;
             case Limb_enum.Arm:
-                if (!leftArmDetached)
-                    return true;
-                break;
+                return !leftArmDetached;
             case Limb_enum.Leg:
-                if (!rightLegDetached || !leftLegDetached)
-                    return true;
-                break;
+                return !rightLegDetached || !leftLegDetached;
         }
         return false;
     }
@@ -894,7 +889,7 @@ public class ItemManager : NetworkBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            if (!CheckIfSelectedCanBeThrown()) return;
+            if (!CanSelectedLimbBeThrown()) return;
 
             // mousePressDownPos = Input.mousePosition;
 
@@ -932,6 +927,7 @@ public class ItemManager : NetworkBehaviour
         if (Input.GetMouseButtonUp(0) && readyToThrow)
         {
             dragging = false;
+            readyToThrow=false;
             DrawTrajectory.instance.HideLine();
             indicator.SetActive(false);
             // mouseReleasePos = Input.mousePosition;
