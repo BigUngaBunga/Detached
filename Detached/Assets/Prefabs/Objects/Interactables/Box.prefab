@@ -1377,6 +1377,7 @@ GameObject:
   - component: {fileID: 4068358516693614702}
   - component: {fileID: 3560124561961863276}
   - component: {fileID: -581078003399813399}
+  - component: {fileID: -4776809950066664236}
   m_Layer: 15
   m_Name: Box
   m_TagString: Box
@@ -1452,17 +1453,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  materials:
-  - {fileID: 2100000, guid: ea48ce4da6d75f64d8e57d7fad4a8afc, type: 2}
-  - {fileID: 2100000, guid: c00a052514428ad458b5f1e781884fe0, type: 2}
-  - {fileID: 2100000, guid: 7e377ac3d3c440049a74827053662c64, type: 2}
-  - {fileID: 2100000, guid: 43eda1c5357d20649a33be9b2c203048, type: 2}
-  - {fileID: 2100000, guid: 6b5ab15374403cc4995985917f4d4b38, type: 2}
-  - {fileID: 2100000, guid: 2a42c95bfa28afc49bedc64c67008a97, type: 2}
-  - {fileID: 2100000, guid: a12cac1c6a93e8948b581dd3c693b6f1, type: 2}
-  - {fileID: 2100000, guid: 1c8be5e7d24ef77498628992c3067348, type: 2}
-  - {fileID: 2100000, guid: 669ff22c2b8658d4abdc354ad3329c47, type: 2}
-  - {fileID: 2100000, guid: 539d571a7adda1b4fb4bcd08ef7a4518, type: 2}
   gameObjects:
   - {fileID: 3929419407939164791}
   - {fileID: 9053671389555846910}
@@ -1619,6 +1609,26 @@ MonoBehaviour:
   syncAngularVelocity: 1
   clearAngularVelocity: 0
   angularVelocitySensitivity: 0.1
+--- !u!114 &-4776809950066664236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6568576326963037584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 821ec44bfa18d264a846d3039e523cf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0
+  safeLocation: {x: 0, y: 0, z: 0}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  groundCheckRadius: 1.04
+  fallOutMaxAmount: 3
 --- !u!1 &6637577288465228656
 GameObject:
   m_ObjectHideFlags: 0

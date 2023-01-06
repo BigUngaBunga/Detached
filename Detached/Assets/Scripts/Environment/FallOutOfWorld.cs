@@ -33,6 +33,8 @@ public class FallOutOfWorld : NetworkBehaviour
                 SceneObject.HandleFallOutOfWorld();
 
         }
+        else if (other.gameObject.TryGetComponent(out ObjectFallOutOfWorld component))
+            component.HandleFallOutOfWorld();
     }
 
     public void ChangeScene()

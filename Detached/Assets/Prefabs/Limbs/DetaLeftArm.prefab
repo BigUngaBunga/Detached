@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 1039309076357960488}
   - component: {fileID: 8197852454309728470}
   - component: {fileID: 2798959479651485971}
-  - component: {fileID: 6934864483971862256}
-  - component: {fileID: 6273606432373181915}
   - component: {fileID: 7585368239496440104}
+  - component: {fileID: 3866637424031710359}
   m_Layer: 15
   m_Name: DetaLeftArm
   m_TagString: Arm
@@ -87,32 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6934864483971862256
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 371422405250746770}
-  m_Material: {fileID: 13400000, guid: 6d8b6bd76dbddd3429eb0a7e093c9c5e, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.26736546, y: 0.15535253, z: 0.5134361}
-  m_Center: {x: -0.6215016, y: 0.007884711, z: 0.000000029802322}
---- !u!65 &6273606432373181915
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 371422405250746770}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.230901, y: 0.2805366, z: 0.33074594}
-  m_Center: {x: 0.13861355, y: 0.011301234, z: -0.0058247447}
 --- !u!114 &7585368239496440104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,9 +104,23 @@ MonoBehaviour:
   - {fileID: 6620909506125006023}
   - {fileID: 8108402969678629464}
   stepHeight: 3.5
-  stepSmooth: 2.3
+  stepSmooth: 0.2
   stepRayLengthLow: 1.5
-  stepRayLengthHigh: 0.5
+  stepRayLengthHigh: 1.5
+--- !u!136 &3866637424031710359
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371422405250746770}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.15
+  m_Height: 1.7
+  m_Direction: 0
+  m_Center: {x: -0.000000059604645, y: 0.02, z: 0.000000029802322}
 --- !u!1 &3223262309748331315
 GameObject:
   m_ObjectHideFlags: 0

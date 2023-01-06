@@ -46,7 +46,7 @@ public class Billboarding : MonoBehaviour
     {
         text = Instantiate(floatingText, transform.position, Quaternion.identity, transform).GetComponentInChildren<TextMeshPro>();
         text.GetComponent<TextMeshPro>().SetText(prompt);
-        int multiplier = 2 + prompt.Length / 40;
+        int multiplier = (int)(2.5f + prompt.Length / 35f);
         text.GetComponent<TextMeshPro>().gameObject.transform.position += Vector3.up * multiplier;
     }
 

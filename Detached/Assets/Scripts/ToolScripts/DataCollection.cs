@@ -11,21 +11,8 @@ public class DataCollection : MonoBehaviour
     public GameObject[] triggers;
 
     //Player
-    private GameObject player;
-    private NetworkConnectionToClient conn;
-
-    private CustomNetworkManager manager;
-    private CustomNetworkManager Manager
-    {
-        get
-        {
-            if (manager != null)
-            {
-                return manager;
-            }
-            return manager = CustomNetworkManager.singleton as CustomNetworkManager;
-        }
-    }
+    [SerializeField]
+    private Camera player;
 
     private struct TriggerStruct
     {
@@ -69,7 +56,6 @@ public class DataCollection : MonoBehaviour
             triggerStructArray[i].y = triggers[i].gameObject.GetComponent<Data>().position.y;
             triggerStructArray[i].z = triggers[i].gameObject.GetComponent<Data>().position.z;
         }
-        conn = Manager.GamePlayers[0].connectionToClient;
 
     }
     void Update()
@@ -79,20 +65,18 @@ public class DataCollection : MonoBehaviour
         /// attached to limbs and in turn will better represent where the player is actually getting stuck.
         Debug.Log("Updating datacollector");
         time += Time.deltaTime;
-        if (conn != null)
+
+        playerPosition = player.gameObject.transform.position;
+        for (int i = 0; i < triggers.Length; i++)
         {
-            player = conn.identity.gameObject;
-            playerPosition = player.transform.position;
-            for (int i = 0; i < triggers.Length; i++)
-            {
-                triggerStructArray[i].name = triggers[i].gameObject.GetComponent<Data>().name;
-                triggerStructArray[i].activations = triggers[i].gameObject.GetComponent<Data>().Activations;
-                triggerStructArray[i].x = triggers[i].gameObject.GetComponent<Data>().position.x;
-                triggerStructArray[i].y = triggers[i].gameObject.GetComponent<Data>().position.y;
-                triggerStructArray[i].z = triggers[i].gameObject.GetComponent<Data>().position.z;
-            }
-            WriteString();
+            triggerStructArray[i].name = triggers[i].gameObject.GetComponent<Data>().name;
+            triggerStructArray[i].activations = triggers[i].gameObject.GetComponent<Data>().Activations;
+            triggerStructArray[i].x = triggers[i].gameObject.GetComponent<Data>().position.x;
+            triggerStructArray[i].y = triggers[i].gameObject.GetComponent<Data>().position.y;
+            triggerStructArray[i].z = triggers[i].gameObject.GetComponent<Data>().position.z;
         }
+        WriteString();
+
     }
 
     void WriteString()

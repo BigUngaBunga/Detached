@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LimbStepUpRay : MonoBehaviour
 {
+    private LayerMask layerMask = new LayerMask();
     // Start is called before the first frame update
     [Header("Step up")]
     [SerializeField] GameObject[] stepRays;
@@ -14,7 +15,7 @@ public class LimbStepUpRay : MonoBehaviour
 
     void Start()
     {
-      
+        layerMask = LayerMask.GetMask("Ground", "Interactable");
     }
 
     private void Awake()
@@ -27,16 +28,17 @@ public class LimbStepUpRay : MonoBehaviour
 
     // Update is called once per frame
 
-
-    public void ActiveStepClimb(Vector3 input,Rigidbody rb)
+    public void IncreasePlayerTwoRay()
     {
-        StepClimb(stepRays[0], stepRays[1],input,rb);
+        stepRayLengthLow *= 2f;
     }
+    public void ActivateStepClimb(Vector3 input,Rigidbody rb) => rb.position += StepClimb(stepRays[0], stepRays[1], input, rb);
 
-    void StepClimb(GameObject rayDirectioLowerLeft, GameObject rayDirectioLowerRight, Vector3 input, Rigidbody rb) //lower check
+    public Vector3 GetStepClimb(Vector3 input, Rigidbody rb) => StepClimb(stepRays[0], stepRays[1], input, rb);
+
+    Vector3 StepClimb(GameObject rayDirectioLowerLeft, GameObject rayDirectioLowerRight, Vector3 input, Rigidbody rb)
     {
         RaycastHit hitLower;
-
         Vector3 rbDirection = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         // Debug.DrawRay(rayDirectioLowerMid.transform.position, rbDirection.normalized, Color.green);
         Debug.DrawRay(rayDirectioLowerLeft.transform.position, rbDirection.normalized * stepRayLengthLow, Color.red);
@@ -47,38 +49,36 @@ public class LimbStepUpRay : MonoBehaviour
              StepClimbUpperCheck(rbDirection, stepRays[3]);
 
          }*/
-        if (Physics.Raycast(rayDirectioLowerLeft.transform.position, rbDirection.normalized, out hitLower, stepRayLengthLow))
+        if (Physics.Raycast(rayDirectioLowerLeft.transform.position, rbDirection.normalized, out hitLower, stepRayLengthLow, layerMask, QueryTriggerInteraction.Ignore))
         {
             Debug.Log("Left");
-            if (hitLower.collider.CompareTag("Leg") || hitLower.collider.CompareTag("Box"))
-                return;
-            StepClimbUpperCheck(rbDirection, stepRays[2],input,rb);
-            return;
+            if (!hitLower.collider.CompareTag("Leg") && !hitLower.collider.CompareTag("Arm") && !hitLower.collider.CompareTag("Box"))
+                return StepClimbUpperCheck(rbDirection, stepRays[2], input, rb);
         }
 
-        if (Physics.Raycast(rayDirectioLowerRight.transform.position, rbDirection.normalized, out hitLower, stepRayLengthLow))
+        if (Physics.Raycast(rayDirectioLowerRight.transform.position, rbDirection.normalized, out hitLower, stepRayLengthLow, layerMask, QueryTriggerInteraction.Ignore))
         {
             Debug.Log("Right");
-            if (hitLower.collider.CompareTag("Leg") || hitLower.collider.CompareTag("Box"))
-                return;
-            StepClimbUpperCheck(rbDirection, stepRays[3],input, rb);
+            if (!hitLower.collider.CompareTag("Leg") && !hitLower.collider.CompareTag("Arm") && !hitLower.collider.CompareTag("Box"))
+                return StepClimbUpperCheck(rbDirection, stepRays[3], input, rb);
         }
 
-
+        return Vector3.zero;
 
         //Debug.DrawRay(stepRays[3].transform.position, rbDirection.normalized, Color.green);
         //Debug.DrawRay(stepRays[4].transform.position, rbDirection.normalized, Color.red);
         //Debug.DrawRay(stepRays[5].transform.position, rbDirection.normalized, Color.blue);
-
     }
 
-    private void StepClimbUpperCheck(Vector3 rbDirection, GameObject rayDirectionUpper,Vector3 input,Rigidbody rb)
+    private Vector3 StepClimbUpperCheck(Vector3 rbDirection, GameObject rayDirectionUpper,Vector3 input,Rigidbody rb)
     {
         RaycastHit hitUpper;
         if (!Physics.Raycast(rayDirectionUpper.transform.position, rbDirection.normalized, out hitUpper, stepRayLengthHigh)) //upper check
         {
+            Debug.Log("Input " + input);
             if (input != Vector3.zero)
-                rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f); //the actual stepClimb
+               return new Vector3(0f, -stepSmooth, 0f) * -1; //the actual stepClimb
         }
+        return Vector3.zero;
     }
 }

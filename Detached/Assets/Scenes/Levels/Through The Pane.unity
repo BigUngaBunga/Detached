@@ -626,6 +626,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4769128867060568401, guid: 9a69d090ca4cbe648820956817a46973, type: 3}
   m_PrefabInstance: {fileID: 182915009}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &182915011 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1088924935946270924, guid: 9a69d090ca4cbe648820956817a46973, type: 3}
+  m_PrefabInstance: {fileID: 182915009}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &183607244
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -996,7 +1001,7 @@ PrefabInstance:
     - target: {fileID: 6668375063593790966, guid: 89f9d84557956254a9bd87e3f8a9b190, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 55d752eb8bb58374388609ecbf24fcf1, type: 2}
+      objectReference: {fileID: 2100000, guid: 7bf9c715fee07964caaacab4b1030b1c, type: 2}
     - target: {fileID: 7499613307840520066, guid: 89f9d84557956254a9bd87e3f8a9b190, type: 3}
       propertyPath: sceneId
       value: 1894564652
@@ -2211,12 +2216,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2367115498754968134, guid: 9421692f7ac76904eb194419865de18b, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1893991251}
+    - target: {fileID: 2367115498754968134, guid: 9421692f7ac76904eb194419865de18b, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2367115498754968134, guid: 9421692f7ac76904eb194419865de18b, type: 3}
       propertyPath: triggers.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2367115498754968134, guid: 9421692f7ac76904eb194419865de18b, type: 3}
       propertyPath: triggers.Array.data[0]
@@ -2238,6 +2247,10 @@ PrefabInstance:
       propertyPath: triggers.Array.data[4]
       value: 
       objectReference: {fileID: 531975435}
+    - target: {fileID: 2367115498754968134, guid: 9421692f7ac76904eb194419865de18b, type: 3}
+      propertyPath: triggers.Array.data[5]
+      value: 
+      objectReference: {fileID: 182915011}
     - target: {fileID: 3181317221238015010, guid: 9421692f7ac76904eb194419865de18b, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -3011,7 +3024,7 @@ PrefabInstance:
     - target: {fileID: 6668375063593790966, guid: 89f9d84557956254a9bd87e3f8a9b190, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 55d752eb8bb58374388609ecbf24fcf1, type: 2}
+      objectReference: {fileID: 2100000, guid: 7bf9c715fee07964caaacab4b1030b1c, type: 2}
     - target: {fileID: 7499613307840520066, guid: 89f9d84557956254a9bd87e3f8a9b190, type: 3}
       propertyPath: sceneId
       value: 3521251908
@@ -3701,7 +3714,7 @@ PrefabInstance:
     - target: {fileID: 6668375063593790966, guid: 89f9d84557956254a9bd87e3f8a9b190, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 55d752eb8bb58374388609ecbf24fcf1, type: 2}
+      objectReference: {fileID: 2100000, guid: 7bf9c715fee07964caaacab4b1030b1c, type: 2}
     - target: {fileID: 7499613307840520066, guid: 89f9d84557956254a9bd87e3f8a9b190, type: 3}
       propertyPath: sceneId
       value: 2459818820
@@ -3823,7 +3836,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1477008532}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.85, y: 71.76, z: -55.5}
+  m_LocalPosition: {x: -11.89, y: 71.76, z: -55.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1252194756}
@@ -3842,8 +3855,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29139067ca59a7541ba6a4628b225782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numOfLegs: 1
-  numOfArms: 2
+  numOfLegs: 2
+  numOfArms: 0
 --- !u!1001 &1532575712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3964,7 +3977,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1535075397}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.07, y: 72.94, z: -57.29}
+  m_LocalPosition: {x: 15.38, y: 72.94, z: -57.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2017969368}
@@ -3983,8 +3996,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29139067ca59a7541ba6a4628b225782, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numOfLegs: 2
-  numOfArms: 0
+  numOfLegs: 1
+  numOfArms: 2
 --- !u!1001 &1581652302
 PrefabInstance:
   m_ObjectHideFlags: 0

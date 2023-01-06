@@ -10,5 +10,6 @@ public class Data : MonoBehaviour
     private void Start()
     {
         position = transform.position;
+        Name = gameObject.name;
     }
 }
