@@ -295,25 +295,6 @@ public class ItemManager : NetworkBehaviour
                 Transform body = transform.Find("group1");
                 SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
             }
-
-            //if (Input.GetKeyDown(detachKeyHead) && !headDetached)
-            //{
-            //    CmdDropLimb(Limb_enum.Head, gameObject);
-            //    Transform body = transform.Find("group1");
-            //    SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
-            //}
-            //if (Input.GetKeyDown(detachKeyArm) && (!leftArmDetached || !rightArmDetached))
-            //{
-            //    CmdDropLimb(Limb_enum.Arm, gameObject);
-            //    Transform body = transform.Find("group1");
-            //    SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
-            //}
-            //if (Input.GetKeyDown(detachKeyLeg) && (!leftLegDetached || !rightLegDetached))
-            //{
-            //    CmdDropLimb(Limb_enum.Leg, gameObject);
-            //    Transform body = transform.Find("group1");
-            //    SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
-            //}
         }
 
 
@@ -347,12 +328,8 @@ public class ItemManager : NetworkBehaviour
             }
             else if (selectionMode == 1)
             {
-
                 ChangeLimbControll(Input.mouseScrollDelta.y); //Change this to handle the scroll up and down
             }
-            //if (!isLocalPlayer) return;
-            // changeSelectedLimbEvent.Invoke();
-            //selectionUI.GetSelectedOfPlayer();
         }
     }
 
@@ -890,7 +867,6 @@ public class ItemManager : NetworkBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             if (!CanSelectedLimbBeThrown()) return;
-
             // mousePressDownPos = Input.mousePosition;
 
             readyToThrow = true;
@@ -912,6 +888,7 @@ public class ItemManager : NetworkBehaviour
         }
         else if (Input.GetMouseButtonUp(1))
         {
+
             readyToThrow = false;
             dragging = false;
             DrawTrajectory.instance.HideLine();
@@ -926,6 +903,7 @@ public class ItemManager : NetworkBehaviour
         }
         if (Input.GetMouseButtonUp(0) && readyToThrow)
         {
+            Debug.Log("Pressed mouse 0");
             dragging = false;
             readyToThrow=false;
             DrawTrajectory.instance.HideLine();
@@ -965,16 +943,7 @@ public class ItemManager : NetworkBehaviour
         /*  Vector3 forceToAdd = new Vector3(force.x, force.y, z: force.z);*/
         //Vector3 dir = Quaternion.AngleAxis(camPoint.rotation.eulerAngles.y, Vector3.up).normalized * forceToAdd;
         objectRb.AddForce(force, ForceMode.Impulse);
-
-        Invoke(nameof(ResetThrow), throwCD);
     }
-
-    void ResetThrow()
-    {
-        readyToThrow = true;
-    }
-
-
 
     [Server]
     private void DropGenericLimb(GameObject newSceneObject, Limb_enum limb, GameObject orignalOwner, bool limbIsDeta)

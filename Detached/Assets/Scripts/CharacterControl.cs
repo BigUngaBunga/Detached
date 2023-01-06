@@ -152,7 +152,6 @@ public class CharacterControl : NetworkBehaviour
                 PauseCam();
                 #region stepClimbs
                 StepClimb(stepRays[0], stepRays[1], stepRays[2]);
-
                 #endregion
                 NoLegCam();
                 SpeedControl();
@@ -239,35 +238,28 @@ public class CharacterControl : NetworkBehaviour
 
         Vector3 rbDirection = new Vector3(rb.velocity.x, 0, rb.velocity.z);
         Vector3 normalizedDirection = rbDirection.normalized;
+        Vector3 stepUpSize = Vector3.zero;
         // Debug.DrawRay(rayDirectioLowerMid.transform.position, rbDirection.normalized, Color.green);
         Debug.DrawRay(rayDirectioLowerLeft.transform.position, rbDirection.normalized * stepRayLength, Color.red);
         Debug.DrawRay(rayDirectioLowerRight.transform.position, rbDirection.normalized * stepRayLength, Color.blue);
-        /* if (Physics.Raycast(rayDirectioLowerMid.transform.position, rbDirection.normalized, out hitLower, rayLengthMid))
-         {
-             Debug.Log("mid");
-             StepClimbUpperCheck(rbDirection, stepRays[3]);
 
-         }*/
 
 
         if (Physics.Raycast(rayDirectioLowerLeft.transform.position, normalizedDirection, out hitLower, stepRayLength, groundMask, collideWithTrigger))
         {
             Debug.Log("Left");
-            if (hitLower.collider.CompareTag("Leg") || hitLower.collider.CompareTag("Box"))
-                return;
-            StepClimbUpperCheck(rbDirection, stepRays[4]);
-            return;
+            if (!hitLower.collider.CompareTag("Leg") && !hitLower.collider.CompareTag("Box"))
+                stepUpSize = StepClimbUpperCheck(rbDirection, stepRays[4]);
         }
 
         if (Physics.Raycast(rayDirectioLowerRight.transform.position, normalizedDirection, out hitLower, stepRayLength, groundMask, collideWithTrigger))
         {
             Debug.Log("Right");
-            if (hitLower.collider.CompareTag("Leg") || hitLower.collider.CompareTag("Box"))
-                return;
-            StepClimbUpperCheck(rbDirection, stepRays[5]);
+            if (!hitLower.collider.CompareTag("Leg") && !hitLower.collider.CompareTag("Box"))
+                stepUpSize = StepClimbUpperCheck(rbDirection, stepRays[5]);
         }
 
-
+        rb.AddForce(stepUpSize, ForceMode.Impulse);
 
         //Debug.DrawRay(stepRays[3].transform.position, rbDirection.normalized, Color.green);
         //Debug.DrawRay(stepRays[4].transform.position, rbDirection.normalized, Color.red);
@@ -275,14 +267,15 @@ public class CharacterControl : NetworkBehaviour
 
     }
 
-    private void StepClimbUpperCheck(Vector3 rbDirection, GameObject rayDirectionUpper)
+    private Vector3 StepClimbUpperCheck(Vector3 rbDirection, GameObject rayDirectionUpper)
     {
         RaycastHit hitUpper;
-        if (!Physics.Raycast(rayDirectionUpper.transform.position, rbDirection.normalized, out hitUpper, 0.5f)) //upper check
+        if (!Physics.Raycast(rayDirectionUpper.transform.position, rbDirection.normalized, out hitUpper, 0.5f, groundMask, QueryTriggerInteraction.Ignore)) //upper check
         {
             if (isGrounded)
-                rb.position -= new Vector3(0f, -stepSmooth * Time.deltaTime, 0f); //the actual stepClimb
+                return new Vector3(0f, stepSmooth, 0f); //the actual stepClimb
         }
+        return Vector3.zero;
     }
 
 
