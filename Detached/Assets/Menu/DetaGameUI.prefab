@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4546371831905120790}
   - component: {fileID: 4870388756858369940}
   m_Layer: 5
-  m_Name: Left Hand
+  m_Name: Left Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -149,7 +149,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 97, y: 16.9}
+  m_AnchoredPosition: {x: 58.7, y: 69.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1920370300727053469
@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 2912065788304483027}
   - component: {fileID: 20547212340828275}
   m_Layer: 5
-  m_Name: Right Hand
+  m_Name: Right Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -429,7 +429,7 @@ GameObject:
   - component: {fileID: 1468216199423647430}
   - component: {fileID: 5903369856635199691}
   m_Layer: 5
-  m_Name: Right Hand
+  m_Name: Right Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -687,24 +687,24 @@ MonoBehaviour:
   bodyUI: {fileID: 4436185127110991824}
   groundUI: {fileID: 1660646729500499503}
   head: {fileID: 5572280008138064982}
-  leftHand: {fileID: 8442581394524934720}
+  leftArm: {fileID: 8442581394524934720}
   leftLeg: {fileID: 7439610856177714279}
-  rightHand: {fileID: 3170477810090495164}
+  rightArm: {fileID: 3170477810090495164}
   rightLeg: {fileID: 7580592388666330396}
-  headSelection: {fileID: 4883391961723997134}
-  leftHandSelection: {fileID: 7013908402834964042}
-  leftLegSelection: {fileID: 8445996766374598324}
-  rightHandSelection: {fileID: 8171948015671257672}
-  rightLegSelection: {fileID: 2970606978176763428}
+  headSelection: {fileID: 6521464275826901488}
+  leftArmSelection: {fileID: 4960618838489515853}
+  leftLegSelection: {fileID: 4400061234498478578}
+  rightArmSelection: {fileID: 4118251475595219206}
+  rightLegSelection: {fileID: 2387260333305571062}
   headG: {fileID: 3185148931342802093}
-  leftHandG: {fileID: 3230486199468713}
+  leftArmG: {fileID: 3230486199468713}
   leftLegG: {fileID: 5322132184834970260}
-  rightHandG: {fileID: 1920370300727053469}
+  rightArmG: {fileID: 1920370300727053469}
   rightLegG: {fileID: 5266404341127314391}
   headSelectionG: {fileID: 4883391961723997134}
-  leftHandSelectionG: {fileID: 7013908402834964042}
+  leftArmSelectionG: {fileID: 7013908402834964042}
   leftLegSelectionG: {fileID: 8445996766374598324}
-  rightHandSelectionG: {fileID: 8171948015671257672}
+  rightArmSelectionG: {fileID: 8171948015671257672}
   rightLegSelectionG: {fileID: 2970606978176763428}
   cam: {fileID: 0}
 --- !u!114 &3360536426286589368
@@ -733,7 +733,7 @@ GameObject:
   - component: {fileID: 5790830891398712815}
   - component: {fileID: 8078196132068689920}
   m_Layer: 5
-  m_Name: Right Hand Selection
+  m_Name: Right Arm Selection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -905,7 +905,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 21.8, y: -11.9}
+  m_AnchoredPosition: {x: -4.9, y: 5.9}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4883391961723997134
@@ -995,7 +995,7 @@ GameObject:
   - component: {fileID: 2484925794026876149}
   - component: {fileID: 1589980623617484684}
   m_Layer: 5
-  m_Name: Left Hand Selection
+  m_Name: Left Arm Selection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1410,7 +1410,7 @@ GameObject:
   - component: {fileID: 1413145218057098369}
   - component: {fileID: 2697969451757574450}
   m_Layer: 5
-  m_Name: Left Hand Selection
+  m_Name: Left Arm Selection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1675,7 +1675,7 @@ GameObject:
   - component: {fileID: 1743809507933712806}
   - component: {fileID: 7295056059782863401}
   m_Layer: 5
-  m_Name: Right Hand Selection
+  m_Name: Right Arm Selection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1750,7 +1750,7 @@ GameObject:
   - component: {fileID: 8425585767953450066}
   - component: {fileID: 3506433407498842705}
   m_Layer: 5
-  m_Name: Left Hand
+  m_Name: Left Arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -2534,7 +2534,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5572368198588255383}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.498, y: 0.28, z: 0.451}
+  m_LocalPosition: {x: 0.498, y: 0.26, z: 0.451}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5114762195231583860}
@@ -2794,6 +2794,7 @@ GameObject:
   - component: {fileID: 6911670397301514651}
   - component: {fileID: 7144202119212506771}
   - component: {fileID: 6751276930614902471}
+  - component: {fileID: 3414845460039265454}
   m_Layer: 2
   m_Name: DetaRightLeg
   m_TagString: Leg
@@ -2897,10 +2898,24 @@ BoxCollider:
   m_GameObject: {fileID: 6579807104763498528}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.6254992, y: 0.33478498, z: 1.0468676}
   m_Center: {x: 1.5403926, y: -2.110993, z: 0.8867249}
+--- !u!136 &3414845460039265454
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6579807104763498528}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.31
+  m_Height: 1.13
+  m_Direction: 2
+  m_Center: {x: 1.54, y: -2.03, z: 0.87}
 --- !u!1 &6767080942287752924
 GameObject:
   m_ObjectHideFlags: 0
@@ -3400,7 +3415,7 @@ MonoBehaviour:
   - {fileID: 7018095211177349295}
   - {fileID: 5332736942258052656}
   stepHeight: 0.5
-  stepSmooth: 5
+  stepSmooth: 0.3
   stepRayLength: 1
   jumpForce: 8.5
   jumpCD: 0.25
@@ -3496,7 +3511,7 @@ MonoBehaviour:
   LineRenderer: {fileID: 7995944501461852989}
   collidable:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 51283
   LinePoints: 25
   TimeBetweenPoints: 0.1
   indicator: {fileID: 7995944500794332146}
@@ -4036,6 +4051,7 @@ GameObject:
   - component: {fileID: 6065871628717005027}
   - component: {fileID: 8844361922911554644}
   - component: {fileID: 5070396771733961256}
+  - component: {fileID: 1081987620067620793}
   m_Layer: 2
   m_Name: DetaLeftLeg
   m_TagString: Leg
@@ -4139,10 +4155,24 @@ BoxCollider:
   m_GameObject: {fileID: 7992929799463199651}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.6231659, y: 0.20774105, z: 1.2382334}
   m_Center: {x: -0.31965077, y: -0.24860646, z: 0.15390497}
+--- !u!136 &1081987620067620793
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7992929799463199651}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.31
+  m_Height: 1.31
+  m_Direction: 2
+  m_Center: {x: -0.3, y: -0.15, z: 0.15}
 --- !u!1 &7995944500616204132
 GameObject:
   m_ObjectHideFlags: 0
@@ -4649,7 +4679,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8322112166054813099}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.535, y: 0.2799999, z: 0.451}
+  m_LocalPosition: {x: -0.535, y: 0.253, z: 0.451}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5114762195231583860}
@@ -4853,11 +4883,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2719764314221025741, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 2719764314221025741, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 27
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3360536426286589368, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
       propertyPath: player
@@ -4953,11 +4983,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6689377277966594101, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 79
+      value: 63
       objectReference: {fileID: 0}
     - target: {fileID: 6689377277966594101, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 60
+      value: 70
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}

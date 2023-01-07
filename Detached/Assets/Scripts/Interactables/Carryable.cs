@@ -61,7 +61,7 @@ public class Carryable : NetworkBehaviour, IInteractable
             return !isHeld && activatingObject.GetComponent<InteractableManager>().CanPickUpItem(gameObject);
         return false;
     }
-    public void Update() 
+    public void FixedUpdate() 
     {
         if (isHeld && positionTarget != null)
             MoveObject();

@@ -919,6 +919,7 @@ GameObject:
   - component: {fileID: 8187593067357424417}
   - component: {fileID: 2369804433181846068}
   - component: {fileID: 6262512365682829299}
+  - component: {fileID: 9210543724087751407}
   m_Layer: 15
   m_Name: Battery
   m_TagString: Battery
@@ -1080,6 +1081,26 @@ CapsuleCollider:
   m_Height: 2.5
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: -0.1, z: -0.00000008940697}
+--- !u!114 &9210543724087751407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6978319037180038024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 821ec44bfa18d264a846d3039e523cf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0
+  safeLocation: {x: 0, y: 0, z: 0}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  groundCheckRadius: 1.04
+  fallOutMaxAmount: 3
 --- !u!1 &7428515929378897625
 GameObject:
   m_ObjectHideFlags: 0

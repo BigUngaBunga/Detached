@@ -35,7 +35,7 @@ public class PingSystem : NetworkBehaviour
     [Command]
     private void Ping(Vector3 origin, Vector3 direction)
     {
-        if (!Physics.Raycast(origin, direction, out RaycastHit hit, float.MaxValue, pingMask))
+        if (!Physics.Raycast(origin, direction, out RaycastHit hit, float.MaxValue, pingMask, QueryTriggerInteraction.Ignore))
             return;
 
         Vector3 position = hit.point + new Vector3(0, height, 0);

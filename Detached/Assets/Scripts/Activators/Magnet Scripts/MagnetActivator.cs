@@ -9,14 +9,25 @@ public class MagnetActivator : Activator
     [SerializeField] private float attractionSpeed;
     [Range(0.5f, 2f)]
     [SerializeField] private float centralizationStrength;
+    [SerializeField] private float forwardsStrength;
     [SerializeField] private Transform attractionPosition;
     [SerializeField] private GameObject magnetizationField;
     private List<Rigidbody> magnetizedObjects = new List<Rigidbody>();
 
     private Vector3 Forward => attractionPosition.up * -1f;
 
-    public void AddMagnetizedObject(GameObject gameObject) => magnetizedObjects.Add(gameObject.GetComponent<Rigidbody>());
-    public void RemoveMagnetizedObject(GameObject gameObject) => magnetizedObjects.Remove(gameObject.GetComponent<Rigidbody>());
+    public void AddMagnetizedObject(GameObject gameObject)
+    {
+        Rigidbody rigidbody = gameObject.GetComponent<Rigidbody>();
+        if (!magnetizedObjects.Contains(rigidbody))
+            magnetizedObjects.Add(rigidbody);
+    }
+    public void RemoveMagnetizedObject(GameObject gameObject)
+    {
+        Rigidbody rigidbody = gameObject.GetComponent<Rigidbody>();
+        if (magnetizedObjects.Contains(rigidbody))
+            magnetizedObjects.Remove(rigidbody);
+    }
 
     private Vector3 GetDirection(Vector3 position) => attractionPosition.position - position;
 
@@ -38,17 +49,24 @@ public class MagnetActivator : Activator
 
     private void ApplyForce()
     {
-        foreach (var gameObject in magnetizedObjects)
+        for (int i = magnetizedObjects.Count - 1; i >= 0; i--)
         {
-            Vector3 direction = GetDirection(gameObject.transform.position);
-            var forwardsForce = GetForce(direction.normalized, attractionSpeed * 0.25f);
-            var centralForce = GetForce(GetCentralDirection(gameObject.transform.position), attractionSpeed * centralizationStrength);
 
-            Debug.DrawRay(gameObject.transform.position, forwardsForce, Color.red);
-            Debug.DrawRay(gameObject.transform.position, centralForce, Color.yellow);
+            if (magnetizedObjects[i] == null)
+            {
+                magnetizedObjects.RemoveAt(i);
+                return;
+            }
+            Rigidbody rigidbody = magnetizedObjects[i];
+            Vector3 direction = GetDirection(rigidbody.transform.position);
+            var forwardsForce = GetForce(direction.normalized, attractionSpeed * forwardsStrength);
+            var centralForce = GetForce(GetCentralDirection(rigidbody.transform.position), attractionSpeed * centralizationStrength);
 
-            gameObject.AddForce(forwardsForce * gameObject.mass);
-            gameObject.AddForce(centralForce * gameObject.mass);
+            Debug.DrawRay(rigidbody.transform.position, forwardsForce, Color.red);
+            Debug.DrawRay(rigidbody.transform.position, centralForce, Color.yellow);
+
+            rigidbody.AddForce(forwardsForce * rigidbody.mass);
+            rigidbody.AddForce(centralForce * rigidbody.mass);
         }
         Debug.DrawRay(attractionPosition.position, Forward * 10f, Color.green);
     }
@@ -56,13 +74,21 @@ public class MagnetActivator : Activator
     protected override void Activate()
     {
         base.Activate();
-        magnetizationField.SetActive(true);
-        
+        SetMagnetizationActivation(true);
     }
 
     protected override void Deactivate()
     {
         base.Deactivate();
+        SetMagnetizationActivation(false);
+    }
+
+    protected override void Start()
+    {
+        base.Start();
         magnetizationField.SetActive(false);
     }
+
+    [ClientRpc]
+    private void SetMagnetizationActivation(bool isActive) => magnetizationField.SetActive(isActive);
 }

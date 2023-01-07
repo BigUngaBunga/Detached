@@ -7,7 +7,7 @@ using Mirror.Experimental;
 
 public class LimbMovement : NetworkBehaviour
 {
-    private float movementSpeed = 1f;
+    [SerializeField] private float movementSpeed = 3.5f;
     private float initialRotationY;
     private SceneObjectItemManager sceneObjectItemManagerScript;
 
@@ -22,6 +22,8 @@ public class LimbMovement : NetworkBehaviour
     float horizontalInput;
     float verticalInput;
 
+    bool hasUpdated = true;
+
     LimbStepUpRay limbStepUp;
 
     private void Start()
@@ -30,50 +32,53 @@ public class LimbMovement : NetworkBehaviour
         sceneObjectItemManagerScript = gameObject.GetComponent<SceneObjectItemManager>();
         initialRotationY = GetInitialRotation(sceneObjectItemManagerScript.thisLimb);
         camTransform = Camera.main.transform;
-        //rb = gameObject.AddComponent<Rigidbody>();
         rb = GetComponent<Rigidbody>();
         limbStepUp = GetComponentInChildren<LimbStepUpRay>();
-        /*       stepRays[0] = GameObject.Find("StepRayLowerFrontMid");
-               stepRays[1] = GameObject.Find("StepRayLowerFrontLeft");
-               stepRays[2] = GameObject.Find("StepRayLowerFrontRight");
-               stepRays[4] = GameObject.Find("StepRayUpperFrontLeft");
-               stepRays[5] = GameObject.Find("StepRayUpperFrontLeft");*/
+        if (isClientOnly)
+        {
+            hasUpdated = false;
+            if (limbStepUp != null)
+                limbStepUp.IncreasePlayerTwoRay();
+        }
     }
 
-
-
-    void Update()
+    void FixedUpdate()
     {
-        if (!hasAuthority) return;
-
-
-        if (!sceneObjectItemManagerScript.IsBeingControlled) return;
+        if (!hasAuthority || !sceneObjectItemManagerScript.IsBeingControlled) return;
+        if (!hasUpdated && limbStepUp != null)
+        {
+            limbStepUp.IncreasePlayerTwoRay();
+            hasUpdated = true;
+        }
 
         if (sceneObjectItemManagerScript.thisLimb != LimbType.Head)
         {
 
             MyInput();
             Movement();
-            #region stepClimbs
-            
             if (limbStepUp == null) limbStepUp = GetComponentInChildren<LimbStepUpRay>();
-            limbStepUp.ActiveStepClimb(input, rb);
-            #endregion
-
-            //CmdMoveObject(input);
-            //rb.AddForce(moveDir.normalized * movementSpeed * 10f * Time.deltaTime, ForceMode.Force);
+            Vector3 stepUpSize = limbStepUp.GetStepClimb(input, rb);
+            if (stepUpSize != Vector3.zero)
+            {
+                Debug.Log("Stepup size: " + stepUpSize);
+                rb.AddForce(stepUpSize * movementSpeed * Time.deltaTime, ForceMode.Impulse);
+            }
             SpeedControl();
-            if (moveDir.normalized != Vector3.zero)
-                rb.AddForce(moveDir.normalized * speed * Time.deltaTime, ForceMode.Force);
-        }
 
-        gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y + initialRotationY, Vector3.up);
+            float angle = (camTransform.rotation.eulerAngles.y + initialRotationY);
+            RotateLimb(angle);
+        }
+    }
+
+    [Command]
+    private void RotateLimb(float angle)
+    {
+        rb.MoveRotation(Quaternion.AngleAxis(angle, Vector3.up));
     }
 
     private void SpeedControl()
     {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
         if (flatVel.magnitude > movementSpeed)
         {
             Vector3 limitedVel = flatVel.normalized * movementSpeed;
@@ -87,12 +92,14 @@ public class LimbMovement : NetworkBehaviour
         input = new Vector3(horizontalInput, 0, verticalInput);
         moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
 
+        Vector3 force = moveDir.normalized * movementSpeed * 10f * Time.deltaTime;
+        rb.AddForce(force, ForceMode.Force);
     }
 
     private void MyInput()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal") * Time.deltaTime * speed;
-        verticalInput = Input.GetAxisRaw("Vertical") * Time.deltaTime * speed;
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticalInput = Input.GetAxisRaw("Vertical");
     }
 
 
