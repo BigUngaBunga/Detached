@@ -12,7 +12,7 @@ public class ActivatedPlatform : Activator
     [SyncVar(hook  = nameof(UpdateMaterial))]
     protected float alpha = 0.0f;
 
-    private Color color;
+    [SerializeField]private Color color;
     protected new BoxCollider collider;
     private MeshRenderer meshRenderer;
     private float PercentageActive => (float)ActiveConnections / (float)TotalConnections;
@@ -81,5 +81,6 @@ public class ActivatedPlatform : Activator
     {
         color.a = newValue;
         meshRenderer.material.color = color;
+        meshRenderer.material.SetFloat("_Alpha", alpha);
     }
 }
