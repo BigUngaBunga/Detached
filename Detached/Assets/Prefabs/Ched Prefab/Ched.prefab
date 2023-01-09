@@ -1264,7 +1264,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3618494083954888916}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.67, y: 0.81512225, z: 0}
+  m_LocalPosition: {x: 0, y: 0.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3618494085555675856}
@@ -2233,7 +2233,7 @@ MonoBehaviour:
   throwPoint: {fileID: 3618494085464057127}
   camFocus: {fileID: 3618494085555675856}
   cinemachine: {fileID: 0}
-  throwCamOffset: {x: 0, y: -0.2, z: 4}
+  throwCamOffset: {x: 0.8, y: -0.2, z: 4}
   indicator: {fileID: 3618494084844451030}
   readyToThrow: 0
   numberOfLimbs: 0
@@ -2344,6 +2344,7 @@ MonoBehaviour:
   runSpeed: 255
   crouchSpeed: 2.5
   camTransform: {fileID: 0}
+  rotationSpeed: 10
   stepRays:
   - {fileID: 7703101000177312658}
   - {fileID: 3824265623808573847}
@@ -2639,7 +2640,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5406308087083096826}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.022575736, y: -1.86, z: 0.11635855}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

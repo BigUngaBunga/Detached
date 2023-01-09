@@ -32,6 +32,7 @@ public class CharacterControl : NetworkBehaviour
     [SerializeField] private float crouchSpeed;
     float walkSpeed;
     [SerializeField] private Transform camTransform;
+    [SerializeField] private float rotationSpeed;
 
     [Header("Step up")]
     [SerializeField] GameObject[] stepRays;
@@ -149,13 +150,28 @@ public class CharacterControl : NetworkBehaviour
                 Jump();
                 Sprint();
                 // Crouch();
+
+
+                if (limbManager.readyToThrow)
+                {
+                    gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up);
+                }
+                else if (moveDir != Vector3.zero)
+                {
+                 /*   Vector3 originPos = camFocus.position;*/
+
+                    //Debug.Log(originPos);
+                    Quaternion rotation = Quaternion.LookRotation(moveDir, Vector3.up);
+                    gameObject.transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+                    ///**/camFocus.position = originPos;
+                }
+
                 PauseCam();
                 #region stepClimbs
                 StepClimb(stepRays[0], stepRays[1], stepRays[2]);
                 #endregion
                 NoLegCam();
                 SpeedControl();
-                gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up);
                 //Debug.Log(movementSpeed);
 
                 if (isGrounded)
@@ -284,7 +300,7 @@ public class CharacterControl : NetworkBehaviour
     {
         isGrounded = Physics.CheckBox(groundCheckTransform.position, groundCheckSize, transform.rotation, groundMask, collideWithTrigger);
         //isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask, collideWithTrigger);
-        isGrounded = isGrounded || (secondaryGroundCheck.gameObject.activeSelf && 
+        isGrounded = isGrounded || (secondaryGroundCheck.gameObject.activeSelf &&
                     Physics.CheckSphere(secondaryGroundCheck.position, groundCheckRadius, groundMask, collideWithTrigger));
     }
 

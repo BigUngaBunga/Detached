@@ -36,11 +36,11 @@ public class BodypartSelected : MonoBehaviour
 
     public GameObject cam;
     int numOfLimbOnGround;
-    private ItemManager iManagerLocalPlayer;
+    private ItemManager itemManager;
 
     public void Setup()
     {
-        iManagerLocalPlayer = NetworkClient.localPlayer.gameObject.GetComponent<ItemManager>();
+        itemManager = NetworkClient.localPlayer.gameObject.GetComponent<ItemManager>();
         GetCurrentLimbsOfPlayer();
     }
     public void GetCurrentLimbsOfPlayer(bool headIsDetached, int arms, int legs, float delay = 0)
@@ -57,17 +57,17 @@ public class BodypartSelected : MonoBehaviour
     }
     public void GetCurrentLimbsOfPlayer()
     {
-        int numberOfArms = iManagerLocalPlayer.NumberOfArms;
-        int numberOfLegs = iManagerLocalPlayer.NumberOfLegs;
+        int numberOfArms = itemManager.NumberOfArms;
+        int numberOfLegs = itemManager.NumberOfLegs;
 
-        GetCurrentLimbsOfPlayer(iManagerLocalPlayer.headDetached, numberOfArms, numberOfLegs);
+        GetCurrentLimbsOfPlayer(itemManager.headDetached, numberOfArms, numberOfLegs);
     }
     public void GetCurrentLimbsOfPlayerTest()
     {
-        int numberOfArms = iManagerLocalPlayer.NumberOfArms;
-        int numberOfLegs = iManagerLocalPlayer.NumberOfLegs;
+        int numberOfArms = itemManager.NumberOfArms;
+        int numberOfLegs = itemManager.NumberOfLegs;
 
-        head.SetActive(!iManagerLocalPlayer.headDetached);
+        head.SetActive(!itemManager.headDetached);
         rightArm.SetActive(numberOfArms > 0);
         leftArm.SetActive(numberOfArms > 1);
         rightLeg.SetActive(numberOfLegs > 0);
@@ -78,35 +78,35 @@ public class BodypartSelected : MonoBehaviour
     public void GetSelectedOfPlayer()
     {
         SetBodyAllInactive();
-        if (!Convert.ToBoolean(iManagerLocalPlayer.SelectionMode))
+        if (!Convert.ToBoolean(itemManager.SelectionMode))
         {
-            if (iManagerLocalPlayer.SelectedLimbToThrow == ItemManager.Limb_enum.Arm)
+            if (itemManager.SelectedLimbToThrow == ItemManager.Limb_enum.Arm)
             {
                 if (leftArm.activeSelf)
                     leftArmSelected = true;
-                else if(rightArm.activeSelf)
+                else if (rightArm.activeSelf)
                     rightArmSelected = true;
             }
-            if (iManagerLocalPlayer.SelectedLimbToThrow == ItemManager.Limb_enum.Leg)
+            if (itemManager.SelectedLimbToThrow == ItemManager.Limb_enum.Leg)
             {
                 if (leftLeg.activeSelf)
                     leftLegSelected = true;
-                else if(rightLeg.activeSelf)
+                else if (rightLeg.activeSelf)
                     rightLegSelected = true;
             }
-            if (iManagerLocalPlayer.SelectedLimbToThrow == ItemManager.Limb_enum.Head)
+            if (itemManager.SelectedLimbToThrow == ItemManager.Limb_enum.Head)
                 headSelected = head.activeSelf;
         }
         IndicateSelectedLimb();
     }
-    
+
     private void Update()
     {
-        groundUI.SetActive(iManagerLocalPlayer.groundMode);
-        bodyUI.SetActive(!iManagerLocalPlayer.groundMode);
+        groundUI.SetActive(itemManager.groundMode);
+        bodyUI.SetActive(!itemManager.groundMode);
         GetCurrentLimbsOfPlayer();
 
-        if (iManagerLocalPlayer.groundMode)
+        if (itemManager.groundMode)
         {
             GetLimbsOnGround();
             GetSelectedOnGround();
@@ -116,7 +116,7 @@ public class BodypartSelected : MonoBehaviour
             GetSelectedOfPlayer();
         }
 
-        
+
     }
 
     private void GetLimbsOnGround()
@@ -139,23 +139,23 @@ public class BodypartSelected : MonoBehaviour
 
     private void IndicateSelectedLimbOnGround()
     {
-        if (iManagerLocalPlayer.limbs.Count == 0)
+        if (itemManager.limbs.Count == 0)
             return;
 
-        if (iManagerLocalPlayer.limbs[iManagerLocalPlayer.indexControll] == null)
+        if (itemManager.limbs.Count > itemManager.indexControll && itemManager.limbs[itemManager.indexControll] == null)
         {
             return;
         }
-        int boundCheck = iManagerLocalPlayer.limbs[iManagerLocalPlayer.indexControll].transform.childCount - 1;
+        int boundCheck = itemManager.limbs[itemManager.indexControll].transform.childCount - 1;
         for (int i = 0; i < boundCheck; i++)
         {
-            selectedObject = iManagerLocalPlayer.limbs[iManagerLocalPlayer.indexControll].transform.GetChild(i).gameObject;
-            if (iManagerLocalPlayer.limbs[iManagerLocalPlayer.indexControll].transform.GetChild(i + 1) != null)
-                cam = iManagerLocalPlayer.limbs[iManagerLocalPlayer.indexControll].transform.GetChild(i + 1).gameObject;
+            selectedObject = itemManager.limbs[itemManager.indexControll].transform.GetChild(i).gameObject;
+            if (itemManager.limbs[itemManager.indexControll].transform.GetChild(i + 1) != null)
+                cam = itemManager.limbs[itemManager.indexControll].transform.GetChild(i + 1).gameObject;
         }
 
         if (cam == null || selectedObject == null) return;
-        
+
         headSelectionG.SetActive(selectedObject.name == "Head");
         leftLegSelectionG.SetActive(selectedObject.name == "LeftLeg");
         rightLegSelectionG.SetActive(selectedObject.name == "RightLeg");
