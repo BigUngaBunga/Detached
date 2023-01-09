@@ -35,7 +35,7 @@ public class BodypartSelected : MonoBehaviour
     #endregion
 
     public GameObject cam;
-    int numOfLimbOnGround;
+    private int detachedArms, detachedLegs;
     private ItemManager itemManager;
 
     public void Setup()
@@ -121,11 +121,27 @@ public class BodypartSelected : MonoBehaviour
 
     private void GetLimbsOnGround()
     {
+        detachedArms = detachedLegs = 0;
+        {
+            if (HasChildWithTag(itemManager.limbs[i], "Leg"))
+                detachedLegs++;
+            else if (HasChildWithTag(itemManager.limbs[i], "Arm"))
+                detachedArms++;
+        }
+
         headG.SetActive(!head.activeSelf);
-        leftArmG.SetActive(!leftArm.activeSelf);
-        rightArmG.SetActive(!rightArm.activeSelf);
-        leftLegG.SetActive(!leftLeg.activeSelf);
-        rightLegG.SetActive(!rightLeg.activeSelf);
+        leftArmG.SetActive(detachedArms > 0);
+        rightArmG.SetActive(detachedArms > 1);
+        leftLegG.SetActive(detachedLegs > 0);
+        rightLegG.SetActive(detachedLegs > 1);
+
+        bool HasChildWithTag(GameObject gameObject, string tag)
+        {
+            for (int i = 0; i < gameObject.transform.childCount; i++)
+                if (gameObject.transform.GetChild(i).CompareTag(tag))
+                    return true;
+            return false;
+        }
     }
 
     private void IndicateSelectedLimb()
