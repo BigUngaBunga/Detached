@@ -14,6 +14,9 @@ GameObject:
   - component: {fileID: 9110140615138687368}
   - component: {fileID: 7455084610887618647}
   - component: {fileID: 2236386180284780386}
+  - component: {fileID: 5299178735486870646}
+  - component: {fileID: 8777358359574844619}
+  - component: {fileID: 7702291735016426680}
   m_Layer: 14
   m_Name: Rotating Cylinder
   m_TagString: Untagged
@@ -138,3 +141,42 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 748312e8fd05da844bd248074215eaad
   hasSpawned: 0
+--- !u!65 &5299178735486870646
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012648122114948175}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0030701538, y: 0.01997846, z: 0.019999985}
+  m_Center: {x: 0.0015350769, y: 0.00007700014, z: 1.8041336e-19}
+--- !u!65 &8777358359574844619
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012648122114948175}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.00419199, y: 0.016793558, z: 0.019999985}
+  m_Center: {x: 0.003595832, y: -0.000017985822, z: -2.755884e-20}
+--- !u!65 &7702291735016426680
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012648122114948175}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0029339187, y: 0.011910023, z: 0.019999985}
+  m_Center: {x: 0.006646429, y: -0.0004599147, z: 7.2282764e-19}

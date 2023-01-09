@@ -7,6 +7,7 @@ Shader "Custom/DoubleColourShader"
         _Metallic ("Metallic", Range(0,1)) = 0.0
         _Color1 ("First colour", Color) = (0,0,0,1)
         _Color2 ("Second colour", Color) = (1,1,1,1)
+        _Color ("Throw away to stop error", Color) = (0,0,0,0)
         _Strength ("Primary colour strength", Range(0, 5)) = 1.0
     }
     SubShader
@@ -32,6 +33,7 @@ Shader "Custom/DoubleColourShader"
         half _Metallic;
         fixed4 _Color1;
         fixed4 _Color2;
+        fixed4 _Color;//Doesn't currently do anything
         half _Strength;
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
