@@ -122,6 +122,7 @@ public class BodypartSelected : MonoBehaviour
     private void GetLimbsOnGround()
     {
         detachedArms = detachedLegs = 0;
+        for (int i = 0; i < itemManager.limbs.Count; i++)
         {
             if (HasChildWithTag(itemManager.limbs[i], "Leg"))
                 detachedLegs++;
