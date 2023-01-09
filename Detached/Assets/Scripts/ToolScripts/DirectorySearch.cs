@@ -13,8 +13,8 @@ public class DirectorySearch : MonoBehaviour
 
     private void Start()
     {
-        OpenDirectory();
         sourceDirectory = Application.dataPath + "/DebugTool";
+        OpenDirectory();
     }
     public void OpenDirectory()
     {

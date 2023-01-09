@@ -156,7 +156,7 @@ public class CharacterControl : NetworkBehaviour
                 {
                     gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up);
                 }
-                else if (moveDir != Vector3.zero)
+                else if (moveDir != Vector3.zero && isGrounded)
                 {
                     Quaternion rotation = Quaternion.LookRotation(moveDir, Vector3.up);
                     gameObject.transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
@@ -299,6 +299,7 @@ public class CharacterControl : NetworkBehaviour
         //isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask, collideWithTrigger);
         isGrounded = isGrounded || (secondaryGroundCheck.gameObject.activeSelf &&
                     Physics.CheckSphere(secondaryGroundCheck.position, groundCheckRadius, groundMask, collideWithTrigger));
+        
     }
 
     private void Jump()
