@@ -158,12 +158,9 @@ public class CharacterControl : NetworkBehaviour
                 }
                 else if (moveDir != Vector3.zero)
                 {
-                 /*   Vector3 originPos = camFocus.position;*/
-
-                    //Debug.Log(originPos);
                     Quaternion rotation = Quaternion.LookRotation(moveDir, Vector3.up);
                     gameObject.transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
-                    ///**/camFocus.position = originPos;
+
                 }
 
                 PauseCam();
