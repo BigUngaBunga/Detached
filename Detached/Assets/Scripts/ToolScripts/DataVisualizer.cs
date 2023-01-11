@@ -1,7 +1,9 @@
 using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -86,7 +88,7 @@ public class DataVisualizer : MonoBehaviour
             }
         }
         textArray = new GameObject[dataList[dataList.Count - 1].triggerStructList.Count];
-        Debug.Log("count: " + textArray.Length);
+        Debug.Log("trigger count: " + textArray.Length);
 
         for (int i = 0; i < textArray.Length; i++)
         {
@@ -94,7 +96,7 @@ public class DataVisualizer : MonoBehaviour
                 dataList[dataList.Count - 1].triggerStructList[i].y,
                 dataList[dataList.Count - 1].triggerStructList[i].z),
                 Quaternion.identity);
-            textArray[i].GetComponent<TMPro.TextMeshPro>().text = dataList[dataList.Count - 1].triggerStructList[i].activations.ToString();
+            textArray[i].GetComponentInChildren<TextMeshPro>().text = dataList[dataList.Count - 1].triggerStructList[i].activations.ToString();
 
         }
     }
@@ -164,26 +166,41 @@ public class DataVisualizer : MonoBehaviour
 
         while ((ln = reader.ReadLine()) != null)
         {
+
             DataStruct dataStruct = new DataStruct();
             string[] data = ln.Split(';');
             dataStruct.level = data[0];
             dataStruct.gameVersion = int.Parse(data[1]);
-            dataStruct.time = float.Parse(data[2]);
+            dataStruct.time = ReadFloat(data[2]);
+            dataStruct.triggerStructList = new List<TriggerActivationStruct>();
             for (int i = 3; i < data.Length - 4; i += 5)
             {
                 TriggerActivationStruct trigger = new TriggerActivationStruct();
                 trigger.name = data[i];
                 trigger.activations = int.Parse(data[i + 1]);
-                trigger.x = float.Parse(data[i + 2]);
-                trigger.y = float.Parse(data[i + 3]);
-                trigger.z = float.Parse(data[i + 4]);
-                dataStruct.triggerStructList = new List<TriggerActivationStruct>();
+                trigger.x = ReadFloat(data[i + 2]);
+                trigger.y = ReadFloat(data[i + 3]);
+                trigger.z = ReadFloat(data[i + 4]);
                 dataStruct.triggerStructList.Add(trigger);
             }
-            dataStruct.playerPosition = new Vector3(float.Parse(data[data.Length - 3]), float.Parse(data[data.Length - 2]), float.Parse(data[data.Length - 1]));
+            dataStruct.playerPosition = new Vector3(ReadFloat(data[data.Length-3]), ReadFloat(data[data.Length - 2]), ReadFloat(data[data.Length - 1]));
 
             dataList.Add(dataStruct);
         }
+        Debug.Log("data count: " + dataList.Count);
+    }
+
+    private float ReadFloat(string data)
+    {
+        float output;
+        string[] split = data.Split(',');
+
+        output = float.Parse(split[0]);
+        if (split.Length > 1)
+        {
+            output += (float.Parse(split[1]) / (float)(Math.Pow(10, split[1].Length)));
+        }
+        return output;
     }
 
     public void ChangeScene()
