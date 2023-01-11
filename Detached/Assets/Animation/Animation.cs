@@ -33,7 +33,7 @@ public class Animation : NetworkBehaviour
 
         targetTime += Time.deltaTime;
 
-        IsCarrying();
+        //IsCarrying();
 
         if (IsCrawling() || IsHopping()) { }
 
@@ -42,13 +42,13 @@ public class Animation : NetworkBehaviour
             animator.SetTrigger("Jump");
             networkAnimator.SetTrigger("Jump");
         }
-        else if (Input.GetKeyDown(KeyCode.F))
-        {
-            animator.SetBool("isCarrying", false);
-            animator.SetTrigger("Carry");
-            networkAnimator.SetTrigger("Carry");
-            animator.SetBool("isCarrying", true);
-        }
+        //else if (Input.GetKeyDown(KeyCode.F))
+        //{
+        //    animator.SetBool("isCarrying", false);
+        //    animator.SetTrigger("Carry");
+        //    networkAnimator.SetTrigger("Carry");
+        //    animator.SetBool("isCarrying", true);
+        //}
         else if (!Input.anyKey)
         {
             animator.SetTrigger("Idle");
