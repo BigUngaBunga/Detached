@@ -9,10 +9,11 @@ public class DirectorySearch : MonoBehaviour
 {
     public Dropdown dropdown;
     public DataVisualizer visualizer;
-    string sourceDirectory = Application.dataPath + "/DebugTool";
+    string sourceDirectory;
 
     private void Start()
     {
+        sourceDirectory = Application.dataPath + "/DebugTool";
         OpenDirectory();
     }
     public void OpenDirectory()

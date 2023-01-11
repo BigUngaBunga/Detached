@@ -21,6 +21,7 @@ public class LimbMovement : NetworkBehaviour
     public Rigidbody rb;
     float horizontalInput;
     float verticalInput;
+    float rotationSpeed = 10f;
 
     bool hasUpdated = true;
 
@@ -56,6 +57,14 @@ public class LimbMovement : NetworkBehaviour
 
             MyInput();
             Movement();
+
+            if (moveDir != Vector3.zero)
+            {
+                Quaternion rotation = Quaternion.LookRotation(moveDir, Vector3.up);
+                rotation *= Quaternion.AngleAxis(initialRotationY, Vector3.up);
+                RotateLimb(Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime));
+            }
+
             if (limbStepUp == null) limbStepUp = GetComponentInChildren<LimbStepUpRay>();
             Vector3 stepUpSize = limbStepUp.GetStepClimb(input, rb);
             if (stepUpSize != Vector3.zero)
@@ -63,17 +72,14 @@ public class LimbMovement : NetworkBehaviour
                 Debug.Log("Stepup size: " + stepUpSize);
                 rb.AddForce(stepUpSize * movementSpeed * Time.deltaTime, ForceMode.Impulse);
             }
-            SpeedControl();
-
-            float angle = (camTransform.rotation.eulerAngles.y + initialRotationY);
-            RotateLimb(angle);
+            SpeedControl();         
         }
     }
 
     [Command]
-    private void RotateLimb(float angle)
+    private void RotateLimb(Quaternion angle)
     {
-        rb.MoveRotation(Quaternion.AngleAxis(angle, Vector3.up));
+        rb.MoveRotation(angle);
     }
 
     private void SpeedControl()

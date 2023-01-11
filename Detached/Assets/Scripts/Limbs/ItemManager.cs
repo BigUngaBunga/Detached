@@ -357,7 +357,6 @@ public class ItemManager : NetworkBehaviour
         if (changedSelectionMode)
         {
             changedSelectionMode = false;
-            //limbsOnGround = GameObject.FindGameObjectsWithTag("Limb");
             if (selectionMode == 0)
             {
                 selectionMode = 1;
@@ -627,6 +626,12 @@ public class ItemManager : NetworkBehaviour
                             rightArmExist = true;
                         }
                     }
+
+                    if (limbsInScene[i].transform.GetChild(0).gameObject.tag == "Head")
+                    {
+                        limbsInScene[i].name = "Head";
+                        limbsInScene[i].transform.GetChild(0).gameObject.name = "Head";
+                    }
                     #endregion 
 
                     limbs.Add(limbsInScene[i]);
@@ -763,6 +768,7 @@ public class ItemManager : NetworkBehaviour
                 //camFocus.parent = SceneObjectScript.transform;
                 TargetRpcUpdateCameraPositionForHeadOnClient(originalOwner.GetComponent<NetworkIdentity>().connectionToClient, SceneObjectScript);
                 ResetHeadPosCam(SceneObjectScript);
+
                 changedSelectionMode = true;
                 characterControlScript.isBeingControlled = false;
                 SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
@@ -828,13 +834,6 @@ public class ItemManager : NetworkBehaviour
     {
         //selectionUI.GetCurrentLimbsOfPlayerTest();
         selectionUI.GetCurrentLimbsOfPlayer(headDetached, NumberOfArms, NumberOfLegs);
-    }
-
-
-    private void UpdateUI(GameObject originalOwner, bool headIsDetached, int arms, int legs)
-    {
-        var itemManager = originalOwner.GetComponent<ItemManager>();
-        itemManager.selectionUI.GetCurrentLimbsOfPlayer(headIsDetached, arms, legs, 0.1f);
     }
 
 
@@ -921,7 +920,7 @@ public class ItemManager : NetworkBehaviour
             if (SelectedLimbToThrow == Limb_enum.Head)
             {
                 characterControlScript.isBeingControlled = false;
-                //changedSelectionMode = true;
+                changedSelectionMode = true;
             }
             
 

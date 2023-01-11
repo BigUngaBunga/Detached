@@ -214,7 +214,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 59354273}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.500003, y: -1.54, z: -11.200001}
+  m_LocalPosition: {x: 2.500003, y: -7.95, z: -15.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 522264663}
@@ -926,6 +926,10 @@ PrefabInstance:
     - target: {fileID: 7752841846949681605, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: prompt
       value: You need all your limbs to continue
+      objectReference: {fileID: 0}
+    - target: {fileID: 7752841846949681605, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
+      propertyPath: PreSpawn
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681606, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_Name
@@ -2051,6 +2055,10 @@ PrefabInstance:
       propertyPath: prompt
       value: I you're not crawling you can run by holding down Shift
       objectReference: {fileID: 0}
+    - target: {fileID: 7752841846949681605, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
+      propertyPath: PreSpawn
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681606, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_Name
       value: Run Hint (1)
@@ -2513,7 +2521,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 928319736}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.1, y: -1.54, z: -11.1}
+  m_LocalPosition: {x: -10.1, y: -7.95, z: -15.379999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1461060611}
@@ -3306,6 +3314,10 @@ PrefabInstance:
       propertyPath: prompt
       value: Press E to interact with highlighted objects
       objectReference: {fileID: 0}
+    - target: {fileID: 7752841846949681605, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
+      propertyPath: PreSpawn
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681606, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_Name
       value: E Hint
@@ -3565,7 +3577,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: e53efc4b49220a84696bdf74a3f17d1b, type: 2}
     - target: {fileID: 8275085830935521169, guid: 9a69d090ca4cbe648820956817a46973, type: 3}
       propertyPath: triggeredSeconds
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 8275085830935521169, guid: 9a69d090ca4cbe648820956817a46973, type: 3}
       propertyPath: activators.Array.size
@@ -3871,6 +3883,10 @@ PrefabInstance:
     - target: {fileID: 7752841846949681605, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: prompt
       value: Press E to interact with highlighted objects
+      objectReference: {fileID: 0}
+    - target: {fileID: 7752841846949681605, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
+      propertyPath: PreSpawn
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681606, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_Name
@@ -4179,6 +4195,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2367115498754968134, guid: 9421692f7ac76904eb194419865de18b, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 139783608}
     - target: {fileID: 2367115498754968134, guid: 9421692f7ac76904eb194419865de18b, type: 3}
       propertyPath: triggers.Array.size
       value: 6
@@ -5149,6 +5169,10 @@ PrefabInstance:
       propertyPath: prompt
       value: I you're not crawling you can run by holding Shift
       objectReference: {fileID: 0}
+    - target: {fileID: 7752841846949681605, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
+      propertyPath: PreSpawn
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681606, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_Name
       value: Run Hint
@@ -5360,6 +5384,10 @@ PrefabInstance:
       propertyPath: prompt
       value: Space to jump, if you have two legs that is
       objectReference: {fileID: 0}
+    - target: {fileID: 7752841846949681605, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
+      propertyPath: PreSpawn
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681606, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_Name
       value: Jump Hint
@@ -5440,7 +5468,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: b64a273a7d79311498b293fccd6671f3, type: 2}
     - target: {fileID: 8275085830935521169, guid: 9a69d090ca4cbe648820956817a46973, type: 3}
       propertyPath: triggeredSeconds
-      value: 3
+      value: 3.25
       objectReference: {fileID: 0}
     - target: {fileID: 8275085830935521169, guid: 9a69d090ca4cbe648820956817a46973, type: 3}
       propertyPath: activators.Array.size
@@ -5818,7 +5846,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: e53efc4b49220a84696bdf74a3f17d1b, type: 2}
     - target: {fileID: 8275085830935521169, guid: 9a69d090ca4cbe648820956817a46973, type: 3}
       propertyPath: triggeredSeconds
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 8275085830935521169, guid: 9a69d090ca4cbe648820956817a46973, type: 3}
       propertyPath: activators.Array.size

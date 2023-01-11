@@ -260,6 +260,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2367115498754968134, guid: 9421692f7ac76904eb194419865de18b, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 592418781}
+    - target: {fileID: 2367115498754968134, guid: 9421692f7ac76904eb194419865de18b, type: 3}
       propertyPath: triggers.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -694,7 +698,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 158611684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.4, y: -8.35, z: 3.250001}
+  m_LocalPosition: {x: -8.94, y: -9.13, z: 3.250001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2137193585}
@@ -1536,6 +1540,10 @@ PrefabInstance:
     - target: {fileID: 1863524657143462084, guid: b0e5304f973140b4e8d78ef866b61608, type: 3}
       propertyPath: m_Name
       value: Wooden Cube 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1863524657143462084, guid: b0e5304f973140b4e8d78ef866b61608, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8462948099885638550, guid: b0e5304f973140b4e8d78ef866b61608, type: 3}
       propertyPath: m_RootOrder
@@ -2519,6 +2527,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wooden Cube 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1863524657143462084, guid: b0e5304f973140b4e8d78ef866b61608, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8462948099885638550, guid: b0e5304f973140b4e8d78ef866b61608, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -2747,6 +2759,10 @@ PrefabInstance:
     - target: {fileID: 1863524657143462084, guid: b0e5304f973140b4e8d78ef866b61608, type: 3}
       propertyPath: m_Name
       value: Wooden Cube 2 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1863524657143462084, guid: b0e5304f973140b4e8d78ef866b61608, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8462948099885638550, guid: b0e5304f973140b4e8d78ef866b61608, type: 3}
       propertyPath: m_RootOrder
@@ -5076,6 +5092,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 26fd517e4c939bd4abfbd60444cff8a9, type: 2}
     - target: {fileID: 8275085830935521169, guid: 9a69d090ca4cbe648820956817a46973, type: 3}
+      propertyPath: triggeredSeconds
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8275085830935521169, guid: 9a69d090ca4cbe648820956817a46973, type: 3}
       propertyPath: activators.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -5124,7 +5144,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1594816977}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.2, y: -8.35, z: 3.15}
+  m_LocalPosition: {x: -0.67, y: -9.13, z: 3.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1213899464}
@@ -5275,6 +5295,10 @@ PrefabInstance:
     - target: {fileID: 1863524657143462084, guid: b0e5304f973140b4e8d78ef866b61608, type: 3}
       propertyPath: m_Name
       value: Wooden Cube 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1863524657143462084, guid: b0e5304f973140b4e8d78ef866b61608, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8462948099885638550, guid: b0e5304f973140b4e8d78ef866b61608, type: 3}
       propertyPath: m_RootOrder
@@ -5692,7 +5716,7 @@ PrefabInstance:
     - target: {fileID: 8975534476755930399, guid: 9701833ac6750eb4486680cae4b40bd4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: f74ae542e224dca41b02ca89fd3f8dfc, type: 2}
+      objectReference: {fileID: 2100000, guid: 575f4c2f33eccf84b8062dc6f55fe407, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9701833ac6750eb4486680cae4b40bd4, type: 3}
 --- !u!4 &1894691058 stripped
@@ -5752,6 +5776,10 @@ PrefabInstance:
     - target: {fileID: 1863524657143462084, guid: b0e5304f973140b4e8d78ef866b61608, type: 3}
       propertyPath: m_Name
       value: Wooden Cube 2 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1863524657143462084, guid: b0e5304f973140b4e8d78ef866b61608, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8462948099885638550, guid: b0e5304f973140b4e8d78ef866b61608, type: 3}
       propertyPath: m_RootOrder
@@ -5968,6 +5996,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 55d752eb8bb58374388609ecbf24fcf1, type: 2}
+    - target: {fileID: 8275085830935521169, guid: 9a69d090ca4cbe648820956817a46973, type: 3}
+      propertyPath: triggeredSeconds
+      value: 3.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8275085830935521169, guid: 9a69d090ca4cbe648820956817a46973, type: 3}
       propertyPath: activators.Array.size
       value: 2
