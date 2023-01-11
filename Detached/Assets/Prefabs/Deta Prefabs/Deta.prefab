@@ -3263,6 +3263,7 @@ GameObject:
   - component: {fileID: -5581231451597419478}
   - component: {fileID: 9186375334813024562}
   - component: {fileID: 7543315300836049833}
+  - component: {fileID: 6968298682816824732}
   m_Layer: 0
   m_Name: Deta
   m_TagString: Player
@@ -3644,6 +3645,21 @@ MonoBehaviour:
   duration: 2
   height: 0
   raySource: {fileID: 0}
+--- !u!114 &6968298682816824732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7076884516967948247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8aaef70f3b6f5b4ca84dd55949c58c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObjects:
+  - {fileID: 7793491428576339395}
+  - {fileID: 4570192177982998204}
 --- !u!1 &7200559197792005935
 GameObject:
   m_ObjectHideFlags: 0
@@ -4884,11 +4900,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2719764314221025741, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -5
+      value: 409
       objectReference: {fileID: 0}
     - target: {fileID: 2719764314221025741, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1
+      value: 217
       objectReference: {fileID: 0}
     - target: {fileID: 3360536426286589368, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
       propertyPath: player
@@ -4995,5 +5011,10 @@ PrefabInstance:
 --- !u!224 &7793491428576339397 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3360536426286589373, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
+  m_PrefabInstance: {fileID: 4794940773303484536}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7793491428576339395 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3360536426286589371, guid: a124e509a4e5ffa4fa31b0b97b6e52f4, type: 3}
   m_PrefabInstance: {fileID: 4794940773303484536}
   m_PrefabAsset: {fileID: 0}
