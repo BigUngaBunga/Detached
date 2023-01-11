@@ -52,9 +52,9 @@ public class DataCollection : MonoBehaviour
         {
             triggerStructArray[i].name = triggers[i].gameObject.GetComponent<Data>().name;
             triggerStructArray[i].activations = triggers[i].gameObject.GetComponent<Data>().Activations;
-            triggerStructArray[i].x = triggers[i].gameObject.GetComponent<Data>().position.x;
-            triggerStructArray[i].y = triggers[i].gameObject.GetComponent<Data>().position.y;
-            triggerStructArray[i].z = triggers[i].gameObject.GetComponent<Data>().position.z;
+            triggerStructArray[i].x = triggers[i].gameObject.GetComponent<Data>().position.x + triggers[i].gameObject.transform.parent.position.x;
+            triggerStructArray[i].y = triggers[i].gameObject.GetComponent<Data>().position.y + triggers[i].gameObject.transform.parent.position.y;
+            triggerStructArray[i].z = triggers[i].gameObject.GetComponent<Data>().position.z + triggers[i].gameObject.transform.parent.position.z;
         }
 
     }

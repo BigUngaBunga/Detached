@@ -313,7 +313,7 @@ public class CharacterControl : NetworkBehaviour
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 
             Transform body = transform.Find("group1");
-            SFXManager.PlayOneShotAttached(SFXManager.JumpSound, VolumeManager.GetSFXVolume(), body.gameObject);
+            OneShotVolume.PlayOneShotAttached(AudioPaths.JumpSound, VolumeManager.GetSFXVolume(), body.gameObject);
             Invoke(nameof(ResetJump), jumpCD); //Hold jump
         }
     }

@@ -293,7 +293,7 @@ public class ItemManager : NetworkBehaviour
             {
                 CmdDropLimb(selectedLimbToThrow, gameObject);
                 Transform body = transform.Find("group1");
-                SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
+                OneShotVolume.PlayOneShotAttached(AudioPaths.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
             }
         }
 
@@ -874,7 +874,7 @@ public class ItemManager : NetworkBehaviour
             //cam when aiming
             camFocus.localPosition = new Vector3(camFocus.localPosition.x + throwCamOffset.x, camFocus.localPosition.y + throwCamOffset.y, camFocus.localPosition.z + throwCamOffset.z);
             interactionChecker.AllowInteraction = false;
-            SFXManager.PlayOneShotAttached(SFXManager.DetachSound, VolumeManager.GetSFXVolume(), transform.gameObject);
+            OneShotVolume.PlayOneShotAttached(AudioPaths.DetachSound, VolumeManager.GetSFXVolume(), transform.gameObject);
 
             float chargeUpSpeed = 0.01f;
             cinemachine.m_YAxis.m_MaxSpeed = chargeUpSpeed;
@@ -925,7 +925,7 @@ public class ItemManager : NetworkBehaviour
             
 
             Transform body = transform.Find("group1");
-            SFXManager.PlayOneShotAttached(SFXManager.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
+            OneShotVolume.PlayOneShotAttached(AudioPaths.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
 
         }
     }
