@@ -118,7 +118,7 @@ public class Animation : NetworkBehaviour
     }
     void PlaySoundOnTrigger()
     {
-        SFXManager.PlayOneShot(SFXManager.WalkSound, VolumeManager.GetSFXVolume(), transform.position);
+        OneShotVolume.PlayOneShot(AudioPaths.WalkSound, VolumeManager.GetSFXVolume(), transform.position);
  
     }
     void timerEnded()
@@ -149,11 +149,16 @@ public class Animation : NetworkBehaviour
         {
             animator.SetTrigger("Facepalm");
             networkAnimator.SetTrigger("Facepalm");
+            if (transform.gameObject.name == "Ched(Clone)") CMDPlayVoiceLine(transform.position, AudioPaths.FacepalmChed);
+            else CMDPlayVoiceLine(transform.position, AudioPaths.FacepalmDeta);
+
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             animator.SetTrigger("Wave");
             networkAnimator.SetTrigger("Wave");
+            if (transform.gameObject.name == "Ched(Clone)") CMDPlayVoiceLine(transform.position, AudioPaths.WaveChed);
+            else CMDPlayVoiceLine(transform.position, AudioPaths.WaveDeta);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
@@ -165,6 +170,18 @@ public class Animation : NetworkBehaviour
             networkAnimator.SetTrigger("Laugh");
             animator.SetTrigger("Laugh");
         }
+    }
+
+    [Command]
+    private void CMDPlayVoiceLine(Vector3 position, string path)
+    {
+        RPCPlayVoiceLine(position, path);
+    }
+
+    [ClientRpc]
+    private void RPCPlayVoiceLine(Vector3 position, string path)
+    {
+        OneShotVolume.PlayOneShot(path, VolumeManager.GetDialogueVolume(), position);
     }
 
     private bool CheckKeys(params KeyCode[] keyCodes)

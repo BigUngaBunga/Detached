@@ -6,26 +6,8 @@ using FMOD.Studio;
 using System;
 using Mirror;
 
-public static class SFXManager
+public static class OneShotVolume
 {
-    public static string WalkSound => "event:/SFX/Walking";
-    public static string AttachSound => "event:/SFX/Attach";
-    public static string DetachSound => "event:/SFX/Detach";
-    public static string JumpSound => "event:/SFX/Jump";
-    public static string PullLeverSound => "event:/SFX/PullLever";
-    public static string PushButtonSound => "event:/SFX/PushButton";
-    public static string PushSmallButtonSound => "event:/SFX/PushSmallButton";
-    public static string ThrowSound => "event:/SFX/Throw";
-    public static string PingSound => "event:/SFX/Ping";
-    public static string ExitButtonSound => "event:/SFX/ExitButton";
-    public static string InsertBatterySound => "event:/SFX/InsertBattery";
-    public static string RemoveBatterySound => "event:/SFX/RemoveBattery";
-
-    //stingers
-    public static string Stinger1 => "event:/SFX/Stinger1";
-    public static string Stinger2 => "event:/SFX/Stinger2";
-    public static string Stinger3 => "event:/SFX/Stinger3";
-
     /// <summary>
     /// Converts the path to a GUID and then calls another method to play the event.
     /// </summary>
@@ -51,7 +33,7 @@ public static class SFXManager
     public static void PlayOneShot(FMOD.GUID guid, float volume, Vector3 position)
     {
         var instance = RuntimeManager.CreateInstance(guid);
-        instance.setVolume(VolumeManager.GetSFXVolume());
+        instance.setVolume(volume);
         instance.set3DAttributes(RuntimeUtils.To3DAttributes(position));
         instance.start();
         instance.release();
@@ -90,7 +72,7 @@ public static class SFXManager
 #else
         RuntimeManager.AttachInstanceToGameObject(instance, gameObject.transform);
 #endif
-        instance.setVolume(VolumeManager.GetSFXVolume());
+        instance.setVolume(volume);
         instance.start();
         instance.release();
     }
