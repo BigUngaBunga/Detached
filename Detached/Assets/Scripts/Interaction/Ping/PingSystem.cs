@@ -67,7 +67,7 @@ public class PingSystem : NetworkBehaviour
     [ClientRpc]
     private void RPCPingDialogue(Vector3 position, string name)
     {
-        if (name == "Ched(Clone)") OneShotVolume.PlayOneShot(AudioPaths.PingChed, VolumeManager.GetSFXVolume(), position);
-        else OneShotVolume.PlayOneShot(AudioPaths.PingDeta, VolumeManager.GetSFXVolume(), position);
+        if (name == "Ched(Clone)") OneShotVolume.PlayOneShot(AudioPaths.PingChed, VolumeManager.GetDialogueVolume(), position);
+        else OneShotVolume.PlayOneShot(AudioPaths.PingDeta, VolumeManager.GetDialogueVolume(), position);
     }
 }

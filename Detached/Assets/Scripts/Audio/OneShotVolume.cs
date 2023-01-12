@@ -33,7 +33,7 @@ public static class OneShotVolume
     public static void PlayOneShot(FMOD.GUID guid, float volume, Vector3 position)
     {
         var instance = RuntimeManager.CreateInstance(guid);
-        instance.setVolume(VolumeManager.GetSFXVolume());
+        instance.setVolume(volume);
         instance.set3DAttributes(RuntimeUtils.To3DAttributes(position));
         instance.start();
         instance.release();
@@ -72,7 +72,7 @@ public static class OneShotVolume
 #else
         RuntimeManager.AttachInstanceToGameObject(instance, gameObject.transform);
 #endif
-        instance.setVolume(VolumeManager.GetSFXVolume());
+        instance.setVolume(volume);
         instance.start();
         instance.release();
     }
