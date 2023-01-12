@@ -24,6 +24,12 @@ public class ActivatedPlatform : Activator
         collider = GetComponent<BoxCollider>();
     }
 
+    protected override void Start()
+    {
+        base.Start();
+        UpdateMaterialOnServer();
+    }
+
     protected override void Activate()
     {
         base.Activate();
@@ -77,7 +83,7 @@ public class ActivatedPlatform : Activator
     }
 
 
-    private void UpdateMaterial(float oldValue, float newValue)
+    protected void UpdateMaterial(float oldValue, float newValue)
     {
         color.a = newValue;
         meshRenderer.material.color = color;
