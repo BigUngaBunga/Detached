@@ -96,7 +96,8 @@ public class DataVisualizer : MonoBehaviour
                 dataList[dataList.Count - 1].triggerStructList[i].y,
                 dataList[dataList.Count - 1].triggerStructList[i].z),
                 Quaternion.identity);
-            textArray[i].GetComponentInChildren<TextMeshPro>().text = dataList[dataList.Count - 1].triggerStructList[i].activations.ToString();
+            textArray[i].GetComponentInChildren<TextMeshPro>().text = Convert.ToString(dataList[dataList.Count - 1].triggerStructList[i].activations);
+            DontDestroyOnLoad(textArray[i]);
 
         }
     }
@@ -148,7 +149,7 @@ public class DataVisualizer : MonoBehaviour
                 {
                     if (count < 255) // skipping last loop to not overflow and reset array.
                     {
-                        float weight = (weightArray[i, j] / max) * 8.0f;
+                        float weight = (weightArray[i, j] / max) * 5.0f;
                         //Debug.Log("Hit Texture coordinates" + hit.textureCoord.x + "," + hit.textureCoord.y + "," + weight);
                         Target.AddHitPoint(hit.textureCoord.x * 4 - 2, hit.textureCoord.y * 4 - 2, weight);
                     }

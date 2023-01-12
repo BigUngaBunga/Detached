@@ -66,12 +66,12 @@ public class BigButtonTrigger : Trigger, IInteractable
 
     protected override void PlaySoundOnTrigger()
     {
-        SFXManager.PlayOneShot(SFXManager.PushButtonSound, VolumeManager.GetSFXVolume(), transform.position);
+        OneShotVolume.PlayOneShot(AudioPaths.PushButtonSound, VolumeManager.GetSFXVolume(), transform.position);
     }
 
     protected override void PlaySoundOnStopTrigger()
     {
-        SFXManager.PlayOneShot(SFXManager.PushButtonSound, VolumeManager.GetSFXVolume(), transform.position);
+        OneShotVolume.PlayOneShot(AudioPaths.PushButtonSound, VolumeManager.GetSFXVolume(), transform.position);
     }
 
     public void OnTriggerExit(Collider other)

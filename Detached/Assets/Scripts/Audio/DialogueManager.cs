@@ -9,6 +9,7 @@ using Debug = UnityEngine.Debug;
 
 public class DialogueManager : MonoBehaviour
 {
+
     enum RequiredPlayers { None, One, Both };
     enum SayingLine { Deta, Ched, Other };
 

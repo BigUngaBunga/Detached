@@ -4,6 +4,7 @@ using Mirror.Examples.AdditiveLevels;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PingSystem : NetworkBehaviour
 {
@@ -23,13 +24,17 @@ public class PingSystem : NetworkBehaviour
 
     void PlaySoundOnTrigger(Vector3 position)
     {
-        SFXManager.PlayOneShot(SFXManager.PingSound, VolumeManager.GetSFXVolume(), position);
+        OneShotVolume.PlayOneShot(AudioPaths.PingSound, VolumeManager.GetSFXVolume(), position);
     }
 
     void Update()
     {
         if (isLocalPlayer && Input.GetMouseButtonDown(0) && !Input.GetMouseButton(1))
+        {
             Ping(raySource.position, raySource.forward);
+            CMDPingDialogue(transform.position, transform.gameObject.name);
+        }
+
     }
 
     [Command]
@@ -50,5 +55,19 @@ public class PingSystem : NetworkBehaviour
         ping.transform.position = position;
         ping.GetComponent<PingPoint>().RemoveAfterDuration(duration);
         PlaySoundOnTrigger(position);
+    }
+
+    [Command]
+    private void CMDPingDialogue(Vector3 position, string name)
+    {
+
+        RPCPingDialogue(position, name);
+    }
+
+    [ClientRpc]
+    private void RPCPingDialogue(Vector3 position, string name)
+    {
+        if (name == "Ched(Clone)") OneShotVolume.PlayOneShot(AudioPaths.PingChed, VolumeManager.GetDialogueVolume(), position);
+        else OneShotVolume.PlayOneShot(AudioPaths.PingDeta, VolumeManager.GetDialogueVolume(), position);
     }
 }

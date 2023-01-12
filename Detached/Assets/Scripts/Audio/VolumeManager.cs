@@ -32,17 +32,17 @@ public class VolumeManager : MonoBehaviour
     }
     public static void SetSFXVolume(float value)
     {
-        SFXVolume= value;
+        SFXVolume = value;
         Debug.Log("SFX volume: " + SFXVolume);
     }
     public static void SetDialogueVolume(float value)
     {
-        DialogueVolume= value;
+        DialogueVolume = value;
         Debug.Log("Dialogue volume: " + DialogueVolume);
     }
     public static void SetMusicVolume(float value)
     {
-        MusicVolume= value;
+        MusicVolume = value;
         Debug.Log("Music volume: " + MusicVolume);
     }
 }
