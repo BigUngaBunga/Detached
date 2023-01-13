@@ -22,6 +22,17 @@ public class QuadScript : MonoBehaviour
 
         points = new float[256 * 3]; // x,y,intensity values
     }
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            transform.position -= new Vector3(0, 0.1f, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            transform.position -= new Vector3(0, -0.1f, 0);
+        }
+    }
 
     public void AddHitPoint(float xp, float yp, float instensity)
     {
