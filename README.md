@@ -12,7 +12,7 @@
 
 6. Then you both ready up and start the game.
 
-(How to add game to steam: https://www.tomshardware.com/how-to/play-non-steam-games-on-steam)
+(How to add game to steam: look at pdf in this repository called Add_to_steam.pdf)
 
 ############USING DATA COLLECTION TOOL############
 
