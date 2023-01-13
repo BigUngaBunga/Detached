@@ -99,6 +99,8 @@ public class DataVisualizer : MonoBehaviour
             textArray[i].GetComponentInChildren<TextMeshPro>().text = Convert.ToString(dataList[dataList.Count - 1].triggerStructList[i].activations);
             DontDestroyOnLoad(textArray[i]);
 
+            textArray[i].GetComponent<MoveToTrigger>().triggerName = dataList[dataList.Count - 1].triggerStructList[i].name;
+
         }
     }
 
@@ -179,7 +181,7 @@ public class DataVisualizer : MonoBehaviour
                 TriggerActivationStruct trigger = new TriggerActivationStruct();
                 trigger.name = data[i];
                 trigger.activations = int.Parse(data[i + 1]);
-                trigger.x = ReadFloat(data[i + 2]);
+                trigger.x = -ReadFloat(data[i + 2]);
                 trigger.y = ReadFloat(data[i + 3]);
                 trigger.z = ReadFloat(data[i + 4]);
                 dataStruct.triggerStructList.Add(trigger);
