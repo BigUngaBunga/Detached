@@ -24,13 +24,13 @@ public class QuadScript : MonoBehaviour
     }
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.O))
         {
-            transform.position -= new Vector3(0, 0.1f, 0);
+            transform.position += new Vector3(0, 0.1f, 0);
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            transform.position -= new Vector3(0, -0.1f, 0);
+            transform.position += new Vector3(0, -0.1f, 0);
         }
     }
 
