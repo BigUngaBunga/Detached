@@ -87,7 +87,7 @@ public class DataCollection : MonoBehaviour
         string triggerValues = "";
         foreach (TriggerStruct trigger in triggerStructArray)
         {
-            triggerValues += trigger.name + ";" + trigger.activations.ToString() + ";" + trigger.z + ";" + trigger.y + ";" + trigger.z + ";";
+            triggerValues += trigger.name + ";" + trigger.activations.ToString() + ";" + trigger.x + ";" + trigger.y + ";" + trigger.z + ";";
         }
         output = level + ";" + gameVersion + ";" + time + ";" + triggerValues + playerPosition.x.ToString() + ";" + playerPosition.y.ToString() + ";" + playerPosition.z.ToString();
         writer.WriteLine(output);

@@ -93,13 +93,12 @@ public class DataVisualizer : MonoBehaviour
         for (int i = 0; i < textArray.Length; i++)
         {
             textArray[i] = Instantiate(textPrefab, new Vector3(dataList[dataList.Count - 1].triggerStructList[i].x,
-                dataList[dataList.Count - 1].triggerStructList[i].y,
+                dataList[dataList.Count - 1].triggerStructList[i].y + 6f,
                 dataList[dataList.Count - 1].triggerStructList[i].z),
                 Quaternion.identity);
             textArray[i].GetComponentInChildren<TextMeshPro>().text = Convert.ToString(dataList[dataList.Count - 1].triggerStructList[i].activations);
+            textArray[i].GetComponentInChildren<TextMeshPro>().fontSize = 32;
             DontDestroyOnLoad(textArray[i]);
-
-            textArray[i].GetComponent<MoveToTrigger>().triggerName = dataList[dataList.Count - 1].triggerStructList[i].name;
 
         }
     }
@@ -181,7 +180,7 @@ public class DataVisualizer : MonoBehaviour
                 TriggerActivationStruct trigger = new TriggerActivationStruct();
                 trigger.name = data[i];
                 trigger.activations = int.Parse(data[i + 1]);
-                trigger.x = -ReadFloat(data[i + 2]);
+                trigger.x = ReadFloat(data[i + 2]);
                 trigger.y = ReadFloat(data[i + 3]);
                 trigger.z = ReadFloat(data[i + 4]);
                 dataStruct.triggerStructList.Add(trigger);
