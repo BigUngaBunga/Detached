@@ -1,4 +1,5 @@
-############RUNNING THE GAME############
+RUNNING THE GAME
+================
 
 1. In order to run and play the game detached you need to add the game to you steam library.
 
@@ -14,7 +15,8 @@
 
 (How to add game to steam: look at pdf in this repository called Add_to_steam.pdf)
 
-############USING DATA COLLECTION TOOL############
+USING DATA COLLECTION TOOL
+==========================
 
 1. Collect data by playing the game, that data will be saved in the appropriate folder "DebugTool"
 
