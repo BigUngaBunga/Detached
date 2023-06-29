@@ -9,8 +9,9 @@ public class InteractionChecker : NetworkBehaviour
 
     [SerializeField] private float interactionDistance;
     [SerializeField] private GameObject player;
-    [SerializeField] private int targetLayer = 15;
+    [SerializeField] private LayerMask targetLayers;
     [SerializeField] private Transform sourceTransform;
+    private int interactableLayer;
     private bool interacting = false;
     private InteractableManager interactableManager;
 
@@ -37,15 +38,10 @@ public class InteractionChecker : NetworkBehaviour
         allowInteraction = true;
     }
 
-    private bool ray1Hit, ray2Hit;
-
-    [Header("Debug values")]
-    [Range(-1f, 0f)]
-    [SerializeField] private float debugRayAngle = -0.2f;
-    [SerializeField] private bool useDebugRay = false;
-
     private void Start()
     {
+        targetLayers = LayerMask.GetMask("Interactable", "Default", "Ground");
+        interactableLayer = LayerMask.NameToLayer("Interactable");
         NetworkClient.localPlayer.TryGetComponent(out interactableManager);
         player = interactableManager.gameObject;
         sourceTransform = transform;
@@ -63,24 +59,18 @@ public class InteractionChecker : NetworkBehaviour
     {
         if (!allowInteraction)
             return;
-        ray1Hit = ray2Hit = false;
-        var hits = Physics.RaycastAll(sourceTransform.position, transform.forward, interactionDistance);
-        GameObject closestHit = GetClosestHit(hits);
-        ray1Hit = EvaluateHit(closestHit);
-        previousObject = closestHit;
-        Debug.DrawRay(sourceTransform.position, transform.forward * interactionDistance, Color.yellow);
-
-        //DEBUG
-        if (useDebugRay)
+        bool hit = Physics.Raycast(sourceTransform.position, transform.forward, out RaycastHit raycastHit, interactionDistance, targetLayers, QueryTriggerInteraction.Ignore);
+        if (!hit || !IsValidObject(raycastHit.transform.gameObject))
         {
-            Vector3 debugDirection = (transform.forward + transform.up * debugRayAngle).normalized;
-            hits = Physics.RaycastAll(transform.position, debugDirection, interactionDistance);
-            ray2Hit = EvaluateHit(GetClosestHit(hits));
-            Debug.DrawRay(transform.position, debugDirection * interactionDistance, Color.yellow);
-        }
-
-        if (!ray1Hit && !ray2Hit)
             AttemptDropItem();
+            return;
+        }
+        
+        PerformHit(raycastHit.transform.gameObject);
+        latestHit = raycastHit;
+        previousObject = raycastHit.transform.gameObject;
+        
+        Debug.DrawRay(sourceTransform.position, transform.forward * interactionDistance, Color.yellow); 
     }
 
     private bool CanInteractWith(GameObject hitObject)
@@ -139,38 +129,14 @@ public class InteractionChecker : NetworkBehaviour
         }           
     }
 
-    private bool EvaluateHit(GameObject hitObejct)
+    private bool IsValidObject(GameObject hitObject)
     {
-        if (hitObejct != null && hitObejct.layer == targetLayer && CanInteractWith(hitObejct))
-        {
-            HighlightObject(hitObejct);
-            AttemptInteraction(hitObejct);
-            return true;
-        }
-        return false;
+        return hitObject != null && hitObject.layer == interactableLayer && CanInteractWith(hitObject);
     }
 
-    private GameObject GetClosestHit(RaycastHit[] hits)
+    private void PerformHit(GameObject hitObject)
     {
-        float bestDistance = float.MaxValue;
-        int bestIndex = -1;
-        for (int i = 0; i < hits.Length; i++)
-        {
-            if (hits[i].collider == null || hits[i].collider.isTrigger)
-                continue;
-            float distance = Vector3.Distance(sourceTransform.position, hits[i].point);
-            if (distance < bestDistance)
-            {
-                bestDistance = distance;
-                bestIndex = i;
-            }
-        }
-        if (bestIndex != -1)
-        {
-            latestHit = hits[bestIndex];
-            return hits[bestIndex].transform.gameObject;
-        }
-        else
-            return null;
+        HighlightObject(hitObject);
+        AttemptInteraction(hitObject);
     }
 }
