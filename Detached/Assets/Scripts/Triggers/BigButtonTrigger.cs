@@ -108,6 +108,9 @@ public class BigButtonTrigger : Trigger, IInteractable
         {
             bool canPlace = activatingObject.GetComponent<InteractableManager>().IsCarryingTag("Box");
             bool canPickUp = HasBox && boxInteractable.CanInteract(activatingObject);
+            
+            if (useLimiter)
+                return limiter.ContainsObject(activatingObject) && canPlace || canPickUp;
             return canPlace || canPickUp;
         }
         return false;

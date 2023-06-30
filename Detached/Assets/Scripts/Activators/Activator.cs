@@ -7,7 +7,6 @@ public class Activator : NetworkBehaviour
 
     [Header("Default fields")]
     [SerializeField] protected ActivationRequirement activationRequirement;
-    //[SerializeField] private bool isActivated = false;
 
     [SyncVar][SerializeField] protected bool isActivated = false;
 

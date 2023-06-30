@@ -63,13 +63,14 @@ public class InteractionChecker : NetworkBehaviour
         if (!hit || !IsValidObject(raycastHit.transform.gameObject))
         {
             AttemptDropItem();
+            previousObject = null;
             return;
         }
         
         PerformHit(raycastHit.transform.gameObject);
         latestHit = raycastHit;
         previousObject = raycastHit.transform.gameObject;
-        
+
         Debug.DrawRay(sourceTransform.position, transform.forward * interactionDistance, Color.yellow); 
     }
 
@@ -103,36 +104,32 @@ public class InteractionChecker : NetworkBehaviour
 
     private void AttemptInteraction(GameObject hitObject)
     {
+        if (!interacting)
+            return;
+        interacting = false;
+
         if (player == null)
             player = NetworkClient.localPlayer.gameObject;
 
-        if (interacting)
+        if (hitObject.CompareTag("Limb"))
         {
-            if (hitObject.CompareTag("Limb"))
-            {
-                Debug.Log("Hit limb");
-                hitObject.GetComponent<SceneObjectItemManager>().TryPickUp();
-            }
-            else
-                objectInteractable.Interact(player);
-                
-            interacting = false;
+            Debug.Log("Hit limb");
+            hitObject.GetComponent<SceneObjectItemManager>().TryPickUp();
         }
+        else
+            objectInteractable.Interact(player);
     }
 
     private void AttemptDropItem()
     {
-        if (interacting && interactableManager.IsCarryingItem)
+        if (interactableManager.IsCarryingItem && interacting)
         {
             interactableManager.AttemptDropItem();
             interacting = false;
-        }           
+        }
     }
 
-    private bool IsValidObject(GameObject hitObject)
-    {
-        return hitObject != null && hitObject.layer == interactableLayer && CanInteractWith(hitObject);
-    }
+    private bool IsValidObject(GameObject hitObject) => hitObject != null && hitObject.layer == interactableLayer && CanInteractWith(hitObject);
 
     private void PerformHit(GameObject hitObject)
     {

@@ -56,6 +56,9 @@ public class BatterySocketTrigger : Trigger, IInteractable
             var interactableManager = activatingObject.GetComponent<InteractableManager>();
             bool canPlaceBattery = !IsTriggered && interactableManager.IsCarryingTag("Battery");
             bool canPickUpBattery = IsTriggered && interactableManager.CanPickUpItem(battery);
+
+            if (useLimiter)
+                return limiter.ContainsObject(activatingObject) && (canPlaceBattery || canPickUpBattery);
             return canPlaceBattery || canPickUpBattery;
         }
         return false;

@@ -16,12 +16,23 @@ public class MagnetController : NetworkBehaviour, IInteractable
     private Transform MagnetHead => magnetHead.transform;
     private Vector3 initialRotation = new Vector3(90, 180);
 
+    private InteractionLimiter limiter;
+    private bool useLimiter = false;
+
     [Command (requiresAuthority = false)]
     private void HookIsPlayerPresent(bool oldValue, bool newValue) => isPlayerPresent = newValue;
     [Command(requiresAuthority = false)]
     private void HookControllingPLayer(GameObject oldValue, GameObject newValue) => controllingPlayer = newValue;
     [Command(requiresAuthority = false)]
     private void SetMagnetRotation(Vector3 angles) => MagnetHead.eulerAngles = angles;
+
+
+
+    private void Start()
+    {
+        limiter = GetComponentInChildren<InteractionLimiter>();
+        useLimiter = limiter != null;
+    }
 
     public void Update()
     {
@@ -81,7 +92,11 @@ public class MagnetController : NetworkBehaviour, IInteractable
     public bool CanInteract(GameObject activatingObject)
     {
         if (activatingObject.CompareTag("Player"))
+        {
+            if (useLimiter)
+                return limiter.ContainsObject(activatingObject) && !isPlayerPresent && activatingObject.GetComponent<ItemManager>().NumberOfArms >= 1;
             return !isPlayerPresent && activatingObject.GetComponent<ItemManager>().NumberOfArms >= 1;
+        }
         return false;
     }
 }
