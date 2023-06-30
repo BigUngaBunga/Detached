@@ -47,6 +47,12 @@ public class ItemManager : NetworkBehaviour
 
     //BooleanForColorOnLimbs
 
+    [Header("Particles FX")]
+    [SerializeField] public Transform particlesPos;
+    [SerializeField] public Transform test;
+
+    [SerializeField] public ParticleSystem detachFX;
+
 
     public List<GameObject> limbs = new List<GameObject>();
     public List<GameObject> limbsOnGround;
@@ -750,6 +756,12 @@ public class ItemManager : NetworkBehaviour
         };
     }
 
+    private void ParticlePosSpawn(Transform spawnPos)
+    {
+        particlesPos.position = spawnPos.position;
+        detachFX.Play();
+    }
+
     [Server]
     GameObject CmdThrowDropLimb(Limb_enum limb, Vector3 throwpoint, GameObject originalOwner, bool isThrowing)
     {
@@ -772,6 +784,7 @@ public class ItemManager : NetworkBehaviour
                 changedSelectionMode = true;
                 characterControlScript.isBeingControlled = false;
                 SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+                ParticlePosSpawn(headParent);
                 break;
 
             case Limb_enum.Arm:
@@ -783,6 +796,7 @@ public class ItemManager : NetworkBehaviour
 
                     // camFocus.parent = SceneObjectScript.transform;
                     /*  SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;*/
+                    ParticlePosSpawn(leftArmParent);
                 }
                 else if(isThrowing || rightArmDetached)
                 {
@@ -793,6 +807,7 @@ public class ItemManager : NetworkBehaviour
                     newSceneObject = Instantiate(wrapperSceneObject, throwpoint, rightArmParent.transform.rotation);
                     DropGenericLimb(newSceneObject, limb, originalOwner, rightArmIsDeta);
                     rightArmDetached = true;
+                    ParticlePosSpawn(rightArmParent);
                 }
                 break;
             case Limb_enum.Leg:
@@ -801,12 +816,15 @@ public class ItemManager : NetworkBehaviour
                     newSceneObject = Instantiate(wrapperSceneObject, throwpoint, leftLegParent.transform.rotation);
                     DropGenericLimb(newSceneObject, limb, originalOwner, leftLegIsDeta);
                     leftLegDetached = true;
+                    ParticlePosSpawn(leftLegParent);
                 }
                 else if (!rightLegDetached)
                 {
                     newSceneObject = Instantiate(wrapperSceneObject, throwpoint, rightLegParent.transform.rotation);
                     DropGenericLimb(newSceneObject, limb, originalOwner, rightLegIsDeta);
                     rightLegDetached = true;
+                    ParticlePosSpawn(rightLegParent);
+
                 }
                 else
                 {
