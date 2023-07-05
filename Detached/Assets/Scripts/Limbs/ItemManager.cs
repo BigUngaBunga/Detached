@@ -47,6 +47,10 @@ public class ItemManager : NetworkBehaviour
 
     //BooleanForColorOnLimbs
 
+    [Header("Particles FX")]
+    [SerializeField] public Transform particlesPos;
+    [SerializeField] public ParticleSystem detachFX;
+
 
     public List<GameObject> limbs = new List<GameObject>();
     public List<GameObject> limbsOnGround;
@@ -316,6 +320,54 @@ public class ItemManager : NetworkBehaviour
         if (!rightArmDetached)
             rightArmExist = false;
         #endregion
+    }
+
+    private Vector3 DropPointCal(float x, float y, float z,Transform dropPos)
+    {
+        Transform dropPoint = throwPoint;
+        Vector3 dropOffset;
+
+        dropOffset = new Vector3(x,y,z);
+        dropPoint.position = dropPos.position;
+        dropPoint.Translate(dropOffset);
+
+        return dropPoint.position;
+    }
+    private Vector3 LimbDropPoint(Limb_enum limb)
+    {
+        Vector3 dropPoint = Vector3.zero;
+    
+
+        switch (limb)
+        {
+            case Limb_enum.Head:
+                dropPoint= DropPointCal(0, 0, 0.3f, headParent);
+                break;
+            case Limb_enum.Arm:
+                if (!leftArmDetached)
+                {
+                    dropPoint = DropPointCal(-1f, 0, 0, leftArmParent);
+                }
+                else
+                {
+                    dropPoint = DropPointCal(1f, 0, 0, rightArmParent);  
+                }
+                break;
+            case Limb_enum.Leg:
+                if (!leftLegDetached)
+                {
+                    dropPoint = DropPointCal(-0.5f, 0, 0.6f, leftLegParent);
+                }
+                else
+                {
+                    dropPoint = DropPointCal(0.5f, 0, 0.6f, rightLegParent);
+                }
+                break;
+            default:
+                break;
+        }
+
+        return dropPoint;
     }
 
     private void HandleScrollWheelInput()
@@ -698,7 +750,7 @@ public class ItemManager : NetworkBehaviour
     [Command]
     void CmdDropLimb(Limb_enum limb, GameObject originalOwner)
     {
-        CmdThrowDropLimb(limb, throwPoint.position, originalOwner, false);
+        CmdThrowDropLimb(limb, LimbDropPoint(limb), originalOwner, false);
     }
 
     [Command]
@@ -750,14 +802,20 @@ public class ItemManager : NetworkBehaviour
         };
     }
 
+    private void ParticlePosSpawn(Transform spawnPos)
+    {
+        particlesPos.position = spawnPos.position;
+        detachFX.Play();
+    }
+
     [Server]
-    GameObject CmdThrowDropLimb(Limb_enum limb, Vector3 throwpoint, GameObject originalOwner, bool isThrowing)
+    GameObject CmdThrowDropLimb(Limb_enum limb, Vector3 spawnPoint, GameObject originalOwner, bool isThrowing)
     {
         GameObject newSceneObject = null;
         switch (limb)
         {
             case Limb_enum.Head:
-                newSceneObject = Instantiate(wrapperSceneObject, throwpoint, headPrefab.transform.rotation);
+                newSceneObject = Instantiate(wrapperSceneObject, spawnPoint, headPrefab.transform.rotation);
                 var SceneObjectScript = newSceneObject.GetComponent<SceneObjectItemManager>();
                 SceneObjectScript.thisLimb = limb;  //This must come before detached = true and networkServer.spawn
                 SceneObjectScript.originalOwner = originalOwner;
@@ -772,41 +830,48 @@ public class ItemManager : NetworkBehaviour
                 changedSelectionMode = true;
                 characterControlScript.isBeingControlled = false;
                 SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+                ParticlePosSpawn(headParent);
                 break;
 
             case Limb_enum.Arm:
                 if (!leftArmDetached)
                 {
-                    newSceneObject = Instantiate(wrapperSceneObject, throwpoint, leftArmParent.transform.rotation);
+                    newSceneObject = Instantiate(wrapperSceneObject, spawnPoint, leftArmParent.transform.rotation);
                     DropGenericLimb(newSceneObject, limb, originalOwner, leftArmIsDeta);
                     leftArmDetached = true;
 
                     // camFocus.parent = SceneObjectScript.transform;
                     /*  SceneObjectScript.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;*/
+                    ParticlePosSpawn(leftArmParent);
                 }
-                else if(isThrowing || rightArmDetached)
+                else if (isThrowing || rightArmDetached)
                 {
                     Debug.Log("No arm to detach");
                 }
                 else
                 {
-                    newSceneObject = Instantiate(wrapperSceneObject, throwpoint, rightArmParent.transform.rotation);
+                    newSceneObject = Instantiate(wrapperSceneObject, spawnPoint, rightArmParent.transform.rotation);
+                    
                     DropGenericLimb(newSceneObject, limb, originalOwner, rightArmIsDeta);
                     rightArmDetached = true;
+                    ParticlePosSpawn(rightArmParent);
                 }
                 break;
             case Limb_enum.Leg:
                 if (!leftLegDetached)
                 {
-                    newSceneObject = Instantiate(wrapperSceneObject, throwpoint, leftLegParent.transform.rotation);
+                    newSceneObject = Instantiate(wrapperSceneObject, spawnPoint, leftLegParent.transform.rotation);
                     DropGenericLimb(newSceneObject, limb, originalOwner, leftLegIsDeta);
                     leftLegDetached = true;
+                    ParticlePosSpawn(leftLegParent);
                 }
                 else if (!rightLegDetached)
                 {
-                    newSceneObject = Instantiate(wrapperSceneObject, throwpoint, rightLegParent.transform.rotation);
+                    newSceneObject = Instantiate(wrapperSceneObject, spawnPoint, rightLegParent.transform.rotation);
                     DropGenericLimb(newSceneObject, limb, originalOwner, rightLegIsDeta);
                     rightLegDetached = true;
+                    ParticlePosSpawn(rightLegParent);
+
                 }
                 else
                 {
@@ -904,7 +969,7 @@ public class ItemManager : NetworkBehaviour
         {
             Debug.Log("Pressed mouse 0");
             dragging = false;
-            readyToThrow=false;
+            readyToThrow = false;
             DrawTrajectory.instance.HideLine();
             indicator.SetActive(false);
             // mouseReleasePos = Input.mousePosition;
@@ -922,7 +987,7 @@ public class ItemManager : NetworkBehaviour
                 characterControlScript.isBeingControlled = false;
                 changedSelectionMode = true;
             }
-            
+
 
             Transform body = transform.Find("group1");
             OneShotVolume.PlayOneShotAttached(AudioPaths.ThrowSound, VolumeManager.GetSFXVolume(), body.gameObject);
