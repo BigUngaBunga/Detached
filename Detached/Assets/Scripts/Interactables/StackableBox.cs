@@ -9,7 +9,12 @@ using UnityEngine;
 
 public class StackableBox : Carryable
 {
-    [SerializeField]private Transform stackingTransform;
+    //DEBUG
+    [SerializeField] private Vector3 positionDifferenceVector;
+    [SerializeField] private Vector3 offsetVector = Vector3.zero;
+    //DEBUG
+
+    [SerializeField] private Transform stackingTransform;
     [SyncVar] private Vector3 stackingPosition;
     [SyncVar] private Quaternion stackingRotation;
     [SyncVar] private StackableBox boxAbove;
@@ -18,8 +23,7 @@ public class StackableBox : Carryable
     private bool HasBoxAbove => boxAbove != null;
     private HighlightObject highlighter;
     
-    [SerializeField]
-    private float offsetFactor = 1f;
+    [SerializeField] private float offsetFactor = 1f;
     private float offset;
 
     private bool isKinematic;
@@ -115,9 +119,13 @@ public class StackableBox : Carryable
         Vector3 lookingAt = InteractionChecker.latestHit.point;
         Vector3 positionDifference = transform.position - lookingAt;
         positionDifference *= offsetFactor;
-
+        positionDifference = Quaternion.Euler(-transform.rotation.eulerAngles) * positionDifference;
         int xOffset = Mathf.Clamp((int)(positionDifference.x), -1, 1);
         int zOffset = Mathf.Clamp((int)(positionDifference.z), -1, 1);
+
+        positionDifferenceVector = positionDifference;
+        offsetVector.x = xOffset;
+        offsetVector.z = zOffset;
 
         Vector3 localPosition = new Vector3(offset * xOffset, stackingTransform.localPosition.y, offset * zOffset);
         stackingTransform.localPosition = localPosition;

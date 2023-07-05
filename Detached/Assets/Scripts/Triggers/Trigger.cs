@@ -10,8 +10,14 @@ public abstract class Trigger : NetworkBehaviour
     [SyncVar] [SerializeField] private bool isTriggered;
     private Data data;
 
+    protected InteractionLimiter limiter;
+    protected bool useLimiter = false;
+
     protected virtual void Start()
     {
+        limiter = GetComponentInChildren<InteractionLimiter>();
+        useLimiter = limiter != null;
+
         data = GetComponent<Data>();
         Debug.Log("Activations " + data.Activations);
     }

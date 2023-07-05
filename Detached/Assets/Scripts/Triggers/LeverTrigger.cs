@@ -1,10 +1,5 @@
 using Mirror;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEditor;
-using FMODUnity;
 
 public class LeverTrigger : Trigger, IInteractable
 {
@@ -12,8 +7,8 @@ public class LeverTrigger : Trigger, IInteractable
 
     [SerializeField] private GameObject triggeredLever;
     [SerializeField] private GameObject normalLever;
-    private HighlightObject highlight;
 
+    private HighlightObject highlight;
     private bool isOnCooldown = false;
 
     protected override void PlaySoundOnTrigger()
@@ -32,6 +27,7 @@ public class LeverTrigger : Trigger, IInteractable
         normalLever = transform.Find("InactiveLever").gameObject;
         triggeredLever = transform.Find("TriggeredLever").gameObject;
         highlight = GetComponent<HighlightObject>();
+
         UpdateLeverRPC();
     }
     
@@ -40,7 +36,6 @@ public class LeverTrigger : Trigger, IInteractable
 
     private void SetRecursiveActivation(bool isActive, GameObject gameObject)
     {
-        //Debug.Log("Setting object to " + (isActive ? "active" : "inactive"));
         int children = gameObject.transform.childCount;
         for (int i = 0; i < children; i++)
             SetRecursiveActivation(isActive, gameObject.transform.GetChild(i).gameObject);
@@ -74,5 +69,10 @@ public class LeverTrigger : Trigger, IInteractable
         }
     }
 
-    public bool CanInteract(GameObject activatingObject) => HasEnoughArms(activatingObject, requiredArms) && !isOnCooldown;
+    public bool CanInteract(GameObject activatingObject)
+    {
+        if (useLimiter)
+            return limiter.ContainsObject(activatingObject) && HasEnoughArms(activatingObject, requiredArms) && !isOnCooldown;
+        return HasEnoughArms(activatingObject, requiredArms) && !isOnCooldown;
+    }
 }

@@ -13,7 +13,13 @@ public class SmallButtonTrigger : Trigger, IInteractable
     private Vector3 heightDifference => new Vector3(0, pushedHeight, 0);
 
 
-    public bool CanInteract(GameObject activatingObject) => !IsTriggered && HasEnoughArms(activatingObject, requiredArms);
+    public bool CanInteract(GameObject activatingObject)
+    {
+        if (useLimiter)
+            return limiter.ContainsObject(activatingObject) && !IsTriggered && HasEnoughArms(activatingObject, requiredArms);
+        return !IsTriggered && HasEnoughArms(activatingObject, requiredArms);
+
+    }
     
     public void Interact(GameObject activatingObject)
     {
