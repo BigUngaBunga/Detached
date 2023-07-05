@@ -41,6 +41,7 @@ public class LimbMovement : NetworkBehaviour
             if (limbStepUp != null)
                 limbStepUp.IncreasePlayerTwoRay();
         }
+        
     }
 
     void FixedUpdate()
