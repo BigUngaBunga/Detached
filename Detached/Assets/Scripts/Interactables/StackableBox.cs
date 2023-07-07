@@ -80,6 +80,10 @@ public class StackableBox : Carryable
         ShowPlacement = stack;
         if (ShowPlacement)
             UpdateStackingPosition();
+        if (true)
+        {
+
+        }
         return (pickUp || stack) && !HasBoxAbove;
     }
 

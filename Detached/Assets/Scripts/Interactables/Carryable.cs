@@ -10,20 +10,31 @@ public class Carryable : NetworkBehaviour, IInteractable
     [SerializeField] protected int requiredArms = 1;
     [SerializeField] protected Transform positionTarget;
     [SyncVar] protected bool isHeld;
+    [SyncVar] protected bool useLimiter;
     private Collider[] colliders;
     protected new Rigidbody rigidbody;
-    public UnityEvent destroyEvent = new UnityEvent();
+    protected InteractionLimiter limiter;
 
+    public UnityEvent destroyEvent = new UnityEvent();
     public int RequiredArms { get { return requiredArms; } }
     public virtual void Interact(GameObject activatingObject)
     {
         activatingObject.GetComponent<InteractableManager>().AttemptPickUpItem(gameObject);
+        if (useLimiter)
+        {
+            limiter.gameObject.SetActive(false);
+            useLimiter= false;
+        }
+        
     }
 
     protected virtual void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
         colliders = GetComponents<Collider>();
+
+        limiter = GetComponentInChildren<InteractionLimiter>();
+        useLimiter = limiter != null;
     }
 
     public void PickUp(Transform positionTarget)
@@ -58,7 +69,11 @@ public class Carryable : NetworkBehaviour, IInteractable
     public virtual bool CanInteract(GameObject activatingObject)
     {
         if (activatingObject.CompareTag("Player"))
+        {
+            if (useLimiter)
+                return limiter.ContainsObject(activatingObject) && !isHeld && activatingObject.GetComponent<InteractableManager>().CanPickUpItem(gameObject);
             return !isHeld && activatingObject.GetComponent<InteractableManager>().CanPickUpItem(gameObject);
+        }
         return false;
     }
     public void FixedUpdate() 

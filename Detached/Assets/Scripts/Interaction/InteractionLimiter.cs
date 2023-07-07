@@ -1,12 +1,10 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using UnityEngine;
 
 public class InteractionLimiter : MonoBehaviour
 {
     [SerializeField] private List<GameObject> interactors = new List<GameObject>();
+    public bool ContainsObject(GameObject gameObject) => interactors.Contains(gameObject);
 
     private void OnTriggerEnter(Collider other)
     {
@@ -58,5 +56,4 @@ public class InteractionLimiter : MonoBehaviour
             interactors.Remove(gameObject);
     }
 
-    public bool ContainsObject(GameObject gameObject) => interactors.Contains(gameObject);
 }
