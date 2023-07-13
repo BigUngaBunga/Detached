@@ -35,6 +35,7 @@ public class MovingPlatformActivator : Activator
         Transform.position = track.GetStartPosition();
         initialRotation = Quaternion.Euler(train.transform.localEulerAngles);
         Train.rotation = Quaternion.LookRotation(GetDirectionTo(track.PeekNextNode(false).Position)) * initialRotation;
+        Transform.rotation = Quaternion.Euler(0, Train.eulerAngles.y, 0);
     }
 
     private bool IsCloseToTarget(Vector3 target) => Vector3.Distance(Transform.position, target) <= targetDistance;
@@ -97,8 +98,8 @@ public class MovingPlatformActivator : Activator
         int goingBackwardsModifier = goingBackwards ? -1 : 1;
         Quaternion targetRotation = Quaternion.LookRotation(GetDirectionTo(targetNode.Position) * goingBackwardsModifier);
         targetRotation *= initialRotation;
-        train.transform.rotation = Quaternion.Lerp(train.transform.rotation, targetRotation, rotationSpeed);
-        //platform.transform.localRotation = Quaternion.Euler(new Vector3(-Transform.eulerAngles.x, -Transform.eulerAngles.y, -Transform.eulerAngles.z));
+        Train.rotation = Quaternion.Lerp(train.transform.rotation, targetRotation, rotationSpeed);
+        Transform.rotation = Quaternion.Euler(0, Train.eulerAngles.y, 0);
     }
 
     [Server]
