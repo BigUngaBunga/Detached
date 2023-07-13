@@ -109,8 +109,9 @@ MonoBehaviour:
   platformSpeed: 6
   rotationSpeed: 0.05
   targetDistance: 0.5
-  train: {fileID: 7670622109568748649}
-  platform: {fileID: 1025384790819404317}
+  trainPivot: {fileID: 7670622109568748649}
+  platform: {fileID: 1586119667297130536}
+  train: {fileID: 1025384790819404317}
   goingBackwards: 0
   targetNode: {fileID: 0}
   connectedObjects: []
@@ -343,8 +344,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.9603553, y: 1.1600285, z: 0.95642614}
-  m_Center: {x: -0.0016848565, y: 0.08001426, z: 0.0035544874}
+  m_Size: {x: 0.9603553, y: 1.7536081, z: 0.95642614}
+  m_Center: {x: -0.0016848565, y: 0.37680417, z: 0.0035544874}
 --- !u!1 &5652847136046782059
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,8 +456,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.1913137, y: 0.31010267, z: 1.0102909}
-  m_Center: {x: 1.2342092, y: 0.6455504, z: -0.006990082}
+  m_Size: {x: 1.1913136, y: 0.20772, z: 1.0102909}
+  m_Center: {x: 1.2342092, y: 0.57420456, z: -0.006990086}
 --- !u!136 &2635999643982226971
 CapsuleCollider:
   m_ObjectHideFlags: 0
