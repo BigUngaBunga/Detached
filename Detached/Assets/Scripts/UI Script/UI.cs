@@ -6,8 +6,6 @@ using Cinemachine;
 
 public class UI : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     public GameObject pauseUI;
     public GameObject optionUIMenu;
     public GameObject controlUIMenu;
