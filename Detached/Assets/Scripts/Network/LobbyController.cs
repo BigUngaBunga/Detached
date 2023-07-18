@@ -18,8 +18,7 @@ public class LobbyController : NetworkBehaviour
     public Button StartGameButton;
     public Button LevelSelectButton;
     public TextMeshProUGUI readyButtonText;
-    public Button Invite;
-    public Text LobbyNameText;
+    public TextMeshProUGUI LobbyNameText;
 
     //PlayerData
     public GameObject PlayerListViewContent;
