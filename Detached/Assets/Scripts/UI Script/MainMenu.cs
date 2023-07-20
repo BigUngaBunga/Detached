@@ -44,9 +44,13 @@ public class MainMenu : MonoBehaviour
     }
     public void QuitGame()
     {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
         Debug.Log("QUIT!");
-        //EditorApplication.isPlaying = false; // causing build errors because we're not in editor when playing from an app standpoint
+
+#else
         Application.Quit();
+#endif
 
     }
 }

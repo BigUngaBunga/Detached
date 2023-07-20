@@ -34,7 +34,6 @@ public class UI : MonoBehaviour
     public void FreezeGame()
     {
         gameIsPaused = true;
-
         Time.timeScale = 0;
     }
 
