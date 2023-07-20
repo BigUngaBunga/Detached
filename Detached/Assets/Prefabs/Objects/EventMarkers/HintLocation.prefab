@@ -125,7 +125,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 14
+  m_Radius: 10
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7752841846949681605
 MonoBehaviour:
@@ -141,4 +141,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PreSpawn: 1
   prompt: Use WASD to move around
+  promptMarker: '!'
+  markerSizeFactor: 3
   floatingText: {fileID: 6474692616049549497, guid: 0f8351329989c5a4393f3ca1ed79f547, type: 3}
+  lerpSpeed: 0.1
+  amplitudes: {x: 0.5, y: 0.2, z: 0.3}
+  angularVelocities: {x: 69, y: 50, z: 55}
+  shakeWidth: 15
+  shakeVelocity: 2.75

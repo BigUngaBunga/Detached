@@ -617,10 +617,10 @@ MonoBehaviour:
   syncInterval: 0.1
   interactionDistance: 16.11
   player: {fileID: 0}
-  targetLayer: 15
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 0
   sourceTransform: {fileID: 0}
-  debugRayAngle: -0.2
-  useDebugRay: 0
 --- !u!114 &139783613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3912,7 +3912,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681601, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.0200005
+      value: -2.61
       objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681601, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3920,7 +3920,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681601, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.36
+      value: -4.02
       objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681601, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3972,7 +3972,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681605, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: PreSpawn
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7752841846949681606, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_Name
@@ -3980,7 +3980,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8908359025430013426, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_Radius
-      value: 14
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8908359025430013426, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_IsTrigger
@@ -5394,7 +5394,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8908359025430013426, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
       propertyPath: m_Radius
-      value: 14.05
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9244834ac3b42b54db2adad3902f1b32, type: 3}
