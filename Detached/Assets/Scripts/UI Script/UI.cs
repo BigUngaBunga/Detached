@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
-
+using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     public GameObject pauseUI;
     public GameObject optionUIMenu;
     public GameObject controlUIMenu;
@@ -24,7 +22,7 @@ public class UI : MonoBehaviour
     }
     public void ResumeGame()
     {
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
         gameIsPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -36,8 +34,7 @@ public class UI : MonoBehaviour
     public void FreezeGame()
     {
         gameIsPaused = true;
-
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
     }
 
     public void RestartGame()
@@ -61,7 +58,7 @@ public class UI : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused && !mainMenu)
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused && !mainMenu && 1 != SceneManager.GetActiveScene().buildIndex)
         {
             pauseUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
@@ -69,7 +66,7 @@ public class UI : MonoBehaviour
             FreezeGame();
         }
 
-        else if (Input.GetKeyDown(KeyCode.Escape) && gameIsPaused)
+        else if (Input.GetKeyDown(KeyCode.Escape) && !mainMenu && gameIsPaused && 1 != SceneManager.GetActiveScene().buildIndex)
         {
             pauseUI.SetActive(false);
             Cursor.lockState = CursorLockMode.Locked;
@@ -82,5 +79,17 @@ public class UI : MonoBehaviour
         //    Cursor.lockState = CursorLockMode.Locked;
         //    Cursor.visible = false;
         //}
+    }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        Debug.Log("QUIT!");
+
+#else
+        Application.Quit();
+#endif
+
     }
 }

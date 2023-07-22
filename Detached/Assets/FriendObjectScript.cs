@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Steamworks;
 using UnityEngine.UI;
+using TMPro;
 
 public class FriendObjectScript : MonoBehaviour
 {
     private CSteamID id;
     private string name;
-    [SerializeField] private Text textObjname;
+    [SerializeField] private TextMeshProUGUI textObjname;
 
 
     public CSteamID ID { get { return id; } set { id = value; } }

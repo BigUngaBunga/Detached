@@ -17,9 +17,9 @@ public class LobbyController : NetworkBehaviour
     //public Text LobbyNameText;
     public Button StartGameButton;
     public Button LevelSelectButton;
-    public Text ReadyButtonText;
-    public Button Invite;
-    public Text LobbyNameText;
+    public Button readyButton;
+    public TextMeshProUGUI readyButtonText;
+    public TextMeshProUGUI LobbyNameText;
 
     //PlayerData
     public GameObject PlayerListViewContent;
@@ -185,11 +185,11 @@ public class LobbyController : NetworkBehaviour
     {
         if (localPlayerController.Ready)
         {
-            ReadyButtonText.text = "Unready";
+            readyButtonText.text = "Unready";
         }
         else
         {
-            ReadyButtonText.text = "Ready";
+            readyButtonText.text = "Ready";
         }
     }
 
