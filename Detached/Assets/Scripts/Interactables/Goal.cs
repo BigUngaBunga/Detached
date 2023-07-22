@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using Mirror;
 using UnityEngine.UIElements;
 using System.Security.Cryptography;
+using FMODUnity;
 
 public class Goal : NetworkBehaviour
 {
@@ -45,6 +46,15 @@ public class Goal : NetworkBehaviour
 
     protected virtual void Start()
     {
+        //Change the music intensity
+        // Calculate how many tenths of the levels that are completed
+        int tenth = (GlobalLevelIndex.GetLevelIndex() * 10) / (SceneManager.sceneCountInBuildSettings - 2);
+        int intensity = tenth * 10; // Multiply by 10 to get the intensity. (This should make the (intensity % 10 = 0) I believe)
+        if (tenth > 7) { intensity = 70; } // Reserve 30 intensity for when you press a timed button.
+        RuntimeManager.StudioSystem.setParameterByName("Intensity", intensity);
+
+        Debug.Log(intensity + "Intensity");
+
         if (sameNumLimbInAsOut)
         {
             GameObject[] spawnLocations = GameObject.FindGameObjectsWithTag("SpawnLocation");
