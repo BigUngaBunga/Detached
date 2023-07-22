@@ -10,12 +10,12 @@ public class UI : MonoBehaviour
     public GameObject optionUIMenu;
     public GameObject controlUIMenu;
     public GameObject mainMenu;
-    public bool gameIsPaused;
+    public static bool gameIsPaused;
 
 
     void Start()
     {
-
+        gameIsPaused = false;
         DontDestroyOnLoad(gameObject);
         //cam = FindObjectOfType<CinemachineFreeLook>();
       
@@ -29,7 +29,6 @@ public class UI : MonoBehaviour
         
         optionUIMenu.SetActive(false);
         controlUIMenu.SetActive(false);
-
     }
     public void FreezeGame()
     {

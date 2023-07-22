@@ -29,7 +29,7 @@ public class PingSystem : NetworkBehaviour
 
     void Update()
     {
-        if (isLocalPlayer && Input.GetMouseButtonDown(0) && !Input.GetMouseButton(1))
+        if (isLocalPlayer && Input.GetMouseButtonDown(0) && !Input.GetMouseButton(1) && !UI.gameIsPaused)
         {
             Ping(raySource.position, raySource.forward);
             CMDPingDialogue(transform.position, transform.gameObject.name);

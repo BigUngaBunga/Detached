@@ -144,7 +144,7 @@ public class CharacterControl : NetworkBehaviour
 
             if (isBeingControlled) //If player is being actively controlled as oppose to a limb
             {
-                GroundCheck();
+                GroundCheck(); 
                 MyInput();
                 Movement();
                 Jump();
@@ -233,16 +233,20 @@ public class CharacterControl : NetworkBehaviour
 
     private void Movement()
     {
-        if (limbManager.NumberOfArms <= 0 && limbManager.NumberOfLegs <= 0)
-            return;
-        input = new Vector3(horizontalInput, 0, verticalInput);
-        moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
+        if (!UI.gameIsPaused)
+        {
+            if (limbManager.NumberOfArms <= 0 && limbManager.NumberOfLegs <= 0)
+                return;
+            input = new Vector3(horizontalInput, 0, verticalInput);
+            moveDir = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up) * input;
 
-        Vector3 force = moveDir.normalized * movementSpeed * 10f * Time.deltaTime;
-        if (isGrounded)
-            rb.AddForce(force, ForceMode.Force);
-        else
-            rb.AddForce(force * airMultiplier, ForceMode.Force);
+            Vector3 force = moveDir.normalized * movementSpeed * 10f * Time.deltaTime;
+            if (isGrounded)
+                rb.AddForce(force, ForceMode.Force);
+            else
+                rb.AddForce(force * airMultiplier, ForceMode.Force);
+        }
+        
     }
 
     void StepClimb(GameObject rayDirectioLowerMid, GameObject rayDirectioLowerLeft, GameObject rayDirectioLowerRight) //lower check
@@ -293,18 +297,19 @@ public class CharacterControl : NetworkBehaviour
 
 
 
-    private void GroundCheck()
+    private void GroundCheck() //Does this need pause?
     {
-        isGrounded = Physics.CheckBox(groundCheckTransform.position, groundCheckSize, transform.rotation, groundMask, collideWithTrigger);
-        //isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask, collideWithTrigger);
-        isGrounded = isGrounded || (secondaryGroundCheck.gameObject.activeSelf &&
-                    Physics.CheckSphere(secondaryGroundCheck.position, groundCheckRadius, groundMask, collideWithTrigger));
         
+            isGrounded = Physics.CheckBox(groundCheckTransform.position, groundCheckSize, transform.rotation, groundMask, collideWithTrigger);
+            //isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundMask, collideWithTrigger);
+            isGrounded = isGrounded || (secondaryGroundCheck.gameObject.activeSelf &&
+                        Physics.CheckSphere(secondaryGroundCheck.position, groundCheckRadius, groundMask, collideWithTrigger));
+             
     }
 
     private void Jump()
     {
-        if (isGrounded && Input.GetButton("Jump") && readyToJump && limbManager.HasBothLegs())
+        if (isGrounded && Input.GetButton("Jump") && readyToJump && limbManager.HasBothLegs() && !UI.gameIsPaused)
         {
             readyToJump = false;
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
@@ -320,7 +325,7 @@ public class CharacterControl : NetworkBehaviour
 
     private void Sprint()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && limbManager.NumberOfLegs >= 1)
+        if (Input.GetKey(KeyCode.LeftShift) && limbManager.NumberOfLegs >= 1 && !UI.gameIsPaused)
         {
             movementSpeed = runSpeed;
         }
@@ -359,7 +364,7 @@ public class CharacterControl : NetworkBehaviour
 
     void PauseCam()
     {
-        if (ui.gameIsPaused)
+        if (UI.gameIsPaused)
         {
             cinemaFreelook.m_XAxis.m_InputAxisName = "";
             cinemaFreelook.m_YAxis.m_InputAxisName = "";

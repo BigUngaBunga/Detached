@@ -80,6 +80,7 @@ public class ItemManager : NetworkBehaviour
     private Vector3 orignalPosition = Vector3.zero;
     public int numberOfLimbs;
     private List<GameObject> objsToDelete = new List<GameObject>();
+    public UI ui;
 
     CharacterControl characterControlScript;
 
@@ -266,6 +267,7 @@ public class ItemManager : NetworkBehaviour
      */
     private void Start()
     {
+        ui = FindObjectOfType<UI>();
         camPoint = Camera.main.transform;
         rightLegIsDeta = isDeta;
         leftLegIsDeta = isDeta;
@@ -280,6 +282,10 @@ public class ItemManager : NetworkBehaviour
     void Update()
     {
         if (!isLocalPlayer) return;
+        if (UI.gameIsPaused)
+        {
+            return;
+        }
 
         HandleSelectionModeChange();
         HandleScrollWheelInput();

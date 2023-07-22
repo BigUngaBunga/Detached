@@ -22,6 +22,7 @@ public class LimbMovement : NetworkBehaviour
     float horizontalInput;
     float verticalInput;
     float rotationSpeed = 10f;
+    private UI ui;
 
     bool hasUpdated = true;
 
@@ -29,7 +30,7 @@ public class LimbMovement : NetworkBehaviour
 
     private void Start()
     {
-
+        ui = FindObjectOfType<UI>();
         sceneObjectItemManagerScript = gameObject.GetComponent<SceneObjectItemManager>();
         initialRotationY = GetInitialRotation(sceneObjectItemManagerScript.thisLimb);
         camTransform = Camera.main.transform;
@@ -46,7 +47,7 @@ public class LimbMovement : NetworkBehaviour
 
     void FixedUpdate()
     {
-        if (!hasAuthority || !sceneObjectItemManagerScript.IsBeingControlled) return;
+        if (!hasAuthority || !sceneObjectItemManagerScript.IsBeingControlled || UI.gameIsPaused) return;
         if (!hasUpdated && limbStepUp != null)
         {
             limbStepUp.IncreasePlayerTwoRay();
@@ -55,7 +56,6 @@ public class LimbMovement : NetworkBehaviour
 
         if (sceneObjectItemManagerScript.thisLimb != LimbType.Head)
         {
-
             MyInput();
             Movement();
 
