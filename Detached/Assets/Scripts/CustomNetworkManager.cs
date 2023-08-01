@@ -46,7 +46,11 @@ public class CustomNetworkManager : NetworkManager
 
         ServerChangeScene(SceneName);    
     }
-
+    [Command]
+    public void CmdServerChangeScene(string newSceneName)
+    {
+        ServerChangeScene(newSceneName);
+    }
     public override void ServerChangeScene(string newSceneName)
     {       
         base.ServerChangeScene(newSceneName);          

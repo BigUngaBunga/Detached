@@ -99,7 +99,7 @@ public class UI : MonoBehaviour
         }
         else //If we only want host to be able to change level than change below to a prompt
         {
-            Manager.ServerChangeScene(GlobalLevelIndex.GetLevel(levelNumber));
+            Manager.CmdServerChangeScene(GlobalLevelIndex.GetLevel(levelNumber));
         }
     }
 
