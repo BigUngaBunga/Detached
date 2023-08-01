@@ -59,7 +59,6 @@ public class UI : MonoBehaviour
     }
     public void ResumeGame()
     {
-        //Time.timeScale = 1;
         gameIsPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -70,18 +69,13 @@ public class UI : MonoBehaviour
     public void FreezeGame()
     {
         gameIsPaused = true;
-        //Time.timeScale = 0;
     }
 
     public void RestartGame()
     {
-        Time.timeScale = 1;
-        gameIsPaused = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        RestorePlayerInput();
         FallOutOfWorld script = GameObject.Find("FallOutOfWorldTrigger").GetComponent<FallOutOfWorld>();
         script.ChangeScene();
-
     }
 
     [System.Obsolete]
@@ -90,15 +84,24 @@ public class UI : MonoBehaviour
         Application.LoadLevel("SteamLobby");
     }
 
+    public void RestorePlayerInput()
+    {
+        gameIsPaused = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     public void TryChangeIngameLevel(int levelNumber)
     {
 
         if (CheckIfPlayerIsHost())
         {
+            RestorePlayerInput();
             Manager.ServerChangeScene(GlobalLevelIndex.GetLevel(levelNumber));
         }
         else //If we only want host to be able to change level than change below to a prompt
         {
+            RestorePlayerInput();
             GetLocalPlayer().CmdServerChangeScene(GlobalLevelIndex.GetLevel(levelNumber));
         }
     }
