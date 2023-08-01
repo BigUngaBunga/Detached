@@ -99,8 +99,22 @@ public class UI : MonoBehaviour
         }
         else //If we only want host to be able to change level than change below to a prompt
         {
-            Manager.CmdServerChangeScene(GlobalLevelIndex.GetLevel(levelNumber));
+            GetLocalPlayer().CmdServerChangeScene(GlobalLevelIndex.GetLevel(levelNumber));
         }
+    }
+
+    private PlayerAuthentication GetLocalPlayer()
+    {
+        if (playerAuthentications == null) FindPlayerAuthentication();
+
+        foreach (var player in playerAuthentications)
+        {
+            if (player.CheckIfPlayerIsLocalPlayer())
+            {
+                return player;
+            }
+        }
+        return null;
     }
 
     private bool CheckIfPlayerIsHost()
