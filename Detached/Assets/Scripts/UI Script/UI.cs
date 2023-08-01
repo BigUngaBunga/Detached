@@ -14,8 +14,9 @@ public class UI : MonoBehaviour
     public GameObject levelSelectMenu;
     public GameObject promptObj;
     private TextMeshProUGUI promptText;
-    public static bool gameIsPaused;
-
+    private GameObject[] players;
+    private PlayerAuthentication[] playerAuthentications;
+    public static bool gameIsPaused;   
     private void Awake()
     {
         promptText = promptObj.GetComponent<TextMeshProUGUI>();
@@ -24,8 +25,24 @@ public class UI : MonoBehaviour
     {
         gameIsPaused = false;
         DontDestroyOnLoad(gameObject);
+
         //cam = FindObjectOfType<CinemachineFreeLook>();
 
+    }
+
+    private void FindPlayers()
+    {
+        players = GameObject.FindGameObjectsWithTag("Player");
+    }
+
+    private void FindPlayerAuthentication()
+    {
+        if (players == null) FindPlayers();
+        playerAuthentications = new PlayerAuthentication[players.Length];
+        for (int i = 0; i < players.Length; i++)
+        {
+            playerAuthentications[i] = players[i].GetComponent<PlayerAuthentication>();
+        }
     }
     public void ResumeGame()
     {
@@ -62,13 +79,33 @@ public class UI : MonoBehaviour
 
     public void IngameChangeLevel(int i)
     {
-        //if (isServer)
-        
-           Debug.Log("Change Level to " + i);
-        
-        
+
+        if (CheckIfPlayerIsHost())
+        {
+            Debug.Log("Change Level to " + i);
+        }
+        else
+        {
             Debug.Log("Start prompt");
-        
+        }
+    }
+
+    private bool CheckIfPlayerIsHost()
+    {
+        if (playerAuthentications == null) FindPlayerAuthentication();
+
+        foreach (var player in playerAuthentications)
+        {
+            if (player.CheckIfPlayerIsLocalPlayer())
+            {
+                if (player.CheckIfPlayerIsHost())
+                {
+                    return true;
+                }
+            }
+
+        }
+        return false;
     }
 
     public void prompt(string prompt)

@@ -3265,6 +3265,7 @@ GameObject:
   - component: {fileID: 9186375334813024562}
   - component: {fileID: 7543315300836049833}
   - component: {fileID: 6968298682816824732}
+  - component: {fileID: 5157246617129064372}
   m_Layer: 0
   m_Name: Deta
   m_TagString: Player
@@ -3554,7 +3555,6 @@ MonoBehaviour:
   rightLegParent: {fileID: 838188358159146865}
   camFocusOrigin: {fileID: 7346236150098069966}
   particlesPos: {fileID: 1497818929499800029}
-  test: {fileID: 0}
   detachFX: {fileID: 574647781862009139}
   limbs: []
   limbsOnGround: []
@@ -3570,6 +3570,7 @@ MonoBehaviour:
   indicator: {fileID: 7995944500794332146}
   readyToThrow: 0
   numberOfLimbs: 0
+  ui: {fileID: 0}
   isDeta: 0
   groundMode: 0
   testControlOwnLimb: 1
@@ -3664,6 +3665,20 @@ MonoBehaviour:
   gameObjects:
   - {fileID: 7793491428576339395}
   - {fileID: 4570192177982998204}
+--- !u!114 &5157246617129064372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7076884516967948247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e282e0c1217804ba3396e65f34f23c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &7200559197792005935
 GameObject:
   m_ObjectHideFlags: 0
@@ -4952,14 +4967,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c0241799d8aca946b7df62c85a969f4, type: 3}
---- !u!4 &1497818929499800029 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 380260174044963687, guid: 3c0241799d8aca946b7df62c85a969f4, type: 3}
-  m_PrefabInstance: {fileID: 1265413623633453754}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &574647781862009139 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 1618527160656808841, guid: 3c0241799d8aca946b7df62c85a969f4, type: 3}
+  m_PrefabInstance: {fileID: 1265413623633453754}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1497818929499800029 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 380260174044963687, guid: 3c0241799d8aca946b7df62c85a969f4, type: 3}
   m_PrefabInstance: {fileID: 1265413623633453754}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4794940773303484536

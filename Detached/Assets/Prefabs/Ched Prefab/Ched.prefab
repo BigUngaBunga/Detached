@@ -2054,6 +2054,7 @@ GameObject:
   - component: {fileID: 8978797140055249330}
   - component: {fileID: 380336373891148680}
   - component: {fileID: 1771202927308390593}
+  - component: {fileID: -7970197945989137099}
   m_Layer: 0
   m_Name: Ched
   m_TagString: Player
@@ -2226,7 +2227,6 @@ MonoBehaviour:
   rightLegParent: {fileID: 8926847477503848827}
   camFocusOrigin: {fileID: 3618494083954888923}
   particlesPos: {fileID: 1408597224965181233}
-  test: {fileID: 2521002977092922648}
   detachFX: {fileID: 53069900302673887}
   limbs: []
   limbsOnGround: []
@@ -2242,6 +2242,7 @@ MonoBehaviour:
   indicator: {fileID: 3618494084844451030}
   readyToThrow: 0
   numberOfLimbs: 0
+  ui: {fileID: 0}
   isDeta: 0
   groundMode: 0
   testControlOwnLimb: 1
@@ -2452,6 +2453,20 @@ MonoBehaviour:
   gameObjects:
   - {fileID: 9170584936149719436}
   - {fileID: 3618494085122639177}
+--- !u!114 &-7970197945989137099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4536832242395614807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e282e0c1217804ba3396e65f34f23c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &4751261324914809682
 GameObject:
   m_ObjectHideFlags: 0

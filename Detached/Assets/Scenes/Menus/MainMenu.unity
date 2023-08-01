@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1199052696}
-  m_IndirectSpecularColor: {r: 0.1818369, g: 0.22392622, b: 0.28661546, a: 1}
+  m_IndirectSpecularColor: {r: 0.18183711, g: 0.22392657, b: 0.286616, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -21062,7 +21062,6 @@ GameObject:
   - component: {fileID: 1254370928}
   - component: {fileID: 1254370929}
   - component: {fileID: 1254370930}
-  - component: {fileID: 1254370931}
   m_Layer: 0
   m_Name: UI PauseMenu
   m_TagString: Untagged
@@ -21119,23 +21118,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 1
---- !u!114 &1254370931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1254370927}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 2489692121
-  serverOnly: 0
-  visible: 0
-  m_AssetId: 
-  hasSpawned: 0
 --- !u!1 &1255417639
 GameObject:
   m_ObjectHideFlags: 0
@@ -26071,9 +26053,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: LobbyController, Assembly-CSharp
-        m_MethodName: StartGame
+      - m_Target: {fileID: 1254370929}
+        m_TargetAssemblyTypeName: UI, Assembly-CSharp
+        m_MethodName: IngameChangeLevel
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
