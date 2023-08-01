@@ -3,22 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.SceneManagement;
-
+using TMPro;
+using Mirror;
 public class UI : MonoBehaviour
 {
     public GameObject pauseUI;
     public GameObject optionUIMenu;
     public GameObject controlUIMenu;
     public GameObject mainMenu;
+    public GameObject levelSelectMenu;
+    public GameObject promptObj;
+    private TextMeshProUGUI promptText;
     public static bool gameIsPaused;
 
-
+    private void Awake()
+    {
+        promptText = promptObj.GetComponent<TextMeshProUGUI>();
+    }
     void Start()
     {
         gameIsPaused = false;
         DontDestroyOnLoad(gameObject);
         //cam = FindObjectOfType<CinemachineFreeLook>();
-      
+
     }
     public void ResumeGame()
     {
@@ -26,7 +33,7 @@ public class UI : MonoBehaviour
         gameIsPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        
+
         optionUIMenu.SetActive(false);
         controlUIMenu.SetActive(false);
     }
@@ -51,13 +58,27 @@ public class UI : MonoBehaviour
     public void LoadMainMenu()
     {
         Application.LoadLevel("SteamLobby");
-
     }
-    // Update is called once per frame
+
+    public void IngameChangeLevel(int i)
+    {
+        //if (isServer)
+        
+           Debug.Log("Change Level to " + i);
+        
+        
+            Debug.Log("Start prompt");
+        
+    }
+
+    public void prompt(string prompt)
+    {
+       
+    }
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused && !mainMenu && 1 != SceneManager.GetActiveScene().buildIndex)
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused && !mainMenu && 2 <= SceneManager.GetActiveScene().buildIndex)
         {
             pauseUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
@@ -65,12 +86,19 @@ public class UI : MonoBehaviour
             FreezeGame();
         }
 
-        else if (Input.GetKeyDown(KeyCode.Escape) && !mainMenu && gameIsPaused && 1 != SceneManager.GetActiveScene().buildIndex)
+        else if (Input.GetKeyDown(KeyCode.Escape) && !mainMenu && gameIsPaused && 2 <= SceneManager.GetActiveScene().buildIndex)
         {
-            pauseUI.SetActive(false);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            ResumeGame();
+            if (levelSelectMenu)
+            {
+                DisableLevelListScreen();
+            }
+            else
+            {
+                pauseUI.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                ResumeGame();
+            }
         }
         //if (Input.GetKeyDown("9"))
         //{
@@ -80,6 +108,17 @@ public class UI : MonoBehaviour
         //}
     }
 
+    public void EnableLevelListScreen()
+    {
+        levelSelectMenu.SetActive(true);
+        pauseUI.SetActive(false);
+    }
+
+    public void DisableLevelListScreen()
+    {
+        levelSelectMenu.SetActive(false);
+        pauseUI.SetActive(true);
+    }
     public void QuitGame()
     {
 #if UNITY_EDITOR

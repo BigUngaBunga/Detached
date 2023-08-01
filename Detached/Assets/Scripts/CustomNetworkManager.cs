@@ -52,6 +52,11 @@ public class CustomNetworkManager : NetworkManager
         base.ServerChangeScene(newSceneName);          
     }
 
+    public void ServerChangeScene(int levelNumber)
+    {
+        base.ServerChangeScene(GlobalLevelIndex.GetLevel(levelNumber));
+    }
+
     [Server]
     public override void OnServerSceneChanged(string sceneName)
     {
