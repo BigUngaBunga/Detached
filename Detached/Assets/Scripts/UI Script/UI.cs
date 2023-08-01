@@ -16,7 +16,9 @@ public class UI : MonoBehaviour
     private TextMeshProUGUI promptText;
     private GameObject[] players;
     private PlayerAuthentication[] playerAuthentications;
-    public static bool gameIsPaused;   
+    public static bool gameIsPaused;
+    private CustomNetworkManager manager;
+
     private void Awake()
     {
         promptText = promptObj.GetComponent<TextMeshProUGUI>();
@@ -28,6 +30,17 @@ public class UI : MonoBehaviour
 
         //cam = FindObjectOfType<CinemachineFreeLook>();
 
+    }
+    private CustomNetworkManager Manager
+    {
+        get
+        {
+            if (manager != null)
+            {
+                return manager;
+            }
+            return manager = CustomNetworkManager.singleton as CustomNetworkManager;
+        }
     }
 
     private void FindPlayers()
@@ -77,16 +90,16 @@ public class UI : MonoBehaviour
         Application.LoadLevel("SteamLobby");
     }
 
-    public void IngameChangeLevel(int i)
+    public void TryChangeIngameLevel(int levelNumber)
     {
 
         if (CheckIfPlayerIsHost())
         {
-            Debug.Log("Change Level to " + i);
+            Manager.ServerChangeScene(GlobalLevelIndex.GetLevel(levelNumber));
         }
-        else
+        else //If we only want host to be able to change level than change below to a prompt
         {
-            Debug.Log("Start prompt");
+            Manager.ServerChangeScene(GlobalLevelIndex.GetLevel(levelNumber));
         }
     }
 
