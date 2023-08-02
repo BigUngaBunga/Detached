@@ -89,6 +89,7 @@ public class UI : MonoBehaviour
         gameIsPaused = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        levelSelectMenu.SetActive(false);
     }
 
     public void TryChangeIngameLevel(int levelNumber)
@@ -144,7 +145,6 @@ public class UI : MonoBehaviour
     }
     void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused && !mainMenu && 2 <= SceneManager.GetActiveScene().buildIndex)
         {
             pauseUI.SetActive(true);
