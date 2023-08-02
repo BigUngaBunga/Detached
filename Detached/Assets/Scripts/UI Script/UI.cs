@@ -10,7 +10,6 @@ public class UI : MonoBehaviour
     public GameObject pauseUI;
     public GameObject optionUIMenu;
     public GameObject controlUIMenu;
-    public GameObject mainMenu;
     public GameObject levelSelectMenu;
     public GameObject promptObj;
     private TextMeshProUGUI promptText;
@@ -134,7 +133,6 @@ public class UI : MonoBehaviour
                     return true;
                 }
             }
-
         }
         return false;
     }
@@ -145,7 +143,7 @@ public class UI : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused && !mainMenu && 2 <= SceneManager.GetActiveScene().buildIndex)
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameIsPaused && 2 <= SceneManager.GetActiveScene().buildIndex)
         {
             pauseUI.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
@@ -153,7 +151,7 @@ public class UI : MonoBehaviour
             FreezeGame();
         }
 
-        else if (Input.GetKeyDown(KeyCode.Escape) && !mainMenu && gameIsPaused && 2 <= SceneManager.GetActiveScene().buildIndex)
+        else if (Input.GetKeyDown(KeyCode.Escape) && gameIsPaused && 2 <= SceneManager.GetActiveScene().buildIndex)
         {
             if (levelSelectMenu)
             {
