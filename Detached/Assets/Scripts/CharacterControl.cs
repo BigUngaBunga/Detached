@@ -156,7 +156,7 @@ public class CharacterControl : NetworkBehaviour
                 {
                     gameObject.transform.rotation = Quaternion.AngleAxis(camTransform.rotation.eulerAngles.y, Vector3.up);
                 }
-                else if (moveDir != Vector3.zero && isGrounded)
+                else if (moveDir != Vector3.zero)
                 {
                     Quaternion rotation = Quaternion.LookRotation(moveDir, Vector3.up);
                     gameObject.transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
@@ -169,7 +169,6 @@ public class CharacterControl : NetworkBehaviour
                 #endregion
                 NoLegCam();
                 SpeedControl();
-                //Debug.Log(movementSpeed);
 
                 if (isGrounded)
                     rb.drag = groundDrag;
