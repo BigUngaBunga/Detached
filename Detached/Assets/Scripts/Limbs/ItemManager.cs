@@ -67,7 +67,8 @@ public class ItemManager : NetworkBehaviour
     [SerializeField] public CinemachineFreeLook cinemachine;
     [SerializeField] public Vector3 throwCamOffset;
     [SerializeField] GameObject indicator;
-    bool thrown;
+    private bool thrown;
+    private bool allowThrow, allowSelection;
 
     private Vector3 noLegCamPos;
     public bool readyToThrow;
@@ -242,6 +243,12 @@ public class ItemManager : NetworkBehaviour
 
     #endregion
 
+    public void SetPlayerActions(bool allowThrow = true, bool allowSelection = true)
+    {
+        this.allowThrow = allowThrow;
+        this.allowSelection = allowSelection;
+    }
+
     private void Awake()
     {
         limbTextureManager = gameObject.GetComponent<LimbTextureManager>();
@@ -378,7 +385,7 @@ public class ItemManager : NetworkBehaviour
 
     private void HandleScrollWheelInput()
     {
-        if (Input.mouseScrollDelta.y < 0 || Input.mouseScrollDelta.y > 0)
+        if (allowThrow && (Input.mouseScrollDelta.y < 0 || Input.mouseScrollDelta.y > 0))
         {
             if (selectionMode == 0)
             {
@@ -409,7 +416,7 @@ public class ItemManager : NetworkBehaviour
     /// </summary>
     private void HandleSelectionModeChange()
     {
-        if (Input.GetKeyDown(changeSelectionMode))
+        if (allowSelection && Input.GetKeyDown(changeSelectionMode))
             changedSelectionMode = true;
 
         if (changedSelectionMode)
@@ -934,6 +941,8 @@ public class ItemManager : NetworkBehaviour
 
     private void UpdateThrowButton()
     {
+        if (!allowThrow)
+            return;
         if (Input.GetMouseButtonDown(1))
         {
             if (!CanSelectedLimbBeThrown()) return;

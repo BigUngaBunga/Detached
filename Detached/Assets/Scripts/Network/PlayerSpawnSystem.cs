@@ -70,6 +70,7 @@ public class PlayerSpawnSystem : NetworkBehaviour {
 
         GameObject playerInstance = Instantiate(playerObjToSpawn, spawnPoint.position, spawnPoint.rotation);
         ItemManager playerItemManager = playerInstance.GetComponent<ItemManager>();
+        playerItemManager.SetPlayerActions(spawnPointScript.allowThrow, spawnPointScript.allowSelect);
         playerItemManager.SetAmountOfLimbsToSpawn(spawnPointScript.numOfArms, spawnPointScript.numOfLegs);
         playerItemManager.isDeta = Convert.ToBoolean((nextIndex) % 2); // 1 = true = deta, 0 = false = ched
 

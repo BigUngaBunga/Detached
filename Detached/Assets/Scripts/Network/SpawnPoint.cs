@@ -14,7 +14,8 @@ public class SpawnPoint : MonoBehaviour
     [SerializeField] public int numOfLegs = 2;
     [Range(0, 2)]
     [SerializeField] public int numOfArms = 2;
-
+    [SerializeField] public bool allowThrow = true;
+    [SerializeField] public bool allowSelect = true;
 
     private void Awake()
     {
